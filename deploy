@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "Deploy to Docker server..."
+gulp
 cd dist
 cp ../.env .
 cp ../.static .
