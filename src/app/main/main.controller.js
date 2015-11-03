@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('cesGulp')
+    .module('CarreEntrySystem')
     .controller('MainController', MainController);
 
   /** @ngInject */

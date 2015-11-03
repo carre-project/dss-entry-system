@@ -3,7 +3,7 @@
   'use strict';
 
   angular
-    .module('cesGulp')
+    .module('CarreEntrySystem')
     .constant('malarkey', malarkey);
 
 })();

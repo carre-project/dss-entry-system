@@ -12,7 +12,7 @@
     var el;
     var timeInMs;
 
-    beforeEach(module('cesGulp'));
+    beforeEach(module('CarreEntrySystem'));
     beforeEach(inject(function($compile, $rootScope) {
       // spyOn(_$window_, 'moment').and.callThrough();
       // $window = _$window_;
