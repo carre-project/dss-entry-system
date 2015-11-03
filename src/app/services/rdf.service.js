@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('RDF', function($http,CONFIG) {
+angular.module('CarreEntrySystem').service('RDF', function($http,CONFIG,Auth) {
 
     var PREFIXSTR = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n\
                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n\
@@ -16,7 +16,7 @@ angular.module('CarreEntrySystem').service('RDF', function($http,CONFIG) {
 
         return $http.post(CONFIG.API + 'query', {
             'sparql': sparqlQuery,
-            'token': CONFIG.TEST_TOKEN
+            'token': Auth.cookie
         });
     };
 });

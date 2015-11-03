@@ -11,14 +11,18 @@
         
     $stateProvider
       .state('dashboard', {
-        url: '/',
+        url: '/dashboard',
+        controller: 'MainController',
+        controllerAs: 'main',
         templateUrl: 'app/views/dashboard/main.html',
         resolve: {
+          'currentUser':function(Auth){
+            return Auth.getUser();
+          }
         }
       })
       .state('dashboard.home', {
         url: '/home',
-        controller: 'MainController',
         templateUrl: 'app/views/dashboard/home.html',
         resolve: {
         }
@@ -82,7 +86,7 @@
     //     controllerAs: 'main'
     //   });
  //$urlRouterProvider.otherwise('404_error');
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/dashboard/home');
   }
 
 })();
