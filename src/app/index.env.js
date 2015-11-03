@@ -2,7 +2,9 @@
 (function() {
   'use strict';
 
-  angular
+  angular    
+    .module('CarreEntrySystem')
+    .constant('malarkey', malarkey)
     .constant("CONFIG", {
       "API": "http://beta.carre-project.eu:5050/carre.kmi.open.ac.uk/ws/",
       "CARRE_DEVICES": "http://devices.carre-project.eu/devices/accounts/",
