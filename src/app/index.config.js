@@ -6,10 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, toastrConfig) {
-    // Enable log
-    $logProvider.debugEnabled(true);
-
+  function config(toastrConfig) {
     // Set options third-party lib
     toastrConfig.allowHtml = true;
     toastrConfig.timeOut = 3000;
