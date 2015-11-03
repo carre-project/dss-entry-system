@@ -10,7 +10,7 @@
 angular.module('CarreEntrySystem')
   .directive('sidebar',['$location',function() {
     return {
-      templateUrl:'scripts/directives/sidebar/sidebar.html',
+      templateUrl:'app/components/sidebar/sidebar.html',
       restrict: 'E',
       replace: true,
       scope: {

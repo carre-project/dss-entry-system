@@ -9,7 +9,7 @@
 angular.module('CarreEntrySystem')
 	.directive('header',function(){
 		return {
-        templateUrl:'scripts/directives/header/header.html',
+        templateUrl:'app/components/header/header.html',
         restrict: 'E',
         replace: true,
     	}

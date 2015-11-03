@@ -9,7 +9,8 @@
       "API": "http://devices.carre-project.eu/ws/",
       "CARRE_DEVICES": "http://devices.carre-project.eu/devices/accounts/",
       'ENV': 'PROD'
-    }).config(function($locationProvider) {
+    })
+    .config(function($locationProvider) {
       $locationProvider.html5Mode(true);
     });
 

@@ -9,7 +9,7 @@
 angular.module('CarreEntrySystem')
     .directive('stats',function() {
     	return {
-  		templateUrl:'scripts/directives/dashboard/stats/stats.html',
+  		templateUrl:'app/components/dashboard/stats/stats.html',
   		restrict:'E',
   		replace:true,
   		scope: {

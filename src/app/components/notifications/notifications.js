@@ -9,7 +9,7 @@
 angular.module('CarreEntrySystem')
 	.directive('notifications',function(){
 		return {
-        templateUrl:'scripts/directives/notifications/notifications.html',
+        templateUrl:'app/components/notifications/notifications.html',
         restrict: 'E',
         replace: true,
     	}
