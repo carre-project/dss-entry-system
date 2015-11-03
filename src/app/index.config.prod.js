@@ -6,8 +6,8 @@
     .module('CarreEntrySystem')
     .constant('malarkey', malarkey)
     .constant("CONFIG", {
-      "API": "http://devices.carre-project.eu/ws/",
-      "CARRE_DEVICES": "http://devices.carre-project.eu/devices/accounts/",
+      "API": "//devices.carre-project.eu/ws/",
+      "CARRE_DEVICES": "//devices.carre-project.eu/devices/accounts/",
       'ENV': 'PROD'
     })
     .config(function($locationProvider) {

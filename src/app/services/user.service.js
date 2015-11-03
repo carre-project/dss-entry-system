@@ -1,6 +1,5 @@
 angular.module('CarreEntrySystem').service('User', function($http,CONFIG,$cookies) {
 
- 
     // Retrieving a cookie and set initial user object
     var TOKEN = $cookies.get('CARRE_USER') || CONFIG.TEST_TOKEN || '';
     var user = {};
