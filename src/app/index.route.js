@@ -10,28 +10,28 @@
     
         
     $stateProvider
-      .state('dashboard', {
-        url: '/dashboard',
+      .state('main', {
+        url: '',
         controller: 'MainController',
         controllerAs: 'main',
-        templateUrl: 'app/views/dashboard/main.html',
+        templateUrl: 'app/main/main.html',
         resolve: {
           'currentUser':function(Auth){
             return Auth.getUser();
           }
         }
       })
-      .state('dashboard.home', {
-        url: '/home',
-        templateUrl: 'app/views/dashboard/home.html',
+      .state('main.dashboard', {
+        url: '/dashboard',
+        templateUrl: 'app/main/dashboard.html',
         resolve: {
         }
       })
-      .state('dashboard.form', {
-        templateUrl: 'app/views/form.html',
-        url: '/form'
+      .state('main.citations', {
+        templateUrl: 'app/citations/listcitations.html',
+        url: '/citations'
       })
-      .state('dashboard.blank', {
+      .state('main.blank', {
         templateUrl: 'app/views/pages/blank.html',
         url: '/blank'
       })
@@ -39,33 +39,9 @@
         templateUrl: 'app/views/pages/login.html',
         url: '/login'
       })
-      .state('dashboard.table', {
+      .state('main.table', {
         templateUrl: 'app/views/table.html',
         url: '/table'
-      })
-      .state('dashboard.panels-wells', {
-        templateUrl: 'app/views/ui-elements/panels-wells.html',
-        url: '/panels-wells'
-      })
-      .state('dashboard.buttons', {
-        templateUrl: 'app/views/ui-elements/buttons.html',
-        url: '/buttons'
-      })
-      .state('dashboard.notifications', {
-        templateUrl: 'app/views/ui-elements/notifications.html',
-        url: '/notifications'
-      })
-      .state('dashboard.typography', {
-        templateUrl: 'app/views/ui-elements/typography.html',
-        url: '/typography'
-      })
-      .state('dashboard.icons', {
-        templateUrl: 'app/views/ui-elements/icons.html',
-        url: '/icons'
-      })
-      .state('dashboard.grid', {
-        templateUrl: 'app/views/ui-elements/grid.html',
-        url: '/grid'
       })
       .state('500_error', {
         templateUrl: '500.html',
@@ -86,7 +62,7 @@
     //     controllerAs: 'main'
     //   });
  //$urlRouterProvider.otherwise('404_error');
-    $urlRouterProvider.otherwise('/dashboard/home');
+    $urlRouterProvider.otherwise('/home');
   }
 
 })();
