@@ -1,0 +1,16 @@
+<div>
+  <div class="row">
+    <div class="heading">Citations list</div>
+    <div class="col-md-12">
+      <pre>{{citations.list|json}}</pre>
+    </div>
+    <table ng-table="citations.tableParams" class="table table-bordered table-striped table-condensed">
+      <tr ng-repeat="row in $data track by row.id">
+        <td data-title="'Installation At'" filter="{installationAt: 'text'}" sortable="'installationAt'">{{row.installationAt}}</td>
+        <td data-title="'Admin Email'" filter="{adminEmail: 'text'}" sortable="'adminEmail'">{{row.adminEmail}}</td>
+        <td data-title="'Powered By'" filter="{poweredBy: 'text'}" sortable="'poweredBy'">{{row.poweredBy}}</td>
+        <td data-title="'Powered By Icon'" filter="{poweredByIcon: 'text'}" sortable="'poweredByIcon'">{{row.poweredByIcon}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
