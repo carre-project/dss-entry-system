@@ -1,5 +1,9 @@
-angular.module('CarreEntrySystem').service('Citations', function($http, RDF) {
+angular.module('CarreEntrySystem').service('Citations', function($http, CARRE) {
 
+  var getCitationsInstance = function() {
+    return CARRE.instances('citation');
+  };
+  
   var getCitations = function(citationStr) {
 
     var listQuery = "SELECT ?citation ?has_author ?has_citation_pubmed_identifier ?has_reviewer ?has_citation_source_type ?has_citation_source_level \n\
@@ -16,7 +20,7 @@ angular.module('CarreEntrySystem').service('Citations', function($http, RDF) {
     if (citationStr) listQuery += "FILTER (?citation = " + citationStr + ") \n }";
     else listQuery += "}";
 
-    return RDF(listQuery);
+    return CARRE.query(listQuery);
   };
 
   var insertCitation = function(citationObj) {
@@ -56,6 +60,7 @@ angular.module('CarreEntrySystem').service('Citations', function($http, RDF) {
   
   
   return {
+    'list': getCitationsInstance,
     'get': getCitations,
     'insert': insertCitation,
     'update': updateCitation

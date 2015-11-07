@@ -3,73 +3,88 @@
         <ul class="nav in" id="side-menu">
             <!--<sidebar-search></sidebar-search>-->
             <li ui-sref-active="active">
-                <a ui-sref="dashboard.home"></i> Dashboard</a>
+                <a ui-sref="main.dashboard"></i> Dashboard</a>
             </li>
-            <li ng-class="{active: collapseVar==1}">{{dropDown}}
-                <a href="" ng-click="check(1)"></i> Citation<span
-                        class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" collapse="collapseVar!=1">
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.panels-wells">List all</a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.buttons">Add new</a>
-                    </li>
-                </ul>
+            <li ui-sref-active="active">
+                <a ui-sref="main.citations"></i> Citations</a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="main.observables"></i> Observables</a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="main.riskelements"></i> Risk Elements</a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="main.riskevidences"></i> Risk Evidences</a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="main.riskfactors"></i> Risk Factors</a>
+            </li>
+            <!--<li ng-class="{active: collapseVar==1}">{{dropDown}}-->
+            <!--    <a href="" ng-click="check(1)"></i> Citation<span-->
+            <!--            class="fa arrow"></span></a>-->
+            <!--    <ul class="nav nav-second-level" collapse="collapseVar!=1">-->
+            <!--        <li ui-sref-active="active">-->
+            <!--            <a ui-sref="main.citations">List all</a>-->
+            <!--        </li>-->
+            <!--        <li ui-sref-active="active">-->
+            <!--            <a ui-sref="main.buttons">Add new</a>-->
+            <!--        </li>-->
+            <!--    </ul>-->
                 <!-- /.nav-second-level -->
-            </li>
-            <li ng-class="{active: collapseVar==2}">{{dropDown}}
-                <a href="" ng-click="check(2)"></i> Observable<span
-                        class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" collapse="collapseVar!=2">
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.panels-wells">List all</a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.buttons">Add new</a>
-                    </li>
-                </ul>
+            <!--</li>-->
+            <!--<li ng-class="{active: collapseVar==2}">{{dropDown}}-->
+            <!--    <a href="" ng-click="check(2)"></i> Observable<span-->
+            <!--            class="fa arrow"></span></a>-->
+            <!--    <ul class="nav nav-second-level" collapse="collapseVar!=2">-->
+            <!--        <li ui-sref-active="active">-->
+            <!--            <a ui-sref="main.panels-wells">List all</a>-->
+            <!--        </li>-->
+            <!--        <li ui-sref-active="active">-->
+            <!--            <a ui-sref="main.buttons">Add new</a>-->
+            <!--        </li>-->
+            <!--    </ul>-->
                 <!-- /.nav-second-level -->
-            </li>
-            <li ng-class="{active: collapseVar==3}">{{dropDown}}
-                <a href="" ng-click="check(3)"></i> Risk Element<span
-                        class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" collapse="collapseVar!=3">
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.panels-wells">List all</a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.buttons">Add new</a>
-                    </li>
-                </ul>
+            <!--</li>-->
+            <!--<li ng-class="{active: collapseVar==3}">{{dropDown}}-->
+            <!--    <a href="" ng-click="check(3)"></i> Risk Element<span-->
+            <!--            class="fa arrow"></span></a>-->
+            <!--    <ul class="nav nav-second-level" collapse="collapseVar!=3">-->
+            <!--        <li ui-sref-active="active">-->
+            <!--            <a ui-sref="main.panels-wells">List all</a>-->
+            <!--        </li>-->
+            <!--        <li ui-sref-active="active">-->
+            <!--            <a ui-sref="main.buttons">Add new</a>-->
+            <!--        </li>-->
+            <!--    </ul>-->
                 <!-- /.nav-second-level -->
-            </li>
-            <li ng-class="{active: collapseVar==4}">{{dropDown}}
-                <a href="" ng-click="check(4)"></i> Risk Evidence<span
-                        class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" collapse="collapseVar!=4">
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.panels-wells">List all</a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.buttons">Add new</a>
-                    </li>
-                </ul>
+            <!--</li>-->
+            <!--<li ng-class="{active: collapseVar==4}">{{dropDown}}-->
+            <!--    <a href="" ng-click="check(4)"></i> Risk Evidence<span-->
+            <!--            class="fa arrow"></span></a>-->
+            <!--    <ul class="nav nav-second-level" collapse="collapseVar!=4">-->
+            <!--        <li ui-sref-active="active">-->
+            <!--            <a ui-sref="main.panels-wells">List all</a>-->
+            <!--        </li>-->
+            <!--        <li ui-sref-active="active">-->
+            <!--            <a ui-sref="main.buttons">Add new</a>-->
+            <!--        </li>-->
+            <!--    </ul>-->
                 <!-- /.nav-second-level -->
-            </li>
-            <li ng-class="{active: collapseVar==5}">{{dropDown}}
-                <a href="" ng-click="check(5)"></i> Risk factor<span
-                        class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" collapse="collapseVar!=5">
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.panels-wells">List all</a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="dashboard.buttons">Add new</a>
-                    </li>
-                </ul>
+            <!--</li>-->
+            <!--<li ng-class="{active: collapseVar==5}">{{dropDown}}-->
+            <!--    <a href="" ng-click="check(5)"></i> Risk factor<span-->
+            <!--            class="fa arrow"></span></a>-->
+            <!--    <ul class="nav nav-second-level" collapse="collapseVar!=5">-->
+            <!--        <li ui-sref-active="active">-->
+            <!--            <a ui-sref="main.panels-wells">List all</a>-->
+            <!--        </li>-->
+            <!--        <li ui-sref-active="active">-->
+            <!--            <a ui-sref="main.buttons">Add new</a>-->
+            <!--        </li>-->
+            <!--    </ul>-->
                 <!-- /.nav-second-level -->
-            </li>
+            <!--</li>-->
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

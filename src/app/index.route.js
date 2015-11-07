@@ -28,6 +28,8 @@
         }
       })
       .state('main.citations', {
+        controller: 'CitationsController',
+        controllerAs: 'citations',
         templateUrl: 'app/citations/listcitations.html',
         url: '/citations'
       })
@@ -62,7 +64,7 @@
     //     controllerAs: 'main'
     //   });
  //$urlRouterProvider.otherwise('404_error');
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/dashboard');
   }
 
 })();
