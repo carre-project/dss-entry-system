@@ -3,15 +3,15 @@
 
   angular
     .module('CarreEntrySystem')
-    .controller('CitationsController', CitationsController);
+    .controller('citationsController', citationsController);
 
   /** @ngInject */
-  function CitationsController(toastr,Citations,currentUser,NgTableParams,CARRE) {
+  function citationsController(toastr,Citations,currentUser,NgTableParams,citationsList) {
     var vm = this;
-
     
-    // vm.user=currentUser;
-    
+    vm.tableParams = new NgTableParams({}, {
+      dataset:citationsList
+    });
     // var citation='<http://carre.kmi.open.ac.uk/citations/15385656>';
     // if(currentUser){
     //   Citations.get().success(function(data) {
@@ -25,13 +25,7 @@
     //       // }
     //   });
     // }
-    vm.list=Citations.list();
-    // vm.tableParams = new NgTableParams({}, {
-    //   getData: function(params) {
-    //     // ajax request to api
-    //     return Citations.list();
-    //   }
-    // });
+
     
       
   }

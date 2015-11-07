@@ -42,20 +42,6 @@
     //     awesomeThing.rank = Math.random();
     //   });
     // }
-    
-    // var citation='<http://carre.kmi.open.ac.uk/citations/15385656>';
-    // if(currentUser){
-    //   Citations.get().success(function(data) {
-          
-          
-    //       console.log('Raw Data: ',data); 
-          
-    //       vm.queryResult={
-    //         'error': !(data instanceof Array),
-    //         'data': data
-    //       }
-    //   });
-    // }
-      
+ 
   }
 })();

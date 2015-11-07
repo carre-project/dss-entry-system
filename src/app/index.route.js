@@ -11,7 +11,7 @@
         
     $stateProvider
       .state('main', {
-        url: '',
+        abstract:true,
         controller: 'MainController',
         controllerAs: 'main',
         templateUrl: 'app/main/main.html',
@@ -22,29 +22,66 @@
         }
       })
       .state('main.dashboard', {
-        url: '/dashboard',
+        url: '/',
         templateUrl: 'app/main/dashboard.html',
         resolve: {
         }
       })
       .state('main.citations', {
-        controller: 'CitationsController',
+        controller: 'citationsController',
         controllerAs: 'citations',
         templateUrl: 'app/citations/listcitations.html',
-        url: '/citations'
+        url: '/citations',
+        resolve: {
+          citationsList: function(CARRE){
+               return CARRE.instances('citation');
+          }
+        }
       })
-      .state('main.blank', {
-        templateUrl: 'app/views/pages/blank.html',
-        url: '/blank'
-      })
-      .state('login', {
-        templateUrl: 'app/views/pages/login.html',
-        url: '/login'
-      })
-      .state('main.table', {
-        templateUrl: 'app/views/table.html',
-        url: '/table'
-      })
+      // .state('main.observables', {
+      //   controller: 'observablesController',
+      //   controllerAs: 'observables',
+      //   templateUrl: 'app/observables/listobservables.html',
+      //   url: '/observables',
+      //   resolve: {
+      //     observablesList: function(CARRE){
+      //         return CARRE.instances('observable');
+      //     }
+      //   }
+      // })
+      // .state('main.citations', {
+      //   controller: 'CitationsController',
+      //   controllerAs: 'citations',
+      //   templateUrl: 'app/citations/listcitations.html',
+      //   url: '/citations',
+      //   resolve: {
+      //     CitationsList: function(CARRE){
+      //         return CARRE.instances('citation');
+      //     }
+      //   }
+      // })
+      // .state('main.citations', {
+      //   controller: 'CitationsController',
+      //   controllerAs: 'citations',
+      //   templateUrl: 'app/citations/listcitations.html',
+      //   url: '/citations',
+      //   resolve: {
+      //     CitationsList: function(CARRE){
+      //         return CARRE.instances('citation');
+      //     }
+      //   }
+      // })
+      // .state('main.citations', {
+      //   controller: 'CitationsController',
+      //   controllerAs: 'citations',
+      //   templateUrl: 'app/citations/listcitations.html',
+      //   url: '/citations',
+      //   resolve: {
+      //     CitationsList: function(CARRE){
+      //         return CARRE.instances('citation');
+      //     }
+      //   }
+      // })
       .state('500_error', {
         templateUrl: '500.html',
         url: '/500_error'
@@ -54,17 +91,7 @@
         url: '/404_error'
       });
       
-    
-    
-    // $stateProvider
-    //   .state('home', {
-    //     url: '/',
-    //     templateUrl: 'app/main/main.html',
-    //     controller: 'MainController',
-    //     controllerAs: 'main'
-    //   });
- //$urlRouterProvider.otherwise('404_error');
-    $urlRouterProvider.otherwise('/dashboard');
+  $urlRouterProvider.otherwise('404_error');
   }
 
 })();

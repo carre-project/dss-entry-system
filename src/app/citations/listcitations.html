@@ -2,14 +2,14 @@
   <div class="row">
     <div class="heading">Citations list</div>
     <div class="col-md-12">
-      <pre>{{citations.list|json}}</pre>
+      <!--<pre>{{citations.list|json}}</pre>-->
     </div>
     <table ng-table="citations.tableParams" class="table table-bordered table-striped table-condensed">
       <tr ng-repeat="row in $data track by row.id">
-        <td data-title="'Installation At'" filter="{installationAt: 'text'}" sortable="'installationAt'">{{row.installationAt}}</td>
-        <td data-title="'Admin Email'" filter="{adminEmail: 'text'}" sortable="'adminEmail'">{{row.adminEmail}}</td>
-        <td data-title="'Powered By'" filter="{poweredBy: 'text'}" sortable="'poweredBy'">{{row.poweredBy}}</td>
-        <td data-title="'Powered By Icon'" filter="{poweredByIcon: 'text'}" sortable="'poweredByIcon'">{{row.poweredByIcon}}</td>
+        <td data-title="'Id'" filter="{id: 'text'}">{{row.id_label}}</td>
+        <td data-title="'Author'" filter="{has_author_label: 'text'}" sortable="'has_author_label'">{{row.has_author_label}}</td>
+        <td data-title="'Pubmed ID'" filter="{has_citation_pubmed_identifier_label: 'text'}">{{row.has_citation_pubmed_identifier_label}}</td>
+        <td data-title="'Reviewer'" filter="{has_reviewer_label: 'text'}" sortable="'has_reviewer_label'">{{row.has_reviewer_label}}</td>
       </tr>
     </table>
   </div>

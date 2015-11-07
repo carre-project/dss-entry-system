@@ -5,12 +5,10 @@ angular.module('CarreEntrySystem').service('CARRE', function($http,CONFIG,Auth) 
     
     /* Super Array reduce helper for grouping triples into objects with default key the subject! */
     var groupByProp=function(data,triplesFormat,propIndex){
-      console.log(data);
       var triplesFormat=triplesFormat||['subject','predicate','object'];
       var settingsObj={
         triplesFormat:triplesFormat,
         groupProp:triplesFormat[(propIndex||0)],
-        valueProp:(data[0][triplesFormat[(propIndex||0)]] instanceof Object)?'value':false,
         propIndex:[],
         data:[]
       };
@@ -18,25 +16,28 @@ angular.module('CarreEntrySystem').service('CARRE', function($http,CONFIG,Auth) 
     }
     var tripleAccumulator=function(settings,obj){
     
-      var id=obj[settings.groupProp][settings.valueProp||'valueOf'];
+      var id=obj[settings.groupProp];
       var index=settings.propIndex.indexOf(id);
       if(index===-1){
         //then push into the arrays
         settings.propIndex.push(id);
         settings.data.push({
           "id":id,
-          "props":{}
+          "id_label":id.substring(id.lastIndexOf('/')+1)
         });
         //change index to the last item added
         index=settings.propIndex.length-1;
       }
-      var rel=obj[settings.triplesFormat[1]][settings.valueProp||'valueOf'].split("#")[1]||"_";
+      
+      var rel=obj[settings.triplesFormat[1]].split("#")[1]||"_";
       var val=obj[settings.triplesFormat[2]];
-      settings.data[index]["props"][rel]=settings.data[index]["props"][rel]||[];
-      settings.data[index]["props"][rel].push({
-        type:val.type!=="uri"?val.datatype.split("#")[1]:"uri",
-        data:val[settings.valueProp||'valueOf']
-      });
+      settings.data[index][rel]=settings.data[index][rel]||'';
+      
+      if(!settings.data[index][rel]) {
+        settings.data[index][rel]=val;
+        settings.data[index][rel+'_label']=val.substring(val.lastIndexOf('/')+1);
+      }
+        
       return settings;
     }
     
@@ -68,13 +69,13 @@ angular.module('CarreEntrySystem').service('CARRE', function($http,CONFIG,Auth) 
     /* Auth not required */
     var apiInstances = function(instanceType) {
       
-        $http.get(CONFIG.API + 'instances?type='+instanceType).then(function(res){
+        return $http.get(CONFIG.API + 'instances?type='+instanceType).then(function(res){
             /*
             You can configure triplet variable names and group by index of property.
             e.g groupByProp(data,["citation","relation","value"],0).data groups by citation
             */
-            console.info(instanceType+' data: ',res);
-            if(res.data.length>0) return groupByProp(res.data);
+            var results=groupByProp(res.data);
+            if(results.data.length>0) return results.data;
             else return [];
         });
     };
