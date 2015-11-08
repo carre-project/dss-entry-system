@@ -6,7 +6,7 @@
     .controller('citationsController', citationsController);
 
   /** @ngInject */
-  function citationsController(toastr,Citations,currentUser,citationsList,uiGridGroupingConstants) {
+  function citationsController(toastr,Citations,currentUser,citationsList,uiGridGroupingConstants,$timeout) {
     var c = this; //controller as c
     
     
@@ -39,8 +39,10 @@
 
         c.mygrid = {};
         c.mygrid.data = citationsList;
-        c.mygrid.paginationPageSizes= [10, 20, 50];
-        c.mygrid.paginationPageSize= 10;
+        c.mygrid.onRegisterApi = function(api){c.gridApi=api};
+        c.mygrid.paginationPageSizes = [15, 30, 60];
+        c.mygrid.paginationPageSize = 15;
+        c.mygrid.minRowsToShow = 15;
         c.mygrid.enableColumnResizing = true;
         c.mygrid.enableFiltering = true;
         c.mygrid.enableGridMenu = true;
@@ -76,8 +78,17 @@
                 return row.entity.has_reviewer;
             }
         }];
-
+      var calcHeight=function(){
+        var total=c.gridApi.grid.options.totalItems;
+        var height=total*32 //hardcoded line height
+        console.log('Total Items: '+total,'Total Height: '+height);
+        if(height>600) height=600;
+        angular.element(document.getElementsByClassName('grid')[0]).css('height', height+'px');
+      }  
+        
         /*End of Grid stuff*/
-      
+      // $timeout(calcHeight, 100);
+
+    
   }
 })();
