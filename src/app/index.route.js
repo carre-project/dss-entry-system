@@ -6,7 +6,7 @@
     .config(routerConfig);
 
   /** @ngInject */
-  function routerConfig($stateProvider, $urlRouterProvider) {
+  function routerConfig($stateProvider) {
     
         
     $stateProvider
@@ -24,6 +24,8 @@
       .state('main.dashboard', {
         url: '/',
         templateUrl: 'app/main/dashboard.html',
+        controller: 'MainController',
+        controllerAs: 'main',
         resolve: {
         }
       })
@@ -90,8 +92,6 @@
         templateUrl: '404.html',
         url: '/404_error'
       });
-      
-  $urlRouterProvider.otherwise('404_error');
   }
 
 })();

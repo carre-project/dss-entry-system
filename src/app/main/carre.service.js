@@ -81,7 +81,6 @@ angular.module('CarreEntrySystem').service('CARRE', function($http,CONFIG,Auth) 
     };
     
     return {
-        'toObj':groupByProp,
         'query':apiQuery,
         'instances':apiInstances
     }
