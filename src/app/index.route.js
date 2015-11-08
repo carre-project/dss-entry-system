@@ -35,7 +35,7 @@
         templateUrl: 'app/citations/listcitations.html',
         url: '/citations',
         resolve: {
-          citationsList: function(CARRE){
+          citationsArray: function(CARRE){
                return CARRE.instances('citation');
           }
         }

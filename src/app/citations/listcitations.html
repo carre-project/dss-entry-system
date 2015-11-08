@@ -1,14 +1,29 @@
 <div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">Citations</h1>
-    </div>  
-    <!-- /.col-lg-12 -->
+  <div>
+    <h1 class="page-header">Citations</h1>
+  </div>
+  <!-- /.col-lg-12 -->
 </div>
 <div class="row">
-    <div class="col-md-12">
-         <!--cg-busy="dataLoad" -->
-    <div id="grid1" ui-grid="citations.mygrid" ui-grid-cellNav ui-grid-pagination ui-grid-edit ui-grid-resize-columns ui-grid-pinning ui-grid-selection ui-grid-move-columns ui-grid-exporter ui-grid-grouping ui-grid-auto-resize class="grid"></div>
+  <div class="col-sm-12">
+    <!--cg-busy="dataLoad" -->
+    <div class="row">
+    <div ng-class="citations.sidebyside" id="grid1" ui-grid="citations.mygrid" ui-grid-pagination ui-grid-edit ui-grid-resize-columns ui-grid-move-columns ui-grid-exporter ui-grid-grouping ui-grid-auto-resize class="grid"></div>
 
-    </div>  
-    <!-- /.col-lg-12 -->
+
+
+    <div uib-collapse="!citations.pubmedArticle">
+        <div class="btn-group">
+          <button class="btn btn-default" type="button">Left 1</button>
+          <button class="btn btn-default" type="button">Left 2</button>
+          <button class="btn btn-default" type="button">Left 3</button>
+        </div>
+        <hr>
+        <iframe style="height:500px;width:500px" ng-if="citations.pubmedArticle" src="{{citations.pubmedArticle | trustAsResourceUrl}}"></iframe>
+    </div>
+
+
+  </div>
+  </div>
+  <!-- /.col-lg-12 -->
 </div>

@@ -9,35 +9,28 @@ angular.module('CarreEntrySystem').service('CARRE', function($http,CONFIG,Auth) 
       var settingsObj={
         triplesFormat:triplesFormat,
         groupProp:triplesFormat[(propIndex||0)],
-        propIndex:[],
+        keys:[],
         data:[]
       };
       return data.reduce(tripleAccumulator,settingsObj);
     }
     var tripleAccumulator=function(settings,obj){
-    
       var id=obj[settings.groupProp];
-      var index=settings.propIndex.indexOf(id);
+      var index=settings.keys.indexOf(id);
       if(index===-1){
         //then push into the arrays
-        settings.propIndex.push(id);
+        settings.keys.push(id);
         settings.data.push({
-          "id":id,
-          "id_label":id.substring(id.lastIndexOf('/')+1)
+          "id":id
         });
         //change index to the last item added
-        index=settings.propIndex.length-1;
+        index=settings.keys.length-1;
       }
-      
       var rel=obj[settings.triplesFormat[1]].split("#")[1]||"_";
       var val=obj[settings.triplesFormat[2]];
-      settings.data[index][rel]=settings.data[index][rel]||'';
+      settings.data[index][rel]=settings.data[index][rel]||[];
+      settings.data[index][rel].push(val);
       
-      if(!settings.data[index][rel]) {
-        settings.data[index][rel]=val;
-        settings.data[index][rel+'_label']=val.substring(val.lastIndexOf('/')+1);
-      }
-        
       return settings;
     }
     
@@ -75,7 +68,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http,CONFIG,Auth) 
             e.g groupByProp(data,["citation","relation","value"],0).data groups by citation
             */
             var results=groupByProp(res.data);
-            if(results.data.length>0) return results.data;
+            if(results.data.length>0) return results;
             else return [];
         });
     };

@@ -1,4 +1,23 @@
-
 /* Custom Styles */
 
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.nav,
+.pagination,
+.carousel,
+.panel-title a {
+    cursor: pointer;
+}
+
+.grid {
+    height: 500px;
+}
+
+.page-header {
+    margin-top: 15px;
+}
+
+
+/* Needed for hiding crollbars when pushing */
+
+html {
+    overflow-x: hidden;
+}
