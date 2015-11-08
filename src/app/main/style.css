@@ -6,7 +6,9 @@
 .panel-title a {
     cursor: pointer;
 }
-
+.ui-grid-row:hover {
+    cursor: pointer;
+}
 .grid {
     height: 500px;
 }

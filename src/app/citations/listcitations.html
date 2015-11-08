@@ -5,25 +5,17 @@
   <!-- /.col-lg-12 -->
 </div>
 <div class="row">
-  <div class="col-sm-12">
     <!--cg-busy="dataLoad" -->
-    <div class="row">
-    <div ng-class="citations.sidebyside" id="grid1" ui-grid="citations.mygrid" ui-grid-pagination ui-grid-edit ui-grid-resize-columns ui-grid-move-columns ui-grid-exporter ui-grid-grouping ui-grid-auto-resize class="grid"></div>
+      <div ng-class="citations.sidebyside">
+        <div id="grid1" ui-grid="citations.mygrid" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-exporter  ui-grid-auto-resize class="grid"></div>
+      </div>
+      <div ng-class="citations.sidebyside">
+      <div uib-collapse="!citations.pubmedArticle">
+        <!--<iframe height="500px" width="100%" class="panel-body" ng-onload="citations.processPubmed($this)" src="{{citations.pubmedArticle | trustAsResourceUrl}}"></iframe>-->
+        <div style="white-space: pre-line;" cg-busy="citations.loading" ng-bind-html="citations.pubmedArticle"></div>
+      </div>
+      </div>
 
 
-
-    <div uib-collapse="!citations.pubmedArticle">
-        <div class="btn-group">
-          <button class="btn btn-default" type="button">Left 1</button>
-          <button class="btn btn-default" type="button">Left 2</button>
-          <button class="btn btn-default" type="button">Left 3</button>
-        </div>
-        <hr>
-        <iframe style="height:500px;width:500px" ng-if="citations.pubmedArticle" src="{{citations.pubmedArticle | trustAsResourceUrl}}"></iframe>
-    </div>
-
-
-  </div>
-  </div>
   <!-- /.col-lg-12 -->
 </div>

@@ -6,24 +6,10 @@
     .controller('citationsController', citationsController);
 
   /** @ngInject */
-  function citationsController(toastr, Citations, currentUser, citationsArray, uiGridGroupingConstants, $timeout) {
+  function citationsController(toastr, Citations, currentUser, citationsArray, uiGridGroupingConstants, $timeout,Pubmed,uiGridConstants ) {
     var c = this; //controller as c
     c.user = currentUser;
-
-    c.sidebyside = 'col-xs-12';
-    c.setPubmed = function(grid, row) {
-      var id = row.entity.id;
-      console.log(id);
-      if (id) {
-        c.pubmedArticle = 'http://www.ncbi.nlm.nih.gov/pubmed/' + id;
-        c.sidebyside = 'col-xs-6';
-      }
-      else {
-        c.pubmedArticle = '';
-        c.sidebyside = 'col-xs-12';
-      }
-    }
-
+    
     var citations = citationsArray.data.map(function(obj) {
 
       //console.info('Citations:',citationsArray);
@@ -51,6 +37,31 @@
 
 
     /*Pubmed browser*/
+    c.sidebyside = 'col-xs-12';
+    c.setPubmed = function(grid, row) {
+      var id = row.entity.id;
+      console.log(id);
+      if (id) {
+        c.sidebyside = 'col-xs-6';
+        c.loading=Pubmed.fetch(id).then(function(res){
+          console.log(res);
+          c.pubmedArticle = res.data;
+        })
+      }
+      else {
+        c.pubmedArticle = '';
+        c.sidebyside = 'col-xs-12';
+      }
+    }
+    
+    // c.processPubmed = function(a,b,c) {
+    //     // contentLocation === iframe.contentWindow.location
+    //     // it's undefined when contentWindow cannot be found from the bound element
+    //     var iframe=document.getElementsByTagName('iframe')[0];
+    //     console.log(iframe);
+    //     $('.universal_header,.header,.supplemental, #NCBIFooter_dynamic, #footer',iframe.contentWindow).hide();
+    //     console.log(a,b,c);
+    // };
 
 
 
@@ -79,24 +90,44 @@
     // }
 
     /* GRID STUFF */
-
     c.mygrid = {};
     c.mygrid.data = citations;
     c.mygrid.onRegisterApi = function(api) {
-      c.gridApi = api
+      
+      //grid callbacks
+    
+      api.selection.on.rowSelectionChanged(null,function(row){
+        var msg = 'row selected ';
+        console.log(msg,row);
+      });
+      
+      
+      
     };
     c.mygrid.paginationPageSizes = [10, 50, 100];
     c.mygrid.paginationPageSize = 10;
     c.mygrid.enableColumnResizing = true;
     c.mygrid.enableFiltering = true;
+    c.mygrid.allowCellFocus = false;
     c.mygrid.enableGridMenu = true;
+    c.mygrid.multiSelect = false;
+    c.mygrid.enableRowSelection = true;
+    c.mygrid.enableFullRowSelection  = true;
+    c.mygrid.enableColumnMenus = true;
     c.mygrid.showGridFooter = true;
     c.mygrid.showColumnFooter = true;
     c.mygrid.fastWatch = true;
     c.mygrid.columnDefs = [{
-      field: 'nothing',
-      name: '',
-      cellTemplate: 'app/citations/showPubmedButton.html',
+      field: 'Show',
+      enableFiltering: false,
+      enableColumnMenu: false,
+      cellTemplate: 'app/citations/showButton.html',
+      width: 34
+    },{
+      field: 'Edit',
+      enableFiltering: false,
+      enableColumnMenu: false,
+      cellTemplate: 'app/citations/editButton.html',
       width: 34
     }, {
       name: 'id',
@@ -105,11 +136,25 @@
     }, {
       name: 'has_citation_source_type',
       displayName: 'Source Type',
-      enableCellEdit: true
+      enableCellEdit: true,      
+      filter:{
+        type: uiGridConstants.filter.SELECT,
+        selectOptions: citations.reduce(function(arr,obj){
+          if(arr.indexOf(obj.has_citation_source_type)===-1) arr.push({
+            label:obj.has_citation_source_type,
+            value:obj.has_citation_source_type
+          });
+          return arr;
+        },[])
+      }
     }, {
       name: 'has_citation_source_level',
       displayName: 'Source Level',
-      enableCellEdit: true
+      enableCellEdit: true,
+      filter:{
+        type: uiGridConstants.filter.SELECT,
+        selectOptions: [ { value: 0, label: '0' },  { value: 1, label: '1' }, { value: 2, label: '2' },  { value: 3, label: '3' } ]
+      }
     }, {
       name: 'has_author_label',
       displayName: 'CARRE Author',
@@ -127,6 +172,7 @@
         return row.entity.has_reviewer;
       }
     }];
-
+    
+      
   }
 })();
