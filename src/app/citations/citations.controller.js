@@ -37,20 +37,22 @@
 
 
     /*Pubmed browser*/
-    c.sidebyside = 'col-xs-12';
-    c.setPubmed = function(grid, row) {
-      var id = row.entity.id;
-      console.log(id);
-      if (id) {
-        c.sidebyside = 'col-xs-6';
+    c.setPubmed = function(grid,row) {
+      var id = row?row.entity.id:null;
+      // console.log(id);
+      if(!id) {
+        c.selectedCitation='';
+        c.pubmedArticle = '';
+      } else if (c.selectedCitation!==id) {
+        c.selectedCitation=id;
         c.loading=Pubmed.fetch(id).then(function(res){
-          console.log(res);
+          // console.log(res);
           c.pubmedArticle = res.data;
         })
       }
       else {
+        c.selectedCitation='';
         c.pubmedArticle = '';
-        c.sidebyside = 'col-xs-12';
       }
     }
     
@@ -97,8 +99,7 @@
       //grid callbacks
     
       api.selection.on.rowSelectionChanged(null,function(row){
-        var msg = 'row selected ';
-        console.log(msg,row);
+        // c.setPubmed(null,row);
       });
       
       
@@ -108,28 +109,16 @@
     c.mygrid.paginationPageSize = 10;
     c.mygrid.enableColumnResizing = true;
     c.mygrid.enableFiltering = true;
-    c.mygrid.allowCellFocus = false;
+    c.mygrid.allowCellFocus = true;
     c.mygrid.enableGridMenu = true;
-    c.mygrid.multiSelect = false;
+    c.mygrid.multiSelect = true;
     c.mygrid.enableRowSelection = true;
-    c.mygrid.enableFullRowSelection  = true;
+    // c.mygrid.enableFullRowSelection  = true;
     c.mygrid.enableColumnMenus = true;
     c.mygrid.showGridFooter = true;
     c.mygrid.showColumnFooter = true;
     c.mygrid.fastWatch = true;
     c.mygrid.columnDefs = [{
-      field: 'Show',
-      enableFiltering: false,
-      enableColumnMenu: false,
-      cellTemplate: 'app/citations/showButton.html',
-      width: 34
-    },{
-      field: 'Edit',
-      enableFiltering: false,
-      enableColumnMenu: false,
-      cellTemplate: 'app/citations/editButton.html',
-      width: 34
-    }, {
       name: 'id',
       displayName: 'Pubmed',
       width: 100
@@ -155,23 +144,37 @@
         type: uiGridConstants.filter.SELECT,
         selectOptions: [ { value: 0, label: '0' },  { value: 1, label: '1' }, { value: 2, label: '2' },  { value: 3, label: '3' } ]
       }
-    }, {
-      name: 'has_author_label',
-      displayName: 'CARRE Author',
-      // enableCellEdit: true,
-      width: 150,
-      cellTooltip: function(row, col) {
-        return row.entity.has_author;
-      }
-    }, {
-      name: 'has_reviewer',
-      displayName: 'CARRE Reviewers',
-      // enableCellEdit: true,
-      width: 190,
-      cellTooltip: function(row, col) {
-        return row.entity.has_reviewer;
-      }
-    }];
+    },{
+      field: 'Show',
+      enableFiltering: false,
+      enableColumnMenu: false,
+      cellTemplate: 'app/citations/showButton.html',
+      width: 60
+    },{
+      field: 'Edit',
+      enableFiltering: false,
+      enableColumnMenu: false,
+      cellTemplate: 'app/citations/editButton.html',
+      width: 60
+    } 
+    // ,{
+    //   name: 'has_author_label',
+    //   displayName: 'CARRE Author',
+    //   // enableCellEdit: true,
+    //   width: 150,
+    //   cellTooltip: function(row, col) {
+    //     return row.entity.has_author;
+    //   }
+    // }, {
+    //   name: 'has_reviewer',
+    //   displayName: 'CARRE Reviewers',
+    //   // enableCellEdit: true,
+    //   width: 190,
+    //   cellTooltip: function(row, col) {
+    //     return row.entity.has_reviewer;
+    //   }
+    // }
+    ];
     
       
   }

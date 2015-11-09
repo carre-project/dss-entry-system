@@ -6,9 +6,7 @@
 .panel-title a {
     cursor: pointer;
 }
-.ui-grid-row:hover {
-    cursor: pointer;
-}
+
 .grid {
     height: 500px;
 }
@@ -20,6 +18,6 @@
 
 /* Needed for hiding crollbars when pushing */
 
-html {
-    overflow-x: hidden;
+.ng-pageslide {
+    background: #eee;
 }
