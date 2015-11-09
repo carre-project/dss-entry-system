@@ -14,7 +14,7 @@
     .config(function($locationProvider, $logProvider, $compileProvider, $urlRouterProvider) {
 
       //show home page on error
-      $urlRouterProvider.otherwise('/');
+      $urlRouterProvider.otherwise('/dashboard');
       
       //Set url handler  
       $locationProvider.html5Mode(false);

@@ -12,6 +12,7 @@
     $stateProvider
       .state('main', {
         abstract:true,
+        url: '',
         controller: 'MainController',
         controllerAs: 'main',
         templateUrl: 'app/main/main.html',
@@ -37,7 +38,7 @@
         }
       })
       .state('main.dashboard', {
-        url: '/',
+        url: '/dashboard',
         templateUrl: 'app/main/dashboard.html',
       })
       .state('main.citations', {
