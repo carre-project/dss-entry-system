@@ -18,27 +18,33 @@
         resolve: {
           'currentUser':function(Auth){
             return Auth.getUser();
+          },
+          'citationsArray': function(CARRE){
+               return CARRE.instances('citation');
+          },
+          'risk_elementsArray': function(CARRE){
+               return CARRE.instances('risk_element');
+          },
+          'risk_factorsArray': function(CARRE){
+               return CARRE.instances('risk_factor');
+          },
+          'risk_evidencesArray': function(CARRE){
+               return CARRE.instances('risk_evidence');
+          },
+          'observablesArray': function(CARRE){
+               return CARRE.instances('observable');
           }
         }
       })
       .state('main.dashboard', {
         url: '/',
         templateUrl: 'app/main/dashboard.html',
-        controller: 'MainController',
-        controllerAs: 'main',
-        resolve: {
-        }
       })
       .state('main.citations', {
         controller: 'citationsController',
         controllerAs: 'citations',
         templateUrl: 'app/citations/listcitations.html',
-        url: '/citations',
-        resolve: {
-          citationsArray: function(CARRE){
-               return CARRE.instances('citation');
-          }
-        }
+        url: '/citations'
       })
       // .state('main.observables', {
       //   controller: 'observablesController',

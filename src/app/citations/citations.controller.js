@@ -6,10 +6,10 @@
     .controller('citationsController', citationsController);
 
   /** @ngInject */
-  function citationsController(toastr, Citations, currentUser, citationsArray, uiGridGroupingConstants, $timeout,Pubmed,uiGridConstants ) {
+  function citationsController(toastr, Citations, currentUser, citationsArray, uiGridGroupingConstants, $timeout,Pubmed,uiGridConstants,$state ) {
     var c = this; //controller as c
     c.user = currentUser;
-    
+    if(!citationsArray.data) $state.go('main.citations', {}, { reload: true });
     var citations = citationsArray.data.map(function(obj) {
 
       //console.info('Citations:',citationsArray);
@@ -37,7 +37,8 @@
 
 
     /*Pubmed browser*/
-    c.setPubmed = function(grid,row) {
+    c.setPubmed = function(grid,row,useApi) {
+      c.pubmedApi=useApi;
       var id = row?row.entity.id:null;
       // console.log(id);
       if(!id) {
@@ -145,13 +146,13 @@
         selectOptions: [ { value: 0, label: '0' },  { value: 1, label: '1' }, { value: 2, label: '2' },  { value: 3, label: '3' } ]
       }
     },{
-      field: 'Show',
+      field: 'Iframe',
       enableFiltering: false,
       enableColumnMenu: false,
       cellTemplate: 'app/citations/showButton.html',
       width: 60
     },{
-      field: 'Edit',
+      field: 'API',
       enableFiltering: false,
       enableColumnMenu: false,
       cellTemplate: 'app/citations/editButton.html',

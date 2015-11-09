@@ -6,11 +6,12 @@
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
-    <div class="col-md-12">
+    <div ng-show="main.config.ENV==='DEV'" class="col-md-12">
         <pre>{{main.config|json}}</pre>
         <pre>{{main.user|json}}</pre>
         <pre>{{main.queryResult|json}}</pre>
     </div>
+    <div class="row"><p><img src="assets/images/model.png"></p></div>
     <div class="row">
         
         <stats goto="dashboard.home" number="12" comments="New risk elements!" colour="primary" type="user"></stats>
@@ -19,36 +20,4 @@
         <stats goto="500_error" number="24" comments="500 errors!" colour="red" type="support"></stats>
 
     </div>
-    
-    <!-- /.panel -->
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
-                </div>
-                <!-- /.panel-heading -->
-                <timeline></timeline>
-                <!-- /.panel-body -->
-            </div>
-            <!-- /.panel -->
-        </div>
-        <!-- /.col-lg-8 -->
-        <div class="col-lg-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="fa fa-bell fa-fw"></i> Notifications Panel
-                </div>
-                <!-- /.panel-heading -->
-                <notifications></notifications> 
-                <!-- /.panel-body -->
-            </div>
-            <!-- /.panel -->
-
-            <chat></chat>
-             <!-- /.panel .chat-panel -->
-        </div>
-        <!-- /.col-lg-4 -->
-    </div>
-    <!-- /.row -->
 </div>
