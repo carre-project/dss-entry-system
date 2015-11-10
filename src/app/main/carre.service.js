@@ -52,7 +52,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http,CONFIG,Auth) 
         sparqlQuery = PREFIXSTR + sparqlQuery;
         console.info('Final query: ', sparqlQuery);
 
-        return $http.post(CONFIG.API + 'query', {
+        return $http.post(CONFIG.CARRE_API_URL + 'query', {
             'sparql': sparqlQuery,
             'token': Auth.cookie
         });
@@ -62,7 +62,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http,CONFIG,Auth) 
     /* Auth not required */
     var apiInstances = function(instanceType) {
       
-        return $http.get(CONFIG.API + 'instances?type='+instanceType).then(function(res){
+        return $http.get(CONFIG.CARRE_API_URL + 'instances?type='+instanceType).then(function(res){
             /*
             You can configure triplet variable names and group by index of property.
             e.g groupByProp(data,["citation","relation","value"],0).data groups by citation

@@ -6,7 +6,7 @@
     .controller('observablesController', observablesController);
 
   /** @ngInject */
-  function observablesController(toastr, Observables, currentUser, observablesArray, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state) {
+  function observablesController(toastr, Observables, currentUser, observablesArray, uiGridGroupingConstants, $timeout, Bioportal, uiGridConstants, $state) {
     var c = this; //controller as c
     // currentUser is our user model;
 
@@ -39,7 +39,7 @@
           types_label: obj.type.map(function(val){ return val.substring(val.lastIndexOf('/')+1).split('#')[1];}).join(','),
           has_author: obj.has_author ? obj.has_author[0] : '-',
           has_author_label: obj.has_author ? obj.has_author[0].substring(obj.has_author[0].lastIndexOf('/') + 1) : '-',
-          has_reviewer: obj.has_reviewer ? obj.has_reviewer.join(',') : '-',
+          has_reviewer_label: obj.has_reviewer ? obj.has_reviewer.map(function(val){return val.substring(val.lastIndexOf('/')+1);}).join(',') : '-',
           has_observable_measurement: obj.has_observable_measurement ? obj.has_observable_measurement[0] : '-',
           has_observable_measurement_label: obj.has_observable_measurement ? obj.has_observable_measurement[0].substring(obj.has_observable_measurement[0].lastIndexOf('/')+1).split('#')[1] : '-',
           has_risk_element_identifier: obj.has_risk_element_identifier ? obj.has_risk_element_identifier[0] : '-',
@@ -60,25 +60,38 @@
     }
 
 
-    /*Pubmed browser*/
-    c.setPubmed = function(grid, row, useApi) {
-      c.pubmedApi = useApi;
-      var id = row ? row.entity.id : null;
-      // console.log(id);
+    /*Bioportal browser*/
+    c.setBioportal = function(grid, row, nocui) {
+      var id = row ? row.entity.has_observable_name.toLowerCase() : null;
       if (!id) {
-        c.selectedCitation = '';
-        c.pubmedArticle = '';
+        c.selectedObservable = {};
+        c.bioportalData = {};
       }
-      else if (c.selectedCitation !== id) {
-        c.selectedCitation = id;
-        c.loading = Pubmed.fetch(id).then(function(res) {
+      else if (c.selectedObservable.entity.id !== id || nocui) {
+        c.selectedObservable = row;
+        var options={
+          display_context:'false',
+          require_exact_match:'false',
+          include:'prefLabel,definition,cui',
+          display_links:'true',
+          require_definitions:'false'
+        };
+        if(row.entity.has_risk_element_identifier_label.length>4&&!nocui){
+          options.cui=row.entity.has_risk_element_identifier_label.toUpperCase();
+        }
+        c.loading = Bioportal.search(id,options).then(function(res) {
           // console.log(res);
-          c.pubmedArticle = res.data;
+          //filter data that have cui, and the title match incase
+          c.bioportalData = res.data.collection.filter(function(obj){
+            if(!obj.cui) return false;
+            if(!obj.prefLabel.toLowerCase().indexOf(id)) return false;
+            return true
+          });
         })
       }
       else {
-        c.selectedCitation = '';
-        c.pubmedArticle = '';
+        c.selectedObservable = {};
+        c.bioportalData = {};
       }
     }
 
@@ -104,7 +117,6 @@
       //grid callbacks
 
       // api.selection.on.rowSelectionChanged(null, function(row) {
-      //   c.setPubmed(null,row);
       // });
     };
     c.mygrid.paginationPageSizes = [10, 50, 100];
@@ -132,6 +144,7 @@
       },{
         name: 'has_risk_element_identifier_label',
         displayName: 'CUI'
+        // ,cellTemplate:'<div><a ng-href="{{row.entity.has_risk_element_identifier}}">{{row.entity.has_risk_element_identifier_label}}</a></div>'
       }, {
         name: 'types_label',
         displayName: 'Types',
@@ -141,36 +154,19 @@
           selectOptions: observableTypes.map(function(obj){return {'value':obj,'label':obj};})
         }
       }
-      // , {
-      //   field: 'Iframe',
-      //   enableFiltering: false,
-      //   enableColumnMenu: false,
-      //   cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.observables.setPubmed(grid, row)"><i class="fa fa-eye"></i></button></div>',
-      //   width: 60
-      // }, {
-      //   field: 'API',
-      //   enableFiltering: false,
-      //   enableColumnMenu: false,
-      //   cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.observables.setPubmed(grid, row, true)"><i class="fa fa-eye"></i></button></div>',
-      //   width: 60
-      // }
-      // ,{
-      //   name: 'has_author_label',
-      //   displayName: 'CARRE Author',
-      //   // enableCellEdit: true,
-      //   width: 150,
-      //   cellTooltip: function(row, col) {
-      //     return row.entity.has_author;
-      //   }
-      // }, {
-      //   name: 'has_reviewer',
-      //   displayName: 'CARRE Reviewers',
-      //   // enableCellEdit: true,
-      //   width: 190,
-      //   cellTooltip: function(row, col) {
-      //     return row.entity.has_reviewer;
-      //   }
-      // }
+      , {
+        field: 'Bioportal',
+        enableFiltering: false,
+        enableColumnMenu: false,
+        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.observables.setBioportal(grid, row)"><i class="fa fa-eye"></i></button></div>',
+        width: 100
+      }
+      , {
+        name: 'has_reviewer_label',
+        displayName: 'Reviewers',
+        // enableCellEdit: true,
+        width: 100
+      }
     ];
     
     //show edit buttons
