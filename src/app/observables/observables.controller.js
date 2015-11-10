@@ -43,7 +43,7 @@
           has_observable_measurement: obj.has_observable_measurement ? obj.has_observable_measurement[0] : '-',
           has_observable_measurement_label: obj.has_observable_measurement ? obj.has_observable_measurement[0].substring(obj.has_observable_measurement[0].lastIndexOf('/')+1).split('#')[1] : '-',
           has_risk_element_identifier: obj.has_risk_element_identifier ? obj.has_risk_element_identifier[0] : '-',
-          has_risk_element_identifier_label: obj.has_risk_element_identifier ? obj.has_risk_element_identifier[0].substring(obj.has_risk_element_identifier[0].lastIndexOf('/')+1) : '-',
+          has_risk_element_identifier_label: obj.has_risk_element_identifier ? obj.has_risk_element_identifier[0].substring(obj.has_risk_element_identifier[0].lastIndexOf('/')+1).toUpperCase() : '-',
           has_observable_name: obj.has_observable_name ? obj.has_observable_name[0] : obj.observable_name[0],
           observable_unit: obj.observable_unit ? obj.observable_unit[0] : '-'
 
@@ -96,19 +96,6 @@
     }
 
 
-    // var observable='<http://carre.kmi.open.ac.uk/observables/15385656>';
-    // if(currentUser){
-    //   Citations.get().success(function(data) {
-
-
-    //       console.log('Raw Data: ',data); 
-
-    //       // vm.queryResult={
-    //       //   'error': !(data instanceof Array),
-    //       //   'data': data
-    //       // }
-    //   });
-    // }
 
     /* GRID STUFF */
     c.mygrid = {};
@@ -132,7 +119,14 @@
     c.mygrid.showGridFooter = true;
     c.mygrid.showColumnFooter = true;
     c.mygrid.fastWatch = true;
-    c.mygrid.columnDefs = [{
+    c.mygrid.columnDefs = [
+      {
+        field: 'B',
+        enableFiltering: false,
+        enableColumnMenu: false,
+        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.observables.setBioportal(grid, row)"><i class="fa fa-eye"></i></button></div>',
+        width: 40
+      },{
         name: 'has_observable_name',
         displayName: 'Name'
       }, {
@@ -140,26 +134,22 @@
         displayName: 'Measurement'
       },{
         name: 'observable_unit',
-        displayName: 'Unit'
+        displayName: 'Unit',
+        width:100
       },{
         name: 'has_risk_element_identifier_label',
-        displayName: 'CUI'
+        displayName: 'CUI',
+        width:95
         // ,cellTemplate:'<div><a ng-href="{{row.entity.has_risk_element_identifier}}">{{row.entity.has_risk_element_identifier_label}}</a></div>'
       }, {
         name: 'types_label',
         displayName: 'Types',
         enableCellEdit: true,
+        width:250,
         filter: {
           type: uiGridConstants.filter.SELECT,
           selectOptions: observableTypes.map(function(obj){return {'value':obj,'label':obj};})
         }
-      }
-      , {
-        field: 'Bioportal',
-        enableFiltering: false,
-        enableColumnMenu: false,
-        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.observables.setBioportal(grid, row)"><i class="fa fa-eye"></i></button></div>',
-        width: 100
       }
       , {
         name: 'has_reviewer_label',

@@ -1,23 +1,25 @@
 <div>
 
   <div class="row">
-    <h1 class="page-header">Citations</h1>
+    <div class="col-lg-12">
+      <h1 class="page-header">Citations</h1>
+    </div>
   </div>
-  
+
   <div uib-collapse="!main.DEBUG" class="row">
-      <div class="col-xs-6">
-        <labe>Configuration<pre>{{main.config | json}}</pre></label>
-      </div>
-      <div class="col-xs-6">
-        <labe>User<pre>{{main.user | json}}</pre></label>
-      </div>
-      <div class="col-xs-12">
-        <labe>Sample Citation<pre>{{citations.mygrid.data[0] | json}}</pre></label>
-      </div>
+    <div class="col-xs-6">
+      <labe>Configuration<pre>{{main.config | json}}</pre></label>
+    </div>
+    <div class="col-xs-6">
+      <labe>User<pre>{{main.user | json}}</pre></label>
+    </div>
+    <div class="col-xs-12">
+      <labe>Sample Citation<pre>{{citations.mygrid.data[0] | json}}</pre></label>
+    </div>
   </div>
-  
+
   <div class="row">
-    <div>
+    <div class="col-xs-12">
       <div id="grid1" ui-grid="citations.mygrid" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-exporter ui-grid-auto-resize class="grid"></div>
     </div>
     <div pageslide ps-size="640px" ps-open="citations.selectedCitation" ps-side="right">
@@ -35,6 +37,6 @@
     </div>
 
   </div>
-  
+
 
 </div>
