@@ -11,8 +11,8 @@
         
     $stateProvider
       .state('main', {
-        abstract:true,
-        url: '',
+        url:'',
+        abstract: true,
         controller: 'MainController',
         controllerAs: 'main',
         templateUrl: 'app/main/main.html',
@@ -45,7 +45,13 @@
         controller: 'citationsController',
         controllerAs: 'citations',
         templateUrl: 'app/citations/listcitations.html',
-        url: '/citations'
+        url: '/citations',
+        resolve:{
+          citationsArray:function(citationsArray,CARRE){
+              if(citationsArray.data) return citationsArray;
+              else return CARRE.instances('citation');
+          }
+        }
       })
       // .state('main.observables', {
       //   controller: 'observablesController',

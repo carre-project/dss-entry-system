@@ -18,7 +18,7 @@
     vm.user = currentUser;
     vm.config = CONFIG;
     //clean up the browser url
-    $location.url('/').replace();
+    $location.url($location.path());
     var baseUrl = $location.absUrl();
 
     //set up the urls 
