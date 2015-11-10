@@ -6,10 +6,10 @@
     .controller('citationsController', citationsController);
 
   /** @ngInject */
-  function citationsController(toastr, Citations, currentUser, citationsArray, uiGridGroupingConstants, $timeout,Pubmed,uiGridConstants,$state ) {
+  function citationsController(toastr, Citations, currentUser, citationsArray, uiGridGroupingConstants, $timeout,Pubmed,uiGridConstants,$state) {
     var c = this; //controller as c
     c.user = currentUser;
-    if(!citationsArray.data) $state.go('main.citations', {}, { reload: true });
+    
     var citations = citationsArray.data.map(function(obj) {
 
       //console.info('Citations:',citationsArray);
@@ -29,7 +29,7 @@
         has_author: obj.has_author ? obj.has_author[0] : '',
         has_author_label: obj.has_author ? obj.has_author[0].substring(obj.has_author[0].lastIndexOf('/') + 1) : '',
         has_reviewer: obj.has_reviewer ? obj.has_reviewer.join(',') : '',
-        id: obj.has_citation_pubmed_identifier[0],
+        id: obj.has_citation_pubmed_identifier ? obj.has_citation_pubmed_identifier[0]:obj.id,
         has_citation_source_type: obj.has_citation_source_type ? obj.has_citation_source_type[0] : '',
         has_citation_source_level: obj.has_citation_source_level ? obj.has_citation_source_level[0] : '',
       };
