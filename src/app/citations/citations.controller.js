@@ -15,10 +15,9 @@
     if (citationsArray.data.some(function(obj) {
         return obj.type[0].indexOf('citation') === -1;
       })) {
-
-      console.log('It confused and instead of citation returned this: ', citationsArray.data);
-      $state.reload();
-
+        
+        console.log('TELL ALLAN about this! It confused and instead of citation returned this: ', citationsArray.data);
+        $state.reload();
     }
     else {
       citations = citationsArray.data.map(function(obj) {
