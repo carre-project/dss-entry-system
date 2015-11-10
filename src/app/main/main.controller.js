@@ -3,15 +3,10 @@
 
   angular
     .module('CarreEntrySystem')
-    .filter('trustAsResourceUrl', ['$sce', function($sce) {
-      return function(val) {
-        return $sce.trustAsResourceUrl(val);
-      };
-    }])
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, toastr, Citations, currentUser, $location, CONFIG,citationsArray,risk_elementsArray,risk_evidencesArray,observablesArray,risk_factorsArray) {
+  function MainController($timeout, toastr, Citations, currentUser, $location, CONFIG,citationsArray,risk_elementsArray,risk_evidencesArray,observablesArray,risk_factorsArray) {
     var vm = this;
 
 

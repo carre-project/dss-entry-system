@@ -52,6 +52,12 @@
         templateUrl: 'app/observables/list.html',
         url: '/observables'
       })
+      .state('main.risk_evidences', {
+        controller: 'risk_evidencesController',
+        controllerAs: 'risk_evidences',
+        templateUrl: 'app/risk_evidences/list.html',
+        url: '/risk_evidences'
+      })
       // .state('main.observables', {
       //   controller: 'observablesController',
       //   controllerAs: 'observables',
