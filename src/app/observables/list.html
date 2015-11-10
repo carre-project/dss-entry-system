@@ -1,0 +1,40 @@
+<div>
+
+  <div class="row">
+    <h1 class="page-header">Observables</h1>
+  </div>
+  
+  <div uib-collapse="!main.DEBUG" class="row">
+      <div class="col-xs-6">
+        <labe>Configuration<pre>{{main.config | json}}</pre></label>
+      </div>
+      <div class="col-xs-6">
+        <labe>User<pre>{{main.user | json}}</pre></label>
+      </div>
+      <div class="col-xs-12">
+        <labe>Sample Observable<pre>{{observables.mygrid.data[0] | json}}</pre></label>
+      </div>      
+  </div>
+  
+  <div class="row">
+    <div>
+      <div id="grid1" ui-grid="observables.mygrid" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-exporter ui-grid-auto-resize class="grid"></div>
+    </div>
+    <div pageslide ps-size="640px" ps-open="observables.selectedCitation" ps-side="right">
+      <div cg-busy="observables.loading" style="padding:10px;">
+
+        <a href="" ng-click="observables.setPubmed()" class="button"><i class="fa fa-times fa-lg"></i></a>
+        <br>
+        <br>
+        <div ng-if="observables.selectedCitation">
+          <div ng-if="observables.pubmedApi" style="white-space: pre-line; overflow-y: auto;height: 95%; width:620px; position: fixed;" ng-bind-html="observables.pubmedArticle"></div>
+
+          <iframe ng-if="!observables.pubmedApi" style="border:none; position: fixed; height:90%; width:620px" height="90%" width="620px" src="{{'http://www.ncbi.nlm.nih.gov/pubmed/'+observables.selectedCitation | trustAsResourceUrl}}"></iframe>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+
+</div>
