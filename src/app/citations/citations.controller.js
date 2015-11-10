@@ -8,17 +8,13 @@
   /** @ngInject */
   function citationsController(toastr, Citations, currentUser, citationsArray, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state) {
     var c = this; //controller as c
-    c.user = currentUser;
+    // currentUser is our user model;
 
     var citations = [];
-    //check 
+    //check and reload state if the data is not the correct type ----- dont know why is happening -- api fault
     if (citationsArray.data.some(function(obj) {
-        return obj.type[0].indexOf('citation') === -1;
-      })) {
-        
-        console.log('TELL ALLAN about this! It confused and instead of citation returned this: ', citationsArray.data);
-        $state.reload();
-    }
+        return obj.type.indexOf('http://carre.kmi.open.ac.uk/ontology/risk.owl#citation') === -1;
+      })) { console.log('TELL ALLAN about this! It confused and instead of citation returned this: ', citationsArray.data[0].type[0]); $state.reload(); }
     else {
       citations = citationsArray.data.map(function(obj) {
         //console.info('Citations:',citationsArray);
@@ -68,26 +64,6 @@
       }
     }
 
-    // c.processPubmed = function(a,b,c) {
-    //     // contentLocation === iframe.contentWindow.location
-    //     // it's undefined when contentWindow cannot be found from the bound element
-    //     var iframe=document.getElementsByTagName('iframe')[0];
-    //     console.log(iframe);
-    //     $('.universal_header,.header,.supplemental, #NCBIFooter_dynamic, #footer',iframe.contentWindow).hide();
-    //     console.log(a,b,c);
-    // };
-
-
-
-    // c.panelClass='col-sm-6';
-    // c.types=citationsList.reduce(function(arr,obj){
-    //   if(arr.indexOf(obj.type)===-1) arr.push(obj.type);
-    //   return arr;
-    // },[]);
-
-    // console.log(citationsList.map(function(obj){
-    //   return obj.has_citation_pubmed_identifier;
-    // }).join(','));
 
     // var citation='<http://carre.kmi.open.ac.uk/citations/15385656>';
     // if(currentUser){
@@ -107,15 +83,11 @@
     c.mygrid = {};
     c.mygrid.data = citations;
     c.mygrid.onRegisterApi = function(api) {
-
       //grid callbacks
 
-      api.selection.on.rowSelectionChanged(null, function(row) {
-        // c.setPubmed(null,row);
-      });
-
-
-
+      // api.selection.on.rowSelectionChanged(null, function(row) {
+      //   c.setPubmed(null,row);
+      // });
     };
     c.mygrid.paginationPageSizes = [10, 50, 100];
     c.mygrid.paginationPageSize = 10;
@@ -172,13 +144,13 @@
         field: 'Iframe',
         enableFiltering: false,
         enableColumnMenu: false,
-        cellTemplate: 'app/citations/showButton.html',
+        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.citations.setPubmed(grid, row)"><i class="fa fa-eye"></i></button></div>',
         width: 60
       }, {
         field: 'API',
         enableFiltering: false,
         enableColumnMenu: false,
-        cellTemplate: 'app/citations/editButton.html',
+        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.citations.setPubmed(grid, row, true)"><i class="fa fa-eye"></i></button></div>',
         width: 60
       }
       // ,{
@@ -199,7 +171,26 @@
       //   }
       // }
     ];
-
+    
+    //show edit buttons
+    if(currentUser.username){
+      c.mygrid.columnDefs.push({
+        field: 'Edit',
+        enableFiltering: false,
+        enableColumnMenu: false,
+        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.citations.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
+        width: 60
+      });
+    }
+    
+    
+    
+    
+    
+    /*View Citation Profile*/
+    
+    
+    
 
   }
 })();

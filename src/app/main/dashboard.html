@@ -6,18 +6,29 @@
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
-    <div ng-show="main.config.ENV==='DEV'" class="col-md-12">
-        <pre>{{main.config|json}}</pre>
-        <pre>{{main.user|json}}</pre>
-        <pre>{{main.queryResult|json}}</pre>
+    <div uib-collapse="!main.DEBUG" class="row">
+        <div class="col-xs-6">
+            <labe>Configuration<pre>{{main.config | json}}</pre></label>
+        </div>
+        <div class="col-xs-6">
+            <labe>User<pre>{{main.user | json}}</pre></label>
+        </div>
+        <div class="col-xs-6">
+            <labe>QueryResult<pre>{{main.queryResult | json}}</pre></label>
+        </div>
     </div>
     <div class="row">
-        
-        <stats goto="dashboard.home" number="12" comments="New risk elements!" colour="primary" type="user"></stats>
-        <stats goto="dashboard.home" number="18" comments="New reviews!" colour="yellow" type="shopping-cart"></stats>
+
+        <stats goto="main.risk_elements" title="Risk Elements" number="{{main.risk_elements.length}}" comments="{{main.risk_elementsUnreviewed.length}} unreviewed!" colour="primary" type="support"></stats>
+        <stats goto="main.risk_evidences" title="Risk Evidences" number="{{main.risk_evidences.length}}" comments="{{main.risk_evidencesUnreviewed.length}} unreviewed!" colour="primary" type="support"></stats>
+        <stats goto="main.citations" title="Citations" number="{{main.citations.length}}" comments="{{main.citationsUnreviewed.length}} unreviewed!" colour="primary" type="support"></stats>
+        <stats goto="main.observables" title="Observables" number="{{main.observables.length}}" comments="{{main.observablesUnreviewed.length}} unreviewed!" colour="primary" type="support"></stats>
+        <stats goto="main.risk_factors" title="Risk Factors" number="{{main.risk_factors.length}}" comments="{{main.risk_factorsUnreviewed.length}} unreviewed!" colour="primary" type="support"></stats>
         <stats goto="404_error" number="24" comments="404 errors!" colour="red" type="support"></stats>
         <stats goto="500_error" number="24" comments="500 errors!" colour="red" type="support"></stats>
 
     </div>
-    <div class="row"><p class="col-md-10 col-md-offset-1 col-xs-12 text-center"><img style="width:inherit; height:auto" src="assets/images/model.png"></p></div>
+    <div class="row">
+        <p class="col-md-10 col-md-offset-1 col-xs-12 text-center"><img style="width:inherit; height:auto" src="assets/images/model.png"></p>
+    </div>
 </div>

@@ -43,8 +43,14 @@
       .state('main.citations', {
         controller: 'citationsController',
         controllerAs: 'citations',
-        templateUrl: 'app/citations/listcitations.html',
+        templateUrl: 'app/citations/list.html',
         url: '/citations'
+      })
+      .state('main.observables', {
+        controller: 'observablesController',
+        controllerAs: 'observables',
+        templateUrl: 'app/observables/list.html',
+        url: '/observables'
       })
       // .state('main.observables', {
       //   controller: 'observablesController',

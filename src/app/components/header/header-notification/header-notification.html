@@ -1,7 +1,9 @@
 <ul class="nav navbar-top-links navbar-right">
 
+    <li style="position: relative;top: 10px;"><toggle-switch ng-show="main.config.ENV==='DEV'" ng-model="main.DEBUG" knob-label="Debug"><toggle-switch></li>
     <!-- /.dropdown -->
     <li ng-show="main.user.username" class="dropdown" uib-dropdown>
+        
         <a href uib-dropdown-toggle>
            Hi {{main.user.username}}<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
         </a>
