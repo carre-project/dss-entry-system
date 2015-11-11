@@ -58,6 +58,18 @@
         templateUrl: 'app/risk_evidences/list.html',
         url: '/risk_evidences'
       })
+      .state('main.risk_elements', {
+        controller: 'risk_elementsController',
+        controllerAs: 'risk_elements',
+        templateUrl: 'app/risk_elements/list.html',
+        url: '/risk_elements'
+      })
+      .state('main.risk_factors', {
+        controller: 'risk_factorsController',
+        controllerAs: 'risk_factors',
+        templateUrl: 'app/risk_factors/list.html',
+        url: '/risk_factors'
+      })
       // .state('main.observables', {
       //   controller: 'observablesController',
       //   controllerAs: 'observables',
