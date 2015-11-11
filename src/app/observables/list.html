@@ -26,8 +26,8 @@
       <div id="grid1" ui-grid="observables.mygrid" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-exporter ui-grid-auto-resize class="grid"></div>
     </div>
 
-    <div pageslide ps-size="640px" ps-open="observables.selectedObservable.entity" ps-side="right">
-      <div cg-busy="{promise:observables.loading,message:'Searching Bioportal...',backdrop:false,minDuration:700}" style="padding:30px;">
+    <div pageslide ps-size="540px" ps-open="observables.selectedObservable.entity" ps-side="right">
+      <div cg-busy="{promise:observables.loading,message:'Searching Bioportal...',backdrop:false,minDuration:700}" style="padding:25px;">
 
         <a href="" ng-click="observables.setBioportal()" style="font-size:2em"><i class="fa fa-times-circle-o fa-lg"></i></a>
         <br>
@@ -38,7 +38,7 @@
           <a href="" ng-click="observables.setBioportal(null, observables.selectedObservable,true)">Try without the defined CUI</a>
         </div>
 
-        <div style="overflow-y: auto;height: 80%; width:600px; position: fixed;">
+        <div style="overflow-y: auto;height: 80%; width:500px; position: fixed;">
           <ul>
             <li ng-repeat="obj in observables.bioportalData">
               <!--<i ng-show="obj.cui.indexOf(observables.selectedObservable.entity.has_risk_element_identifier_label)>-1" class="fa fa-x2 fa-arrow-left"></i>-->

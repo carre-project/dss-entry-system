@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config(toastrConfig,$httpProvider) {
+  function config(toastrConfig,$httpProvider,cfpLoadingBarProvider) {
     // Set options third-party lib
     toastrConfig.allowHtml = true;
     toastrConfig.timeOut = 3000;
@@ -17,6 +17,9 @@
 		// for enabling cross-domain request
 		// delete $httpProvider.defaults.headers.common['X-Requested-With'];
 		
+    cfpLoadingBarProvider.spinnerTemplate = '<div style="position:absolute; top:-80px; left:45%"><div class="loader">Loading...</div></div>';
+		// cfpLoadingBarProvider.latencyThreshold = 0;
+		// cfpLoadingBarProvider.includeBar = false;
   }
 
 })();

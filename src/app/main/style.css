@@ -19,5 +19,9 @@
 /* Needed for hiding crollbars when pushing */
 
 .ng-pageslide {
-    background: #eee;
+    background: #fff;
+    -webkit-box-shadow: -1px 0px 11px 1px rgba(50, 50, 50, 0.62);
+    -moz-box-shadow:    -1px 0px 11px 1px rgba(50, 50, 50, 0.62);
+    box-shadow:         -1px 0px 11px 1px rgba(50, 50, 50, 0.62);
 }
+
