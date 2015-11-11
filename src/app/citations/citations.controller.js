@@ -6,12 +6,40 @@
     .controller('citationsController', citationsController);
 
   /** @ngInject */
-  function citationsController(toastr, Citations,citations , currentUser, citationsArray, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state) {
+  function citationsController(toastr, Citations, currentUser, citationsArray, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state) {
     var c = this; //controller as c
     // currentUser is our user model;
 
-    // var citations = [];
+    var citations = [];
+    //check and reload state if the data is not the correct type ----- dont know why is happening -- api fault
+    if (citationsArray.data.some(function(obj) {
+        return obj.type.indexOf('http://carre.kmi.open.ac.uk/ontology/risk.owl#citation') === -1;
+      })) { console.log('TELL ALLAN about this! It confused and instead of citation returned this: ', citationsArray.data[0].type[0]); $state.reload(); }
+    else {
+      citations = citationsArray.data.map(function(obj) {
+        //console.info('Citations:',citationsArray);
+        /* Citations template
+        has_author: Array[2]
+        has_citation_pubmed_identifier: Array[1]
+        has_citation_source_level: Array[2]
+        has_citation_source_type: Array[2]
+        has_reviewer: Array[2]
+        id: "http://carre.kmi.open.ac.uk/citations/23271790"
+        type: Array[1]
+        */
 
+        //make label like this
+        // val.substring(val.lastIndexOf('/')+1));
+        return {
+          has_author: obj.has_author ? obj.has_author[0] : '',
+          has_author_label: obj.has_author ? obj.has_author[0].substring(obj.has_author[0].lastIndexOf('/') + 1) : '',
+          has_reviewer: obj.has_reviewer ? obj.has_reviewer.join(',') : '',
+          id: obj.has_citation_pubmed_identifier ? obj.has_citation_pubmed_identifier[0] : obj.id,
+          has_citation_source_type: obj.has_citation_source_type ? obj.has_citation_source_type[0] : '',
+          has_citation_source_level: obj.has_citation_source_level ? obj.has_citation_source_level[0] : '',
+        };
+      });
+    }
 
 
     /*Pubmed browser*/
