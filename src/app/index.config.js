@@ -18,7 +18,7 @@
 		// delete $httpProvider.defaults.headers.common['X-Requested-With'];
 		
     cfpLoadingBarProvider.spinnerTemplate = '<div style="position:absolute; top:-80px; z-index:99999; left:49%"><div class="loader">Loading...</div></div>';
-		// cfpLoadingBarProvider.latencyThreshold = 0;
+		cfpLoadingBarProvider.latencyThreshold = 300;
 		// cfpLoadingBarProvider.includeBar = false;
   }
 
