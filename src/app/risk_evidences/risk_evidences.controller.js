@@ -39,22 +39,36 @@
         
         var r={
           id:obj.id,
-          types: obj.type.map(function(val){ return val.substring(val.lastIndexOf('/')+1).split('#')[1];}),
-          types_label: obj.type.map(function(val){ return val.substring(val.lastIndexOf('/')+1).split('#')[1];}).join(','),
+          
+          has_risk_evidence_id:obj.has_risk_evidence_id?obj.has_risk_evidence_id:'-',
+          
+          has_risk_evidence_ratio_type:obj.has_risk_evidence_ratio_type?obj.has_risk_evidence_ratio_type:'-',
+          
+          has_risk_evidence_ratio_value:obj.has_risk_evidence_ratio_value?obj.has_risk_evidence_ratio_value:'-',
+          
+          is_adjusted_for: obj.type.map(function(val){ return val.substring(val.lastIndexOf('/')+1).split('#')[1];}),
+          is_adjusted_for_label: obj.type.map(function(val){ return val.substring(val.lastIndexOf('/')+1).split('#')[1];}).join(','),
+          
           has_author: obj.has_author ? obj.has_author[0] : '-',
           has_author_label: obj.has_author ? obj.has_author[0].substring(obj.has_author[0].lastIndexOf('/') + 1) : '-',
+          
+          has_risk_evidence_source: obj.has_risk_evidence_source ? obj.has_risk_evidence_source[0] : '-',
+          has_risk_evidence_source_label: obj.has_risk_evidence_source ? obj.has_risk_evidence_source[0].substring(obj.has_risk_evidence_source[0].lastIndexOf('/') + 1) : '-',
+          
           has_reviewer_label: obj.has_reviewer ? obj.has_reviewer.map(function(val){return val.substring(val.lastIndexOf('/')+1);}).join(',') : '-',
-          has_risk_evidence_measurement: obj.has_risk_evidence_measurement ? obj.has_risk_evidence_measurement[0] : '-',
-          has_risk_evidence_measurement_label: obj.has_risk_evidence_measurement ? obj.has_risk_evidence_measurement[0].substring(obj.has_risk_evidence_measurement[0].lastIndexOf('/')+1).split('#')[1] : '-',
-          has_risk_element_identifier: obj.has_risk_element_identifier ? obj.has_risk_element_identifier[0] : '-',
-          has_risk_element_identifier_label: obj.has_risk_element_identifier ? obj.has_risk_element_identifier[0].substring(obj.has_risk_element_identifier[0].lastIndexOf('/')+1).toUpperCase() : '-',
-          has_risk_evidence_name: obj.has_risk_evidence_name ? obj.has_risk_evidence_name[0] : obj.risk_evidence_name[0],
-          risk_evidence_unit: obj.risk_evidence_unit ? obj.risk_evidence_unit[0] : '-'
+          
+          has_risk_evidence_observable: obj.has_risk_evidence_observable ? obj.has_risk_evidence_observable.map(function(val){return val.substring(val.lastIndexOf('/')+1);}).join(',') : '-',
+          
+          has_observable_expression: obj.has_observable_expression ? obj.has_observable_expression[0] : '-',
+          
+          has_risk_evidence_name: obj.has_risk_evidence_name ? obj.has_risk_evidence_name[0] : '-',
+          
+          has_confidence_interval: obj.has_confidence_interval ? obj.has_confidence_interval[0] : '-'
 
         };
         
-        //get types 
-        r.types.forEach(function(type){
+        //get is_adjusted_for 
+        r.is_adjusted_for.forEach(function(type){
           if(risk_evidenceTypes.indexOf(type)===-1) risk_evidenceTypes.push(type);
         });
         
@@ -134,10 +148,10 @@
         name: 'has_risk_evidence_name',
         displayName: 'Name'
       }, {
-        name: 'has_risk_evidence_measurement_label',
+        name: 'has_observable_expression',
         displayName: 'Measurement'
       },{
-        name: 'risk_evidence_unit',
+        name: 'has_confidence_interval',
         displayName: 'Unit',
         width:100
       },{
@@ -146,7 +160,7 @@
         width:95
         // ,cellTemplate:'<div><a ng-href="{{row.entity.has_risk_element_identifier}}">{{row.entity.has_risk_element_identifier_label}}</a></div>'
       }, {
-        name: 'types_label',
+        name: 'is_adjusted_for_label',
         displayName: 'Types',
         enableCellEdit: true,
         width:250,

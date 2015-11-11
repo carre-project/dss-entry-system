@@ -32,7 +32,7 @@
         <a href="" ng-click="risk_factors.setBioportal()" style="font-size:2em"><i class="fa fa-times-circle-o fa-lg"></i></a>
         <br>
         <br>
-        <h4>Risk_factor : <u>{{risk_factors.selectedRisk_factor.entity.has_risk_factor_name}}</u></h4>
+        <h4>Risk_factor:  <u>{{risk_factors.selectedRisk_factor.entity.has_risk_factor_name}}</u></h4>
         <hr>
         <div ng-show="risk_factors.bioportalData.length===0" class="alert alert-warning">Bioportal didn't return anything useful...
           <a href="" ng-click="risk_factors.setBioportal(null, risk_factors.selectedRisk_factor,true)">Try without the defined CUI</a>

@@ -2,7 +2,7 @@
 
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Risk_evidences</h1>
+      <h1 class="page-header">Risk Evidences</h1>
     </div>
   </div>
 
@@ -32,7 +32,7 @@
         <a href="" ng-click="risk_evidences.setBioportal()" style="font-size:2em"><i class="fa fa-times-circle-o fa-lg"></i></a>
         <br>
         <br>
-        <h4>Risk_evidence : <u>{{risk_evidences.selectedRisk_evidence.entity.has_risk_evidence_name}}</u></h4>
+        <h4>Risk_evidence:  <u>{{risk_evidences.selectedRisk_evidence.entity.has_risk_evidence_name}}</u></h4>
         <hr>
         <div ng-show="risk_evidences.bioportalData.length===0" class="alert alert-warning">Bioportal didn't return anything useful...
           <a href="" ng-click="risk_evidences.setBioportal(null, risk_evidences.selectedRisk_evidence,true)">Try without the defined CUI</a>

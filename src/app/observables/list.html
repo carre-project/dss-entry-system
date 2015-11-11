@@ -32,7 +32,7 @@
         <a href="" ng-click="observables.setBioportal()" style="font-size:2em"><i class="fa fa-times-circle-o fa-lg"></i></a>
         <br>
         <br>
-        <h4>Observable : <u>{{observables.selectedObservable.entity.has_observable_name}}</u></h4>
+        <h4>Observable:  <u>{{observables.selectedObservable.entity.has_observable_name}}</u></h4>
         <hr>
         <div ng-show="observables.bioportalData.length===0" class="alert alert-warning">Bioportal didn't return anything useful...
           <a href="" ng-click="observables.setBioportal(null, observables.selectedObservable,true)">Try without the defined CUI</a>
