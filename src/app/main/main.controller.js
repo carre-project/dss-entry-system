@@ -42,6 +42,8 @@
     //set up the urls 
     vm.loginUrl = CONFIG.CARRE_DEVICES + 'login?next=' + baseUrl;
     vm.logoutUrl = CONFIG.CARRE_DEVICES + 'logout?next=' + baseUrl;
+    vm.settingsUrl = CONFIG.CARRE_DEVICES + 'settings';
+    vm.passwordUrl = CONFIG.CARRE_DEVICES + 'recover?next=' + baseUrl;
 
 
     // activate();

@@ -8,9 +8,9 @@
            Hi {{main.user.username}}<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
         </a>
         <ul class="uib-dropdown-menu">
-            <li><a href="#"><i class="fa fa-user fa-fw"></i>{{main.user.email}}</a>
+            <li><a ng-href="{{main.passwordUrl}}"><i class="fa fa-user fa-fw"></i>{{main.user.email}}</a>
             </li>
-            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+            <li><a ng-href="{{main.settingsUrl}}" target="_blank"><i class="fa fa-gear fa-fw"></i> Settings</a>
             </li>
             <li class="divider"></li>
             <li><a ng-href="{{main.logoutUrl}}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
