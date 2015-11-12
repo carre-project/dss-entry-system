@@ -6,9 +6,9 @@
     .config(routerConfig);
 
   /** @ngInject */
-  function routerConfig($stateProvider,$urlRouterProvider) {
-    
-        
+  function routerConfig($stateProvider, $urlRouterProvider) {
+
+
     $stateProvider
       .state('main', {
         abstract: true,
@@ -16,36 +16,59 @@
         controllerAs: 'main',
         templateUrl: 'app/main/main.html',
         resolve: {
-          'currentUser':function(Auth){
+          'currentUser': function(Auth) {
             return Auth.getUser();
           },
-          'citationsArray': function(CARRE){
-               return CARRE.instances('citation');
+          
+          /*replace with a count for each element*/
+          'citationsArray': function(CARRE) {
+            return CARRE.instances('citation');
           },
-          'risk_elementsArray': function(CARRE){
-               return CARRE.instances('risk_element');
+          'risk_elementsArray': function(CARRE) {
+            return CARRE.instances('risk_element');
           },
-          'risk_factorsArray': function(CARRE){
-               return CARRE.instances('risk_factor');
+          'risk_factorsArray': function(CARRE) {
+            return CARRE.instances('risk_factor');
           },
-          'risk_evidencesArray': function(CARRE){
-               return CARRE.instances('risk_evidence');
+          'risk_evidencesArray': function(CARRE) {
+            return CARRE.instances('risk_evidence');
           },
-          'observablesArray': function(CARRE){
-               return CARRE.instances('observable');
+          'observablesArray': function(CARRE) {
+            return CARRE.instances('observable');
           }
         }
       })
       .state('main.dashboard', {
         url: '/',
-        templateUrl: 'app/main/dashboard.html',
+        templateUrl: 'app/main/dashboard.html'
       })
+      
       .state('main.citations', {
+        abstract:true,
         controller: 'citationsController',
         controllerAs: 'citations',
+        resolve: {
+          'citationsArray':function(CARRE){return CARRE.instances('citation');}
+        },
+        templateUrl: 'app/citations/main.html'
+      })
+      .state('main.citations.edit', {
+        templateUrl: 'app/citations/edit/citation.edit.html',
+        controller: 'citationsEditController',
+        controllerAs: 'citationsEdit',
+        url: '/citations/:id/edit'
+      })
+      .state('main.citations.view', {
+        templateUrl: 'app/citations/view/citation.view.html',
+        controller: 'citationsViewController',
+        controllerAs: 'citationsView',
+        url: '/citations/:id'
+      })
+      .state('main.citations.list', {
         templateUrl: 'app/citations/list.html',
         url: '/citations'
       })
+      
       .state('main.observables', {
         controller: 'observablesController',
         controllerAs: 'observables',

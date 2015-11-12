@@ -1,0 +1,25 @@
+<div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Citations</h1>
+    </div>
+  </div>
+
+  <div uib-collapse="!main.DEBUG" class="row">
+    <div class="col-xs-6">
+      <label>Configuration<pre>{{main.config | json}}</pre></label>
+    </div>
+    <div class="col-xs-6">
+      <label>User<pre>{{main.user | json}}</pre></label>
+    </div>
+    <div class="col-xs-6">
+      <label>Current citation<pre>{{citations.currentCitation | json}}</pre></label>
+    </div>
+  </div>
+
+  <!--main content (list, view, edit) -->
+  <div class="row" ui-view></div>
+
+
+</div>

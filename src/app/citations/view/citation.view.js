@@ -3,10 +3,10 @@
 
   angular
     .module('CarreEntrySystem')
-    .controller('citationsController', citationsController);
+    .controller('citationsViewController', citationsViewController);
 
   /** @ngInject */
-  function citationsController(toastr, Citations, currentUser, citationsArray, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state) {
+  function citationsViewController(toastr, Citations, currentUser, citationsArray, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state) {
     var c = this; //controller as c
     // currentUser is our user model;
 
