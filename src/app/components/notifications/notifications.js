@@ -11,8 +11,8 @@ angular.module('CarreEntrySystem')
 		return {
         templateUrl:'app/components/notifications/notifications.html',
         restrict: 'E',
-        replace: true,
-    	}
+        replace: true
+    	};
 	});
 
 

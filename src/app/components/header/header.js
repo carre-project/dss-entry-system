@@ -11,7 +11,7 @@ angular.module('CarreEntrySystem')
 		return {
         templateUrl:'app/components/header/header.html',
         restrict: 'E',
-        replace: true,
+        replace: true
     	}
 	});
 

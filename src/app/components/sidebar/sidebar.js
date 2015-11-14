@@ -8,7 +8,7 @@
  */
 
 angular.module('CarreEntrySystem')
-  .directive('sidebar',['$location',function() {
+  .directive('sidebar',function() {
     return {
       templateUrl:'app/components/sidebar/sidebar.html',
       restrict: 'E',
@@ -36,5 +36,5 @@ angular.module('CarreEntrySystem')
             $scope.multiCollapseVar = y;
         };
       }
-    }
-  }]);
+    };
+  });

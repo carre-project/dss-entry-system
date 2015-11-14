@@ -1,11 +1,11 @@
 angular.module('CarreEntrySystem').service('Citations', function($http, CARRE) {
 
   
-  return {
+  var exports={
     'get': getCitations,
     'insert': insertCitation,
     'update': updateCitation
-  }
+  };
   
   var getCitations = function(citationStr) {
 
@@ -60,5 +60,7 @@ angular.module('CarreEntrySystem').service('Citations', function($http, CARRE) {
                       }";
 
   };
+  
+  return exports;
   
 });

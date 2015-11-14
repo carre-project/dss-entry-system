@@ -11,7 +11,7 @@ angular.module('CarreEntrySystem')
 		return {
         templateUrl:'app/components/header/header-notification/header-notification.html',
         restrict: 'E',
-        replace: true,
+        replace: true
     	}
 	});
 

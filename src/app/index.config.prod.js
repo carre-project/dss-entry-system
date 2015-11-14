@@ -1,10 +1,8 @@
-/* global malarkey:false */
 (function() {
   'use strict';
 
   angular
     .module('CarreEntrySystem')
-    .constant('malarkey', malarkey)
     .constant("CONFIG", {
       "CARRE_API_URL": "https://carre.kmi.open.ac.uk/ws/",
       "CARRE_DEVICES": "//devices.carre-project.eu/devices/accounts/",

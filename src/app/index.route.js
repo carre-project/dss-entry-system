@@ -6,7 +6,7 @@
     .config(routerConfig);
 
   /** @ngInject */
-  function routerConfig($stateProvider, $urlRouterProvider) {
+  function routerConfig($stateProvider) {
 
 
     $stateProvider
@@ -47,9 +47,6 @@
         abstract:true,
         controller: 'citationsController',
         controllerAs: 'citations',
-        resolve: {
-          'citationsArray':function(CARRE){return CARRE.instances('citation');}
-        },
         templateUrl: 'app/citations/main.html'
       })
       .state('main.citations.edit', {

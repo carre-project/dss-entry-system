@@ -1,12 +1,9 @@
 angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth) {
 
-
-  return {
+  var exports={
     'query': apiQuery,
     'instances': apiInstances
-  }
-
-
+  };
 
   /* Auth Required */
   var apiQuery = function(sparqlQuery) {
@@ -81,4 +78,6 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
                     PREFIX carreUsers: <https://carre.kmi.open.ac.uk/users/> \n";
 
 
+
+  return this.exports;
 });

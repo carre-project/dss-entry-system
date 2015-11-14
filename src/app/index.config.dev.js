@@ -1,4 +1,3 @@
-/* global malarkey:false */
 (function() {
   'use strict';
 
