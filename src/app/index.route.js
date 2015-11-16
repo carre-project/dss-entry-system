@@ -50,15 +50,15 @@
         templateUrl: 'app/citations/main.html'
       })
       .state('main.citations.edit', {
-        templateUrl: 'app/citations/edit/citation.edit.html',
-        controller: 'citationsEditController',
-        controllerAs: 'citationsEdit',
+        templateUrl: 'app/citations/single/citation.edit.html',
+        controller: 'citationsSingleController',
+        controllerAs: 'citation',
         url: '/citations/:id/edit'
       })
       .state('main.citations.view', {
-        templateUrl: 'app/citations/view/citation.view.html',
-        controller: 'citationsViewController',
-        controllerAs: 'citationsView',
+        templateUrl: 'app/citations/single/citation.view.html',
+        controller: 'citationsSingleController',
+        controllerAs: 'citation',
         url: '/citations/:id'
       })
       .state('main.citations.list', {
