@@ -21,8 +21,16 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
 
   /* Auth not required */
   var apiInstances = function(instanceType) {
+      
+      var callInstance=$http.get(CONFIG.CARRE_API_URL + 'instances?type=' + instanceType).then(function(res) {
 
-    return $http.get(CONFIG.CARRE_API_URL + 'instances?type=' + instanceType).then(function(res) {
+      /* Instances bug */
+      if(res.data[0].object.indexOf(instanceType)===-1) {
+        console.log('TELL ALLAN about this! It confused and instead of citation returned this: ', res.data[0].object);
+        return callInstance; 
+      }      
+      /* End of bug */
+      
       /*
       You can configure triplet variable names and group by index of property.
       e.g groupByProp(data,["citation","relation","value"],0).data groups by citation
@@ -31,6 +39,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
       if (results.data.length > 0) return results;
       else return [];
     });
+    return callInstance;
   };
 
 
