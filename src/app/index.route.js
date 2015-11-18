@@ -31,98 +31,25 @@
         'abstract':true,
         controller: 'citationsController',
         controllerAs: 'citations',
-        templateUrl: 'app/citations/main.html',
-        resolve : {
-          'citations':function(Citations) {
-            return Citations.get();
-          }
-        }
+        templateUrl: 'app/citations/main.html'
       })
       .state('main.citations.list', {
         templateUrl: 'app/citations/list.html',
         url: '/citations'
       })
       .state('main.citations.edit', {
-        templateUrl: 'app/citations/single/citation.edit.html',
+        templateUrl: 'app/citations/single/edit.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
         url: '/citations/:id/edit'
       })
       .state('main.citations.view', {
-        templateUrl: 'app/citations/single/citation.view.html',
+        templateUrl: 'app/citations/single/view.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
         url: '/citations/:id'
       })
       
-      .state('main.observables', {
-        controller: 'observablesController',
-        controllerAs: 'observables',
-        templateUrl: 'app/observables/list.html',
-        url: '/observables'
-      })
-      .state('main.risk_evidences', {
-        controller: 'risk_evidencesController',
-        controllerAs: 'risk_evidences',
-        templateUrl: 'app/risk_evidences/list.html',
-        url: '/risk_evidences'
-      })
-      .state('main.risk_elements', {
-        controller: 'risk_elementsController',
-        controllerAs: 'risk_elements',
-        templateUrl: 'app/risk_elements/list.html',
-        url: '/risk_elements'
-      })
-      .state('main.risk_factors', {
-        controller: 'risk_factorsController',
-        controllerAs: 'risk_factors',
-        templateUrl: 'app/risk_factors/list.html',
-        url: '/risk_factors'
-      })
-      // .state('main.observables', {
-      //   controller: 'observablesController',
-      //   controllerAs: 'observables',
-      //   templateUrl: 'app/observables/listobservables.html',
-      //   url: '/observables',
-      //   resolve: {
-      //     observablesList: function(CARRE){
-      //         return CARRE.instances('observable');
-      //     }
-      //   }
-      // })
-      // .state('main.citations', {
-      //   controller: 'CitationsController',
-      //   controllerAs: 'citations',
-      //   templateUrl: 'app/citations/listcitations.html',
-      //   url: '/citations',
-      //   resolve: {
-      //     CitationsList: function(CARRE){
-      //         return CARRE.instances('citation');
-      //     }
-      //   }
-      // })
-      // .state('main.citations', {
-      //   controller: 'CitationsController',
-      //   controllerAs: 'citations',
-      //   templateUrl: 'app/citations/listcitations.html',
-      //   url: '/citations',
-      //   resolve: {
-      //     CitationsList: function(CARRE){
-      //         return CARRE.instances('citation');
-      //     }
-      //   }
-      // })
-      // .state('main.citations', {
-      //   controller: 'CitationsController',
-      //   controllerAs: 'citations',
-      //   templateUrl: 'app/citations/listcitations.html',
-      //   url: '/citations',
-      //   resolve: {
-      //     CitationsList: function(CARRE){
-      //         return CARRE.instances('citation');
-      //     }
-      //   }
-      // })
       .state('500_error', {
         templateUrl: '500.html',
         url: '/500_error'

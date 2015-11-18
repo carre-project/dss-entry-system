@@ -109,6 +109,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
       groupProp: triplesFormat[(propIndex || 0)],
       valueProp:valueProp,
       keys: [],
+      fields:[],
       data: []
     };
     return data.reduce(tripleAccumulator, settingsObj);
@@ -124,6 +125,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
       rel = obj[settings.triplesFormat[1]].split("#")[1] || "_";
       val = obj[settings.triplesFormat[2]];
     }
+    if(settings.fields.indexOf(rel)===-1) settings.fields.push(rel); 
     var index = settings.keys.indexOf(id);
     if (index === -1) {
       //then push into the arrays

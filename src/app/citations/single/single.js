@@ -14,6 +14,19 @@
       return cite.id===vm.id;
     })
 
-    $log.info($stateParams.id);
+    /*View Citation SINLGE Profile*/
+
+    // //this is the current citation loaded
+    // function getCitation(id, citations) {
+    //   if (!id) return {};
+    //   citations.forEach(function(citation) {
+    //     if (citation.id.indexOf(vm.id) > -1) return citation;
+    //   });
+    //   return {};
+    // }
+    // vm.currentCitation = $stateParams.id ? getCitation($stateParams.id, citations) : {};
+
+    // //if it is edited
+    // vm.editMode = !!$stateParams.edit;
   }
 })();
