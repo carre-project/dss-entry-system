@@ -9,50 +9,14 @@
   function citationsController(toastr, Citations, currentUser, citations, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log, contentGrid) {
     var c = this; //controller as c
     // currentUser is our user model;
-    
+
     // $log.info('Citations data: ', citations);
 
-    /*Pubmed browser*/
-    c.setPubmed = function(grid, row, useApi) {
-      
-      c.pubmedApi = useApi;
-      var id = row ? row.entity.id : null;
-      
-      if (!id) {
-        c.selectedCitation = '';
-        c.pubmedArticle = '';
-      }
-      else if (c.selectedCitation !== id) {
-        c.selectedCitation = id;
-        c.loading = Pubmed.fetch(id).then(function(res) {
-          
-          c.pubmedArticle = res.data;
-          
-        });
-      }
-      else {
-        c.selectedCitation = '';
-        c.pubmedArticle = '';
-      }
-    };
 
 
-    // var citation='<http://carre.kmi.open.ac.uk/citations/15385656>';
-    // if(currentUser){
-    //   Citations.get().success(function(data) {
-
-
-    //       console.log('Raw Data: ',data); 
-
-    //       // vm.queryResult={
-    //       //   'error': !(data instanceof Array),
-    //       //   'data': data
-    //       // }
-    //   });
-    // }
 
     /* GRID STUFF */
-    c.mygrid=contentGrid.default;
+    c.mygrid = contentGrid.default;
     c.mygrid.data = citations;
     c.mygrid.onRegisterApi = function(api) {
       //grid callbacks
@@ -61,7 +25,7 @@
       //   c.setPubmed(null,row);
       // });
     };
-    
+
     c.mygrid.columnDefs = [{
         name: 'id',
         displayName: 'Pubmed',
@@ -147,18 +111,42 @@
 
 
 
+    /*Pubmed browser*/
+    c.setPubmed = function(grid, row, useApi) {
+
+      c.pubmedApi = useApi;
+      var id = row ? row.entity.id : null;
+
+      if (!id) {
+        c.selectedCitation = '';
+        c.pubmedArticle = '';
+      }
+      else if (c.selectedCitation !== id) {
+        c.selectedCitation = id;
+        c.loading = Pubmed.fetch(id).then(function(res) {
+
+          c.pubmedArticle = res.data;
+
+        });
+      }
+      else {
+        c.selectedCitation = '';
+        c.pubmedArticle = '';
+      }
+    };
+
     /*View Citation SINLGE Profile*/
 
     //this is the current citation loaded
-    function getCitation(id,citations){
-      if(!id) return {};
+    function getCitation(id, citations) {
+      if (!id) return {};
       citations.forEach(function(citation) {
         if (citation.id.indexOf(c.id) > -1) return citation;
       });
       return {};
     }
-    c.currentCitation = $stateParams.id?getCitation($stateParams.id,citations):{};
-    
+    c.currentCitation = $stateParams.id ? getCitation($stateParams.id, citations) : {};
+
     //if it is edited
     c.editMode = !!$stateParams.edit;
 

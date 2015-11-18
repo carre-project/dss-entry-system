@@ -1,6 +1,7 @@
 angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth) {
 
   this.exports={
+    'count':countInstance,
     'query': apiQuery,
     'instances': apiInstances,
     'virtuosoQuery': sparqlEndpointQuery
@@ -21,7 +22,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
 
     //add prefixes
     sparqlQuery = PREFIXSTR + sparqlQuery;
-    console.info('Final query: ', sparqlQuery);
+    // console.info('Final query: ', sparqlQuery);
     return $http.post(CONFIG.CARRE_API_URL + 'query', {
       'sparql': sparqlQuery,
       'token': Auth.cookie
@@ -30,11 +31,25 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
 
 
   /* Auth not required */
+  function countInstance(instanceType){
+    var query="SELECT ?s (COUNT(?r) as ?reviews) WHERE { ?s a risk:"+instanceType+" . OPTIONAL {?s risk:has_reviewer ?r .} } GROUP BY ?s";
+    return sparqlEndpointQuery(query,true).then(function(res){
+      var sum=0;
+      res.data.results.bindings.forEach(function(obj){
+        if(obj.reviews.value==='0') sum+=1;
+      })
+      return {
+        total:res.data.results.bindings.length,
+        noreviews:sum
+      }
+    });
+  }
+  
   function sparqlEndpointQuery(sparqlQuery,raw) {
     
     //add prefixes
     sparqlQuery = PREFIXSTR + sparqlQuery;
-    console.info('Final query: ', sparqlQuery);
+    // console.info('Final query: ', sparqlQuery);
       
     return $http.get(CONFIG.CARRE_SPARQL_ENDPOINT,{
       params: { 

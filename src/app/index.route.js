@@ -18,23 +18,6 @@
         resolve: {
           'currentUser': function(Auth) {
             return Auth.getUser();
-          },
-          
-          /*replace with a count for each element*/
-          'citationsArray': function(Citations) {
-            return Citations.get();
-          },
-          'risk_elementsArray': function(CARRE) {
-            return CARRE.instances('risk_element');
-          },
-          'risk_factorsArray': function(CARRE) {
-            return CARRE.instances('risk_factor');
-          },
-          'risk_evidencesArray': function(CARRE) {
-            return CARRE.instances('risk_evidence');
-          },
-          'observablesArray': function(CARRE) {
-            return CARRE.instances('observable');
           }
         }
       })
@@ -50,8 +33,8 @@
         controllerAs: 'citations',
         templateUrl: 'app/citations/main.html',
         resolve : {
-          'citations':function(citationsArray){
-            return citationsArray;
+          'citations':function(Citations) {
+            return Citations.get();
           }
         }
       })

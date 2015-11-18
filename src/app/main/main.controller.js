@@ -6,31 +6,19 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($rootScope, $timeout, toastr, Citations, currentUser, $location, CONFIG,citationsArray,risk_elementsArray,risk_evidencesArray,observablesArray,risk_factorsArray) {
+  function MainController($rootScope, $timeout, toastr, CARRE,currentUser, $location, CONFIG) {
     var vm = this;
 
     vm.user = currentUser;
     vm.config = CONFIG;
     
-    //get resolved data
-    vm.citations=citationsArray.data||[];
-    vm.observables=observablesArray.data||[];
-    vm.risk_elements=risk_elementsArray.data||[];
-    vm.risk_evidences=risk_evidencesArray.data||[];
-    vm.risk_factors=risk_factorsArray.data||[];
-    
-    
-    
-    //find those without reviews
-    function unreviewedReducer(array,obj){
-      if(!obj.has_reviewer) array.push(obj);
-      return array;
-    }
-    vm.citationsUnreviewed=vm.citations.reduce(unreviewedReducer,[]);
-    vm.observablesUnreviewed=vm.observables.reduce(unreviewedReducer,[]);
-    vm.risk_elementsUnreviewed=vm.risk_elements.reduce(unreviewedReducer,[]);
-    vm.risk_evidencesUnreviewed=vm.risk_evidences.reduce(unreviewedReducer,[]);
-    vm.risk_factorsUnreviewed=vm.risk_factors.reduce(unreviewedReducer,[]);
+    //get total and unreviewed elements 
+    CARRE.count('citation').then(function(res){vm.citations=res;});
+    CARRE.count('risk_element').then(function(res){vm.risk_elements=res;});
+    CARRE.count('risk_evidence').then(function(res){vm.risk_evidences=res;});
+    CARRE.count('observable').then(function(res){vm.observables=res;});
+    CARRE.count('risk_factor').then(function(res){vm.risk_factors=res;});
+  
     
     
     
