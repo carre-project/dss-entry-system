@@ -6,9 +6,8 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, toastr, Citations, currentUser, $location, CONFIG,citationsArray,risk_elementsArray,risk_evidencesArray,observablesArray,risk_factorsArray) {
+  function MainController($rootScope, $timeout, toastr, Citations, currentUser, $location, CONFIG,citationsArray,risk_elementsArray,risk_evidencesArray,observablesArray,risk_factorsArray) {
     var vm = this;
-
 
     vm.user = currentUser;
     vm.config = CONFIG;

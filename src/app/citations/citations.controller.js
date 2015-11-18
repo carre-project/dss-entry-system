@@ -6,19 +6,18 @@
     .controller('citationsController', citationsController);
 
   /** @ngInject */
-  function citationsController(toastr, Citations, currentUser, citations, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state) {
+  function citationsController(toastr, Citations, currentUser, citations, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log, contentGrid) {
     var c = this; //controller as c
     // currentUser is our user model;
-
-
     
-
+    // $log.info('Citations data: ', citations);
 
     /*Pubmed browser*/
     c.setPubmed = function(grid, row, useApi) {
+      
       c.pubmedApi = useApi;
       var id = row ? row.entity.id : null;
-      // console.log(id);
+      
       if (!id) {
         c.selectedCitation = '';
         c.pubmedArticle = '';
@@ -26,15 +25,16 @@
       else if (c.selectedCitation !== id) {
         c.selectedCitation = id;
         c.loading = Pubmed.fetch(id).then(function(res) {
-          // console.log(res);
+          
           c.pubmedArticle = res.data;
-        })
+          
+        });
       }
       else {
         c.selectedCitation = '';
         c.pubmedArticle = '';
       }
-    }
+    };
 
 
     // var citation='<http://carre.kmi.open.ac.uk/citations/15385656>';
@@ -52,7 +52,7 @@
     // }
 
     /* GRID STUFF */
-    c.mygrid = {};
+    c.mygrid=contentGrid.default;
     c.mygrid.data = citations;
     c.mygrid.onRegisterApi = function(api) {
       //grid callbacks
@@ -61,19 +61,7 @@
       //   c.setPubmed(null,row);
       // });
     };
-    c.mygrid.paginationPageSizes = [10, 50, 100];
-    c.mygrid.paginationPageSize = 10;
-    c.mygrid.enableColumnResizing = true;
-    c.mygrid.enableFiltering = true;
-    c.mygrid.allowCellFocus = true;
-    c.mygrid.enableGridMenu = true;
-    c.mygrid.multiSelect = true;
-    c.mygrid.enableRowSelection = true;
-    // c.mygrid.enableFullRowSelection  = true;
-    c.mygrid.enableColumnMenus = true;
-    c.mygrid.showGridFooter = true;
-    c.mygrid.showColumnFooter = true;
-    c.mygrid.fastWatch = true;
+    
     c.mygrid.columnDefs = [{
         name: 'id',
         displayName: 'Pubmed',
@@ -171,16 +159,8 @@
     }
     c.currentCitation = $stateParams.id?getCitation($stateParams.id,citations):{};
     
-    
-    console.log(c.currentCitation);
-  
-    
-    
     //if it is edited
     c.editMode = !!$stateParams.edit;
-    
-    console.log(c.editMode);
-
 
   }
 })();
