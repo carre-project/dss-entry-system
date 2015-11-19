@@ -2,7 +2,7 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
 
   // Retrieving a cookie and set initial user object
   this.cookie = $cookies.get('CARRE_USER') || CONFIG.TEST_TOKEN || '';
-  this.user={};
+  this.user={'guest':true};
   this.getUser=function(){ 
     //validate cookie token with userProfile api function and get username userGraph
     if (this.cookie.length > 0 && !this.user.username) {
@@ -10,7 +10,7 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
         this.user = res.data;
         return this.user;
       }, function(err) {
-        this.user = null;
+        this.user = {};
         $log.log(err);
         return this.user
       });

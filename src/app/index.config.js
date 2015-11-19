@@ -50,7 +50,7 @@
             
           
           $log.warn('Weird API 500 error intercepted! : ',response);
-            if (incrementalTimeout < 2000) {
+            if (incrementalTimeout < 4000) {
               return retryRequest(response.config);
             }
             else {
