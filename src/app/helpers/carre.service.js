@@ -5,7 +5,6 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
     'query': apiQuery,
     'selectQuery': selectQuery,
     'instances': apiInstances
-    // 'virtuosoQuery': sparqlEndpointQuery
   };
 
 
