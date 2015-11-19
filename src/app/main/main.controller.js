@@ -32,12 +32,13 @@
     vm.settingsUrl = CONFIG.CARRE_DEVICES + 'settings';
     vm.passwordUrl = CONFIG.CARRE_DEVICES + 'recover?next=' + baseUrl;
 
-
-
-    // function showToastr() {
-    //   toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
-    //   vm.classAnimation = '';
-    // }
+    
+    //show message for the user
+    if(currentUser.username){
+      toastr.info('<h3>Hello '+currentUser.username+'!</h3><p>Have fun with the risk factors!</p>');
+    } else {
+      toastr.warning('<h3>Hello Guest!</h3><p>Please login to edit the data.</p>');
+    }
 
     
 

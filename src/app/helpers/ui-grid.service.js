@@ -16,7 +16,7 @@ angular.module('CarreEntrySystem').service('contentGrid', function() {
       }
       else {
         columnDefs.push({
-          field: obj,
+          field: obj+'_label',
           displayName: labelFromKey(obj)
         });
       }

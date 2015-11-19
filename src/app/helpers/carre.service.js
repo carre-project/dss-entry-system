@@ -132,6 +132,11 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
     }
     settings.data[index][rel] = settings.data[index][rel] || [];
     settings.data[index][rel].push(val);
+    
+    //add label for each value
+    val=(val.indexOf('#')>=0?val.split('#')[1]:val);
+    settings.data[index][rel+'_label'] = settings.data[index][rel+'_label'] || '';
+    settings.data[index][rel+'_label'] += (settings.data[index][rel+'_label'].length>0?',':'')+val.substring(val.lastIndexOf('/')+1);
 
     return settings;
   }
