@@ -27,6 +27,8 @@
         url: '/',
         templateUrl: 'app/main/dashboard.html'
       })
+      
+      /*  Citations  */
       .state('main.citations', {
         'abstract':true,
         controller: 'citationsController',
@@ -37,6 +39,12 @@
         templateUrl: 'app/citations/list.html',
         url: '/citations'
       })
+      .state('main.citations.create', {
+        templateUrl: 'app/citations/single/edit.create.html',
+        controller: 'citationsSingleController',
+        controllerAs: 'citation',
+        url: '/citations/create'
+      })
       .state('main.citations.edit', {
         templateUrl: 'app/citations/single/edit.html',
         controller: 'citationsSingleController',
@@ -44,8 +52,8 @@
         url: '/citations/:id/edit'
       })
       .state('main.citations.view', {
-        templateUrl: 'app/citations/single/view.html',
         controller: 'citationsSingleController',
+        templateUrl: 'app/citations/single/view.html',
         controllerAs: 'citation',
         url: '/citations/:id'
       })

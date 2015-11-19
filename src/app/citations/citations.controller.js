@@ -9,15 +9,21 @@
   function citationsController(toastr, Citations, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log, contentGrid) {
     var vm = this; //controller as vm
     // currentUser is our user model;
-
-
+    
+    
+    /************** List Template **************/
+    
     var citations = [];
     Citations.get(null, true).then(function(res) {
       citations = res.data;
+      vm.mygrid.data = citations;
+      
+      $log.info('Model response: ',res);
+      
+      //dynamic creation of the grid columns
       contentGrid.fields(res.fields).forEach((function(obj) {
         vm.mygrid.columnDefs.push(obj);
       }));
-      vm.mygrid.data = citations;
       
 
       //show edit buttons
@@ -76,7 +82,7 @@
         vm.pubmedArticle = '';
       }
     };
-
+    
 
   }
 })();

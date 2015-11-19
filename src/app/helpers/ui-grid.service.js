@@ -10,7 +10,7 @@ angular.module('CarreEntrySystem').service('contentGrid', function() {
     var columnDefs = [];
     replaceArray = replaceArray || [];
     fieldsArray.forEach(function(obj) {
-
+    
       if (replaceArray.indexOf(obj) >= 0) {
         columnDefs.push(obj);
       }
