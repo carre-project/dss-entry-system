@@ -12,9 +12,9 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
       }, function(err) {
         this.user = {};
         $log.log(err);
-        return this.user
+        return this.user;
       });
     } else return this.user;
-  }
+  };
   
 });

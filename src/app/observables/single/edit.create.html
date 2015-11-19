@@ -1,0 +1,17 @@
+<div uib-collapse="!main.DEBUG" class="row">
+  <div class="col-xs-12">
+    Current observable<pre>{{observable | json}}</pre>
+  </div>
+</div>
+<!--debug vars-->
+
+<div class="col-xs-12">
+    <a class="btn btn-sm btn-default" ui-sref="main.observables.view({id:observable.id})"><i class="fa fa-eye"></i> Profile</a>
+
+    <ul class="list-group">
+      <li ng-repeat="field in observable.fields" class="list-group-item">
+        {{field.label}} : <b>{{observable.current[field.value+'_label']}}</b>
+      </li>
+    </ul>
+ 
+</div>

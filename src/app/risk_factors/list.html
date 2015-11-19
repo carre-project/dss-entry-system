@@ -1,0 +1,19 @@
+<!--risk_factors list template-->
+<div class="col-xs-12">
+  <div id="grid1" ui-grid="risk_factors.mygrid" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-exporter ui-grid-auto-resize class="grid"></div>
+</div>
+<div pageslide ps-size="640px" ps-open="risk_factors.selectedRisk_factor" ps-side="right">
+  
+  <div cg-busy="risk_factors.loading" style="padding:10px;">
+    <a ui-sref="main.risk_factors.view({id:risk_factors.selectedRisk_factor})" class="btn btn-primary">Profile</a>
+    <a href="" ng-click="risk_factors.setPubmed()" class="btn btn-primary"><i class="fa fa-times fa-lg"></i></a>
+    <br>
+    <br>
+    <div ng-if="risk_factors.selectedRisk_factor">
+      <div ng-if="risk_factors.pubmedApi" style="white-space: pre-line; overflow-y: auto;height: 95%; width:620px; position: fixed;" ng-bind-html="risk_factors.pubmedArticle"></div>
+
+      <iframe ng-if="!risk_factors.pubmedApi" style="border:none; position: fixed; height:90%; width:620px" height="90%" width="620px" src="{{'http://www.ncbi.nlm.nih.gov/pubmed/'+risk_factors.selectedRisk_factor | trustAsResourceUrl}}"></iframe>
+    </div>
+  </div>
+  
+</div>

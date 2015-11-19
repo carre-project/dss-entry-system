@@ -8,7 +8,7 @@
 <div class="col-xs-12">
   <div class="col-sm-4">
     ID: <b>{{citation.id}}</b>
-    <a ng-show="main.user" class="btn btn-xs btn-default" ui-sref="main.citations.edit({id:citation.id})"><i class="fa fa-pencil"></i> Edit</a>
+    <a ng-show="main.user.username" class="btn btn-xs btn-default" ui-sref="main.citations.edit({id:citation.id})"><i class="fa fa-pencil"></i> Edit</a>
     <hr>
     <ul class="list-group">
       <li ng-repeat="field in citation.fields" class="list-group-item">
