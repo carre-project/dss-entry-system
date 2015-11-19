@@ -1,8 +1,9 @@
-angular.module('CarreEntrySystem').service('contentGrid', function() {
+angular.module('CarreEntrySystem').service('content', function() {
 
   this.exports = {
     'default': getDefaultGridProperties(),
-    'fields': getModelFields
+    'fields': getModelFields,
+    'labelOf':labelFromKey
   };
 
   //auto build grid columns from keys of each element
@@ -41,7 +42,7 @@ angular.module('CarreEntrySystem').service('contentGrid', function() {
         // enableFullRowSelection  : true,
         enableColumnMenus: true,
         showGridFooter: true,
-        showColumnFooter: true,
+        showColumnFooter: true
         // fastWatch: true
     };
     

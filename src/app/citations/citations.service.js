@@ -37,11 +37,12 @@ angular.module('CarreEntrySystem').service('Citations', function($http, CARRE, C
             has_reviewer: obj.has_reviewer ? obj.has_reviewer.join(',') : '',
             id: obj.has_citation_pubmed_identifier ? obj.has_citation_pubmed_identifier[0] : obj.id,
             has_citation_source_type: obj.has_citation_source_type ? obj.has_citation_source_type[0] : '',
-            has_citation_source_level: obj.has_citation_source_level ? obj.has_citation_source_level[0] : '',
+            has_citation_source_level: obj.has_citation_source_level ? obj.has_citation_source_level[0] : ''
           };
         });
       });
       
+      //this is mostly used right now! so probably should go up
     } else return CARRE.selectQuery(listQuery);
   }
 

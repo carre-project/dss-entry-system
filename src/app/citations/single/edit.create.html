@@ -1,4 +1,17 @@
+<div uib-collapse="!main.DEBUG" class="row">
+  <div class="col-xs-12">
+    Current citation<pre>{{citation | json}}</pre>
+  </div>
+</div>
+<!--debug vars-->
+
 <div class="col-xs-12">
-  <div class="alert alert-warning">EDIT : {{citations.id}}
-    <br> This will be a form....</div>
+    <a class="btn btn-sm btn-default" ui-sref="main.citations.view({id:citation.id})"><i class="fa fa-eye"></i> Profile</a>
+
+    <ul class="list-group">
+      <li ng-repeat="field in citation.fields" class="list-group-item">
+        {{field.label}} : <b>{{citation.current[field.value+'_label']}}</b>
+      </li>
+    </ul>
+ 
 </div>

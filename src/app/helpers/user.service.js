@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cookies) {
+angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cookies, $log) {
 
   // Retrieving a cookie and set initial user object
   this.cookie = $cookies.get('CARRE_USER') || CONFIG.TEST_TOKEN || '';
@@ -11,7 +11,7 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
         return this.user;
       }, function(err) {
         this.user = null;
-        console.log(err);
+        $log.log(err);
         return this.user
       });
     } else return this.user;

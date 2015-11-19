@@ -6,7 +6,7 @@
     .controller('citationsController', citationsController);
 
   /** @ngInject */
-  function citationsController(toastr, Citations, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log, contentGrid) {
+  function citationsController(toastr, Citations, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log, content) {
     var vm = this; //controller as vm
     // currentUser is our user model;
     
@@ -18,10 +18,11 @@
       citations = res.data;
       vm.mygrid.data = citations;
       
-      $log.info('Model response: ',res);
-      
+      $log.log('Model response: ',res);
+      //make the response available in the view
+      vm.res=res;
       //dynamic creation of the grid columns
-      contentGrid.fields(res.fields).forEach((function(obj) {
+      content.fields(res.fields).forEach((function(obj) {
         vm.mygrid.columnDefs.push(obj);
       }));
       
@@ -50,15 +51,12 @@
 
 
     /* GRID STUFF */
-    vm.mygrid=contentGrid.default;
+    vm.mygrid=content.default;
     vm.mygrid.columnDefs = [{
       field: 'id_label',
       displayName: 'Id'
     }];
-    // [{
-    //   field: 'id',
-    //   displayName: 'Id'
-    // }];
+
     // vm.mygrid.onRegisterApi = function(api) {
     //   //grid callbacks
 
