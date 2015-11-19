@@ -7,16 +7,17 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
     'instances': apiInstances
   };
 
+/*
 
-  /* The prefixes for CARRE*/
-  var PREFIXSTR = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n\
-                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n\
+                    PREFIX carreManufacturer: <http://carre.kmi.open.ac.uk/manufacturers/> \n\
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n\
                     PREFIX sensors: <http://carre.kmi.open.ac.uk/ontology/sensors.owl#> \n\
-                    PREFIX risk: <http://carre.kmi.open.ac.uk/ontology/risk.owl#> \n\
-                    PREFIX carreManufacturer: <http://carre.kmi.open.ac.uk/manufacturers/> \n\
-                    PREFIX carreUsers: <https://carre.kmi.open.ac.uk/users/> \n";
-                    
+*/
+  /* The prefixes for CARRE*/
+  var PREFIXSTR = " PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n\
+                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n\
+                    PREFIX carreUsers: <https://carre.kmi.open.ac.uk/users/> \n\
+                    PREFIX risk: <http://carre.kmi.open.ac.uk/ontology/risk.owl#> \n";
 
 
   function apiQuery(sparqlQuery) {
@@ -35,7 +36,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
 
 
   function countInstance(instanceType){
-    var query="SELECT ?s (COUNT(?r) as ?reviews) WHERE { ?s a risk:"+instanceType+" . OPTIONAL {?s risk:has_reviewer ?r .} } GROUP BY ?s";
+    var query="SELECT ?s (COUNT(?r) as ?reviews) FROM "+CONFIG.CARRE_DEFAULT_GRAPH+" WHERE { ?s a risk:"+instanceType+" . OPTIONAL {?s risk:has_reviewer ?r .} } GROUP BY ?s";
     return apiQuery(query).then(function(res){
       var sum=0;
       res.data.forEach(function(obj){
@@ -105,6 +106,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
     };
     return data.reduce(tripleAccumulator, settingsObj);
   }
+  
   function tripleAccumulator(settings, obj) {
     var id,rel,val='';
     if(settings.valueProp) {
@@ -122,7 +124,8 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
       //then push into the arrays
       settings.keys.push(id);
       settings.data.push({
-        "id": id
+        "id": id,
+        "id_label": id.substring(id.lastIndexOf('/')+1)
       });
       //change index to the last item added
       index = settings.keys.length - 1;

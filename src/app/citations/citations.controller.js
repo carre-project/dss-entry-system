@@ -36,6 +36,15 @@
           width: 60
         });
       }
+      
+      
+      vm.mygrid.columnDefs.push({
+        field: 'View',
+        enableFiltering: false,
+        enableColumnMenu: false,
+        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.citations.view({id:row.entity.id_label})"><i class="fa fa-eye"></i></button></div>',
+        width: 60
+      });
 
     });
 
@@ -43,9 +52,13 @@
     /* GRID STUFF */
     vm.mygrid=contentGrid.default;
     vm.mygrid.columnDefs = [{
-      field: 'id',
+      field: 'id_label',
       displayName: 'Id'
     }];
+    // [{
+    //   field: 'id',
+    //   displayName: 'Id'
+    // }];
     // vm.mygrid.onRegisterApi = function(api) {
     //   //grid callbacks
 

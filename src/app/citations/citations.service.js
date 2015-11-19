@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('Citations', function($http, CARRE) {
+angular.module('CarreEntrySystem').service('Citations', function($http, CARRE, CONFIG) {
 
   this.exports={
     'get': getCitations,
@@ -8,7 +8,7 @@ angular.module('CarreEntrySystem').service('Citations', function($http, CARRE) {
   
   function getCitations(citationStr,raw) {
 
-    var listQuery = "SELECT * FROM <http://carre.kmi.open.ac.uk/beta> WHERE { \n\
+    var listQuery = "SELECT * FROM "+CONFIG.CARRE_DEFAULT_GRAPH+" WHERE { \n\
              ?subject a risk:citation; ?predicate ?object.";
 
     //add filter to query if a single citation is requested
