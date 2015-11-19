@@ -3,8 +3,9 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
   this.exports={
     'count':countInstance,
     'query': apiQuery,
-    'instances': apiInstances,
-    'virtuosoQuery': sparqlEndpointQuery
+    'selectQuery': selectQuery,
+    'instances': apiInstances
+    // 'virtuosoQuery': sparqlEndpointQuery
   };
 
 
@@ -17,54 +18,45 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
                     PREFIX carreManufacturer: <http://carre.kmi.open.ac.uk/manufacturers/> \n\
                     PREFIX carreUsers: <https://carre.kmi.open.ac.uk/users/> \n";
                     
-  /* Auth Required */
-  function apiQuery(sparqlQuery) {
 
+
+  function apiQuery(sparqlQuery) {
+    
+    var params={};
     //add prefixes
-    sparqlQuery = PREFIXSTR + sparqlQuery;
+    params.sparql= PREFIXSTR + sparqlQuery;
+    // use token
+    if(Auth.cookie) params.token=Auth.cookie;
+  
     // console.info('Final query: ', sparqlQuery);
-    return $http.post(CONFIG.CARRE_API_URL + 'query', {
-      'sparql': sparqlQuery,
-      'token': Auth.cookie
-    });
+    return $http.post(CONFIG.CARRE_API_URL + 'query', params);
+  
   }
 
 
-  /* Auth not required */
+
   function countInstance(instanceType){
     var query="SELECT ?s (COUNT(?r) as ?reviews) WHERE { ?s a risk:"+instanceType+" . OPTIONAL {?s risk:has_reviewer ?r .} } GROUP BY ?s";
-    return sparqlEndpointQuery(query,true).then(function(res){
+    return apiQuery(query).then(function(res){
       var sum=0;
-      res.data.results.bindings.forEach(function(obj){
+      res.data.forEach(function(obj){
         if(obj.reviews.value==='0') sum+=1;
       })
       return {
-        total:res.data.results.bindings.length,
+        total:res.data.length,
         noreviews:sum
       }
     });
   }
   
-  function sparqlEndpointQuery(sparqlQuery,raw) {
-    
-    //add prefixes
-    sparqlQuery = PREFIXSTR + sparqlQuery;
-    // console.info('Final query: ', sparqlQuery);
-      
-    return $http.get(CONFIG.CARRE_SPARQL_ENDPOINT,{
-      params: { 
-        query: sparqlQuery,
-        format:'application/sparql-results+json'
-      }
-    })
-    .then(function(res) {
-      
+  function selectQuery(sparqlQuery,raw) {
+      return apiQuery(sparqlQuery).then(function(res) {
       /*
       You can configure triplet variable names and group by index of property.
       e.g groupByProp(data,["citation","relation","value"],0).data groups by citation
       */
       if(raw) return res;
-      var results = groupByProp(res.data.results.bindings,null,null,'value');
+      var results = groupByProp(res.data,null,null,'value');
       if (results.data.length > 0) return results;
       else return [];
     });

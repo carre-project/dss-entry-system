@@ -19,6 +19,17 @@
     
     var citation = [];
     
+    if($state.is("main.citations.create")){
+      //create
+      
+    } else if($state.is("main.citations.edit")){
+      //edit
+      
+    } else { 
+      //view
+      
+    }
+    
     function getCitation(){
       
       Citations.get('', true).then(function(res) {

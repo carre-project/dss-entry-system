@@ -33,29 +33,30 @@
         'abstract':true,
         controller: 'citationsController',
         controllerAs: 'citations',
-        templateUrl: 'app/citations/main.html'
+        templateUrl: 'app/citations/main.html',
+        url: '/citations'
       })
       .state('main.citations.list', {
         templateUrl: 'app/citations/list.html',
-        url: '/citations'
+        url: ''
       })
       .state('main.citations.create', {
         templateUrl: 'app/citations/single/edit.create.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
-        url: '/citations/create'
+        url: '/create'
       })
       .state('main.citations.edit', {
-        templateUrl: 'app/citations/single/edit.html',
+        templateUrl: 'app/citations/single/edit.create.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
-        url: '/citations/:id/edit'
+        url: '/:id/edit'
       })
       .state('main.citations.view', {
         controller: 'citationsSingleController',
         templateUrl: 'app/citations/single/view.html',
         controllerAs: 'citation',
-        url: '/citations/:id'
+        url: '/:id'
       })
       
       .state('500_error', {

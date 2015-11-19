@@ -15,7 +15,7 @@ angular.module('CarreEntrySystem').service('Citations', function($http, CARRE) {
     if (citationStr) listQuery += "FILTER ( regex(str(?subject),\""+citationStr+"\",\"i\") )\n }";
     else listQuery += "}";
     if(!raw){
-      return CARRE.virtuosoQuery(listQuery).then(function(res){
+      return CARRE.selectQuery(listQuery).then(function(res){
 
         return res.data.map(function(obj) {
           //console.info('Citations:',citationsArray);
@@ -42,7 +42,7 @@ angular.module('CarreEntrySystem').service('Citations', function($http, CARRE) {
         });
       });
       
-    } else return CARRE.virtuosoQuery(listQuery);
+    } else return CARRE.selectQuery(listQuery);
   }
 
   function insertCitation(citationObj) {
