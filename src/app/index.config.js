@@ -37,8 +37,20 @@
       };
 
       return {
+        request: function(config) {
+          // console.log('Intercepted request: ',config);
+          return config;
+        },
+        requestError:function(request){
+          console.warn('Error on request: ',request);
+          return request;
+        },
         responseError: function(response) {
-          if (response.status === 500) {
+          
+          if (response.status === 500||response.status===-1) {
+            
+          
+          console.warn('Weird API 500 error intercepted! : ',response);
             if (incrementalTimeout < 5000) {
               return retryRequest(response.config);
             }
