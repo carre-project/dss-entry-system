@@ -15,7 +15,7 @@
     }).config(function($locationProvider, $logProvider, $compileProvider, $urlRouterProvider) {
       
       //show error
-      $urlRouterProvider.otherwise('/404_error');
+      $urlRouterProvider.otherwise('/404.html');
       
       //Set url handler  
       $locationProvider.html5Mode(true);
