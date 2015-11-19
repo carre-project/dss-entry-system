@@ -58,11 +58,6 @@
         controllerAs: 'citation',
         url: '/:id'
       })
-      
-      .state('500_error', {
-        templateUrl: '500.html',
-        url: '/500_error'
-      })
       .state('404_error', {
         templateUrl: '404.html',
         url: '/404_error'
