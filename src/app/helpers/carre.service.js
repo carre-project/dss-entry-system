@@ -108,6 +108,8 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
   }
   
   function tripleAccumulator(settings, obj) {
+    
+    
     var id,rel,val='';
     if(settings.valueProp) {
       id = obj[settings.groupProp][settings.valueProp];
@@ -118,6 +120,13 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
       rel = obj[settings.triplesFormat[1]].split("#")[1] || "_";
       val = obj[settings.triplesFormat[2]];
     }
+    
+    
+    /*  Filter educational objects  */
+    if( rel==='has_educational_material' ) return settings;
+    
+    
+    
     if(settings.fields.indexOf(rel)===-1) settings.fields.push(rel); 
     var index = settings.keys.indexOf(id);
     if (index === -1) {
@@ -125,7 +134,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
       settings.keys.push(id);
       settings.data.push({
         "id": id,
-        "id_label": id.substring(id.lastIndexOf('/')+1)
+        "id_label": id.indexOf('#')>=0?id.split('#')[1]:id.substring(id.lastIndexOf('/')+1)
       });
       //change index to the last item added
       index = settings.keys.length - 1;

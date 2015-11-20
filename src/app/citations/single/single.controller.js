@@ -66,7 +66,7 @@
           }
         });
         
-        vm.loading = Pubmed.fetch(id).then(function(res) {
+        vm.loading = Pubmed.fetch(vm.current.has_citation_pubmed_identifier).then(function(res) {
           vm.pubmedArticle = res.data;
           $log.info('Pubmed Article: '+id, res);
         });

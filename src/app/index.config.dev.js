@@ -5,7 +5,7 @@
     .module('CarreEntrySystem')
     .constant("CONFIG", {
       "CARRE_API_URL": "//devices.carre-project.eu/ws/",
-      "CARRE_DEFAULT_GRAPH": "<http://carre.kmi.open.ac.uk/beta>",
+      "CARRE_DEFAULT_GRAPH": "<http://carre.kmi.open.ac.uk/public>",
       "CARRE_ARCHIVE_GRAPH": "<http://carre.kmi.open.ac.uk/archive>",
       "CARRE_DEVICES": "//devices.carre-project.eu/devices/accounts/",
       "BIOPORTAL_API_URL": "//data.bioontology.org/",
