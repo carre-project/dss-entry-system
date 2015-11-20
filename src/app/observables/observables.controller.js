@@ -27,46 +27,30 @@
       }));
       
 
-      //show edit buttons
-      if (currentUser.username) {
-        vm.mygrid.columnDefs.push({
-          field: 'Edit',
-          enableFiltering: false,
-          enableColumnMenu: false,
-          cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.observables.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
-          width: 60
-        });
-      }
-      
-      
-      vm.mygrid.columnDefs.push({
-        field: 'View',
-        enableFiltering: false,
-        enableColumnMenu: false,
-        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.observables.view({id:row.entity.id_label})"><i class="fa fa-eye"></i></button></div>',
-        width: 60
-      });
-
     });
 
 
     /* GRID STUFF */
     vm.mygrid=content.default;
     vm.mygrid.columnDefs = [{
-      field: 'id_label',
-      displayName: 'Id'
-    }];
-
-    // vm.mygrid.onRegisterApi = function(api) {
-    //   //grid callbacks
-
-    //   // api.selection.on.rowSelectionChanged(null, function(row) {
-    //   //   vm.setPubmed(null,row);
-    //   // });
-    // };
-
-
-
+        field: 'View',
+        enableFiltering: false,
+        enableColumnMenu: false,
+        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.observables.view({id:row.entity.id_label})"><i class="fa fa-eye"></i></button></div>',
+        width: 60
+      }];
+    
+    //show edit buttons
+    if (currentUser.username) {
+      vm.mygrid.columnDefs.push({
+        field: 'Edit',
+        enableFiltering: false,
+        enableColumnMenu: false,
+        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.observables.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
+        width: 60
+      });
+    }
+    
 
 
 

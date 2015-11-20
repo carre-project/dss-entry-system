@@ -7,20 +7,18 @@ angular.module('CarreEntrySystem').service('content', function() {
   };
 
   //auto build grid columns from keys of each element
-  function getModelFields(fieldsArray, replaceArray) {
+  function getModelFields(fieldsArray, filterOutArray) {
     var columnDefs = [];
-    replaceArray = replaceArray || [];
+    filterOutArray = (filterOutArray || []).concat(['type','id']);
     fieldsArray.forEach(function(obj) {
     
-      if (replaceArray.indexOf(obj) >= 0) {
-        columnDefs.push(obj);
-      }
-      else {
+      if(filterOutArray.indexOf(obj)===-1) {
         columnDefs.push({
           field: obj+'_label',
           displayName: labelFromKey(obj)
         });
       }
+      
     });
 
     return columnDefs;
