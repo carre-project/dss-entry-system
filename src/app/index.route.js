@@ -183,6 +183,37 @@
         url: '/:id'
       })
       
+            /*  Measurement Types  */
+      .state('main.measurement_types', {
+        'abstract':true,
+        controller: 'measurement_typesController',
+        controllerAs: 'measurement_types',
+        templateUrl: 'app/measurement_types/main.html',
+        url: '/measurement_types'
+      })
+      .state('main.measurement_types.list', {
+        templateUrl: 'app/measurement_types/list.html',
+        url: ''
+      })
+      .state('main.measurement_types.create', {
+        templateUrl: 'app/measurement_types/single/edit.create.html',
+        controller: 'measurement_typesSingleController',
+        controllerAs: 'measurement_type',
+        url: '/create'
+      })
+      .state('main.measurement_types.edit', {
+        templateUrl: 'app/measurement_types/single/edit.create.html',
+        controller: 'measurement_typesSingleController',
+        controllerAs: 'measurement_type',
+        url: '/:id/edit'
+      })
+      .state('main.measurement_types.view', {
+        controller: 'measurement_typesSingleController',
+        templateUrl: 'app/measurement_types/single/view.html',
+        controllerAs: 'measurement_type',
+        url: '/:id'
+      })
+      
       .state('404_error', {
         templateUrl: '404.html',
         url: '/404_error'

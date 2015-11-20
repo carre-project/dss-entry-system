@@ -4,7 +4,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
     'count':countInstance,
     'query': apiQuery,
     'selectQuery': selectQuery,
-    'instances': apiInstances
+    'instances': queryInstances
   };
 
 /*
@@ -17,56 +17,47 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
   var PREFIXSTR = " PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n\
                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n\
                     PREFIX carreUsers: <https://carre.kmi.open.ac.uk/users/> \n\
-                    PREFIX risk: <http://carre.kmi.open.ac.uk/ontology/risk.owl#> \n";
+                    PREFIX risk: <http://carre.kmi.open.ac.uk/ontology/risk.owl#> \n\
+                    PREFIX ME: <https://carre.kmi.open.ac.uk/measurement_types/> \n\
+                    PREFIX OB: <https://carre.kmi.open.ac.uk/observables/> \n\
+                    PREFIX RL: <https://carre.kmi.open.ac.uk/risk_elements/> \n\
+                    PREFIX RV: <https://carre.kmi.open.ac.uk/risk_evidences/> \n\
+                    PREFIX RF: <https://carre.kmi.open.ac.uk/risk_factors/> \n\
+                    PREFIX CI: <https://carre.kmi.open.ac.uk/citations/> \n";
 
-
-  function apiQuery(sparqlQuery) {
-    
-    var params={};
-    //add prefixes
-    params.sparql= PREFIXSTR + sparqlQuery;
-    // use token
-    if(Auth.cookie) params.token=Auth.cookie;
-  
-    // console.info('Final query: ', sparqlQuery);
-    return $http.post(CONFIG.CARRE_API_URL + 'query', params);
-  
-  }
-
-
-
-  function countInstance(instanceType){
-    var query="SELECT ?s (COUNT(?r) as ?reviews) FROM "+CONFIG.CARRE_DEFAULT_GRAPH+" WHERE { ?s a risk:"+instanceType+" . OPTIONAL {?s risk:has_reviewer ?r .} } GROUP BY ?s";
-    return apiQuery(query).then(function(res){
-      var sum=0;
-      res.data.forEach(function(obj){
-        if(obj.reviews.value==='0') sum+=1;
-      })
-      return {
-        total:res.data.length,
-        noreviews:sum
-      }
-    });
-  }
-  
-  function selectQuery(sparqlQuery,raw) {
-      return apiQuery(sparqlQuery).then(function(res) {
-      /*
-      You can configure triplet variable names and group by index of property.
-      e.g groupByProp(data,["citation","relation","value"],0).data groups by citation
-      */
-      if(raw) return res;
-      var results = groupByProp(res.data,null,null,'value');
-      if (results.data.length > 0) return results;
-      else return [];
-    });
-  }
-
-
-
-  // /* Auth not required */
-  function apiInstances(instanceType,raw) {
+  function rdfTypeOfID(id){
+    if(id.indexOf('OB')) {
       
+    } else if(id.indexOf('RF')) {
+      
+    } else if(id.indexOf('RV')) {
+      
+    } else if(id.indexOf('RL')) {
+      
+    } else if(id.indexOf('OB')) {
+      
+    } else if(id.indexOf('ME')) {
+      
+    }
+  };
+  
+
+  function queryInstances(type,ArrayOfIDs){
+    if(ArrayOfIDs) type=type||rdfTypeOfID(ArrayOfIDs[0]);
+    
+    
+    
+    var listQuery = "SELECT * FROM "+CONFIG.CARRE_DEFAULT_GRAPH+" WHERE { \n\
+             ?subject a risk:observable; ?predicate ?object.";
+
+    //add filter to query if a single observable is requested
+    if (observableStr) listQuery += "FILTER ( regex(str(?subject),\""+observableStr+"\",\"i\") )\n }";
+    else listQuery += "}";
+    
+    
+    return CARRE.selectQuery(listQuery);
+    
+    
       var callInstance=$http.get(CONFIG.CARRE_API_URL + 'instances?type=' + instanceType).then(function(res) {
 
       /* Instances bug */
@@ -87,7 +78,95 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
       else return [];
     });
     return callInstance;
+    
+    
+    var query="SELECT ?s (COUNT(?r) as ?reviews) FROM "+CONFIG.CARRE_DEFAULT_GRAPH+" WHERE { ?s a risk:"+instanceType+" . OPTIONAL {?s risk:has_reviewer ?r .} } GROUP BY ?s";
+    return apiQuery(query).then(function(res){
+      var sum=0;
+      res.data.forEach(function(obj){
+        if(obj.reviews.value==='0') sum+=1;
+      });
+      return {
+        total:res.data.length,
+        noreviews:sum
+      }
+    });
+    
+    
   }
+  
+  
+  /* Easy select query */
+  function selectQuery(sparqlQuery,raw) {
+      return apiQuery(sparqlQuery).then(function(res) {
+      /*
+      You can configure triplet variable names and group by index of property.
+      e.g groupByProp(data,["citation","relation","value"],0).data groups by citation
+      */
+      if(raw) return res;
+      var results = groupByProp(res.data,null,null,'value');
+      if (results.data.length > 0) return results;
+      else return [];
+    });
+  }
+
+
+  /* Dashboard count instances method*/
+  function countInstance(instanceType){
+    var query="SELECT ?s (COUNT(?r) as ?reviews) FROM "+CONFIG.CARRE_DEFAULT_GRAPH+" WHERE { ?s a risk:"+instanceType+" . OPTIONAL {?s risk:has_reviewer ?r .} } GROUP BY ?s";
+    return apiQuery(query).then(function(res){
+      var sum=0;
+      res.data.forEach(function(obj){
+        if(obj.reviews.value==='0') sum+=1;
+      });
+      return {
+        total:res.data.length,
+        noreviews:sum
+      };
+    });
+  }
+
+
+  /* CORE query method*/
+  function apiQuery(sparqlQuery) {
+    
+    var params={};
+    //add prefixes
+    params.sparql= PREFIXSTR + sparqlQuery;
+    // use token
+    if(Auth.cookie) params.token=Auth.cookie;
+  
+    // console.info('Final query: ', sparqlQuery);
+    return $http.post(CONFIG.CARRE_API_URL + 'query', params);
+  
+  }
+
+
+  /********* DEPRECATED **************/
+  // /* Auth not required */
+  // function apiInstances(instanceType,raw) {
+      
+  //     var callInstance=$http.get(CONFIG.CARRE_API_URL + 'instances?type=' + instanceType).then(function(res) {
+
+  //     /* Instances bug */
+  //     // if(res.data[0].object.indexOf(instanceType)===-1) {
+  //     //   console.log(instanceType+ ' != '+res.data[0].object);
+  //     //   console.log('TELL ALLAN about this! It confused and instead of citation returned this: ', res.data[0].object);
+  //     //   return callInstance; 
+  //     // }
+  //     /* End of bug */
+      
+  //     /*
+  //     You can configure triplet variable names and group by index of property.
+  //     e.g groupByProp(data,["citation","relation","value"],0).data groups by citation
+  //     */
+  //     if(raw) return res;
+  //     var results = groupByProp(res.data);
+  //     if (results.data.length > 0) return results;
+  //     else return [];
+  //   });
+  //   return callInstance;
+  // }
 
 
   /* Helpers */

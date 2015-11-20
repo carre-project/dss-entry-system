@@ -9,7 +9,7 @@ angular.module('CarreEntrySystem').service('content', function() {
   //auto build grid columns from keys of each element
   function getModelFields(fieldsArray, filterOutArray) {
     var columnDefs = [];
-    filterOutArray = (filterOutArray || []).concat(['type','has_risk_element_identifier_system']);
+    filterOutArray = (filterOutArray || []).concat(['type','has_risk_element_identifier_system','has_author','has_reviewer']);
     fieldsArray.forEach(function(obj) {
     
       if(filterOutArray.indexOf(obj)===-1) {
