@@ -32,7 +32,12 @@
 
     /* GRID STUFF */
     vm.mygrid=content.default;
-    vm.mygrid.columnDefs = [{
+    vm.mygrid.columnDefs = [
+      {
+        field: 'id_label',
+        displayName: 'ID'
+      },
+      {
         field: 'View',
         enableFiltering: false,
         enableColumnMenu: false,
