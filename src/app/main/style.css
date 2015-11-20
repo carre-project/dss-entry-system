@@ -32,10 +32,11 @@
     height: 24px;
 }
 
+/*
 [ui-view].ng-leave {
   animation: fadeOut 0.8s; 
 }
 
 [ui-view].ng-enter {
   animation: fadeIn 0.8s;
-}
+}*/
