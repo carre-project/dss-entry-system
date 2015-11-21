@@ -14,7 +14,7 @@
     /************** List Template **************/
     
     var risk_evidences = [];
-    Risk_evidences.get().then(function(res) {
+    vm.gridLoading=Risk_evidences.get().then(function(res) {
       risk_evidences = res.data;
       vm.mygrid.data = risk_evidences;
       

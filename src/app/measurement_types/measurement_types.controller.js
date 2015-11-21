@@ -14,7 +14,7 @@
     /************** List Template **************/
     
     var measurement_types = [];
-    Measurement_types.get().then(function(res) {
+    vm.gridLoading=Measurement_types.get().then(function(res) {
       measurement_types = res.data;
       vm.mygrid.data = measurement_types;
       

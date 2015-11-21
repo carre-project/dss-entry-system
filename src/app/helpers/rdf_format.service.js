@@ -41,6 +41,12 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function() {
       val = obj[settings.triplesFormat[2]];
     }
 
+
+
+    /*  Filter educational objects  */
+    if (rel === 'has_educational_material') return settings;
+
+
     val_label = makeLabel(val);
 
 
@@ -54,10 +60,6 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function() {
         }
       }
     }
-
-
-    /*  Filter educational objects  */
-    if (rel === 'has_educational_material') return settings;
 
 
 
@@ -128,28 +130,27 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function() {
     return settings;
   }
 
-  function simplify(obj, valueProp, addLabelsFlag) {
-    //default valueProp as value
-    valueProp = valueProp || 'value';
-    //addLabelsFlag default true
-    addLabelsFlag = addLabelsFlag || true;
-    var newObj = {};
-    for (var i in obj) {
-      newObj[i] = obj.i[valueProp];
-      if (addLabelsFlag) newObj[i + '_label'] = makeLabel(newObj[i]);
-    }
-    return newObj;
-  }
+  // function simplify(obj, valueProp, addLabelsFlag) {
+  //   //default valueProp as value
+  //   valueProp = valueProp || 'value';
+  //   //addLabelsFlag default true
+  //   addLabelsFlag = addLabelsFlag || true;
+  //   var newObj = {};
+  //   for (var i in obj) {
+  //     newObj[i] = obj.i[valueProp];
+  //     if (addLabelsFlag) newObj[i + '_label'] = makeLabel(newObj[i]);
+  //   }
+  //   return newObj;
+  // }
 
-  function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(find, 'g'), replace);
-  }
+  // function replaceAll(str, find, replace) {
+  //   return str.replace(new RegExp(find, 'g'), replace);
+  // }
 
   function makeLabel(str) {
     return str.indexOf('#') >= 0 ? str.split('#')[1] : str.substring(str.lastIndexOf('/') + 1);
   }
 
-  /* Private */
   function prettyLabel(label) {
     //replace _ with spaces
     label = label.replace(new RegExp("_", "g"), " ");
