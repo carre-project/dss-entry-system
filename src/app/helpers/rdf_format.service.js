@@ -45,7 +45,7 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function() {
 
 
     //get extra mappings
-    if (['OB', 'RF', 'RL', 'RV'].indexOf(val_label.substr(0, 2)) > -1) {
+    if (['OB', 'RF', 'RL', 'RV','ME'].indexOf(val_label.substr(0, 2)) > -1) {
       settings.mappings[val_label] = settings.mappings[val_label] || {};
       for (var prop in obj) {
         //except the 3 basic properties
@@ -92,29 +92,28 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function() {
       for (var prop in obj) {
         if (prop.indexOf('_label') > 0 && prop.indexOf('has_') === 0) {
           //select only props : has_....._label
+          console.log(obj[prop]);
           obj[prop]=obj[prop].split(',').map(function(term) {
             if (settings.mappings.hasOwnProperty(term)) {
               cat = term.substr(0, 2);
               switch (cat) {
                 case 'OB':
                   // make label for observables
-                console.log(settings.mappings[term].has_observable_name);
                   return settings.mappings[term].has_observable_name;
-                  break;
+                case 'ME':
+                  // make label for measurent types
+                  return settings.mappings[term].has_measurement_type_name;
                 case 'RF':
                   // make label for risk factor              
                   return settings.mappings[term].has_source_risk_element_name +
                     '--' + settings.mappings[term].has_risk_factor_association_type + '->' +
                     settings.mappings[term].has_target_risk_element_name;
-                  break;
                 case 'RL':
                   // make label for risk element
                   return settings.mappings[term].has_risk_element_name;
-                  break;
                 case 'RV':
                   // make label for risk evidence
-                  return term
-                  break;
+                  return term;
 
                 default:
                   return term;
