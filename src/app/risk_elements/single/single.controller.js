@@ -6,7 +6,7 @@
     .controller('risk_elementsSingleController', risk_elementsSingleController);
 
   /** @ngInject */
-  function risk_elementsSingleController(toastr,content ,Bioportal, Risk_elements, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log) {
+  function risk_elementsSingleController(toastr,content ,Bioportal, Risk_elements, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state ) {
     var vm = this;
 
 
@@ -18,9 +18,9 @@
 
     if ($state.is("main.risk_elements.create")) {
       
-      $log.info('---Create---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---Create---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** Edit/Create Template **************/
       
@@ -30,9 +30,9 @@
     }
     else if ($state.is("main.risk_elements.edit")) {
       
-      $log.info('---Edit---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---Edit---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** Edit/Create Template **************/
 
@@ -41,9 +41,9 @@
     }
     else {
 
-      $log.info('---View---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---View---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** View Template **************/
       
@@ -56,7 +56,7 @@
 
     function getRisk_element(id) {
       Risk_elements.get([id]).then(function(res) {
-        $log.info('Risk_element: ', res);
+        console.info('Risk_element: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){
           return {
@@ -74,7 +74,7 @@
         };
         var id=vm.current.has_risk_element_identifier_value_label.toUpperCase();
         vm.loading = Bioportal.search(id,options).then(function(res) {
-          // console.log(res);
+          console.info(res);
           //filter data that have cui, and the title match incase
           vm.bioportalData = res.data.collection.filter(function(obj){
             if(!obj.cui) return false;

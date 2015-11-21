@@ -26,7 +26,6 @@
     //fix 500 and -1 errors
     $httpProvider.interceptors.push(function($q, $injector) {
       var incrementalTimeout = 100;
-      var $log=$injector.get('$log');
       function retryRequest(httpConfig) {
         var $timeout = $injector.get('$timeout');
         incrementalTimeout *= 2;
@@ -41,7 +40,7 @@
           return config;
         },
         requestError:function(request){
-          $log.warn('Error on request: ',request);
+          console.warn('Error on request: ',request);
           return request;
         },
         responseError: function(response) {
@@ -49,12 +48,12 @@
           if (response.status === 500||response.status===-1) {
             
           
-          $log.warn('Weird API 500 error intercepted! : ',response);
+          console.warn('Weird API 500 error intercepted! : ',response);
             if (incrementalTimeout < 4000) {
               return retryRequest(response.config);
             }
             else {
-              $log.log('The remote server seems to be busy at the moment. Please try again in 5 minutes');
+              console.log('The remote server seems to be busy at the moment. Please try again in 5 minutes');
             }
           }
           else {

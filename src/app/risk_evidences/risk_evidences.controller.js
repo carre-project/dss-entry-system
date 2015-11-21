@@ -6,7 +6,7 @@
     .controller('risk_evidencesController', risk_evidencesController);
 
   /** @ngInject */
-  function risk_evidencesController(toastr, Risk_evidences, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log, content) {
+  function risk_evidencesController(toastr, Risk_evidences, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
     // currentUser is our user model;
     
@@ -18,7 +18,7 @@
       risk_evidences = res.data;
       vm.mygrid.data = risk_evidences;
       
-      $log.log('Model response: ',res);
+      console.log('Model response: ',res);
       //make the response available in the view
       vm.res=res;
       //dynamic creation of the grid columns

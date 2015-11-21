@@ -6,7 +6,7 @@
     .controller('citationsController', citationsController);
 
   /** @ngInject */
-  function citationsController(toastr, Citations, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log, content) {
+  function citationsController(toastr, Citations, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
     // currentUser is our user model;
     
@@ -18,7 +18,7 @@
       citations = res.data;
       vm.mygrid.data = citations;
       
-      $log.log('Model response: ',res);
+      console.log('Model response: ',res);
       //make the response available in the view
       vm.res=res;
       //dynamic creation of the grid columns

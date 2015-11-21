@@ -6,7 +6,7 @@
     .controller('measurement_typesSingleController', measurement_typesSingleController);
 
   /** @ngInject */
-  function measurement_typesSingleController(toastr,content ,Bioportal, Measurement_types, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log) {
+  function measurement_typesSingleController(toastr,content ,Bioportal, Measurement_types, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state ) {
     var vm = this;
 
 
@@ -18,9 +18,9 @@
 
     if ($state.is("main.measurement_types.create")) {
       
-      $log.info('---Create---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---Create---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** Edit/Create Template **************/
       
@@ -30,9 +30,9 @@
     }
     else if ($state.is("main.measurement_types.edit")) {
       
-      $log.info('---Edit---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---Edit---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** Edit/Create Template **************/
 
@@ -41,9 +41,9 @@
     }
     else {
 
-      $log.info('---View---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---View---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** View Template **************/
       
@@ -57,7 +57,7 @@
 
     function getMeasurement_type(id) {
       Measurement_types.get([id]).then(function(res) {
-        $log.info('Measurement_type: ', res);
+        console.info('Measurement_type: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){
           return {

@@ -6,7 +6,7 @@
     .controller('risk_factorsSingleController', risk_factorsSingleController);
 
   /** @ngInject */
-  function risk_factorsSingleController(toastr,content ,Bioportal, Risk_factors, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log) {
+  function risk_factorsSingleController(toastr,content ,Bioportal, Risk_factors, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state ) {
     var vm = this;
 
 
@@ -18,9 +18,9 @@
 
     if ($state.is("main.risk_factors.create")) {
       
-      $log.info('---Create---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---Create---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** Edit/Create Template **************/
       
@@ -30,9 +30,9 @@
     }
     else if ($state.is("main.risk_factors.edit")) {
       
-      $log.info('---Edit---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---Edit---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** Edit/Create Template **************/
 
@@ -41,9 +41,9 @@
     }
     else {
 
-      $log.info('---View---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---View---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** View Template **************/
       
@@ -57,7 +57,7 @@
 
     function getRisk_factor(id) {
       Risk_factors.get([id]).then(function(res) {
-        $log.info('Risk_factor: ', res);
+        console.info('Risk_factor: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){
           return {

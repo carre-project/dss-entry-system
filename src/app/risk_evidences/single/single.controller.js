@@ -6,7 +6,7 @@
     .controller('risk_evidencesSingleController', risk_evidencesSingleController);
 
   /** @ngInject */
-  function risk_evidencesSingleController(toastr,content ,Bioportal, Risk_evidences, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log) {
+  function risk_evidencesSingleController(toastr,content ,Bioportal, Risk_evidences, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state ) {
     var vm = this;
 
 
@@ -18,9 +18,9 @@
 
     if ($state.is("main.risk_evidences.create")) {
       
-      $log.info('---Create---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---Create---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** Edit/Create Template **************/
       
@@ -30,9 +30,9 @@
     }
     else if ($state.is("main.risk_evidences.edit")) {
       
-      $log.info('---Edit---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---Edit---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** Edit/Create Template **************/
 
@@ -41,9 +41,9 @@
     }
     else {
 
-      $log.info('---View---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---View---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** View Template **************/
       
@@ -57,7 +57,7 @@
 
     function getRisk_evidence(id) {
       Risk_evidences.get([id]).then(function(res) {
-        // $log.info('Risk_evidence: ', res);
+        // console.info('Risk_evidence: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){
           return {

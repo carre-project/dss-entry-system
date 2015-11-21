@@ -12,7 +12,7 @@
       "BIOPORTAL_API_KEY": "a15281a9-d87d-4c0f-b7aa-31debe0f6449",
       "PUBMED_API_URL": "//eutils.ncbi.nlm.nih.gov/entrez/eutils/",
       'ENV': 'PROD'
-    }).config(function($locationProvider, $logProvider, $compileProvider, $urlRouterProvider) {
+    }).config(function($locationProvider, $compileProvider, $urlRouterProvider) {
       
       //show error
       $urlRouterProvider.otherwise('/404_error');
@@ -21,7 +21,6 @@
       $locationProvider.html5Mode(true);
       
       // Disable log
-      $logProvider.debugEnabled(false);
       $compileProvider.debugInfoEnabled(false);
     });
 

@@ -6,7 +6,7 @@
     .controller('observablesSingleController', observablesSingleController);
 
   /** @ngInject */
-  function observablesSingleController(toastr,content ,Bioportal, Observables, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log) {
+  function observablesSingleController(toastr,content ,Bioportal, Observables, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state ) {
     var vm = this;
 
 
@@ -18,9 +18,9 @@
 
     if ($state.is("main.observables.create")) {
       
-      $log.info('---Create---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---Create---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** Edit/Create Template **************/
       
@@ -30,9 +30,9 @@
     }
     else if ($state.is("main.observables.edit")) {
       
-      $log.info('---Edit---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---Edit---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** Edit/Create Template **************/
 
@@ -41,9 +41,9 @@
     }
     else {
 
-      $log.info('---View---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---View---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** View Template **************/
       
@@ -57,7 +57,7 @@
 
     function getObservable(id) {
       Observables.get([id]).then(function(res) {
-        $log.info('Observable: ', res);
+        console.info('Observable: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){
           return {

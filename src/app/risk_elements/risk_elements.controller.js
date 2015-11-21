@@ -6,7 +6,7 @@
     .controller('risk_elementsController', risk_elementsController);
 
   /** @ngInject */
-  function risk_elementsController(toastr, Risk_elements, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log, content) {
+  function risk_elementsController(toastr, Risk_elements, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state , content) {
     var vm = this; //controller as vm
     // currentUser is our user model;
     
@@ -18,7 +18,7 @@
       risk_elements = res.data;
       vm.mygrid.data = risk_elements;
       
-      $log.log('Model response: ',res);
+      console.log('Model response: ',res);
       //make the response available in the view
       vm.res=res;
       //dynamic creation of the grid columns

@@ -6,7 +6,7 @@
     .controller('citationsSingleController', citationsSingleController);
 
   /** @ngInject */
-  function citationsSingleController(toastr,content ,Citations, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $log) {
+  function citationsSingleController(toastr,content ,Citations, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state){
     var vm = this;
 
 
@@ -18,9 +18,9 @@
 
     if ($state.is("main.citations.create")) {
       
-      $log.info('---Create---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---Create---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** Edit/Create Template **************/
       
@@ -30,9 +30,9 @@
     }
     else if ($state.is("main.citations.edit")) {
       
-      $log.info('---Edit---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---Edit---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** Edit/Create Template **************/
 
@@ -41,9 +41,9 @@
     }
     else {
 
-      $log.info('---View---');
-      $log.info('State: ', $state);
-      $log.info('State params: ', $stateParams);
+      console.info('---View---');
+      console.info('State: ', $state);
+      console.info('State params: ', $stateParams);
 
       /************** View Template **************/
       
@@ -58,7 +58,7 @@
     function getCitation(id) {
       
       Citations.get([id]).then(function(res) {
-        $log.info('Citation: ', res);
+        console.info('Citation: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){
           return {
@@ -69,7 +69,7 @@
         
         vm.loading = Pubmed.fetch(vm.current.has_citation_pubmed_identifier).then(function(res) {
           vm.pubmedArticle = res.data;
-          $log.info('Pubmed Article: '+id, res);
+          console.info('Pubmed Article: '+id, res);
         });
         
       });

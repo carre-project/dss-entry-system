@@ -6,13 +6,13 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($log,$rootScope) {
+  function runBlock($rootScope) {
 
     //handle ui-router errors
     $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){ 
         // this is required if you want to prevent the $UrlRouter reverting the URL to the previous valid location
         event.preventDefault();
-        $log.error('Ui Router error:' ,event, toState, toParams, fromState, fromParams, error);
+        console.error('Ui Router error:' ,event, toState, toParams, fromState, fromParams, error);
     });
 
   }
