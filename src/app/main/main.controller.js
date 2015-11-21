@@ -6,21 +6,11 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($rootScope, $timeout, toastr, CARRE,currentUser, $location, CONFIG) {
+  function MainController($rootScope, $timeout, toastr ,currentUser, $location, CONFIG) {
     var vm = this;
 
     vm.user = currentUser;
     vm.config = CONFIG;
-    
-    //get total and unreviewed elements 
-    CARRE.count('citation').then(function(res){vm.citations=res;});
-    CARRE.count('risk_element').then(function(res){vm.risk_elements=res;});
-    CARRE.count('risk_evidence').then(function(res){vm.risk_evidences=res;});
-    CARRE.count('observable').then(function(res){vm.observables=res;});
-    CARRE.count('risk_factor').then(function(res){vm.risk_factors=res;});
-  
-    
-    
     
     //clean up the browser url
     $location.url($location.path());

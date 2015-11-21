@@ -14,7 +14,7 @@
     /************** List Template **************/
     
     var observables = [];
-    Observables.get(null, true).then(function(res) {
+    Observables.get().then(function(res) {
       observables = res.data;
       vm.mygrid.data = observables;
       

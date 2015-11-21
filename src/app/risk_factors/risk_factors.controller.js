@@ -14,7 +14,7 @@
     /************** List Template **************/
     
     var risk_factors = [];
-    Risk_factors.get(null, true).then(function(res) {
+    Risk_factors.get().then(function(res) {
       risk_factors = res.data;
       vm.mygrid.data = risk_factors;
       

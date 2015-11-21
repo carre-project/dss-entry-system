@@ -5,25 +5,13 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
-    <!-- /.row -->
-    <div uib-collapse="!main.DEBUG" class="row">
-        <div class="col-xs-6">
-            <labe>Configuration<pre>{{main.config | json}}</pre></label>
-        </div>
-        <div class="col-xs-6">
-            <labe>User<pre>{{main.user | json}}</pre></label>
-        </div>
-        <div class="col-xs-6">
-            <labe>QueryResult<pre>{{main.queryResult | json}}</pre></label>
-        </div>
-    </div>
     <div class="row">
 
-        <stats goto="main.risk_elements.list" title="Risk Elements" number="{{main.risk_elements.total||0}}" comments="{{main.risk_elements.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
-        <stats goto="main.risk_evidences.list" title="Risk Evidences" number="{{main.risk_evidences.total||0}}" comments="{{main.risk_evidences.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
-        <stats goto="main.citations.list" title="Citations" number="{{main.citations.total||0}}" comments="{{main.citations.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
-        <stats goto="main.observables.list" title="Observables" number="{{main.observables.total||0}}" comments="{{main.observables.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
-        <stats goto="main.risk_factors.list" title="Risk Factors" number="{{main.risk_factors.total||0}}" comments="{{main.risk_factors.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
+        <stats goto="main.risk_elements.list" title="Risk Elements" number="{{dashboard.risk_elements.total||0}}" comments="{{dashboard.risk_elements.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
+        <stats goto="main.risk_evidences.list" title="Risk Evidences" number="{{dashboard.risk_evidences.total||0}}" comments="{{dashboard.risk_evidences.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
+        <stats goto="main.citations.list" title="Citations" number="{{dashboard.citations.total||0}}" comments="{{dashboard.citations.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
+        <stats goto="main.observables.list" title="Observables" number="{{dashboard.observables.total||0}}" comments="{{dashboard.observables.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
+        <stats goto="main.risk_factors.list" title="Risk Factors" number="{{dashboard.risk_factors.total||0}}" comments="{{dashboard.risk_factors.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
         <stats goto="404_error" number="24" comments="404 errors!" colour="red" type="support"></stats>
         <stats goto="500_error" number="24" comments="500 errors!" colour="red" type="support"></stats>
 

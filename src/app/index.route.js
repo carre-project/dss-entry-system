@@ -22,8 +22,8 @@
         }
       })
       .state('main.dashboard', {
-        controller: 'MainController',
-        controllerAs: 'main',
+        controller: 'DashboardController',
+        controllerAs: 'dashboard',
         url: '/',
         templateUrl: 'app/main/dashboard.html'
       })
@@ -31,12 +31,12 @@
       /*  Citations  */
       .state('main.citations', {
         'abstract':true,
-        controller: 'citationsController',
-        controllerAs: 'citations',
         templateUrl: 'app/citations/main.html',
         url: '/citations'
       })
       .state('main.citations.list', {
+        controller: 'citationsController',
+        controllerAs: 'citations',
         templateUrl: 'app/citations/list.html',
         url: ''
       })
@@ -62,12 +62,12 @@
       /*  Observables  */
       .state('main.observables', {
         'abstract':true,
-        controller: 'observablesController',
-        controllerAs: 'observables',
         templateUrl: 'app/observables/main.html',
         url: '/observables'
       })
       .state('main.observables.list', {
+        controller: 'observablesController',
+        controllerAs: 'observables',
         templateUrl: 'app/observables/list.html',
         url: ''
       })
@@ -93,12 +93,12 @@
       /*  Risk Elements  */
       .state('main.risk_elements', {
         'abstract':true,
-        controller: 'risk_elementsController',
-        controllerAs: 'risk_elements',
         templateUrl: 'app/risk_elements/main.html',
         url: '/risk_elements'
       })
       .state('main.risk_elements.list', {
+        controller: 'risk_elementsController',
+        controllerAs: 'risk_elements',
         templateUrl: 'app/risk_elements/list.html',
         url: ''
       })
@@ -124,12 +124,12 @@
       /*  risk_evidences  */
       .state('main.risk_evidences', {
         'abstract':true,
-        controller: 'risk_evidencesController',
-        controllerAs: 'risk_evidences',
         templateUrl: 'app/risk_evidences/main.html',
         url: '/risk_evidences'
       })
       .state('main.risk_evidences.list', {
+        controller: 'risk_evidencesController',
+        controllerAs: 'risk_evidences',
         templateUrl: 'app/risk_evidences/list.html',
         url: ''
       })
@@ -155,12 +155,12 @@
       /*  risk_factors  */
       .state('main.risk_factors', {
         'abstract':true,
-        controller: 'risk_factorsController',
-        controllerAs: 'risk_factors',
         templateUrl: 'app/risk_factors/main.html',
         url: '/risk_factors'
       })
       .state('main.risk_factors.list', {
+        controller: 'risk_factorsController',
+        controllerAs: 'risk_factors',
         templateUrl: 'app/risk_factors/list.html',
         url: ''
       })
@@ -186,12 +186,12 @@
             /*  Measurement Types  */
       .state('main.measurement_types', {
         'abstract':true,
-        controller: 'measurement_typesController',
-        controllerAs: 'measurement_types',
         templateUrl: 'app/measurement_types/main.html',
         url: '/measurement_types'
       })
       .state('main.measurement_types.list', {
+        controller: 'measurement_typesController',
+        controllerAs: 'measurement_types',
         templateUrl: 'app/measurement_types/list.html',
         url: ''
       })

@@ -9,7 +9,16 @@
     <!-- /.navbar-static-side -->
 
     <div id="page-wrapper" style="min-height: 561px;">
-
+        
+    <!-- /.row -->
+    <div uib-collapse="!main.DEBUG" class="row">
+        <div class="col-xs-6">
+            <labe>Configuration<pre>{{main.config | json}}</pre></label>
+        </div>
+        <div class="col-xs-6">
+            <labe>User<pre>{{main.user | json}}</pre></label>
+        </div>
+    </div>
         <div ui-view></div>
 
     </div>

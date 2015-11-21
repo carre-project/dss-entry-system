@@ -14,7 +14,7 @@
     /************** List Template **************/
     
     var citations = [];
-    Citations.get(null, true).then(function(res) {
+    Citations.get().then(function(res) {
       citations = res.data;
       vm.mygrid.data = citations;
       

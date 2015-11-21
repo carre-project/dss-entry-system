@@ -56,7 +56,8 @@
     /* Helper functions */
 
     function getCitation(id) {
-      Citations.get(id, true).then(function(res) {
+      
+      Citations.get([id]).then(function(res) {
         $log.info('Citation: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){

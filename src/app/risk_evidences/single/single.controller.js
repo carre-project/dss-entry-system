@@ -56,7 +56,7 @@
     /* Helper functions */
 
     function getRisk_evidence(id) {
-      Risk_evidences.get(id, true).then(function(res) {
+      Risk_evidences.get([id]).then(function(res) {
         $log.info('Risk_evidence: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){

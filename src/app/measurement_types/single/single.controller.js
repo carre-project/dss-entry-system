@@ -56,7 +56,7 @@
     /* Helper functions */
 
     function getMeasurement_type(id) {
-      Measurement_types.get(id, true).then(function(res) {
+      Measurement_types.get([id]).then(function(res) {
         $log.info('Measurement_type: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){

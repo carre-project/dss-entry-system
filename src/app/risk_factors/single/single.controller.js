@@ -56,7 +56,7 @@
     /* Helper functions */
 
     function getRisk_factor(id) {
-      Risk_factors.get(id, true).then(function(res) {
+      Risk_factors.get([id]).then(function(res) {
         $log.info('Risk_factor: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){

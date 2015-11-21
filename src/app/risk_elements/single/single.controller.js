@@ -56,7 +56,7 @@
     /* Helper functions */
 
     function getRisk_element(id) {
-      Risk_elements.get(id, true).then(function(res) {
+      Risk_elements.get([id]).then(function(res) {
         $log.info('Risk_element: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){

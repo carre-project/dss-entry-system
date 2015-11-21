@@ -56,7 +56,7 @@
     /* Helper functions */
 
     function getObservable(id) {
-      Observables.get(id, true).then(function(res) {
+      Observables.get([id]).then(function(res) {
         $log.info('Observable: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){
