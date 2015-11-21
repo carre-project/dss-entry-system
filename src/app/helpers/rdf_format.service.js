@@ -92,33 +92,32 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function() {
       for (var prop in obj) {
         if (prop.indexOf('_label') > 0 && prop.indexOf('has_') === 0) {
           //select only props : has_....._label
-          console.log(obj[prop]);
-          obj[prop]=obj[prop].split(',').map(function(term) {
+          obj[prop]=obj[prop].toString().split(',').map(function(term) {
             if (settings.mappings.hasOwnProperty(term)) {
               cat = term.substr(0, 2);
               switch (cat) {
                 case 'OB':
                   // make label for observables
-                  return settings.mappings[term].has_observable_name;
+                  return prettyLabel(settings.mappings[term].has_observable_name);
                 case 'ME':
                   // make label for measurent types
-                  return settings.mappings[term].has_measurement_type_name;
+                  return prettyLabel(settings.mappings[term].has_measurement_type_name);
                 case 'RF':
                   // make label for risk factor              
-                  return settings.mappings[term].has_source_risk_element_name +
-                    '--' + settings.mappings[term].has_risk_factor_association_type + '->' +
-                    settings.mappings[term].has_target_risk_element_name;
+                  return prettyLabel(settings.mappings[term].has_source_risk_element_name +
+                    ' '+ settings.mappings[term].has_risk_factor_association_type + ' ' +
+                    settings.mappings[term].has_target_risk_element_name);
                 case 'RL':
                   // make label for risk element
-                  return settings.mappings[term].has_risk_element_name;
+                  return prettyLabel(settings.mappings[term].has_risk_element_name);
                 case 'RV':
                   // make label for risk evidence
-                  return term;
+                  return prettyLabel(term);
 
                 default:
-                  return term;
+                  return prettyLabel(term);
               }
-            } else return term;
+            } else return prettyLabel(term);
 
           }).join(',');
 
@@ -150,10 +149,13 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function() {
     return str.indexOf('#') >= 0 ? str.split('#')[1] : str.substring(str.lastIndexOf('/') + 1);
   }
 
-  // function addLabel(obj,prop){
-  //   obj[prop+'_label'] = makeLabel(obj[prop]);
-  // }
-
+  /* Private */
+  function prettyLabel(label) {
+    //replace _ with spaces
+    label = label.replace(new RegExp("_", "g"), " ");
+    //Capitalize first letter
+    return label.charAt(0).toUpperCase() + label.slice(1);
+  }
 
   return this.exports;
 });

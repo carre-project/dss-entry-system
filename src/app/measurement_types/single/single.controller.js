@@ -73,16 +73,6 @@
           display_links:'true',
           require_definitions:'false'
         };
-        var id=vm.current.has_risk_element_identifier_label.toUpperCase();
-        vm.loading = Bioportal.search(id,options).then(function(res) {
-          // console.log(res);
-          //filter data that have cui, and the title match incase
-          vm.bioportalData = res.data.collection.filter(function(obj){
-            if(!obj.cui) return false;
-            if(!obj.prefLabel.toLowerCase().indexOf(id)) return false;
-            return true;
-          });
-        });
         
       });
     }

@@ -16,27 +16,13 @@
       </li>
     </ul>
   </div>
+
   <div class="col-sm-6">
 
-    <div cg-busy="{promise:risk_evidences.loading,message:'Searching Bioportal...',backdrop:false,minDuration:700}" style="padding:25px;">
-
-      <h4>Risk_evidence:  <u>{{risk_evidences.selectedRisk_evidence.entity.has_risk_evidence_name}}</u></h4>
-      <hr>
-      <div ng-show="risk_evidences.bioportalData.length===0" class="alert alert-warning">Bioportal didn't return anything useful...
-        <a href="" ng-click="risk_evidences.setBioportal(null, risk_evidences.selectedRisk_evidence,true)">Try without the defined CUI</a>
-      </div>
-
-      <div style="overflow-y: auto;height: 90%; ">
-        <ul>
-          <li ng-repeat="obj in risk_evidences.bioportalData">
-            <!--<i ng-show="obj.cui.indexOf(risk_evidences.selectedRisk_evidence.entity.has_risk_element_identifier_label)>-1" class="fa fa-x2 fa-arrow-left"></i>-->
-            <h4>{{obj.prefLabel}} </h4> UMLS : {{obj.cui.join(', ')}} <a ng-href="{{ obj.links.ui | trustAsResourceUrl }}" target="_blank">Bioportal</a>
-            <br> Ontology: {{obj.links.ontology.substring(obj.links.ontology.lastIndexOf('/')+1)}}
-            <br>
-
-            <p ng-bind-html="obj.definition[0]"></p>
-          </li>
-        </ul>
+    <div cg-busy="risk_evidence.loading" class="panel panel-default">
+      <div class="panel-heading">Article : {{risk_evidence.pubmedId}} <a ng-href="http://www.ncbi.nlm.nih.gov/pubmed/{{risk_evidence.pubmedId}}" target="_blank">Link</a></div>
+      <div class="panel-body">
+        <div style="white-space: pre-line; overflow-y: auto;" ng-bind-html="risk_evidence.pubmedArticle"></div>
       </div>
     </div>
 

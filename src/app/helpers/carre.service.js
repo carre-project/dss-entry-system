@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter) {
+angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$log) {
 
   this.exports = {
     'count': countInstance,
@@ -129,7 +129,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
     // use token
     if (Auth.cookie) params.token = Auth.cookie;
 
-    console.info('Final query: ', params.sparql);
+    $log.info('Final query: ', params.sparql);
     return $http.post(CONFIG.CARRE_API_URL + 'query', params);
 
   }

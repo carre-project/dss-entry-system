@@ -72,7 +72,7 @@
           display_links:'true',
           require_definitions:'false'
         };
-        var id=vm.current.has_risk_element_identifier_label.toUpperCase();
+        var id=vm.current.has_risk_element_identifier_value_label.toUpperCase();
         vm.loading = Bioportal.search(id,options).then(function(res) {
           // console.log(res);
           //filter data that have cui, and the title match incase

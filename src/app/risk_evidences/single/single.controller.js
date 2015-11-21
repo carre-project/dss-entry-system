@@ -57,7 +57,7 @@
 
     function getRisk_evidence(id) {
       Risk_evidences.get([id]).then(function(res) {
-        $log.info('Risk_evidence: ', res);
+        // $log.info('Risk_evidence: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){
           return {
@@ -73,15 +73,9 @@
           display_links:'true',
           require_definitions:'false'
         };
-        var id=vm.current.has_risk_element_identifier_label.toUpperCase();
-        vm.loading = Bioportal.search(id,options).then(function(res) {
-          // console.log(res);
-          //filter data that have cui, and the title match incase
-          vm.bioportalData = res.data.collection.filter(function(obj){
-            if(!obj.cui) return false;
-            if(!obj.prefLabel.toLowerCase().indexOf(id)) return false;
-            return true;
-          });
+        vm.pubmedId=vm.current.has_risk_evidence_source_label.split(' ')[1];
+        vm.loading = Pubmed.fetch(vm.pubmedId).then(function(res) {
+          vm.pubmedArticle = res.data;
         });
         
       });
