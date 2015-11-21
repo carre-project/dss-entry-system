@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth) {
+angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter) {
 
   this.exports = {
     'count': countInstance,
@@ -30,7 +30,27 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
   function queryInstances(type, ArrayOfIDs) {
 
     var listQuery = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
-             ?subject a risk:" + type + "; ?predicate ?object. ";
+             ?subject a risk:" + type + "; ?predicate ?object. \n\
+              OPTIONAL {    \n\
+               ?object a risk:observable. \n\
+               ?object risk:has_observable_name ?has_observable_name  \n\
+              } \n\
+              OPTIONAL {    \n\
+               ?object a risk:risk_element. \n\
+               ?object risk:has_risk_element_name ?has_risk_element_name  \n\
+              } \n\
+              OPTIONAL {    \n\
+               ?object a risk:measurement_type. \n\
+               ?object risk:has_measurement_type_name ?has_measurement_type_name  \n\
+              } \n\
+              OPTIONAL {    \n\
+               ?object a risk:risk_factor.  \n\
+               ?object risk:has_risk_factor_association_type ?has_risk_factor_association_type. \n\
+               ?object risk:has_risk_factor_source ?has_risk_factor_source. \n\
+               ?object risk:has_risk_factor_target ?has_risk_factor_target. \n\
+               ?has_risk_factor_source risk:has_risk_element_name ?has_source_risk_element_name.  \n\
+               ?has_risk_factor_target risk:has_risk_element_name ?has_target_risk_element_name.  \n\
+              } \n"
 
 
     //add filter to query if a single observable is requested
@@ -78,13 +98,22 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
   /* Easy select query to transform triples to javascript objects */
   function selectQuery(sparqlQuery, raw) {
     return apiQuery(sparqlQuery).then(function(res) {
-      /*
-      You can configure triplet variable names and group by index of property.
-      e.g groupByProp(data,["citation","relation","value"],0).data groups by citation
-      */
+      var props=[
+        'subject',
+        'predicate',
+        'object',
+        'has_observable_name',
+        'has_risk_element_name',
+        'has_measurement_type_name',
+        'has_risk_factor_association_type',
+        'has_risk_factor_source',
+        'has_risk_factor_target',
+        'has_source_risk_element_name',
+        'has_target_risk_element_name'
+        ];
       if (raw) return res;
-      var results = groupByProp(res.data, ['subject','predicate','object','has_observable_name','has_risk_element_name','has_measurement_type_name','has_risk_factor_association_type','has_risk_factor_source','has_risk_factor_target','has_source_risk_element_name','has_target_risk_element_name'], null, 'value');
-      if (results.data.length > 0) return results;
+      var results = RdfFormatter.groupByProp(res.data, props, null, 'value');
+      if (results.data.length > 0) return RdfFormatter.mappings(results);
       else return [];
     });
   }
@@ -108,6 +137,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
   
   
 /* ======================IMPORTANT SPARQL QUERIES =============================*/
+//['subject','predicate','object','has_observable_name','has_risk_element_name','has_measurement_type_name','has_risk_factor_association_type','has_risk_factor_source','has_risk_factor_target','has_source_risk_element_name','has_target_risk_element_name']
     /* Try to fill the names of other elements */
     /*
 #try to fetch linked observables,risk_elements,measurements,risk_factors details from ids
@@ -138,68 +168,6 @@ OPTIONAL {
 }
 }
     */
-
-
-  /* Helpers */
-
-
-  /* Super Array reduce helper for grouping triples into objects with default key the subject! */
-  function groupByProp(data, triplesFormat, propIndex, valueProp) {
-    triplesFormat = triplesFormat || ['subject', 'predicate', 'object'];
-    var settingsObj = {
-      triplesFormat: triplesFormat,
-      groupProp: triplesFormat[(propIndex || 0)],
-      valueProp: valueProp,
-      keys: [],
-      fields: [],
-      data: []
-    };
-    return data.reduce(tripleAccumulator, settingsObj);
-  }
-
-  function tripleAccumulator(settings, obj) {
-
-
-    var id, rel, val = '';
-    if (settings.valueProp) {
-      id = obj[settings.groupProp][settings.valueProp];
-      rel = obj[settings.triplesFormat[1]][settings.valueProp].split("#")[1] || "_";
-      val = obj[settings.triplesFormat[2]][settings.valueProp];
-    }
-    else {
-      id = obj[settings.groupProp];
-      rel = obj[settings.triplesFormat[1]].split("#")[1] || "_";
-      val = obj[settings.triplesFormat[2]];
-    }
-
-
-    /*  Filter educational objects  */
-    if (rel === 'has_educational_material') return settings;
-
-
-
-    if (settings.fields.indexOf(rel) === -1) settings.fields.push(rel);
-    var index = settings.keys.indexOf(id);
-    if (index === -1) {
-      //then push into the arrays
-      settings.keys.push(id);
-      settings.data.push({
-        "id": id,
-        "id_label": id.indexOf('#') >= 0 ? id.split('#')[1] : id.substring(id.lastIndexOf('/') + 1)
-      });
-      //change index to the last item added
-      index = settings.keys.length - 1;
-    }
-    settings.data[index][rel] = settings.data[index][rel] || [];
-    settings.data[index][rel].push(val);
-
-    //add label for each value
-    val = (val.indexOf('#') >= 0 ? val.split('#')[1] : val);
-    settings.data[index][rel + '_label'] = settings.data[index][rel + '_label'] || '';
-    settings.data[index][rel + '_label'] += (settings.data[index][rel + '_label'].length > 0 ? ',' : '') + val.substring(val.lastIndexOf('/') + 1);
-
-    return settings;
-  }
 
 
 
