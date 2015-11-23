@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('RdfFormatter', function() {
+angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG) {
 
   this.exports = {
     'groupByProp': groupByProp,
@@ -46,12 +46,11 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function() {
     /*  Filter educational objects  */
     if (rel === 'has_educational_material') return settings;
 
-
     val_label = makeLabel(val);
 
 
     //get extra mappings
-    if (['OB', 'RF', 'RL', 'RV','ME'].indexOf(val_label.substr(0, 2)) > -1) {
+    if (['CI','OB', 'RF', 'RL', 'RV','ME'].indexOf(val_label.substr(0, 2)) > -1) {
       settings.mappings[val_label] = settings.mappings[val_label] || {};
       for (var prop in obj) {
         //except the 3 basic properties
@@ -82,6 +81,8 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function() {
     // val = (val.indexOf('#') >= 0 ? val.split('#')[1] : val);
     settings.data[index][rel + '_label'] = settings.data[index][rel + '_label'] || '';
     settings.data[index][rel + '_label'] += (settings.data[index][rel + '_label'].length > 0 ? ',' : '') + val_label;
+    settings.data[index][rel + '_label_arr'] = settings.data[index][rel + '_label_arr'] || [];
+    settings.data[index][rel + '_label_arr'].push(val_label);
 
     return settings;
   }
@@ -92,9 +93,9 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function() {
     settings.data=settings.data.map(function(obj) {
       var cat = '';
       for (var prop in obj) {
-        if (prop.indexOf('_label') > 0 && prop.indexOf('has_') === 0) {
+        if (prop.indexOf('_label_arr') > 0 && prop.indexOf('has_') === 0) {
           //select only props : has_....._label
-          obj[prop]=obj[prop].toString().split(',').map(function(term) {
+          obj[prop]=obj[prop].map(function(term) {
             if (settings.mappings.hasOwnProperty(term)) {
               cat = term.substr(0, 2);
               switch (cat) {
@@ -120,9 +121,10 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function() {
                   return prettyLabel(term);
               }
             } else return prettyLabel(term);
-
-          }).join(',');
-
+            
+          });
+          obj[prop.split('_arr')[0]]=obj[prop].join(',');
+          
         }
       }
       return obj;
@@ -146,7 +148,7 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function() {
   // function replaceAll(str, find, replace) {
   //   return str.replace(new RegExp(find, 'g'), replace);
   // }
-
+  
   function makeLabel(str) {
     return str.indexOf('#') >= 0 ? str.split('#')[1] : str.substring(str.lastIndexOf('/') + 1);
   }

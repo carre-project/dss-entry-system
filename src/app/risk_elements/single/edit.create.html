@@ -8,10 +8,6 @@
 <div class="col-xs-12">
     <a class="btn btn-sm btn-default" ui-sref="main.risk_elements.view({id:risk_element.id})"><i class="fa fa-eye"></i> Profile</a>
 
-    <ul class="list-group">
-      <li ng-repeat="field in risk_element.fields" class="list-group-item">
-        {{field.label}} : <b>{{risk_element.current[field.value+'_label']}}</b>
-      </li>
-    </ul>
+    <risk-element model="risk_element.current" element="risk_element.current"></risk-element>
  
 </div>

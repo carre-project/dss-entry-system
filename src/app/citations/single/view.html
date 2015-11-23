@@ -12,7 +12,7 @@
     <hr>
     <ul class="list-group">
       <li ng-repeat="field in citation.fields" class="list-group-item">
-        {{field.label}} : <b>{{citation.current[field.value+'_label']}}</b>
+        {{field.label}} : <carre-linker model="citation.current" property="{{field.value}}"></carre-linker>
       </li>
     </ul>
   </div>

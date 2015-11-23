@@ -11,6 +11,7 @@
 
     vm.user = currentUser;
     vm.config = CONFIG;
+    CONFIG.ROOT_URL=rootUrl();
     
     //clean up the browser url
     $location.url($location.path());
@@ -31,6 +32,14 @@
     }
 
     
+
+    function rootUrl(){
+      if(CONFIG.ENV==='DEV'){
+        return window.location.host+'/#/';
+      } else if(CONFIG.ENV==='PROD'){
+        return window.location.host+'/';
+      }
+    }
 
   }
 })();

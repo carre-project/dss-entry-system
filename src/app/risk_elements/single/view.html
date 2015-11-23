@@ -12,7 +12,7 @@
     <hr>
     <ul class="list-group">
       <li ng-repeat="field in risk_element.fields" class="list-group-item">
-        {{field.label}} : <b>{{risk_element.current[field.value+'_label']}}</b>
+        {{field.label}} : <carre-linker model="risk_element.current" property="{{field.value}}"></carre-linker>
       </li>
     </ul>
   </div>
