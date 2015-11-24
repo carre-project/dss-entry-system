@@ -7,8 +7,10 @@ angular.module('CarreEntrySystem')
       restrict: 'E',
       replace: true,
       scope: {
-        'model': '=',
-        'element': '@'
+        'model': '='
+      },
+      controller:function($scope){
+        
       }
     };
   });
