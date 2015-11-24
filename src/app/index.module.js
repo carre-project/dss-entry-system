@@ -24,6 +24,7 @@
       'ui.grid.grouping',
       'ui.grid.pagination',
       'ui.grid.autoResize',
+      'ui.select',
       'pageslide-directive',
       'toggle-switch'
     ]);

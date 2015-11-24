@@ -17,7 +17,6 @@ angular.module('CarreEntrySystem')
         var avoidExpressions = ['has_observable_condition'];
         var arr = $scope.model[$scope.property];
         $scope.label = $scope.model[$scope.property + '_label'];
-        
         if ($scope.property === 'has_observable_condition') {
           $scope.show='condition';
           

@@ -1,42 +1,66 @@
 <div>
- <form name="form" novalidate>
-    
+  <form name="form" novalidate>
+
     <div class="form-group" ng-class="{ 'has-error': form.name.$touched && form.name.$invalid }">
       <label>Name</label>
-      <input type="text" name="name" class="form-control" 
-        ng-model="main.name"
-        ng-minlength="5"
-        ng-maxlength="10"
-        required>
-        
+      <input type="text" name="name" class="form-control" ng-model="risk_element.name" ng-minlength="5" required>
+
       <div class="help-block" ng-messages="form.name.$error" ng-if="form.name.$touched">
         <p ng-message="minlength">Your name is too short.</p>
-        <p ng-message="maxlength">Your name is too long.</p>
         <p ng-message="required">Your name is required.</p>
       </div>
     </div>
-    
+
     <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
-      <label>Email</label>
-      <input type="email" name="email" class="form-control" 
-        ng-model="main.email"
-        ng-minlength="5"
-        ng-maxlength="20"
-        required>
-        
+      <label>Modifiable status</label>
+      <input type="checkbox" ng-model="risk_element.modifiable_status">
+
+    </div>
+
+    <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+      <label>Risk element type</label>
+
+      <ui-select ng-model="risk_element.type.selected" theme="bootstrap" ng-disabled="disabled" style="min-width: 300px;">
+        <ui-select-match placeholder="Select risk element type">{{$select.selected.label}}</ui-select-match>
+        <ui-select-choices repeat="type in types | propsFilter: {label: $select.search, age: $select.search}">
+          <div ng-bind-html="type.label | highlight: $select.search"></div>
+          <!--<small> {{type.label}} </small>-->
+        </ui-select-choices>
+      </ui-select>
+
       <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
         <div ng-messages-include="messages.html"></div>
       </div>
-      
+
     </div>
-    
+
+    <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+      <label>Observables</label>
+
+      <!--&lt;{{$item.id}}&gt;-->
+      <ui-select multiple ng-model="risk_element.observables" theme="bootstrap" ng-disabled="disabled" style="width: 800px;">
+        <ui-select-match placeholder="Select person...">{{$item.has_observable_name_label}} </ui-select-match>
+        <ui-select-choices repeat="ob in observables | propsFilter: {has_observable_name_label: $select.search, has_observable_type_label: $select.search}">
+          <div ng-bind-html="ob.has_observable_name_label | highlight: $select.search"></div>
+      </small>
+        </ui-select-choices>
+      </ui-select>
+
+      <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
+        <div ng-messages-include="messages.html"></div>
+      </div>
+
+    </div>
+
+
+
     <div class="form-group">
       <button type="submit" class="btn btn-danger">Submit</button>
     </div>
-    
+
   </form>
-  
-<pre>form.name.$error = {{ form.name.$error | json }}</pre>
-<pre>{{ model | json }}</pre>
+
+  <pre>form.name.$error = {{ form.name.$error | json }}</pre>
+  <pre>{{ risk_element | json }}</pre>
 
 </div>
