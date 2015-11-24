@@ -14,9 +14,11 @@ angular.module('CarreEntrySystem')
         $scope.showlink=false;
         $scope.items=[];
         var label_arr=[];
+        var avoidExpressions=['has_observable_condition'];
         var arr = $scope.model[$scope.property];
         $scope.label=$scope.model[$scope.property+'_label'];
-        if (arr instanceof Array) {
+        if (arr instanceof Array && avoidExpressions.indexOf($scope.property)===-1) {
+          
           label_arr = $scope.model[$scope.property+'_label_arr'];
          
           arr.forEach(function(str,index) {

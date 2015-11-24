@@ -27,30 +27,25 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG) {
   }
 
   function tripleAccumulator(settings, obj) {
-
-
-    var id, rel, val, val_label = '';
-    if (settings.valueProp) {
-      id = obj[settings.groupProp][settings.valueProp];
-      rel = makeLabel(obj[settings.triplesFormat[1]][settings.valueProp]);
-      val = obj[settings.triplesFormat[2]][settings.valueProp];
-    }
-    else {
-      id = obj[settings.groupProp];
-      rel = obj[settings.triplesFormat[1]].split("#")[1] || "_";
-      val = obj[settings.triplesFormat[2]];
-    }
-
-
+    
+    
+    var type,id, rel, val, val_label = '';
+    
+    id = obj[settings.groupProp][settings.valueProp];
+    rel = makeLabel(obj[settings.triplesFormat[1]][settings.valueProp]);
+    type = obj[settings.triplesFormat[2]].type;
+    val = obj[settings.triplesFormat[2]][settings.valueProp];
 
     /*  Filter educational objects  */
     if (rel === 'has_educational_material') return settings;
+    
+    //make labels only for literals (not for nodes or relations)
+    if(type==="typed-literal"){ val_label=val; } else { val_label=makeLabel(val); }
 
-    val_label = makeLabel(val);
-
-
+    // console.log(type,id,rel,val_label);
+    
     //get extra mappings
-    if (['CI','OB', 'RF', 'RL', 'RV','ME'].indexOf(val_label.substr(0, 2)) > -1) {
+    if (['CI','OB', 'RF', 'RL', 'RV','ME'].indexOf(val_label.substr(0, 2)) > -1 && val_label.indexOf("observable_condition")===-1) {
       settings.mappings[val_label] = settings.mappings[val_label] || {};
       for (var prop in obj) {
         //except the 3 basic properties
@@ -93,7 +88,7 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG) {
     settings.data=settings.data.map(function(obj) {
       var cat = '';
       for (var prop in obj) {
-        if (prop.indexOf('_label_arr') > 0 && prop.indexOf('has_') === 0) {
+        if (prop.indexOf('_label_arr') > 0 && prop.indexOf('has_') === 0 && prop.indexOf('has_observable_condition')===-1) {
           //select only props : has_....._label
           obj[prop]=obj[prop].map(function(term) {
             if (settings.mappings.hasOwnProperty(term)) {
@@ -106,9 +101,11 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG) {
                   // make label for measurent types
                   return prettyLabel(settings.mappings[term].has_measurement_type_name);
                 case 'RF':
-                  // make label for risk factor              
+                  // make label for risk factor    
+                  console.log(settings.mappings[term].has_risk_factor_association_type);
                   return prettyLabel(settings.mappings[term].has_source_risk_element_name +
-                    ' '+ settings.mappings[term].has_risk_factor_association_type + ' ' +
+                    ' '+ makeLabel(settings.mappings[term].has_risk_factor_association_type
+                    .substr(settings.mappings[term].has_risk_factor_association_type.indexOf('risk_factor_association_type')+29)) + ' ' +
                     settings.mappings[term].has_target_risk_element_name);
                 case 'RL':
                   // make label for risk element
@@ -153,11 +150,16 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG) {
     return str.indexOf('#') >= 0 ? str.split('#')[1] : str.substring(str.lastIndexOf('/') + 1);
   }
 
+  function uriLabel(str) {
+    return str.indexOf('#') >= 0 ? str.split('#')[1] : str;
+  }
+
   function prettyLabel(label) {
     //replace _ with spaces
     label = label.replace(new RegExp("_", "g"), " ");
     //Capitalize first letter
-    return label.charAt(0).toUpperCase() + label.slice(1);
+    //return label.charAt(0).toUpperCase() + label.slice(1);
+    return label;
   }
 
   return this.exports;

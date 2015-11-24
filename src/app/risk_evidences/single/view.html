@@ -18,14 +18,7 @@
   </div>
 
   <div class="col-sm-6">
-
-    <div cg-busy="risk_evidence.loading" class="panel panel-default">
-      <div class="panel-heading">Article : {{risk_evidence.pubmedId}} <a ng-href="http://www.ncbi.nlm.nih.gov/pubmed/{{risk_evidence.pubmedId}}" target="_blank">Link</a></div>
-      <div class="panel-body">
-        <div style="white-space: pre-line; overflow-y: auto;" ng-bind-html="risk_evidence.pubmedArticle"></div>
-      </div>
-    </div>
-
+    <carre-view-pubmed id="{{risk_evidence.pubmedId}}"></carre-view-pubmed>
   </div>
 
 </div>

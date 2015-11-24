@@ -112,6 +112,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
         'has_target_risk_element_name'
         ];
       if (raw) return res;
+      // console.log(res.data);
       var results = RdfFormatter.groupByProp(res.data, props, null, 'value');
       if (results.data.length > 0) return RdfFormatter.mappings(results);
       else return [];
@@ -129,7 +130,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
     // use token
     if (Auth.cookie) params.token = Auth.cookie;
 
-    console.info('Final query: ', params.sparql);
+    // console.info('Final query: ', params.sparql);
     return $http.post(CONFIG.CARRE_API_URL + 'query', params);
 
   }

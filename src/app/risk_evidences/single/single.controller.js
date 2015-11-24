@@ -1,3 +1,4 @@
+/*global jsep*/
 (function() {
   'use strict';
 
@@ -49,6 +50,7 @@
       
       
       
+      
     }
 
 
@@ -74,9 +76,6 @@
           require_definitions:'false'
         };
         vm.pubmedId=vm.current.has_risk_evidence_source_label.split(' ')[1];
-        vm.loading = Pubmed.fetch(vm.pubmedId).then(function(res) {
-          vm.pubmedArticle = res.data;
-        });
         
       });
     }
