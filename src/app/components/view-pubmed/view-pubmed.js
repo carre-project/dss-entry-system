@@ -10,11 +10,9 @@ angular.module('CarreEntrySystem')
         'id': '@'
       },
       controller: function($scope, Pubmed) {
-        
-        console.log('Pubmed Directive Id: ',$scope.id);
+      
         $scope.loading = Pubmed.fetch($scope.id).then(function(res) {
           $scope.pubmedArticle = res.data;
-          console.log('Pubmed Directive Article data: ',res);
         });
 
 

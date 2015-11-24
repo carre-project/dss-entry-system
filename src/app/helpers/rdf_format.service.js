@@ -102,7 +102,6 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG) {
                   return prettyLabel(settings.mappings[term].has_measurement_type_name);
                 case 'RF':
                   // make label for risk factor    
-                  console.log(settings.mappings[term].has_risk_factor_association_type);
                   return prettyLabel(settings.mappings[term].has_source_risk_element_name +
                     ' '+ makeLabel(settings.mappings[term].has_risk_factor_association_type
                     .substr(settings.mappings[term].has_risk_factor_association_type.indexOf('risk_factor_association_type')+29)) + ' ' +

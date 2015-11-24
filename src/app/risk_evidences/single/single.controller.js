@@ -75,7 +75,7 @@
           display_links:'true',
           require_definitions:'false'
         };
-        vm.pubmedId=vm.current.has_risk_evidence_source_label.split(' ')[1];
+        vm.pubmedId=vm.current.has_risk_evidence_source[0].split('_')[1];
         
       });
     }

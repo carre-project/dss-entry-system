@@ -6,7 +6,7 @@
 <!--debug vars-->
 
 <div class="col-xs-12">
-  <div class="col-sm-4">
+  <div class="col-sm-6">
     ID: <b>{{citation.id}}</b>
     <a ng-show="main.user.username" class="btn btn-xs btn-default" ui-sref="main.citations.edit({id:citation.id})"><i class="fa fa-pencil"></i> Edit</a>
     <hr>
@@ -16,15 +16,8 @@
       </li>
     </ul>
   </div>
-  <div class="col-sm-8">
-
-    <div cg-busy="citation.loading" class="panel panel-default">
-      <div class="panel-heading">Article : {{citation.id}} <a ng-href="http://www.ncbi.nlm.nih.gov/pubmed/{{citation.id}}" target="_blank">Link</a></div>
-      <div class="panel-body">
-        <div style="white-space: pre-line; overflow-y: auto;" ng-bind-html="citation.pubmedArticle"></div>
-      </div>
-    </div>
-
+  <div class="col-sm-6">
+        <carre-view-pubmed ng-if="citation.id" id="{{citation.id}}"></carre-view-pubmed>
   </div>
 
 </div>
