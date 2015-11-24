@@ -44,9 +44,6 @@
         templateUrl: 'app/citations/single/edit.create.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
-        // resolve:{
-        //   current:function(Citations)
-        // },
         url: '/create'
       })
       .state('main.citations.edit', {

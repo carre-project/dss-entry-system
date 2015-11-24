@@ -66,7 +66,7 @@
             label:content.labelOf(field)
           }
         });
-        vm.pubmedId=vm.current.has_citation_pubmed_identifier;
+        vm.pubmedId=vm.current.has_citation_pubmed_identifier[0];
         // vm.loading = Pubmed.fetch(vm.current.has_citation_pubmed_identifier).then(function(res) {
         //   vm.pubmedArticle = res.data;
         //   console.info('Pubmed Article: '+id, res);
