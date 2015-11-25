@@ -4,11 +4,10 @@
 
     <div class="form-group" ng-class="{ 'has-error': form.name.$touched && form.name.$invalid }">
       <label>Name</label>
-      <input type="text" name="name" class="form-control" ng-model="risk_element.name" ng-minlength="5" required>
+      <input type="text" name="name" class="form-control" ng-model="risk_element.name" required>
 
       <div class="help-block" ng-messages="form.name.$error" ng-if="form.name.$touched">
-        <p ng-message="minlength">Your name is too short.</p>
-        <p ng-message="required">Your name is required.</p>
+        <p ng-message="required">Name is required.</p>
       </div>
     </div>
 
@@ -21,9 +20,9 @@
     <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
       <label>Risk element type</label>
 
-      <ui-select ng-model="risk_element.type" theme="bootstrap" ng-disabled="disabled" style="min-width: 300px;">
+      <ui-select ng-model="risk_element.type" theme="bootstrap">
         <ui-select-match placeholder="Select risk element type">{{$select.selected.label}}</ui-select-match>
-        <ui-select-choices repeat="type.value as type in types | propsFilter: {label: $select.search, age: $select.search}">
+        <ui-select-choices repeat="type.value as type in types | propsFilter: {label: $select.search}">
           <div ng-bind-html="type.label | highlight: $select.search"></div>
           <!--<small> {{type.label}} </small>-->
         </ui-select-choices>
@@ -42,9 +41,9 @@
       <label>Risk element Identifier</label>
       <div ng-show="loadingElementIdentifier" class="loadingSelect"></div>
 
-      <ui-select ng-model="risk_element.identifier" theme="bootstrap" ng-disabled="disabled" style="min-width: 300px;" title="Get risk element identifier">
-        <ui-select-match placeholder="Search for CUI...">{{$select.selected.value}}</ui-select-match>
-        <ui-select-choices repeat="elem.value as elem in bioportalAutocompleteResults" refresh="bioportalAutocomplete($select.search)" refresh-delay="1000">
+      <ui-select ng-model="risk_element.identifier" theme="bootstrap">
+        <ui-select-match placeholder="Search for CUI...">{{$select.selected.label+' - '+$select.selected.value}}</ui-select-match>
+        <ui-select-choices repeat="elem.value as elem in bioportalAutocompleteResults" refresh="bioportalAutocomplete($select.search)" refresh-delay="500">
           <div ng-bind-html="elem.label | highlight: $select.search"></div>
           <small>{{elem.value}}</small>
         </ui-select-choices>
@@ -60,9 +59,9 @@
       <label>Observables</label>
 
       <!--&lt;{{$item.id}}&gt;-->
-      <ui-select multiple ng-model="risk_element.observables" theme="bootstrap" ng-disabled="disabled" style="width: 800px;">
-        <ui-select-match placeholder="Select person...">{{$item.label}} </ui-select-match>
-        <ui-select-choices repeat="ob.id as ob in observables">
+      <ui-select multiple ng-model="risk_element.observables" theme="bootstrap">
+        <ui-select-match placeholder="Select observables">{{$item.label}} </ui-select-match>
+        <ui-select-choices repeat="ob.value as ob in observables | propsFilter: {label: $select.search}">
           <div ng-bind-html="ob.label | highlight: $select.search"></div>
         </ui-select-choices>
       </ui-select>

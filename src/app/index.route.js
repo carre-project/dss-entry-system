@@ -214,6 +214,7 @@
         url: '/:id'
       })
       
+      /*Error routes*/
       .state('404_error', {
         templateUrl: '404.html',
         url: '/404_error'

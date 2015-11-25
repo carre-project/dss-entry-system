@@ -29,7 +29,7 @@ angular.module('CarreEntrySystem').service('Bioportal', function($http, CONFIG) 
         }
         
       });
-      
+      console.log('----Bipportal---',results);
       return results;
 
     });

@@ -2,7 +2,7 @@
 
 angular.module('CarreEntrySystem')
 
-.directive('riskElement', function() {
+.directive('riskElementForm', function() {
   return {
     templateUrl: 'app/components/forms/risk_element/form.html',
     restrict: 'E',
@@ -10,35 +10,41 @@ angular.module('CarreEntrySystem')
     scope: {
       'model': '='
     },
-    controller: function($scope, Observables, Bioportal) {
-
+    controller: function($scope, Observables, Bioportal, Risk_elements,Auth) {
+      
+      Auth.getUser().then(function(res){ $scope.user=res; });
       $scope.model = $scope.model || {};
       $scope.bioportalAutocompleteResults = [];
 
       //get observables
       Observables.get().then(function(res) {
-        $scope.observables = res.data;
+        $scope.observables = res.data.map(function(ob) {
+            return {
+              value: ob.id,
+              label: ob.has_observable_name_label
+            };
+          });
       });
 
       //risk element types
       $scope.types = [{
         label: "behavioural",
-        value: "risk:risk_element_type_behavioural"
+        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_element_type_behavioural"
       }, {
         label: "biomedical",
-        value: "risk:risk_element_type_biomedical"
+        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_element_type_biomedical"
       }, {
         label: "demographic",
-        value: "risk:risk_element_type_demographic"
+        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_element_type_demographic"
       }, {
         label: "intervention",
-        value: "risk:risk_element_type_intervention"
+        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_element_type_intervention"
       }, {
         label: "genetic",
-        value: "risk:risk_element_type_genetic"
+        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_element_type_genetic"
       }, {
         label: "environmental",
-        value: "risk:risk_element_type_environmental"
+        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_element_type_environmental"
       }];
 
       //Bioportal stuff
@@ -54,7 +60,7 @@ angular.module('CarreEntrySystem')
       
       //Save to RDF method
       $scope.saveModel=function(){
-        window.alert('Not yet!');
+        Risk_elements.insert($scope.model,$scope.risk_element,$scope.user.graphName);
       };
 
 
@@ -67,12 +73,9 @@ angular.module('CarreEntrySystem')
         //Init Form object
         $scope.risk_element = {
           observables: $scope.model.has_risk_element_observable.map(function(ob, index) {
-            return {
-              id: ob,
-              label: $scope.model.has_risk_element_observable_label_arr[index]
-            };
+            return ob;
           }),
-          type: $scope.model.type_label,
+          type: $scope.model.has_risk_element_type[0],
           name: $scope.model.has_risk_element_name_label,
           identifier: $scope.model.has_risk_element_identifier_label,
           modifiable_status: $scope.model.has_risk_element_modifiable_status_label
