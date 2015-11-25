@@ -1,3 +1,13 @@
+/*loading spinner on ui-select*/
+.loadingSelect{    
+  display: inline-block;
+  width:16px;
+  height:16px;
+  z-index: 9999;
+  background: url('/assets/images/ajax-loader.gif') no-repeat;
+}
+
+/*loading bar*/
 #loading-bar .bar{
   height:3px;
   background-color:#FFE515;
