@@ -10,7 +10,7 @@ angular.module('CarreEntrySystem')
     scope: {
       'model': '='
     },
-    controller: function($scope, Observables, Bioportal, Risk_elements,Auth) {
+    controller: function($scope, Observables, Bioportal, Risk_elements,Auth,toastr) {
       
       Auth.getUser().then(function(res){ $scope.user=res; });
       $scope.model = $scope.model || {};
@@ -60,7 +60,18 @@ angular.module('CarreEntrySystem')
       
       //Save to RDF method
       $scope.saveModel=function(){
-        Risk_elements.insert($scope.model,$scope.risk_element,$scope.user.graphName);
+        Risk_elements.insert($scope.model,$scope.risk_element,$scope.user.graphName).then(function(res){
+          //success
+          console.log(res);
+          toastr.success('<h3>Risk element saved</h3><p>'+$scope.risk_element.name+' is now in RDF!</p>');
+
+        },function(res){
+          //error
+          console.error(res);
+          toastr.error('<h3>Oh Error</h3><p>'+res.data+'</p>');
+
+          
+        });
       };
 
 

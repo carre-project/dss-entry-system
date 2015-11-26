@@ -17,7 +17,6 @@ angular.module('CarreEntrySystem').service('Bioportal', function($http, CONFIG) 
     return search(term, options).then(function(res) {
       var cuis = [];
       var results = [];
-      console.log(res);
       res.data.collection.forEach(function(obj) {
         
         if ((obj.cui?obj.cui.length>0:false) && cuis.indexOf(obj.cui[0]) === -1) {
@@ -29,7 +28,7 @@ angular.module('CarreEntrySystem').service('Bioportal', function($http, CONFIG) 
         }
         
       });
-      console.log('----Bipportal---',results);
+      console.info(results);
       return results;
 
     });
