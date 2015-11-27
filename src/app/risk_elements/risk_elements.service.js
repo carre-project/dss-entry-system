@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARRE, CONFIG) {
+angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARRE, CONFIG, $q) {
 
   this.exports = {
     'get': getRisk_elements,
@@ -92,6 +92,10 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
       //add type and close query
       insertQuery += "              rdf:type risk:risk_element. \n }}";
 
+
+      console.info('insertQuery: ', insertQuery);
+      return $q.reject({data:'Not implemented yet!'})
+      // return CARRE.query(insertQuery);
     }
 
   }

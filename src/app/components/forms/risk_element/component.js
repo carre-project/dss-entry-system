@@ -69,6 +69,10 @@ angular.module('CarreEntrySystem')
 
         });
       };
+      //Return back
+      $scope.cancelForm=function(){
+        $scope.$emit('risk_element:cancel');
+      };
 
 
       if ($scope.model.id) {

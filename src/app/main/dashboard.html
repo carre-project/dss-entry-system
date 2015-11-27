@@ -6,14 +6,29 @@
         <!-- /.col-lg-12 -->
     </div>
     <div class="row">
+        <div class="col-lg-3 col-md-4">
+            <div class="jumbotron" style="height:220px;margin:0">
+                <h1><div class="label label-success"> <span count-to="{{dashboard.countAll}}" value="{{dashboard.countAllInit}}" duration="2">
+                    
+                </span></div> </h1>
 
-        <stats goto="main.risk_elements.list" title="Risk Elements" number="{{dashboard.risk_elements.total||0}}" comments="{{dashboard.risk_elements.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
-        <stats goto="main.risk_evidences.list" title="Risk Evidences" number="{{dashboard.risk_evidences.total||0}}" comments="{{dashboard.risk_evidences.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
-        <stats goto="main.citations.list" title="Citations" number="{{dashboard.citations.total||0}}" comments="{{dashboard.citations.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
-        <stats goto="main.observables.list" title="Observables" number="{{dashboard.observables.total||0}}" comments="{{dashboard.observables.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
-        <stats goto="main.risk_factors.list" title="Risk Factors" number="{{dashboard.risk_factors.total||0}}" comments="{{dashboard.risk_factors.noreviews||0}} unreviewed!" colour="primary" type="support"></stats>
-        <stats goto="404_error" number="24" comments="404 errors!" colour="red" type="support"></stats>
-        <stats goto="500_error" number="24" comments="500 errors!" colour="red" type="support"></stats>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-8">
+            <div style="margin-bottom:30px">
+                <canvas height="85" class="chart chart-bar chart-sm" chart-data="dashboard.counterchart_data" chart-labels="dashboard.counterchart_labels" chart-options="dashboard.counterchart_options">
+                </canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <stats goto="main.risk_elements.list" title="Risk Elements" number="{{dashboard.risk_elements.total||0}}" comments="{{dashboard.risk_elements.noreviews||0}} unreviewed!" colour="info" type="info"></stats>
+        <stats goto="main.risk_evidences.list" title="Risk Evidences" number="{{dashboard.risk_evidences.total||0}}" comments="{{dashboard.risk_evidences.noreviews||0}} unreviewed!" colour="info" type="info"></stats>
+        <stats goto="main.citations.list" title="Citations" number="{{dashboard.citations.total||0}}" comments="{{dashboard.citations.noreviews||0}} unreviewed!" colour="info" type="info"></stats>
+        <stats goto="main.observables.list" title="Observables" number="{{dashboard.observables.total||0}}" comments="{{dashboard.observables.noreviews||0}} unreviewed!" colour="info" type="info"></stats>
+        <stats goto="main.risk_factors.list" title="Risk Factors" number="{{dashboard.risk_factors.total||0}}" comments="{{dashboard.risk_factors.noreviews||0}} unreviewed!" colour="info" type="info"></stats>
+        <stats goto="main.measurement_types.list" title="Measurement Types" number="{{dashboard.measurement_types.total||0}}" comments="{{dashboard.measurement_types.noreviews||0}} unreviewed!" colour="info" type="info"></stats>
 
     </div>
     <div class="row">

@@ -26,7 +26,8 @@
       'ui.grid.autoResize',
       'ui.select',
       'pageslide-directive',
-      'toggle-switch'
+      'toggle-switch',
+      'chart.js'
     ]);
 
 })();

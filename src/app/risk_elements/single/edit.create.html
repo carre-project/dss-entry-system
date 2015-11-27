@@ -6,7 +6,5 @@
 <!--debug vars-->
 
 <div class="col-xs-12">
-    <a class="btn btn-sm btn-default" ng-show="!risk_element.create" ui-sref="main.risk_elements.view({id:risk_element.id})"><i class="fa fa-eye"></i> Profile</a>
-    <hr>
     <risk-element-form ng-if="risk_element.current.id||risk_element.create" model="risk_element.current"></risk-element-form>
 </div>

@@ -22,6 +22,11 @@
     $scope.$on('risk_element:save',function(){
       $state.go('main.risk_elements.view',{id:vm.id});
     });
+    $scope.$on('risk_element:cancel',function(){
+      if(vm.current.id) $state.go('main.risk_elements.view',{id:vm.id});
+      else $state.go('main.risk_elements.list');
+    });
+
 
     if ($state.is("main.risk_elements.create")) {
       vm.create = true;
@@ -45,7 +50,7 @@
         } else $state.go('404_error');
       }, function(err) {
         console.error(err);
-        $state.go('main.risk_elements');
+        $state.go('main.risk_elements.list');
       });
     }
 

@@ -4,7 +4,7 @@
 
     <div class="form-group" ng-class="{ 'has-error': form.name.$touched && form.name.$invalid }">
       <label>Name</label>
-      <input type="text" name="name" class="form-control" ng-model="risk_element.name" required>
+      <input type="text" name="name" placeholder="Risk element name e.g acute kidney disease" class="form-control" ng-model="risk_element.name" required>
 
       <div class="help-block" ng-messages="form.name.$error" ng-if="form.name.$touched">
         <p ng-message="required">Name is required.</p>
@@ -75,12 +75,13 @@
 
 
     <div class="form-group">
-      <button type="submit" class="btn btn-danger">Submit</button>
+      <button type="button" ng-click="cancelForm()" class="btn btn-danger">Cancel</button>
+      <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 
   </form>
 
-  <pre>form.name.$error = {{ form.name.$error | json }}</pre>
-  <pre>{{ risk_element | json }}</pre>
+  <!--<pre>form.name.$error = {{ form.name.$error | json }}</pre>-->
+  <!--<pre>{{ risk_element | json }}</pre>-->
 
 </div>
