@@ -6,7 +6,7 @@
     .controller('risk_elementsSingleController', risk_elementsSingleController);
 
   /** @ngInject */
-  function risk_elementsSingleController(toastr, content, Bioportal, Risk_elements, currentUser, $stateParams, $timeout, Pubmed, $state) {
+  function risk_elementsSingleController(toastr, content, Bioportal, Risk_elements, currentUser, $stateParams, $timeout, Pubmed, $state,$scope) {
     var vm = this;
     vm.user=currentUser;
     
@@ -16,41 +16,17 @@
     vm.current = {};
     vm.edit = $stateParams.edit;
     if (vm.id) getRisk_element(vm.id);
+    
+    
+    //Handle events
+    $scope.$on('risk_element:save',function(){
+      $state.go('main.risk_elements.view',{id:vm.id});
+    });
 
     if ($state.is("main.risk_elements.create")) {
       vm.create = true;
       vm.current = {};
-      // console.info('---Create---');
-      // console.info('State: ', $state);
-      // console.info('State params: ', $stateParams);
-
-      /************** Edit/Create Template **************/
-
-
-
-
-    }
-    else if ($state.is("main.risk_elements.edit")) {
-
-      // console.info('---Edit---');
-      // console.info('State: ', $state);
-      // console.info('State params: ', $stateParams);
-
-      /************** Edit/Create Template **************/
-
-
-
-    }
-    else {
-
-      // console.info('---View---');
-      // console.info('State: ', $state);
-      // console.info('State params: ', $stateParams);
-
-      /************** View Template **************/
-
-
-    }
+    } else if ($state.is("main.risk_elements.edit")) {} else {}
 
 
 

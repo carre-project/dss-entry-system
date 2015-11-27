@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$q) {
+angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$q,toastr) {
 
   this.exports = {
     'count': countInstance,
@@ -132,7 +132,11 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
 
     // console.info('Final query: ', params.sparql);
     return $http.post(CONFIG.CARRE_API_URL + 'query', params).then(function(res){
-      if(res.data==='No JSON object could be decoded') return $q.reject(res);  else return res;
+      if(res.data==='No JSON object could be decoded') {
+        console.error(res);
+        toastr.error('<p>'+res.data+'</p>','<h4>Oh Error</h4>');
+        return $q.reject(res);
+      }  else return res;
     });
 
   }

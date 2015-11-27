@@ -51,12 +51,10 @@
         field: 'Edit',
         enableFiltering: false,
         enableColumnMenu: false,
-        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.risk_elements.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
+        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.risk_elements.edit({id:row.entity.id_label})"><i class="fa fa-edit"></i></button></div>',
         width: 60
       });
     }
-    
-
 
 
 

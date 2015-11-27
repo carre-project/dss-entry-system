@@ -26,9 +26,9 @@
     
     //show message for the user
     if(currentUser.username){
-      toastr.success('<h3>Hello '+currentUser.username+'!</h3><p>Have fun with the risk factors!</p>');
+      toastr.success('Have fun with the risk factors!','<h4>Hi '+currentUser.username+'!</h4>');
     } else {
-      toastr.info('<h3>Hello Guest!</h3><p>Please login if you want to add/edit data.</p>');
+      toastr.info('Please login if you want to add/edit data.','<h4>Hello Guest!</h4>');
     }
 
     

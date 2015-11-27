@@ -7,15 +7,36 @@
 
   /** @ngInject */
   function config(toastrConfig, $httpProvider, cfpLoadingBarProvider) {
+    
     // Set options third-party lib
-    toastrConfig.allowHtml = true;
-    toastrConfig.timeOut = 3000;
-    toastrConfig.positionClass = 'toast-top-right';
-    toastrConfig.preventDuplicates = true;
-    toastrConfig.progressBar = false;
-
-    // for enabling cross-domain request
-    // delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    
+    angular.extend(toastrConfig, {
+      allowHtml: true,
+      closeButton: false,
+      closeHtml: '<button>&times;</button>',
+      extendedTimeOut: 1000,
+      iconClasses: {
+        error: 'toast-error',
+        info: 'toast-info',
+        success: 'toast-success',
+        warning: 'toast-warning'
+      },
+      positionClass: 'toast-top-right',
+      messageClass: 'toast-message',
+      onHidden: null,
+      onShown: null,
+      onTap: null,
+      preventDuplicates: false,
+      progressBar: false,
+      tapToDismiss: true,
+      // templates: {
+      //   toast: 'directives/toast/toast.html',
+      //   progressbar: 'directives/progressbar/progressbar.html'
+      // },
+      timeOut: 4000,
+      titleClass: 'toast-title',
+      toastClass: 'toast'
+    });
 
     cfpLoadingBarProvider.spinnerTemplate = '<div style="position:absolute; top:-80px; z-index:99999; left:49%"><div class="loader">Loading...</div></div>';
     cfpLoadingBarProvider.latencyThreshold = 600;
@@ -26,6 +47,7 @@
     //fix 500 and -1 errors
     $httpProvider.interceptors.push(function($q, $injector) {
       var incrementalTimeout = 100;
+
       function retryRequest(httpConfig) {
         var $timeout = $injector.get('$timeout');
         incrementalTimeout *= 2;
@@ -39,16 +61,16 @@
         request: function(config) {
           return config;
         },
-        requestError:function(request){
-          console.warn('Error on request: ',request);
+        requestError: function(request) {
+          console.warn('Error on request: ', request);
           return request;
         },
         responseError: function(response) {
-          
-          if (response.status === 500||response.status===-1) {
-            
-          
-          console.warn('Weird API 500 error intercepted! : ',response);
+
+          if (response.status === 500 || response.status === -1) {
+
+
+            console.warn('Weird API 500 error intercepted! : ', response);
             if (incrementalTimeout < 4000) {
               return retryRequest(response.config);
             }

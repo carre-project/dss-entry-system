@@ -62,15 +62,11 @@ angular.module('CarreEntrySystem')
       $scope.saveModel=function(){
         Risk_elements.insert($scope.model,$scope.risk_element,$scope.user.graphName).then(function(res){
           //success
-          console.log(res);
-          toastr.success('<h3>Risk element saved</h3><p>'+$scope.risk_element.name+' is now in RDF!</p>');
-
-        },function(res){
-          //error
-          console.error(res);
-          toastr.error('<h3>Oh Error</h3><p>'+res.data+'</p>');
-
+          console.log('Risk Element saved',res);
           
+          $scope.$emit('risk_element:save');
+          toastr.success('<b>'+$scope.risk_element.name+'</b>'+($scope.model.id?' has been updated':' has been created'),'<h4>Risk element saved</h4>');
+
         });
       };
 
