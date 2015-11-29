@@ -80,18 +80,29 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
     });
   }
 
-  function countAllInstances(instanceType) {
-    var query = "SELECT ?s (COUNT(?r) as ?reviews) FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { ?s a risk:" + instanceType + " . OPTIONAL {?s risk:has_reviewer ?r .} } GROUP BY ?s";
-    return apiQuery(query).then(function(res) {
-      var sum = 0;
-      res.data.forEach(function(obj) {
-        if (obj.reviews.value === '0') sum += 1;
-      });
-      return {
-        total: res.data.length,
-        noreviews: sum
-      };
-    });
+  function countAllInstances() {
+    var query = "SELECT \n\
+    (COUNT(?rf) as ?risk_factors) \n\
+    (COUNT(?rf_r) as ?risk_factors_unreviewed) \n\
+    (COUNT(?rl) as ?risk_elements) \n\
+    (COUNT(?rl_r) as ?risk_elements_unreviewed) \n\
+    (COUNT(?ob) as ?observables) \n\
+    (COUNT(?ob_r) as ?observables_unreviewed) \n\
+    (COUNT(?rv) as ?risk_evidences) \n\
+    (COUNT(?rv_r) as ?risk_evidences_unreviewed) \n\
+    (COUNT(?ci) as ?citations) \n\
+    (COUNT(?me) as ?measurement_types)  \n\
+    FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
+    {?rf a risk:risk_factor} \n\
+    UNION { ?rf_r a risk:risk_factor FILTER NOT EXISTS {?rf_r risk:has_reviewer ?anything} } \n\
+    UNION {?rl a risk:risk_element} \n\
+    UNION { ?rl_r a risk:risk_element FILTER NOT EXISTS {?rl_r risk:has_reviewer ?anything} } \n\
+    UNION {?ob a risk:observable} UNION { ?ob_r a risk:observable FILTER NOT EXISTS {?ob_r risk:has_reviewer ?anything} } \n\
+    UNION {?rv a risk:risk_evidence} UNION { ?rv_r a risk:risk_evidence FILTER NOT EXISTS {?rv_r risk:has_reviewer ?anything} } \n\
+    UNION {?ci a risk:citation} \n\
+    UNION {?me a risk:measurement_type}  }";
+    
+    return apiQuery(query);
   }
 
 
@@ -130,7 +141,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
     // use token
     if (Auth.cookie) params.token = Auth.cookie;
 
-    // console.info('Final query: ', params.sparql);
+    console.info('Final query: ', params.sparql);
     return $http.post(CONFIG.CARRE_API_URL + 'query', params).then(function(res){
       if(res.data==='No JSON object could be decoded') {
         console.error(res);
@@ -174,6 +185,46 @@ OPTIONAL {
  ?has_risk_factor_target risk:has_risk_element_name ?has_target_risk_element_name.
 }
 }
+
+
+# COUNT elements and reviews
+
+SELECT 
+(COUNT(?rf) as ?risk_factors) 
+(COUNT(?rf_r) as ?risk_factors_unreviewed)
+(COUNT(?rl) as ?risk_elements) 
+(COUNT(?rl_r) as ?risk_elements_unreviewed)
+(COUNT(?ob) as ?observables) 
+(COUNT(?ob_r) as ?observables_unreviewed)
+(COUNT(?rv) as ?risk_evidences) 
+(COUNT(?rv_r) as ?risk_evidences_unreviewed)
+(COUNT(?ci) as ?citations) 
+(COUNT(?me) as ?measurement_types) 
+FROM <http://carre.kmi.open.ac.uk/public> WHERE { 
+{?rf a risk:risk_factor}
+UNION
+{ ?rf_r a risk:risk_factor FILTER NOT EXISTS {?rf_r risk:has_reviewer ?anything} }
+UNION
+{?rl a risk:risk_element}
+UNION
+{ ?rl_r a risk:risk_element FILTER NOT EXISTS {?rl_r risk:has_reviewer ?anything} }
+UNION
+{?ob a risk:observable}
+UNION
+{ ?ob_r a risk:observable FILTER NOT EXISTS {?ob_r risk:has_reviewer ?anything} }
+UNION
+{?rv a risk:risk_evidence}
+UNION
+{ ?rv_r a risk:risk_evidence FILTER NOT EXISTS {?rv_r risk:has_reviewer ?anything} }
+UNION
+{?ci a risk:citation}
+UNION
+{?me a risk:measurement_type}
+
+
+}
+
+
     */
 
 

@@ -70,7 +70,7 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
 
       updateQuery = deleteQuery + insertQuery;
       
-      console.info('updateQuery: ', updateQuery);
+      // console.info('updateQuery: ', updateQuery);
       return CARRE.query(updateQuery);
     }
     else {
