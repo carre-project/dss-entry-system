@@ -7,20 +7,32 @@ angular.module('CarreEntrySystem').service('content', function() {
   };
 
   //auto build grid columns from keys of each element
-  function getModelFields(fieldsArray, filterOutArray) {
+  function getModelFields(fieldsArray, visibleArray) {
+    console.log(fieldsArray,visibleArray);
     var columnDefs = [];
-    filterOutArray = (filterOutArray || []).concat(['type','includes_risk_element','has_observable_condition','has_risk_element_identifier_system','has_risk_evidence_source','has_risk_evidence_observable','has_author','has_reviewer']);
-    fieldsArray.forEach(function(obj) {
     
-      if(filterOutArray.indexOf(obj)===-1) {
+    //add ordered columns
+    visibleArray.forEach(function(field_name) {
         columnDefs.push({
-          field: obj+'_label',
-          displayName: labelFromKey(obj)
+          field: field_name+'_label',
+          displayName: labelFromKey(field_name)
+        });
+    }); 
+    
+    //add rest of the fields;
+    fieldsArray.forEach(function(field_name) {
+      if(visibleArray.indexOf(field_name)===-1) {
+        columnDefs.push({
+          field: field_name+'_label',
+          displayName: labelFromKey(field_name),
+          visible:false
         });
       }
-      
     });
-
+    
+    //enable sorting ASC by the 1st field usually name
+    columnDefs[0].sort={ priority: 0, direction: 'asc' };
+    
     return columnDefs;
   }
 

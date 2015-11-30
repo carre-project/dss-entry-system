@@ -63,12 +63,12 @@
       vm.counterchart_data[0][5]=vm.risk_factors.total;
       
       //set top counter
-      vm.countAll = Number(vm.citations.total+
-      vm.risk_elements.total+
-      vm.risk_factors.total+
-      vm.risk_evidences.total+
-      vm.observables.total+
-      vm.measurement_types.total);
+      vm.countAll = vm.citations.total+
+                    vm.risk_elements.total+
+                    vm.risk_factors.total+
+                    vm.risk_evidences.total+
+                    vm.observables.total+
+                    vm.measurement_types.total;
     });
     
     

@@ -94,6 +94,9 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG) {
             if (settings.mappings.hasOwnProperty(term)) {
               cat = term.substr(0, 2);
               switch (cat) {
+                case 'CI':
+                  // make label for observables
+                  return prettyLabel(settings.mappings[term].has_citation_pubmed_identifier);
                 case 'OB':
                   // make label for observables
                   return prettyLabel(settings.mappings[term].has_observable_name);
@@ -103,8 +106,8 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG) {
                 case 'RF':
                   // make label for risk factor    
                   return prettyLabel(settings.mappings[term].has_source_risk_element_name +
-                    ' '+ makeLabel(settings.mappings[term].has_risk_factor_association_type
-                    .substr(settings.mappings[term].has_risk_factor_association_type.indexOf('risk_factor_association_type')+29)) + ' ' +
+                    ' ['+ makeLabel(settings.mappings[term].has_risk_factor_association_type
+                    .substr(settings.mappings[term].has_risk_factor_association_type.indexOf('risk_factor_association_type')+29)) + '] ' +
                     settings.mappings[term].has_target_risk_element_name);
                 case 'RL':
                   // make label for risk element

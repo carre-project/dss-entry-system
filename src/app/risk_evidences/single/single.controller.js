@@ -59,7 +59,7 @@
 
     function getRisk_evidence(id) {
       Risk_evidences.get([id]).then(function(res) {
-        // console.info('Risk_evidence: ', res);
+        console.info('Risk_evidence: ', res);
         vm.current = res.data[0];
         vm.fields=res.fields.map(function(field){
           return {
@@ -75,7 +75,7 @@
           display_links:'true',
           require_definitions:'false'
         };
-        vm.pubmedId=vm.current.has_risk_evidence_source[0].split('_')[1];
+        vm.pubmedId=vm.current.has_risk_evidence_source_label;
         
       });
     }

@@ -1,7 +1,7 @@
 angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$q,toastr) {
 
   this.exports = {
-    'count': countInstance,
+    // 'count': countInstance,
     'countAll': countAllInstances,
     'query': apiQuery,
     'selectQuery': selectQuery,
@@ -15,22 +15,26 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
                       PREFIX sensors: <http://carre.kmi.open.ac.uk/ontology/sensors.owl#> \n\
   */
   /* The prefixes for CARRE*/
-  var PREFIXSTR = " PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n\
-                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n\
-                    PREFIX carreUsers: <https://carre.kmi.open.ac.uk/users/> \n\
-                    PREFIX risk: <http://carre.kmi.open.ac.uk/ontology/risk.owl#> \n\
-                    PREFIX ME: <http://carre.kmi.open.ac.uk/measurement_types/> \n\
-                    PREFIX OB: <http://carre.kmi.open.ac.uk/observables/> \n\
-                    PREFIX RL: <http://carre.kmi.open.ac.uk/risk_elements/> \n\
-                    PREFIX RV: <http://carre.kmi.open.ac.uk/risk_evidences/> \n\
-                    PREFIX RF: <http://carre.kmi.open.ac.uk/risk_factors/> \n\
-                    PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
+  var PREFIXSTR = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n\
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n\
+PREFIX carreUsers: <https://carre.kmi.open.ac.uk/users/> \n\
+PREFIX risk: <http://carre.kmi.open.ac.uk/ontology/risk.owl#> \n\
+PREFIX ME: <http://carre.kmi.open.ac.uk/measurement_types/> \n\
+PREFIX OB: <http://carre.kmi.open.ac.uk/observables/> \n\
+PREFIX RL: <http://carre.kmi.open.ac.uk/risk_elements/> \n\
+PREFIX RV: <http://carre.kmi.open.ac.uk/risk_evidences/> \n\
+PREFIX RF: <http://carre.kmi.open.ac.uk/risk_factors/> \n\
+PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
 
   function queryInstances(type, ArrayOfIDs) {
 
     var listQuery = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
              ?subject a risk:" + type + "; ?predicate ?object. \n\
+              OPTIONAL {    \n\
+               ?object a risk:citation. \n\
+               ?object risk:has_citation_pubmed_identifier ?has_citation_pubmed_identifier  \n\
+              } \n\
               OPTIONAL {    \n\
                ?object a risk:observable. \n\
                ?object risk:has_observable_name ?has_observable_name  \n\
@@ -66,20 +70,6 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
   }
 
   /* Dashboard count instances methods */
-  function countInstance(instanceType) {
-    var query = "SELECT ?s (COUNT(?r) as ?reviews) FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { ?s a risk:" + instanceType + " . OPTIONAL {?s risk:has_reviewer ?r .} } GROUP BY ?s";
-    return apiQuery(query).then(function(res) {
-      var sum = 0;
-      res.data.forEach(function(obj) {
-        if (obj.reviews.value === '0') sum += 1;
-      });
-      return {
-        total: res.data.length,
-        noreviews: sum
-      };
-    });
-  }
-
   function countAllInstances() {
     var query = "SELECT \n\
     (COUNT(?rf) as ?risk_factors) \n\
@@ -104,7 +94,20 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
     
     return apiQuery(query);
   }
-
+  /* DEPRECATED */
+  // function countInstance(instanceType) {
+  //   var query = "SELECT ?s (COUNT(?r) as ?reviews) FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { ?s a risk:" + instanceType + " . OPTIONAL {?s risk:has_reviewer ?r .} } GROUP BY ?s";
+  //   return apiQuery(query).then(function(res) {
+  //     var sum = 0;
+  //     res.data.forEach(function(obj) {
+  //       if (obj.reviews.value === '0') sum += 1;
+  //     });
+  //     return {
+  //       total: res.data.length,
+  //       noreviews: sum
+  //     };
+  //   });
+  // }
 
   /* Easy select query to transform triples to javascript objects */
   function selectQuery(sparqlQuery, raw) {
@@ -120,7 +123,8 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
         'has_risk_factor_source',
         'has_risk_factor_target',
         'has_source_risk_element_name',
-        'has_target_risk_element_name'
+        'has_target_risk_element_name',
+        'has_citation_pubmed_identifier'
         ];
       if (raw) return res;
       // console.log(res.data);
