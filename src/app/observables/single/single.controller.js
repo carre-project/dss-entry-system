@@ -10,6 +10,16 @@
     var vm = this;
 
 
+    var visibleFields=[
+      // "type",      
+      "id",
+      "has_observable_name",
+      "has_observable_acronym",
+      "has_observable_type",
+      "has_observable_measurement_type",
+      "has_author",
+      "has_reviewer"
+    ];
 
     /* View Observable */
     vm.id = $stateParams.id;
@@ -59,7 +69,7 @@
       Observables.get([id]).then(function(res) {
         console.info('Observable: ', res);
         vm.current = res.data[0];
-        vm.fields=res.fields.map(function(field){
+        vm.fields=visibleFields.map(function(field){
           return {
             value:field,
             label:content.labelOf(field)

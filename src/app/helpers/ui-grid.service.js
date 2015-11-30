@@ -8,7 +8,7 @@ angular.module('CarreEntrySystem').service('content', function() {
 
   //auto build grid columns from keys of each element
   function getModelFields(fieldsArray, visibleArray) {
-    console.log(fieldsArray,visibleArray);
+    // console.log(fieldsArray,visibleArray);
     var columnDefs = [];
     
     //add ordered columns

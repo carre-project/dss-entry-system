@@ -10,6 +10,17 @@
     var vm = this;
 
 
+    var visibleFields=[
+      // "type",      
+      "id",
+      "has_measurement_type_name",
+      "has_datatype",
+      "has_label",
+      "has_enumeration_values",
+      "has_author",
+      "has_reviewer"
+    ];
+
 
     /* View Measurement_type */
     vm.id = $stateParams.id;
@@ -59,7 +70,7 @@
       Measurement_types.get([id]).then(function(res) {
         console.info('Measurement_type: ', res);
         vm.current = res.data[0];
-        vm.fields=res.fields.map(function(field){
+        vm.fields=visibleFields.map(function(field){
           return {
             value:field,
             label:content.labelOf(field)

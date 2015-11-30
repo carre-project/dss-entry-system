@@ -9,7 +9,22 @@
   /** @ngInject */
   function risk_evidencesSingleController(toastr,content ,Bioportal, Risk_evidences, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state ) {
     var vm = this;
-
+    
+    var visibleFields=[
+      // "type",
+      "id",
+      "has_risk_factor",
+      "has_risk_evidence_observable",
+      "has_observable_condition",
+      "has_risk_evidence_ratio_type",
+      "has_risk_evidence_ratio_value",
+      "has_confidence_interval_min",
+      "has_confidence_interval_max",
+      "is_adjusted_for",
+      "has_risk_evidence_source",
+      "has_author",
+      "has_reviewer"
+    ];
 
 
     /* View Risk_evidence */
@@ -61,7 +76,7 @@
       Risk_evidences.get([id]).then(function(res) {
         console.info('Risk_evidence: ', res);
         vm.current = res.data[0];
-        vm.fields=res.fields.map(function(field){
+        vm.fields=visibleFields.map(function(field){
           return {
             value:field,
             label:content.labelOf(field)

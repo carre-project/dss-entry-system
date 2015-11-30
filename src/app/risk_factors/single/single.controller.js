@@ -10,6 +10,16 @@
     var vm = this;
 
 
+    var visibleFields=[
+      // "type",      
+      "id",
+      "has_risk_factor_source",
+      "has_risk_factor_target",
+      "has_risk_factor_association_type",
+      "has_author",
+      "has_reviewer"
+    ];
+
 
     /* View Risk_factor */
     vm.id = $stateParams.id;
@@ -59,7 +69,7 @@
       Risk_factors.get([id]).then(function(res) {
         console.info('Risk_factor: ', res);
         vm.current = res.data[0];
-        vm.fields=res.fields.map(function(field){
+        vm.fields=visibleFields.map(function(field){
           return {
             value:field,
             label:content.labelOf(field)

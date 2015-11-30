@@ -10,6 +10,19 @@
     var vm = this;
     vm.user=currentUser;
     
+    var visibleFields=[
+      // "type",      
+      "id",
+      "has_risk_element_name",
+      "has_risk_element_identifier",
+      "has_risk_element_type",
+      "has_risk_element_modifiable_status",
+      "has_risk_element_observable",
+      "has_risk_element_observable_condition",
+      "has_author",
+      "has_reviewer"
+    ];
+
     
     /* View Risk_element */
     vm.id = $stateParams.id;
@@ -41,7 +54,7 @@
       Risk_elements.get([id]).then(function(res) {
         if (res.data) {
           vm.current = res.data[0];
-          vm.fields = res.fields.map(function(field) {
+          vm.fields = visibleFields.map(function(field) {
             return {
               value: field,
               label: content.labelOf(field)

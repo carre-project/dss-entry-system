@@ -10,7 +10,17 @@
     var vm = this;
 
 
+    var visibleFields=[
+      // "type",      
+      "id",
+      "has_citation_pubmed_identifier",
+      "has_citation_source_type",
+      "has_citation_source_level",
+      "has_author",
+      "has_reviewer"
+    ];
 
+    
     /* View Citation */
     vm.id = $stateParams.id;
     vm.edit = $stateParams.edit;
@@ -60,11 +70,11 @@
       Citations.get([id]).then(function(res) {
         console.info('Citation: ', res);
         vm.current = res.data[0];
-        vm.fields=res.fields.map(function(field){
+        vm.fields=visibleFields.map(function(field){
           return {
             value:field,
             label:content.labelOf(field)
-          }
+          };
         });
         vm.pubmedId=vm.current.has_citation_pubmed_identifier[0];
         // vm.loading = Pubmed.fetch(vm.current.has_citation_pubmed_identifier).then(function(res) {
