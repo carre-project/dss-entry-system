@@ -7,7 +7,7 @@
  * # adminPosHeader
  */
 angular.module('CarreEntrySystem')
-	.directive('header',function(){
+	.directive('carreHeader',function(){
 		return {
         templateUrl:'app/components/header/header.html',
         restrict: 'E',
