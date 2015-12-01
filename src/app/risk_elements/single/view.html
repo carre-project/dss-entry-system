@@ -1,6 +1,6 @@
 <div uib-collapse="!main.DEBUG" class="row">
   <div class="col-xs-12">
-    Current risk_element<pre>{{risk_element.debug | json}}</pre>
+    Current risk_element<pre>{{risk_element | json}}</pre>
   </div>
 </div>
 <!--debug vars-->
@@ -11,7 +11,7 @@
     <a ng-show="main.user.username" class="btn btn-xs btn-default" ui-sref="main.risk_elements.edit({id:risk_element.id})"><i class="fa fa-pencil"></i> Edit</a>
     <hr>
     <ul class="list-group">
-      <li ng-repeat="field in risk_element.fields" class="list-group-item">
+      <li ng-repeat="field in risk_element.fields" ng-if="risk_element.current[field.value]" class="list-group-item">
         {{field.label}} : <carre-linker model="risk_element.current" property="{{field.value}}"></carre-linker>
       </li>
     </ul>

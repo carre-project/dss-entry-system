@@ -11,7 +11,7 @@
     <a ng-show="main.user.username" class="btn btn-xs btn-default" ui-sref="main.observables.edit({id:observable.id})"><i class="fa fa-pencil"></i> Edit</a>
     <hr>
     <ul class="list-group">
-      <li ng-repeat="field in observable.fields" class="list-group-item">
+      <li ng-repeat="field in observable.fields" ng-if="observable.current[field.value]" class="list-group-item">
         {{field.label}} : <carre-linker model="observable.current" property="{{field.value}}"></carre-linker>
       </li>
     </ul>

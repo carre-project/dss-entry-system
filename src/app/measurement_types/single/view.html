@@ -11,7 +11,7 @@
     <a ng-show="main.user.username" class="btn btn-xs btn-default" ui-sref="main.measurement_types.edit({id:measurement_type.id})"><i class="fa fa-pencil"></i> Edit</a>
     <hr>
     <ul class="list-group">
-      <li ng-repeat="field in measurement_type.fields" class="list-group-item">
+      <li ng-repeat="field in measurement_type.fields" ng-if="measurement_type.current[field.value]" class="list-group-item">
         {{field.label}} : <carre-linker model="measurement_type.current" property="{{field.value}}"></carre-linker>
       </li>
     </ul>

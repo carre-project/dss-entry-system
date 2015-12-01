@@ -11,7 +11,7 @@
     <a ng-show="main.user.username" class="btn btn-xs btn-default" ui-sref="main.risk_evidences.edit({id:risk_evidence.id})"><i class="fa fa-pencil"></i> Edit</a>
     <hr>
     <ul class="list-group">
-      <li ng-repeat="field in risk_evidence.fields" class="list-group-item">
+      <li ng-repeat="field in risk_evidence.fields" ng-if="risk_evidence.current[field.value]" class="list-group-item">
         {{field.label}} : <carre-linker model="risk_evidence.current" property="{{field.value}}"></carre-linker>
       </li>
     </ul>

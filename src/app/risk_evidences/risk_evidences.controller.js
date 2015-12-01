@@ -13,7 +13,7 @@
 
     var visibleGridColumns = [
       'has_risk_factor',
-      'has_observable_condition',
+      // 'has_observable_condition',
       'has_risk_evidence_source',
       'has_risk_evidence_ratio_type',
       'has_risk_evidence_ratio_value',
