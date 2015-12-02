@@ -33,10 +33,15 @@
     
     //Handle events
     $scope.$on('risk_element:save',function(){
-      $state.go('main.risk_elements.view',{id:vm.id});
+      if(vm.current.id) {
+        $state.go('main.risk_elements.view',{id:vm.id});
+      }
+      else $state.go('main.risk_elements.list');
     });
     $scope.$on('risk_element:cancel',function(){
-      if(vm.current.id) $state.go('main.risk_elements.view',{id:vm.id});
+      if(vm.current.id) {
+        $state.go('main.risk_elements.view',{id:vm.id});
+      }
       else $state.go('main.risk_elements.list');
     });
 

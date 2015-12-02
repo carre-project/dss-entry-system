@@ -100,7 +100,7 @@
         controller: 'risk_elementsController',
         controllerAs: 'risk_elements',
         templateUrl: 'app/risk_elements/list.html',
-        url: ''
+        url: '/'
       })
       .state('main.risk_elements.create', {
         templateUrl: 'app/risk_elements/single/edit.create.html',
