@@ -5,7 +5,8 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
     'countAll': countAllInstances,
     'query': apiQuery,
     'selectQuery': selectQuery,
-    'instances': queryInstances
+    'instances': queryInstances,
+    'delete': deleteInstance
   };
 
   /*
@@ -26,6 +27,11 @@ PREFIX RV: <http://carre.kmi.open.ac.uk/risk_evidences/> \n\
 PREFIX RF: <http://carre.kmi.open.ac.uk/risk_factors/> \n\
 PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
+
+  function deleteInstance(id){
+    var query = "WITH " + CONFIG.CARRE_DEFAULT_GRAPH + " DELETE { ?id ?s ?p .  }  WHERE { ?id ?s ?p . FILTER (?id=<"+id+">) }";
+    return apiQuery(query);
+  }
 
   function queryInstances(type, ArrayOfIDs) {
 

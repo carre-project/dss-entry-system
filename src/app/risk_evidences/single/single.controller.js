@@ -7,10 +7,11 @@
     .controller('risk_evidencesSingleController', risk_evidencesSingleController);
 
   /** @ngInject */
-  function risk_evidencesSingleController(toastr,content ,Bioportal, Risk_evidences, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state ) {
+  function risk_evidencesSingleController(toastr, content, Bioportal, Risk_evidences, CARRE,SweetAlert, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $scope) {
     var vm = this;
-    
-    var visibleFields=[
+    vm.user = currentUser;
+
+    var visibleFields = [
       // "type",
       "id",
       "has_risk_factor",
@@ -27,46 +28,39 @@
     ];
 
 
+
     /* View Risk_evidence */
     vm.id = $stateParams.id;
+    vm.current = {};
     vm.edit = $stateParams.edit;
     if (vm.id) getRisk_evidence(vm.id);
 
+
+    //Handle events
+    $scope.$on('risk_evidence:save', function() {
+      if (vm.current.id) {
+        $state.go('main.risk_evidences.view', {
+          id: vm.id
+        });
+      }
+      else $state.go('main.risk_evidences.list');
+    });
+    $scope.$on('risk_evidence:cancel', function() {
+      if (vm.current.id) {
+        $state.go('main.risk_evidences.view', {
+          id: vm.id
+        });
+      }
+      else $state.go('main.risk_evidences.list');
+    });
+
+
     if ($state.is("main.risk_evidences.create")) {
-      
-      console.info('---Create---');
-      console.info('State: ', $state);
-      console.info('State params: ', $stateParams);
-
-      /************** Edit/Create Template **************/
-      
-      
-      
-      
+      vm.create = true;
+      vm.current = {};
     }
-    else if ($state.is("main.risk_evidences.edit")) {
-      
-      console.info('---Edit---');
-      console.info('State: ', $state);
-      console.info('State params: ', $stateParams);
-
-      /************** Edit/Create Template **************/
-
-
-
-    }
-    else {
-
-      console.info('---View---');
-      console.info('State: ', $state);
-      console.info('State params: ', $stateParams);
-
-      /************** View Template **************/
-      
-      
-      
-      
-    }
+    else if ($state.is("main.risk_evidences.edit")) {}
+    else {}
 
 
 
@@ -74,27 +68,44 @@
 
     function getRisk_evidence(id) {
       Risk_evidences.get([id]).then(function(res) {
-        console.info('Risk_evidence: ', res);
-        vm.current = res.data[0];
-        vm.fields=visibleFields.map(function(field){
-          return {
-            value:field,
-            label:content.labelOf(field)
-          }
-        });
-        
-        var options={
-          display_context:'false',
-          require_exact_match:'false',
-          include:'prefLabel,definition,cui',
-          display_links:'true',
-          require_definitions:'false'
-        };
-        vm.pubmedId=vm.current.has_risk_evidence_source_label;
-        
+        if (res.data) {
+          vm.current = res.data[0];
+          vm.fields = visibleFields.map(function(field) {
+            return {
+              value: field,
+              label: content.labelOf(field)
+            };
+          });
+
+          vm.pubmedId = vm.current.has_risk_evidence_source_label;
+        }
+        else $state.go('404_error');
+      }, function(err) {
+        console.error(err);
+        $state.go('main.risk_evidences.list');
       });
     }
-
+    
+    
+    vm.deleteCurrent = function() {
+      SweetAlert.swal({
+          title: "Are you sure?",
+          text: "Your will not be able to recover this element!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, delete it!",
+          closeOnConfirm: true,
+          closeOnCancel: true
+        },
+        function(isConfirm) {
+          if (isConfirm) {
+            CARRE.delete(vm.current.id).then(function() {
+              $state.go('main.risk_evidences.list');
+            });
+          }
+        });
+    };
 
   }
 

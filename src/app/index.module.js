@@ -27,7 +27,8 @@
       'ui.select',
       'pageslide-directive',
       'toggle-switch',
-      'chart.js'
+      'chart.js',
+      'oitozero.ngSweetAlert'
     ]);
 
 })();

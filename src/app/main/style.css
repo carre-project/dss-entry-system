@@ -40,3 +40,42 @@
 [ui-view].ng-enter {
   animation: fadeIn 0.8s;
 }*/
+
+
+/*logical expression editor styles*/
+
+.group{
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    border: solid 1px #666;
+}
+
+.group-conditions{
+    margin-left: 20px;
+}
+
+.alert-group{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-color: #DDDDDD;
+    border-width: medium;
+}
+
+.condition, .group{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.le-operator.label{
+  display:inline-block;
+  padding:0 .3em;
+}
+.le-editor.observables{
+    display: inline-table;
+}
+.le-editor.observables > .form-control.ui-select-toggle {
+}
+.ui-select-bootstrap > .ui-select-match > .btn {
+    text-align: left !important;
+    padding-right:25px !important;
+}
