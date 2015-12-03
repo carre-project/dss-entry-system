@@ -10,8 +10,10 @@ angular.module('CarreEntrySystem')
     scope: {
       'model': '='
     },
-    controller: function($scope, Observables, Bioportal, Risk_elements, Auth, toastr) {
-
+    controller: function($scope, Observables, Bioportal, Risk_elements, Auth, toastr,$timeout) {
+      $scope.copyModel={};
+      angular.copy($scope.model,$scope.copyModel);
+      
       Auth.getUser().then(function(res) {
         $scope.user = res;
       });
@@ -26,40 +28,9 @@ angular.module('CarreEntrySystem')
               label: ob.has_observable_name_label
             };
           });
-        $scope.output=computed($scope.risk_evidence.condition_json.group);
+        $scope.output=removeOuterParenthesis(computed($scope.risk_evidence.condition_json.group));
       });
 
-      // //risk evidence types
-      // $scope.types = [{
-      //   label: "behavioural",
-      //   value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_evidence_type_behavioural"
-      // }, {
-      //   label: "biomedical",
-      //   value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_evidence_type_biomedical"
-      // }, {
-      //   label: "demographic",
-      //   value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_evidence_type_demographic"
-      // }, {
-      //   label: "intervention",
-      //   value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_evidence_type_intervention"
-      // }, {
-      //   label: "genetic",
-      //   value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_evidence_type_genetic"
-      // }, {
-      //   label: "environmental",
-      //   value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_evidence_type_environmental"
-      // }];
-
-      // //Bioportal stuff
-      // $scope.bioportalAutocomplete = function(term) {
-      //   // var options = { };
-      //   if (term.length < 2) return false;
-      //   $scope.loadingElementIdentifier = true;
-      //   Bioportal.fetch(term).then(function(res) {
-      //     $scope.bioportalAutocompleteResults = res;
-      //     $scope.loadingElementIdentifier = false;
-      //   });
-      // };
 
       //Save to RDF method
       $scope.saveModel = function() {
@@ -141,34 +112,47 @@ angular.module('CarreEntrySystem')
       function computed(group) {
           if(!$scope.observables) return ""
           if (!group) return "";
-          for (var str = "(", i = 0; i < group.rules.length; i++) {
-              i > 0 && (str += " " + group.operator + " ");
+          
+          var str="(";
+          for (var i = 0; i < group.rules.length; i++) {
+              i > 0 && (str += " <b>" + group.operator + "</b> ");
               str += group.rules[i].group ?
                   computed(group.rules[i].group) :
                   getObservableName(group.rules[i].field) + " " + htmlEntities(group.rules[i].condition) + " " + group.rules[i].data;
           }
   
-          return str + ")";
+          return str +")";
       }
 
       $scope.$watch('filter', function(newValue) {
         $scope.model.has_observable_condition_json = newValue;
-        $scope.output = computed(newValue.group, 0, {});
-        $scope.reset=false;
-        $scope.reset=true;
-        // $scope.model.has_observable_condition = $scope.output;
+        $scope.output = removeOuterParenthesis(computed(newValue.group, 0, {}));
+        
+        // $scope.reset=false;
+        // $timeout(function(){
+        //   $scope.output
+        //   $scope.reset=true;
+          
+        //   $scope.copyModel.has_observable_condition[0] = $scope.output;
+        //   $scope.copyModel.has_observable_condition_label = $scope.output;
+        // },100);
+        // console.log($scope.output);
+        // console.log($scope.copyModel);
       }, true);
 
       
       function getObservableName(id){
         if($scope.observables) {
-          return $scope.observables.filter(function(ob){
+          return "<a href='/observables/"+id+"'>"+$scope.observables.filter(function(ob){
             return ob.value===id;
-          })[0].label;
+          })[0].label+"</a>";
         }
         // return <carre-linker model="risk_evidence.current" property="{{field.value}}"></carre-linker>""
       }
-
+      
+      function removeOuterParenthesis(str){
+        return str.substr(1,str.length-2);
+      }
 
       console.info('Model: ', $scope.model);
       console.info('Form params: ', $scope.risk_evidence);
