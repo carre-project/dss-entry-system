@@ -7,6 +7,11 @@
     cursor: pointer;
 }
 
+
+/* UI GRID HACK*/
+#grid1 .ui-grid-header-cell-row {
+    height:60px;
+}
 .grid {
     height: 500px;
 }
@@ -79,3 +84,5 @@
     text-align: left !important;
     padding-right:25px !important;
 }
+
+

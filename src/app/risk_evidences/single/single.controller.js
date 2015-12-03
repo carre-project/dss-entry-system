@@ -13,7 +13,7 @@
 
     var visibleFields = [
       // "type",
-      "id",
+      // "id",
       "has_risk_factor",
       "has_risk_evidence_observable",
       "has_observable_condition",

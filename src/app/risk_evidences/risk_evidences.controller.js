@@ -13,12 +13,12 @@
 
     var visibleGridColumns = [
       'has_risk_factor',
-      // 'has_observable_condition',
-      'has_risk_evidence_source',
-      'has_risk_evidence_ratio_type',
+      'has_observable_condition',
+      // 'has_risk_evidence_source',
+      // 'has_risk_evidence_ratio_type',
       'has_risk_evidence_ratio_value',
-      'has_confidence_interval_min',
-      'has_confidence_interval_max'
+      // 'has_confidence_interval_min',
+      // 'has_confidence_interval_max'
     ];
 
     /************** List Template **************/
@@ -55,15 +55,15 @@
       });
 
       //show edit buttons
-      if (currentUser.username) {
-        vm.mygrid.columnDefs.push({
-          field: 'Edit',
-          enableFiltering: false,
-          enableColumnMenu: false,
-          cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.risk_evidences.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
-          width: 60
-        });
-      }
+      // if (currentUser.username) {
+      //   vm.mygrid.columnDefs.push({
+      //     field: 'Edit',
+      //     enableFiltering: false,
+      //     enableColumnMenu: false,
+      //     cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.risk_evidences.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
+      //     width: 60
+      //   });
+      // }
 
     });
 

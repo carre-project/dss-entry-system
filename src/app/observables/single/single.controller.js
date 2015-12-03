@@ -12,7 +12,7 @@
 
     var visibleFields=[
       // "type",      
-      "id",
+      // "id",
       "has_observable_name",
       "has_observable_acronym",
       "has_observable_type",

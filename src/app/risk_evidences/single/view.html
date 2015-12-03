@@ -14,7 +14,7 @@
     <hr>
     <ul class="list-group">
       <li ng-repeat="field in risk_evidence.fields" ng-if="risk_evidence.current[field.value]" class="list-group-item">
-        {{field.label}} : <carre-linker model="risk_evidence.current" property="{{field.value}}"></carre-linker>
+        {{field.label}}: <carre-linker model="risk_evidence.current" property="{{field.value}}"></carre-linker>
       </li>
     </ul>
   </div>

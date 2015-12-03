@@ -14,15 +14,15 @@
     vm.countAll = 0;
   
     vm.counterchart_labels = [
-      "Citations",
-      "Measurement Types",
-      "Observables",
-      "Risk Elements",
-      "Risk Evidences",
       "Risk Factors",
+      "Risk Evidences",
+      "Risk Elements",
+      "Observables",
+      "Citations"
+      // "Measurement Types",
     ];
     vm.counterchart_data=[];
-    vm.counterchart_data[0] = [0,0,0,0,0,0];
+    vm.counterchart_data[0] = [0,0,0,0,0];
 
 
     //get total and unreviewed elements 
@@ -55,12 +55,12 @@
       };
       
       //set data for the graph
-      vm.counterchart_data[0][0]=vm.citations.total;
-      vm.counterchart_data[0][1]=vm.measurement_types.total;
-      vm.counterchart_data[0][2]=vm.observables.total;
-      vm.counterchart_data[0][3]=vm.risk_elements.total;
-      vm.counterchart_data[0][4]=vm.risk_evidences.total;
-      vm.counterchart_data[0][5]=vm.risk_factors.total;
+      vm.counterchart_data[0][0]=vm.risk_factors.total;
+      vm.counterchart_data[0][1]=vm.risk_evidences.total;
+      vm.counterchart_data[0][2]=vm.risk_elements.total;
+      vm.counterchart_data[0][3]=vm.observables.total;
+      // vm.counterchart_data[0][0]=vm.measurement_types.total;
+      vm.counterchart_data[0][4]=vm.citations.total;
       
       //set top counter
       vm.countAll = vm.citations.total+

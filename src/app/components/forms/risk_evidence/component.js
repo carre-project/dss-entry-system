@@ -142,7 +142,7 @@ angular.module('CarreEntrySystem')
           if(!$scope.observables) return ""
           if (!group) return "";
           for (var str = "(", i = 0; i < group.rules.length; i++) {
-              i > 0 && (str += " <strong>" + group.operator + "</strong> ");
+              i > 0 && (str += " " + group.operator + " ");
               str += group.rules[i].group ?
                   computed(group.rules[i].group) :
                   getObservableName(group.rules[i].field) + " " + htmlEntities(group.rules[i].condition) + " " + group.rules[i].data;
@@ -153,7 +153,10 @@ angular.module('CarreEntrySystem')
 
       $scope.$watch('filter', function(newValue) {
         $scope.model.has_observable_condition_json = newValue;
-        $scope.model.has_observable_condition = $scope.output = computed(newValue.group, 0, {});
+        $scope.output = computed(newValue.group, 0, {});
+        $scope.reset=false;
+        $scope.reset=true;
+        // $scope.model.has_observable_condition = $scope.output;
       }, true);
 
       
@@ -163,6 +166,7 @@ angular.module('CarreEntrySystem')
             return ob.value===id;
           })[0].label;
         }
+        // return <carre-linker model="risk_evidence.current" property="{{field.value}}"></carre-linker>""
       }
 
 

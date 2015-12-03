@@ -6,29 +6,30 @@
         <!-- /.col-lg-12 -->
     </div>
     <div class="row">
-        <div class="col-lg-3 col-md-4">
-            <div class="jumbotron" style="height:220px;margin:0">
-                <h1>
-                    <span class="label label-success">
-                    <span count-to="{{dashboard.countAll}}" value="{{dashboard.countAllInit}}" duration="1"></span>
-                    </span>
-                </h1>
-            </div>
-        </div>
-        <div class="col-lg-9 col-md-8">
-            <div style="margin-bottom:30px">
-                <canvas height="85" class="chart chart-bar chart-sm" chart-data="dashboard.counterchart_data" chart-labels="dashboard.counterchart_labels" chart-options="dashboard.counterchart_options">
+        <!--<div class="col-lg-3 col-md-4 ">-->
+        <!--    <div class="jumbotron" style="height:220px;margin:0">-->
+        <!--        <h1>-->
+        <!--            <span class="label label-success">-->
+        <!--            <span count-to="{{dashboard.countAll}}" value="{{dashboard.countAllInit}}" duration="1"></span>-->
+        <!--            </span>-->
+        <!--        </h1>-->
+        <!--    </div>-->
+        <!--</div>-->
+        <div class="col-lg-8 col-md-6 col-md-offset-3 col-lg-offset-2">
+            <div style="margin-bottom:30px;">
+                <canvas height="100" class="chart chart-bar chart-sm" chart-data="dashboard.counterchart_data" chart-labels="dashboard.counterchart_labels" chart-options="dashboard.counterchart_options">
                 </canvas>
             </div>
         </div>
     </div>
     <div class="row">
-        <stats goto="main.citations.list" title="Citations" number="{{dashboard.citations.total||0}}" comments="" colour="info" type="info"></stats>
-        <stats goto="main.measurement_types.list" title="Measurement Types" number="{{dashboard.measurement_types.total||0}}" comments="" colour="info" type="info"></stats>
-        <stats goto="main.observables.list" title="Observables" number="{{dashboard.observables.total||0}}" comments="{{dashboard.observables.noreviews||0}} unreviewed!" colour="info" type="info"></stats>
-        <stats goto="main.risk_elements.list" title="Risk Elements" number="{{dashboard.risk_elements.total||0}}" comments="{{dashboard.risk_elements.noreviews||0}} unreviewed!" colour="info" type="info"></stats>
-        <stats goto="main.risk_evidences.list" title="Risk Evidences" number="{{dashboard.risk_evidences.total||0}}" comments="{{dashboard.risk_evidences.noreviews||0}} unreviewed!" colour="info" type="info"></stats>
         <stats goto="main.risk_factors.list" title="Risk Factors" number="{{dashboard.risk_factors.total||0}}" comments="{{dashboard.risk_factors.noreviews||0}} unreviewed!" colour="info" type="info"></stats>
+        <stats goto="main.risk_evidences.list" title="Risk Evidences" number="{{dashboard.risk_evidences.total||0}}" comments="{{dashboard.risk_evidences.noreviews||0}} unreviewed!" colour="info" type="info"></stats>
+        <stats goto="main.risk_elements.list" title="Risk Elements" number="{{dashboard.risk_elements.total||0}}" comments="{{dashboard.risk_elements.noreviews||0}} unreviewed!" colour="info" type="info"></stats>
+        <stats goto="main.observables.list" title="Observables" number="{{dashboard.observables.total||0}}" comments="{{dashboard.observables.noreviews||0}} unreviewed!" colour="info" type="info"></stats>
+        <stats goto="main.citations.list" title="Citations" number="{{dashboard.citations.total||0}}" comments="" colour="info" type="info"></stats>
+        
+        <!--<stats goto="main.measurement_types.list" title="Measurement Types" number="{{dashboard.measurement_types.total||0}}" comments="" colour="info" type="info"></stats>-->
 
     </div>
     <div class="row">

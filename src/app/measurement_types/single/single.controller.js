@@ -12,7 +12,7 @@
 
     var visibleFields=[
       // "type",      
-      "id",
+      // "id",
       "has_measurement_type_name",
       "has_datatype",
       "has_label",

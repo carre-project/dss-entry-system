@@ -12,7 +12,7 @@
 
     var visibleFields=[
       // "type",      
-      "id",
+      // "id",
       "has_citation_pubmed_identifier",
       "has_citation_source_type",
       "has_citation_source_level",

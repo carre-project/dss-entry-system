@@ -49,15 +49,15 @@
       });
 
       //show edit buttons
-      if (currentUser.username) {
-        vm.mygrid.columnDefs.push({
-          field: 'Edit',
-          enableFiltering: false,
-          enableColumnMenu: false,
-          cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.citations.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
-          width: 60
-        });
-      }
+      // if (currentUser.username) {
+      //   vm.mygrid.columnDefs.push({
+      //     field: 'Edit',
+      //     enableFiltering: false,
+      //     enableColumnMenu: false,
+      //     cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.citations.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
+      //     width: 60
+      //   });
+      // }
 
     });
 

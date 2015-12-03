@@ -5,7 +5,37 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG) {
     'mappings': replaceMappings
   };
 
-
+  var translations={
+    
+    //observable
+    'observable_type_personal':'personal',
+    'observable_type_clinical':'clinical',
+    'observable_type_other':'other',
+    
+    //risk element types
+    'risk_element_type_biomedical':'biomedical',
+    'risk_element_type_demographic':'demographic',
+    'risk_element_type_behavioural':'behavioural',
+    'risk_element_type_intervention':'intervention',
+    'risk_element_type_genetic':'genetic',
+    'risk_element_type_environmental':'environmental',
+    
+    //risk factor
+    'risk_factor_association_type_is_an_issue_in':'is an issue in',
+    'risk_factor_association_type_causes':'causes',
+    'risk_factor_association_type_reduces':'reduces',
+    'risk_factor_association_type_elevates':'elevates',
+    
+    //risk evidence ration type
+    'risk_evidence_ratio_type_hazard_ratio':'hazard ratio',
+    'risk_evidence_ratio_type_odds_ratio':'odds ratio',
+    'risk_evidence_ratio_type_relative_risk':'relative risk',
+    'risk_evidence_ratio_type_risk_ratio':'risk ratio'
+    
+    //citation source type
+  
+  
+  };
   /* =====================Simple groupby prop============================================ */
 
   /*
@@ -122,7 +152,7 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG) {
             } else return prettyLabel(term);
             
           });
-          obj[prop.split('_arr')[0]]=obj[prop].join(',');
+          obj[prop.split('_arr')[0]]=obj[prop].join(', ');
           
         }
       }
@@ -149,12 +179,20 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG) {
   // }
   
   function makeLabel(str) {
-    return str.indexOf('#') >= 0 ? str.split('#')[1] : str.substring(str.lastIndexOf('/') + 1);
+    if(str.indexOf('#') >= 0) {
+      str=str.split('#')[1];
+      
+      if(translations.hasOwnProperty(str)) return translations[str];
+      return str;
+      
+    } else if(str.indexOf('/') >= 0) {
+      return str.substring(str.lastIndexOf('/') + 1);
+    } else return str;
   }
 
-  function uriLabel(str) {
-    return str.indexOf('#') >= 0 ? str.split('#')[1] : str;
-  }
+  // function uriLabel(str) {
+  //   return str.indexOf('#') >= 0 ? str.split('#')[1] : str;
+  // }
 
   function prettyLabel(label) {
     //replace _ with spaces

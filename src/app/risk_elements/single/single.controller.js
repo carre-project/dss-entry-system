@@ -12,7 +12,7 @@
 
     var visibleFields = [
       // "type",      
-      "id",
+      // "id",
       "has_risk_element_name",
       "has_risk_element_identifier",
       "has_risk_element_type",

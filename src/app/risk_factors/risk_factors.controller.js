@@ -12,8 +12,8 @@
     
     var visibleGridColumns=[
       'has_risk_factor_source',
-      'has_risk_factor_association_type',
-      'has_risk_factor_target'
+      'has_risk_factor_target',
+      'has_risk_factor_association_type'
     ];
     
     /************** List Template **************/
@@ -49,15 +49,15 @@
       });
 
       //show edit buttons
-      if (currentUser.username) {
-        vm.mygrid.columnDefs.push({
-          field: 'Edit',
-          enableFiltering: false,
-          enableColumnMenu: false,
-          cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.risk_factors.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
-          width: 60
-        });
-      }
+      // if (currentUser.username) {
+      //   vm.mygrid.columnDefs.push({
+      //     field: 'Edit',
+      //     enableFiltering: false,
+      //     enableColumnMenu: false,
+      //     cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.risk_factors.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
+      //     width: 60
+      //   });
+      // }
 
     });
 
