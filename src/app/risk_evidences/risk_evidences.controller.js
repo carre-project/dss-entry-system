@@ -13,7 +13,7 @@
 
     var visibleGridColumns = [
       'has_risk_factor',
-      'has_observable_condition',
+      'has_observable_condition_text',
       // 'has_risk_evidence_source',
       // 'has_risk_evidence_ratio_type',
       'has_risk_evidence_ratio_value',
@@ -35,17 +35,7 @@
 
       /* Reset columns */
       vm.mygrid.columnDefs = [];
-      //dynamic creation of the grid columns
-      content.fields(res.fields, visibleGridColumns).forEach((function(obj) {
-        vm.mygrid.columnDefs.push(obj);
-      }));
-
-      vm.mygrid.columnDefs.push({
-        field: 'id_label',
-        displayName: 'ID',
-        visible: false
-      });
-
+      
       vm.mygrid.columnDefs.push({
         field: 'View',
         enableFiltering: false,
@@ -63,7 +53,20 @@
       //     cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.risk_evidences.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
       //     width: 60
       //   });
-      // }
+      // }      
+      
+      //dynamic creation of the grid columns
+      content.fields(res.fields, visibleGridColumns).forEach((function(obj) {
+        vm.mygrid.columnDefs.push(obj);
+      }));
+
+      vm.mygrid.columnDefs.push({
+        field: 'id_label',
+        displayName: 'ID',
+        visible: false
+      });
+
+
 
     });
 

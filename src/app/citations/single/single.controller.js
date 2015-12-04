@@ -14,6 +14,7 @@
       // "type",      
       // "id",
       "has_citation_pubmed_identifier",
+      "has_citation_summary",
       "has_citation_source_type",
       "has_citation_source_level",
       "has_author",
