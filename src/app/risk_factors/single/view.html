@@ -12,7 +12,8 @@
     <hr>
     <ul class="list-group">
       <li ng-repeat="field in risk_factor.fields" ng-if="risk_factor.current[field.value]" class="list-group-item">
-        {{field.label}}: <carre-linker model="risk_factor.current" property="{{field.value}}"></carre-linker>
+        {{field.label}}:
+        <carre-linker model="risk_factor.current" property="{{field.value}}"></carre-linker>
       </li>
     </ul>
   </div>
@@ -23,7 +24,7 @@
 </div>
 
 <div class="col-xs-12">
-
+  <h4 class="page-header">Related risk evidences</h4>
   <div cg-busy="risk_factor.gridLoading" id="grid1" ui-grid="risk_factor.mygrid" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-exporter ui-grid-auto-resize class="grid"></div>
 
 </div>

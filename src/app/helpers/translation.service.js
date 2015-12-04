@@ -48,6 +48,7 @@ angular.module('CarreEntrySystem').service('CarreTranslate', function() {
     "has_risk_factor":"Risk factor",
     "has_risk_evidence_observable":"Observable",
     "has_observable_condition":"Observable condition",
+    "has_observable_condition_text":"Observable condition",
     "has_risk_evidence_ratio_type":"Ratio type",
     "has_risk_evidence_ratio_value":"Ratio value",
     "has_confidence_interval_min":"Interval min",

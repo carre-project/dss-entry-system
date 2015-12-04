@@ -84,17 +84,7 @@
 
         /* Reset columns */
         vm.mygrid.columnDefs = [];
-        //dynamic creation of the grid columns
-        content.fields(res.fields, visibleGridColumns).forEach((function(obj) {
-          vm.mygrid.columnDefs.push(obj);
-        }));
-
-        vm.mygrid.columnDefs.push({
-          field: 'id_label',
-          displayName: 'ID',
-          visible: false
-        });
-
+        
         vm.mygrid.columnDefs.push({
           field: 'View',
           enableFiltering: false,
@@ -113,6 +103,18 @@
         //     width: 60
         //   });
         // }
+        //dynamic creation of the grid columns
+        content.fields(res.fields, visibleGridColumns).forEach((function(obj) {
+          vm.mygrid.columnDefs.push(obj);
+        }));
+
+        vm.mygrid.columnDefs.push({
+          field: 'id_label',
+          displayName: 'ID',
+          visible: false
+        });
+
+
 
       });
     }
