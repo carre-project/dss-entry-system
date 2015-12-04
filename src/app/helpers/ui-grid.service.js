@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('content', function() {
+angular.module('CarreEntrySystem').service('content', function(CarreTranslate) {
 
   this.exports = {
     'default': getDefaultGridProperties(),
@@ -61,12 +61,13 @@ angular.module('CarreEntrySystem').service('content', function() {
 
   /* Private */
   function labelFromKey(key) {
-    //remove has_
-    if (key.indexOf("has_") >= 0) key = key.split("has_")[1];
-    //replace _ with spaces
-    key = key.replace(new RegExp("_", "g"), " ");
-    //Capitalize first letter
-    return key.charAt(0).toUpperCase() + key.slice(1);
+    // //remove has_
+    // if (key.indexOf("has_") >= 0) key = key.split("has_")[1];
+    // //replace _ with spaces
+    // key = key.replace(new RegExp("_", "g"), " ");
+    // //Capitalize first letter
+    // return key.charAt(0).toUpperCase() + key.slice(1);
+    return CarreTranslate(key);
   }
 
 

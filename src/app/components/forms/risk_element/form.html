@@ -18,7 +18,7 @@
     </div>
 
     <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
-      <label>Risk element type</label>
+      <label>Type</label>
 
       <ui-select ng-model="risk_element.type" theme="bootstrap">
         <ui-select-match placeholder="Select risk element type">{{$select.selected.label}}</ui-select-match>
@@ -38,7 +38,7 @@
     <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
 
       <!-- on-select="addOutcome($item, $model)" -->
-      <label>Risk element Identifier</label>
+      <label>Identifier</label>
       <div ng-show="loadingElementIdentifier" class="loadingSelect"></div>
 
       <ui-select ng-model="risk_element.identifier" theme="bootstrap">
