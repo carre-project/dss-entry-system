@@ -93,12 +93,8 @@ angular.module('CarreEntrySystem')
 
         //Init Form object
         $scope.risk_element = {
-          observables: $scope.model.has_risk_element_observable.map(function(ob) {
-            return ob;
-          }),
-          risk_elements: $scope.model.includes_risk_element.map(function(rl) {
-            return rl;
-          }),
+          observables: $scope.model.has_risk_element_observable,
+          risk_elements: $scope.model.includes_risk_element||[],
           type: $scope.model.has_risk_element_type[0],
           name: $scope.model.has_risk_element_name_label,
           identifier: $scope.model.has_risk_element_identifier_label,
@@ -119,6 +115,7 @@ angular.module('CarreEntrySystem')
         //Init Form object
         $scope.risk_element = {
           observables: [],
+          risk_elements: [],
           type: "",
           name: "",
           identifier: "",
