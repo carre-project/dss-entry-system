@@ -19,6 +19,7 @@
       "has_risk_element_modifiable_status",
       "has_risk_element_observable",
       "has_risk_element_observable_condition",
+      "includes_risk_element",
       "has_author",
       "has_reviewer"
     ];

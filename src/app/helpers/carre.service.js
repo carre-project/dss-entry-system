@@ -48,6 +48,10 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
               OPTIONAL {    \n\
                ?object a risk:risk_element. \n\
                ?object risk:has_risk_element_name ?has_risk_element_name  \n\
+                OPTIONAL {    \n\
+                 ?object risk:includes_risk_element ?includes_risk_element. \n\
+                 ?includes_risk_element risk:has_risk_element_name ?includes_risk_element_name. \n\
+                } \n\
               } \n\
               OPTIONAL {    \n\
                ?object a risk:measurement_type. \n\

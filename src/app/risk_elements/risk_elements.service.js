@@ -53,6 +53,11 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
       oldElem.has_risk_element_observable.forEach(function(ob) {
         deleteQuery += "              risk:has_risk_element_observable <" + ob + ">; \n";
       });
+      if(oldElem.includes_risk_element) {
+        oldElem.includes_risk_element.forEach(function(rl) {
+          deleteQuery += "              risk:includes_risk_element <" + rl + ">; \n";
+        });
+      }
       deleteQuery += "              risk:has_risk_element_modifiable_status \"" + oldElem.has_risk_element_modifiable_status[0] + "\"^^xsd:string . \n }} \n";
 
       /*----------*/
@@ -64,7 +69,13 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
       newElem.observables.forEach(function(ob) {
         insertQuery += "              risk:has_risk_element_observable <" + ob + ">; \n";
       });
+      if(newElem.risk_elements) {
+        newElem.risk_elements.forEach(function(rl) {
+          insertQuery += "              risk:includes_risk_element <" + rl + ">; \n";
+        });
+      }
       insertQuery += "              risk:has_risk_element_modifiable_status \"" + newElem.modifiable_status + "\"^^xsd:string . \n }}";
+      
 
       /*----------*/
 
@@ -88,7 +99,11 @@ risk:has_author <" + user + ">; \n";
       newElem.observables.forEach(function(ob) {
         insertQuery += "risk:has_risk_element_observable <" + ob + ">; \n";
       });
-
+      if (newElem.risk_elements) {
+        newElem.risk_elements.forEach(function(rl) {
+          insertQuery += "              risk:includes_risk_element <" + rl + ">; \n";
+        });
+      }
       //add type and close query
       insertQuery += "a risk:risk_element . } } WHERE \n\
   { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\

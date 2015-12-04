@@ -26,6 +26,16 @@ angular.module('CarreEntrySystem')
           });
       });
 
+      //get risk elements
+      Risk_elements.get().then(function(res) {
+        $scope.risk_elements = res.data.map(function(rl) {
+            return {
+              value: rl.id,
+              label: rl.has_risk_element_name_label
+            };
+          });
+      });
+
       //risk element types
       $scope.types = [{
         label: "behavioural",
@@ -83,8 +93,11 @@ angular.module('CarreEntrySystem')
 
         //Init Form object
         $scope.risk_element = {
-          observables: $scope.model.has_risk_element_observable.map(function(ob, index) {
+          observables: $scope.model.has_risk_element_observable.map(function(ob) {
             return ob;
+          }),
+          risk_elements: $scope.model.includes_risk_element.map(function(rl) {
+            return rl;
           }),
           type: $scope.model.has_risk_element_type[0],
           name: $scope.model.has_risk_element_name_label,

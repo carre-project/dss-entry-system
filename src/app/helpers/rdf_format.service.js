@@ -87,7 +87,7 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG,Carre
     settings.data=settings.data.map(function(obj) {
       var cat = '';
       for (var prop in obj) {
-        if (prop.indexOf('_label_arr') > 0 && prop.indexOf('has_') === 0 && prop.indexOf('has_observable_condition')===-1) {
+        if ( prop.indexOf('_label_arr') > 0 && prop.indexOf('has_observable_condition')===-1) {
           //select only props : has_....._label
           obj[prop]=obj[prop].map(function(term) {
             if (settings.mappings.hasOwnProperty(term)) {

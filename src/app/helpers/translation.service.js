@@ -25,6 +25,7 @@ angular.module('CarreEntrySystem').service('CarreTranslate', function() {
     "has_risk_element_modifiable_status":"Modifiable status",
     "has_risk_element_observable":"Observable",
     "has_risk_element_observable_condition":"Observable condition",
+    "includes_risk_element":"Includes",
     
     'risk_element_type_biomedical':'biomedical',
     'risk_element_type_demographic':'demographic',

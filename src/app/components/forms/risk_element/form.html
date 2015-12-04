@@ -71,6 +71,23 @@
       </div>
 
     </div>
+    
+    <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+      <label>Include other risk elements</label>
+
+      <!--&lt;{{$item.id}}&gt;-->
+      <ui-select multiple ng-model="risk_element.risk_elements" theme="bootstrap">
+        <ui-select-match placeholder="Select risk elements">{{$item.label}} </ui-select-match>
+        <ui-select-choices repeat="el.value as el in risk_elements | propsFilter: {label: $select.search}">
+          <div ng-bind-html="el.label | highlight: $select.search"></div>
+        </ui-select-choices>
+      </ui-select>
+
+      <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
+        <div ng-messages-include="messages.html"></div>
+      </div>
+
+    </div>
 
 
 
