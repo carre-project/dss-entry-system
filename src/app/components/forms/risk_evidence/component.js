@@ -86,13 +86,22 @@ angular.module('CarreEntrySystem')
             "rules": []
           }
         };
-
+        
+        
         //Init Form object
-        $scope.risk_evidence = {};
+        $scope.risk_evidence = {
+          pubmedId:''
+        };
 
 
       }
-
+      /* LoadPubmed */
+      $scope.loadPubmed=function(){
+        $scope.showPubmed=false;
+        $timeout(function(){
+          $scope.showPubmed=true;
+        },200);
+      }
 
       /*Logical expression builder */
 

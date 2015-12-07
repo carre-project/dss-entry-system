@@ -3,9 +3,31 @@
   <form name="form" novalidate ng-submit="saveModel()">
 
 
-    <div class="alert alert-warning" ng-bind-html="output"></div>
     
-    <le-editor observables="observables" group="filter.group"></le-editor>
+    <div class="col-xs-12">
+      <div class="alert alert-warning" ng-bind-html="output"></div>
+    </div>
+    
+    <div class="col-xs-12">
+  
+      <div class="col-sm-6">
+          <div class="form-group">
+            <label>Condition</label>
+
+            <le-editor observables="observables" group="filter.group"></le-editor>            
+          </div>
+      </div>
+    
+      <div class="col-sm-6">
+          <div class="form-group">
+            <label>Pubmed Id</label>
+            <input type="text" name="name" placeholder="Enter pubmed Id" class="form-control" ng-change="loadPubmed()" ng-model="risk_evidence.pubmedId" required>
+            
+          </div>
+        <carre-view-pubmed ng-if="showPubmed" id="{{risk_evidence.pubmedId}}"></carre-view-pubmed>
+      </div>
+    
+    </div>
     
     <div ng-show="$parent.main.config.ENV==='DEV'" class="row">
       
