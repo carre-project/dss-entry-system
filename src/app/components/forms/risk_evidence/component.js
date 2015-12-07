@@ -79,6 +79,14 @@ angular.module('CarreEntrySystem')
         /************** Create Mode **************/
         console.info('---Create---');
 
+        //init expression
+        $scope.filter = {
+          "group": {
+            "operator": "AND",
+            "rules": []
+          }
+        };
+
         //Init Form object
         $scope.risk_evidence = {};
 
