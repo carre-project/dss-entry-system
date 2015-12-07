@@ -3,8 +3,8 @@ angular.module('CarreEntrySystem').service('CarreTranslate', function() {
   var translations={
     //global
     
-    "has_author":"Author",
-    "has_reviewer":"Reviewer",
+    "has_author":"Entered by",
+    "has_reviewer":"Reviewed by",
     
     //observable
     
@@ -20,7 +20,7 @@ angular.module('CarreEntrySystem').service('CarreTranslate', function() {
     //risk element
     
     "has_risk_element_name":"Name",
-    "has_risk_element_identifier":"Identifier",
+    "has_risk_element_identifier":"UMLS Identifier",
     "has_risk_element_type":"Type",
     "has_risk_element_modifiable_status":"Modifiable status",
     "has_risk_element_observable":"Observable",
@@ -62,7 +62,7 @@ angular.module('CarreEntrySystem').service('CarreTranslate', function() {
     'risk_evidence_ratio_type_risk_ratio':'risk ratio',
     
     //citation
-    "has_citation_pubmed_identifier":"Identifier",
+    "has_citation_pubmed_identifier":"Pubmed Identifier",
     "has_citation_summary":"Summary",
     "has_citation_source_type":"Study type",
     "has_citation_source_level":"Study level",
