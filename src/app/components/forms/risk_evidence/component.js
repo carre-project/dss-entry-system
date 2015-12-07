@@ -57,10 +57,11 @@ angular.module('CarreEntrySystem')
 
         //Init Form object
         $scope.risk_evidence = {
+          pubmedId:$scope.model.has_risk_evidence_source_label,
           condition: $scope.model.has_observable_condition,
           condition_json: angular.fromJson($scope.model.has_observable_condition_json[0])
         };
-
+        
         //init expression
         $scope.filter = $scope.risk_evidence.condition_json || {
           "group": {
@@ -69,8 +70,8 @@ angular.module('CarreEntrySystem')
           }
         };
 
-        //init Bioportal Fetch
-        // $scope.bioportalAutocomplete($scope.risk_evidence.identifier);
+        //init Pubmed Fetch
+        loadPubmed();
 
 
       }
@@ -95,8 +96,12 @@ angular.module('CarreEntrySystem')
 
 
       }
+      
+      
+      
       /* LoadPubmed */
-      $scope.loadPubmed=function(){
+      $scope.loadPubmed=loadPubmed;
+      function loadPubmed(){
         $scope.showPubmed=false;
         $timeout(function(){
           $scope.showPubmed=true;
@@ -104,7 +109,6 @@ angular.module('CarreEntrySystem')
       }
 
       /*Logical expression builder */
-
       function repeat(pattern, count) {
         if (count < 1) return '';
         var result = '';
