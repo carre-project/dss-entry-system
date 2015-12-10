@@ -95,6 +95,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     (COUNT(?rv_r) as ?risk_evidences_unreviewed) \n\
     (COUNT(?ci) as ?citations) \n\
     (COUNT(?me) as ?measurement_types)  \n\
+    (COUNT(?ex) as ?medical_experts)  \n\
     FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
     {?rf a risk:risk_factor} \n\
     UNION { ?rf_r a risk:risk_factor FILTER NOT EXISTS {?rf_r risk:has_reviewer ?anything} } \n\
@@ -103,6 +104,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     UNION {?ob a risk:observable} UNION { ?ob_r a risk:observable FILTER NOT EXISTS {?ob_r risk:has_reviewer ?anything} } \n\
     UNION {?rv a risk:risk_evidence} UNION { ?rv_r a risk:risk_evidence FILTER NOT EXISTS {?rv_r risk:has_reviewer ?anything} } \n\
     UNION {?ci a risk:citation} \n\
+    UNION {?ex a risk:medical_expert} \n\
     UNION {?me a risk:measurement_type}  }";
     
     return apiQuery(query);

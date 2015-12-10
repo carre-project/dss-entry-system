@@ -2,14 +2,14 @@ angular.module('CarreEntrySystem').service('Medical_experts', function($http, CA
 
   this.exports = {
     'get': getMedical_experts,
-    'insert': insertRisk_element
+    'insert': insertMedical_expert
   };
 
   function getMedical_experts(ArrayOfIDs) {
-    return CARRE.instances('risk_element', ArrayOfIDs);
+    return CARRE.instances('medical_expert', ArrayOfIDs);
   }
 
-  function insertRisk_element(oldElem, newElem, user) {
+  function insertMedical_expert(oldElem, newElem, user) {
     
     console.log('Old: ',oldElem);
     console.log('New: ',newElem);
@@ -19,21 +19,21 @@ angular.module('CarreEntrySystem').service('Medical_experts', function($http, CA
     oldElem Template
     
        "node":"http://carre.kmi.open.ac.uk/medical_experts/RL_3",
-       "type":"http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_element",
+       "type":"http://carre.kmi.open.ac.uk/ontology/risk.owl#medical_expert",
        "has_author":"https://carre.kmi.open.ac.uk/users/KalliopiPafili",
        "has_reviewer":"https://carre.kmi.open.ac.uk/users/GintareJuozalenaite",
-       "has_risk_element_identifier":"http://umls.nlm.nih.gov/sab/mth/cui/C0001783",
-       "has_risk_element_modifiable_status":"no",
-       "has_risk_element_name":"age",
-       "has_risk_element_observable":"http://carre.kmi.open.ac.uk/observables/OB_7",
-       "has_risk_element_type":"http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_element_type_demographic",
-       "has_risk_element_index":"3"
+       "has_medical_expert_identifier":"http://umls.nlm.nih.gov/sab/mth/cui/C0001783",
+       "has_medical_expert_modifiable_status":"no",
+       "has_medical_expert_name":"age",
+       "has_medical_expert_observable":"http://carre.kmi.open.ac.uk/observables/OB_7",
+       "has_medical_expert_type":"http://carre.kmi.open.ac.uk/ontology/risk.owl#medical_expert_type_demographic",
+       "has_medical_expert_index":"3"
     
     newElem Template
         "observables": [
           "http://carre.kmi.open.ac.uk/observables/OB_7"
         ],
-        "type": "risk_element_type_demographic",
+        "type": "medical_expert_type_demographic",
         "name": "age",
         "identifier": "C0001783",
         "modifiable_status": "no"
@@ -47,34 +47,34 @@ angular.module('CarreEntrySystem').service('Medical_experts', function($http, CA
       /* Update query */
 
       deleteQuery = "DELETE DATA { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " { \n\
-              <" + oldElem.id + "> risk:has_risk_element_name \"" + oldElem.has_risk_element_name[0] + "\"^^xsd:string; \n\
-              risk:has_risk_element_identifier <http://umls.nlm.nih.gov/sab/mth/cui/" + oldElem.has_risk_element_identifier[0] + ">; \n\
-              risk:has_risk_element_type <" + oldElem.has_risk_element_type[0] + ">; \n";
-      oldElem.has_risk_element_observable.forEach(function(ob) {
-        deleteQuery += "              risk:has_risk_element_observable <" + ob + ">; \n";
+              <" + oldElem.id + "> risk:has_medical_expert_name \"" + oldElem.has_medical_expert_name[0] + "\"^^xsd:string; \n\
+              risk:has_medical_expert_identifier <http://umls.nlm.nih.gov/sab/mth/cui/" + oldElem.has_medical_expert_identifier[0] + ">; \n\
+              risk:has_medical_expert_type <" + oldElem.has_medical_expert_type[0] + ">; \n";
+      oldElem.has_medical_expert_observable.forEach(function(ob) {
+        deleteQuery += "              risk:has_medical_expert_observable <" + ob + ">; \n";
       });
-      if(oldElem.includes_risk_element) {
-        oldElem.includes_risk_element.forEach(function(rl) {
-          deleteQuery += "              risk:includes_risk_element <" + rl + ">; \n";
+      if(oldElem.includes_medical_expert) {
+        oldElem.includes_medical_expert.forEach(function(rl) {
+          deleteQuery += "              risk:includes_medical_expert <" + rl + ">; \n";
         });
       }
-      deleteQuery += "              risk:has_risk_element_modifiable_status \"" + oldElem.has_risk_element_modifiable_status[0] + "\"^^xsd:string . \n }} \n";
+      deleteQuery += "              risk:has_medical_expert_modifiable_status \"" + oldElem.has_medical_expert_modifiable_status[0] + "\"^^xsd:string . \n }} \n";
 
       /*----------*/
 
       insertQuery = "INSERT DATA { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " { \n\
-              <" + oldElem.id + "> risk:has_risk_element_name \"" + newElem.name + "\"^^xsd:string; \n\
-              risk:has_risk_element_identifier <http://umls.nlm.nih.gov/sab/mth/cui/" + newElem.identifier + ">; \n\
-              risk:has_risk_element_type <" + newElem.type + ">; \n";
+              <" + oldElem.id + "> risk:has_medical_expert_name \"" + newElem.name + "\"^^xsd:string; \n\
+              risk:has_medical_expert_identifier <http://umls.nlm.nih.gov/sab/mth/cui/" + newElem.identifier + ">; \n\
+              risk:has_medical_expert_type <" + newElem.type + ">; \n";
       newElem.observables.forEach(function(ob) {
-        insertQuery += "              risk:has_risk_element_observable <" + ob + ">; \n";
+        insertQuery += "              risk:has_medical_expert_observable <" + ob + ">; \n";
       });
       if(newElem.medical_experts) {
         newElem.medical_experts.forEach(function(rl) {
-          insertQuery += "              risk:includes_risk_element <" + rl + ">; \n";
+          insertQuery += "              risk:includes_medical_expert <" + rl + ">; \n";
         });
       }
-      insertQuery += "              risk:has_risk_element_modifiable_status \"" + newElem.modifiable_status + "\"^^xsd:string . \n }}";
+      insertQuery += "              risk:has_medical_expert_modifiable_status \"" + newElem.modifiable_status + "\"^^xsd:string . \n }}";
       
 
       /*----------*/
@@ -89,28 +89,28 @@ angular.module('CarreEntrySystem').service('Medical_experts', function($http, CA
 
 
       insertQuery = "INSERT { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " { \n\
-?newid risk:has_risk_element_name \"" + newElem.name + "\"^^xsd:string; \n\
-risk:has_risk_element_identifier <http://umls.nlm.nih.gov/sab/mth/cui/" + newElem.identifier + ">; \n\
-risk:has_risk_element_type <" + newElem.type + ">; \n\
-risk:has_risk_element_modifiable_status \"" + newElem.modifiable_status + "\"^^xsd:string; \n\
+?newid risk:has_medical_expert_name \"" + newElem.name + "\"^^xsd:string; \n\
+risk:has_medical_expert_identifier <http://umls.nlm.nih.gov/sab/mth/cui/" + newElem.identifier + ">; \n\
+risk:has_medical_expert_type <" + newElem.type + ">; \n\
+risk:has_medical_expert_modifiable_status \"" + newElem.modifiable_status + "\"^^xsd:string; \n\
 risk:has_author <" + user + ">; \n";
 
       //add observables
       newElem.observables.forEach(function(ob) {
-        insertQuery += "risk:has_risk_element_observable <" + ob + ">; \n";
+        insertQuery += "risk:has_medical_expert_observable <" + ob + ">; \n";
       });
       if (newElem.medical_experts) {
         newElem.medical_experts.forEach(function(rl) {
-          insertQuery += "              risk:includes_risk_element <" + rl + ">; \n";
+          insertQuery += "              risk:includes_medical_expert <" + rl + ">; \n";
         });
       }
       //add type and close query
-      insertQuery += "a risk:risk_element . } } WHERE \n\
+      insertQuery += "a risk:medical_expert . } } WHERE \n\
   { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
       { { \n\
           SELECT (COUNT(DISTINCT ?elems) AS ?oldindex) FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
           WHERE { \n\
-           ?elems a risk:risk_element . \n\
+           ?elems a risk:medical_expert . \n\
           } \n\
         } \n\
         BIND (IRI(CONCAT(RL:, \"RL_\", ?oldindex+1)) AS ?newid) \n\
