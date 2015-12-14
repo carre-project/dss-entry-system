@@ -5,3 +5,6 @@ The Risk Model Semantic Data Entry system was initially developed in order to ca
 A custom SPA (single page application) has been developed for CARRE users to assist in populating the RDF repository.
 # 
 Observables, evidence sources, risk elements and associations can be entered via web forms, and automatically translated to RDF
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/carre-project/carre-entry-system/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
