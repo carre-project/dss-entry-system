@@ -4,7 +4,7 @@
 ##
 Live stage server: [stage-entry.carre-project.eu](http://stage-entry.carre-project.eu)
 
-Production server: [entry.carre-project.eu](http://stage-entry.carre-project.eu)
+Production server: [entry.carre-project.eu](http://entry.carre-project.eu)
 
 
 ## CARRE Risk Model Semantic Data Entry System v2.0

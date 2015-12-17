@@ -13,9 +13,6 @@ matrix:
   fast_finish: true
   allow_failures:
     - node_js: stable
-    
-before_install:
-  - pip install codecov
   
 install:
   - npm install -g npm@latest
@@ -26,6 +23,3 @@ before_script:
 
 script:
   - npm test
-
-after_success:
-  - codecov
