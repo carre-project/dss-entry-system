@@ -15,12 +15,13 @@ matrix:
     - node_js: stable
   
 install:
-  - npm install -g npm@latest
-
-before_script:
   - sudo apt-get install libfontconfig
+  - npm install -g npm@latest
   - npm install -g bower
   - npm install -g gulp
+  - npm install
+
+before_script:
 
 script:
   - npm test
