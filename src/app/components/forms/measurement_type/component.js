@@ -2,7 +2,7 @@
 
 angular.module('CarreEntrySystem')
 
-.directive('riskElementForm', function() {
+.directive('measurementTypeForm', function() {
   return {
     templateUrl: 'app/components/forms/measurement_type/form.html',
     restrict: 'E',

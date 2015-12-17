@@ -2,7 +2,7 @@
 
 angular.module('CarreEntrySystem')
 
-.directive('riskElementForm', function() {
+.directive('citationForm', function() {
   return {
     templateUrl: 'app/components/forms/citation/form.html',
     restrict: 'E',

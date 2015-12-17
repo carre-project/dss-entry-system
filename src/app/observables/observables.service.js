@@ -2,14 +2,14 @@ angular.module('CarreEntrySystem').service('Observables', function($http, CARRE,
 
   this.exports={
     'get': getObservables,
-    'insert': insertRisk_element
+    'insert': insertObservable
   };
   
   function getObservables(ArrayOfIDs) {
     return CARRE.instances('observable',ArrayOfIDs);
   }
   
-  function insertRisk_element(oldElem, newElem, user) {
+  function insertObservable(oldElem, newElem, user) {
     
     console.log('Old: ',oldElem);
     console.log('New: ',newElem);

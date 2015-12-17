@@ -93,7 +93,6 @@ angular.module('CarreEntrySystem')
 
         //Init Form object
         $scope.observable = {
-          observables: $scope.model.has_observable_observable,
           observables: $scope.model.includes_observable||[],
           type: $scope.model.has_observable_type[0],
           name: $scope.model.has_observable_name_label,
@@ -114,7 +113,6 @@ angular.module('CarreEntrySystem')
 
         //Init Form object
         $scope.observable = {
-          observables: [],
           observables: [],
           type: "",
           name: "",

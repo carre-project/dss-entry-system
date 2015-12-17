@@ -1,3 +1,6 @@
+(function() {
+  'use strict';
+
 angular.module('CarreEntrySystem').service('Medical_experts', function($http, CARRE, CONFIG, $q) {
 
   this.exports = {
@@ -126,3 +129,5 @@ risk:has_author <" + user + ">; \n";
   return this.exports;
 
 });
+
+})();
