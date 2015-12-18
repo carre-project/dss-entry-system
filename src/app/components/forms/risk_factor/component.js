@@ -10,75 +10,47 @@ angular.module('CarreEntrySystem')
     scope: {
       'model': '='
     },
-    controller: function($scope, Observables, Bioportal, Risk_elements,Auth,toastr) {
+    controller: function($scope, Observables, Bioportal, Risk_elements, Risk_factors, Auth, toastr) {
       
       Auth.getUser().then(function(res){ $scope.user=res; });
       $scope.model = $scope.model || {};
-      $scope.bioportalAutocompleteResults = [];
-
-      //get observables
-      Observables.get().then(function(res) {
-        $scope.observables = res.data.map(function(ob) {
-            return {
-              value: ob.id,
-              label: ob.has_observable_name_label
-            };
-          });
-      });
 
       //get risk elements
       Risk_elements.get().then(function(res) {
-        $scope.risk_factors = res.data.map(function(rl) {
+        $scope.risk_elements = res.data.map(function(rl) {
             return {
               value: rl.id,
-              label: rl.has_risk_factor_name_label
+              label: rl.has_risk_element_name_label
             };
           });
       });
-
-      //risk element types
+      
+      //risk factor association types
       $scope.types = [{
-        label: "behavioural",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_factor_type_behavioural"
+        label: "is an issue in",
+        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_factor_association_type_is_an_issue_in"
       }, {
-        label: "biomedical",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_factor_type_biomedical"
+        label: "causes",
+        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_factor_association_type_causes"
       }, {
-        label: "demographic",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_factor_type_demographic"
+        label: "reduces",
+        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_factor_association_type_reduces"
       }, {
-        label: "intervention",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_factor_type_intervention"
-      }, {
-        label: "genetic",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_factor_type_genetic"
-      }, {
-        label: "environmental",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_factor_type_environmental"
+        label: "elevates",
+        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_factor_association_type_elevates"
       }];
 
-      //Bioportal stuff
-      $scope.bioportalAutocomplete = function(term) {
-        // var options = { };
-        if (term.length < 2) return false;
-        $scope.loadingElementIdentifier = true;
-        Bioportal.fetch(term).then(function(res) {
-          $scope.bioportalAutocompleteResults = res;
-          $scope.loadingElementIdentifier = false;
-        });
-      };
       
       //Save to RDF method
       $scope.saveModel=function(){
-        Risk_elements.insert($scope.model,$scope.risk_factor,$scope.user.graphName).then(function(res){
+        Risk_factors.insert($scope.model,$scope.risk_factor,$scope.user.graphName).then(function(res){
           //success
-          console.log('Risk Element saved',res);
-          
+          console.log('Risk factor saved',res);
           $scope.$emit('risk_factor:save');
-          toastr.success('<b>'+$scope.risk_factor.name+'</b>'+($scope.model.id?' has been updated':' has been created'),'<h4>Risk element saved</h4>');
-
+          toastr.success('<b> Risk factor</b>'+($scope.model.id?' has been updated':' has been created'),'<h4>Risk factor saved</h4>');
         });
       };
+      
       //Return back
       $scope.cancelForm=function(){
         $scope.$emit('risk_factor:cancel');
@@ -93,17 +65,10 @@ angular.module('CarreEntrySystem')
 
         //Init Form object
         $scope.risk_factor = {
-          observables: $scope.model.has_risk_factor_observable,
-          risk_factors: $scope.model.includes_risk_factor||[],
-          type: $scope.model.has_risk_factor_type[0],
-          name: $scope.model.has_risk_factor_name_label,
-          identifier: $scope.model.has_risk_factor_identifier_label,
-          modifiable_status: $scope.model.has_risk_factor_modifiable_status_label
+          source: $scope.model.has_risk_factor_source[0],
+          target: $scope.model.has_risk_factor_target[0],
+          type: $scope.model.has_risk_factor_association_type[0],
         };
-
-
-        //init Bioportal Fetch
-        $scope.bioportalAutocomplete($scope.risk_factor.identifier);
 
 
       }
@@ -111,21 +76,14 @@ angular.module('CarreEntrySystem')
 
         /************** Create Mode **************/
         console.info('---Create---');
-
         //Init Form object
         $scope.risk_factor = {
-          observables: [],
-          risk_factors: [],
-          type: "",
-          name: "",
-          identifier: "",
-          modifiable_status: ""
+          source: "",
+          target: "",
+          type: ""
         };
 
-
       }
-
-      
 
       console.info('Model: ', $scope.model);
       console.info('Form params: ', $scope.risk_factor);

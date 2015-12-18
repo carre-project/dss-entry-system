@@ -40,15 +40,15 @@
       });
 
       //show edit buttons
-      // if (currentUser.username) {
-      //   vm.mygrid.columnDefs.push({
-      //     field: 'Edit',
-      //     enableFiltering: false,
-      //     enableColumnMenu: false,
-      //     cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.risk_factors.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
-      //     width: 60
-      //   });
-      // }
+      if (currentUser.username) {
+        vm.mygrid.columnDefs.push({
+          field: 'Edit',
+          enableFiltering: false,
+          enableColumnMenu: false,
+          cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.risk_factors.edit({id:row.entity.id_label})"><i class="fa fa-edit"></i></button></div>',
+          width: 60
+        });
+      }
       
       //dynamic creation of the grid columns
       content.fields(res.fields, visibleGridColumns).forEach((function(obj) {

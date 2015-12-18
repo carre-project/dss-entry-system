@@ -2,11 +2,91 @@ angular.module('CarreEntrySystem').service('Risk_factors', function($http, CARRE
 
   this.exports={
     'get': getRisk_factors,
+    'insert': insertRisk_factor,
     'risk_evidences': getRisk_evidencesFromRisk_Factor
   };
   
   function getRisk_factors(ArrayOfIDs,raw) {
     return CARRE.instances('risk_factor',ArrayOfIDs);
+  }
+
+  function insertRisk_factor(oldElem, newElem, user) {
+    
+    console.log('Old: ',oldElem);
+    console.log('New: ',newElem);
+    
+    /*
+    
+    oldElem Template
+    
+       "node":"http://carre.kmi.open.ac.uk/risk_factors/RF_3",
+       "type":"http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_factor",
+       "has_author":"https://carre.kmi.open.ac.uk/users/KalliopiPafili",
+       "has_reviewer":"https://carre.kmi.open.ac.uk/users/GintareJuozalenaite",
+       "has_risk_factor_source":"http://umls.nlm.nih.gov/sab/mth/cui/C0001783",
+       "has_risk_factor_target":"age",       
+       "has_risk_factor_association_type":"no"
+    
+    newElem Template
+        "source": "",
+        "target": "risk_element_type_demographic",
+        "type": "age"
+        
+    */
+
+    var updateQuery, deleteQuery, insertQuery = "";
+
+    if (oldElem.id) {
+
+      /* Update query */
+
+      deleteQuery = "DELETE DATA { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " { \n\
+        <" + oldElem.id + ">  risk:has_risk_factor_source <" + oldElem.has_risk_factor_source[0] + ">; \n\
+                              risk:has_risk_factor_target <" + oldElem.has_risk_factor_target[0] + ">; \n\
+                              risk:has_risk_factor_association_type <" + oldElem.has_risk_factor_association_type[0] + ">. }}";
+
+      /*----------*/
+
+      insertQuery = "INSERT DATA { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " { \n\
+        <" + oldElem.id + ">  risk:has_risk_factor_source <" + newElem.source + ">; \n\
+                              risk:has_risk_factor_target <" + newElem.target + ">; \n\
+                              risk:has_risk_factor_association_type <" + newElem.type + ">. }}";
+      
+
+      /*----------*/
+
+      updateQuery = deleteQuery + insertQuery;
+      
+      console.info('-----updateQuery------');
+      return CARRE.query(updateQuery);
+    }
+    else {
+      /*Insert query*/
+
+
+      insertQuery = "INSERT { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " { \n\
+        ?newid  risk:has_risk_factor_source <" + newElem.source + ">; \n\
+                risk:has_risk_factor_target <" + newElem.target + ">; \n\
+                risk:has_risk_factor_association_type <" + newElem.type + ">; \n\
+                risk:has_author <" + user + ">; \n";
+                
+          //add type and close query
+          insertQuery += "a risk:risk_factor . } } WHERE \n\
+      { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
+          { { \n\
+              SELECT (COUNT(DISTINCT ?elems) AS ?oldindex) FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
+              WHERE { \n\
+               ?elems a risk:risk_factor . \n\
+              } \n\
+            } \n\
+            BIND (IRI(CONCAT(RF:, \"RF_\", ?oldindex+1)) AS ?newid) \n\
+          } }";
+    
+    
+          console.info('-----insertQuery------');
+          return CARRE.query(insertQuery);
+    }
+
   }
   
   function getRisk_evidencesFromRisk_Factor(id) {

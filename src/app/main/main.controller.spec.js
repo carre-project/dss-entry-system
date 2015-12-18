@@ -14,10 +14,16 @@
     //   $timeout = _$timeout_;
     //   vm.config=_CONFIG_;
     // }));
-
-    it('dummy test', function() {
+    
+    // test #1
+    it('should pass dummy test', function() {
       expect(1 > 0).toBeTruthy();
     });
+    
+    // test #2
+    // it('should pass dummy test', function() {
+    //   expect(1 > 0).toBeTruthy();
+    // });
     
   });
 })();

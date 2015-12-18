@@ -6,12 +6,5 @@
 <!--debug vars-->
 
 <div class="col-xs-12">
-    <a class="btn btn-sm btn-default" ui-sref="main.risk_factors.view({id:risk_factor.id})"><i class="fa fa-eye"></i> Profile</a>
-
-    <ul class="list-group">
-      <li ng-repeat="field in risk_factor.fields" class="list-group-item">
-        {{field.label}} : <b>{{risk_factor.current[field.value+'_label']}}</b>
-      </li>
-    </ul>
- 
+    <risk-factor-form ng-if="risk_factor.current.id||risk_factor.create" model="risk_factor.current"></risk-factor-form>
 </div>

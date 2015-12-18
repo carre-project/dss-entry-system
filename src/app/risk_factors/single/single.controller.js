@@ -6,7 +6,7 @@
     .controller('risk_factorsSingleController', risk_factorsSingleController);
 
   /** @ngInject */
-  function risk_factorsSingleController(toastr, content, Bioportal, Risk_factors, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state) {
+  function risk_factorsSingleController(toastr, content, Risk_factors, CARRE, SweetAlert, currentUser, $stateParams, uiGridGroupingConstants, $scope, $timeout, Pubmed, uiGridConstants, $state) {
     var vm = this;
 
 
@@ -23,39 +23,78 @@
 
     /* View Risk_factor */
     vm.id = $stateParams.id;
+    vm.current = {};
     vm.edit = $stateParams.edit;
     if (vm.id) {
       getRisk_factor(vm.id);
       loadRiskEvidences(vm.id);
     }
 
+    //Handle events
+    $scope.$on('risk_factor:save', function() {
+      if (vm.current.id) {
+        $state.go('main.risk_factors.view', {
+          id: vm.id
+        });
+      }
+      else $state.go('main.risk_factors.list');
+    });
+    $scope.$on('risk_factor:cancel', function() {
+      if (vm.current.id) {
+        $state.go('main.risk_factors.view', {
+          id: vm.id
+        });
+      }
+      else $state.go('main.risk_factors.list');
+    });
+
+
+    if ($state.is("main.risk_factors.create")) {
+      vm.create = true;
+      vm.current = {};
+    }
+    else if ($state.is("main.risk_factors.edit")) {}
+    else {}
+    
 
     /* Helper functions */
 
     function getRisk_factor(id) {
       Risk_factors.get([id]).then(function(res) {
-        console.info('Risk_factor: ', res);
-        vm.current = res.data[0];
-        vm.fields = visibleFields.map(function(field) {
-          return {
-            value: field,
-            label: content.labelOf(field)
-          }
-        });
-
-        var options = {
-          display_context: 'false',
-          require_exact_match: 'false',
-          include: 'prefLabel,definition,cui',
-          display_links: 'true',
-          require_definitions: 'false'
-        };
-
+        if (res.data) {
+          vm.current = res.data[0];
+          vm.fields = visibleFields.map(function(field) {
+            return {
+              value: field,
+              label: content.labelOf(field)
+            };
+          });
+        }
+        else $state.go('main.risk_factors.list');
+      }, function(err) {
+        console.error(err);
+        $state.go('main.risk_factors.list');
       });
     }
 
+    vm.deleteCurrent = function() {
+      SweetAlert.swal({
+          title: "Are you sure?",
+          text: "Your will not be able to recover this element!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, delete it!",
+          closeOnConfirm: true,
+          closeOnCancel: true
+        },
+        function(isConfirm) {
+          if (isConfirm) { CARRE.delete(vm.current.id).then(function() { $state.go('main.risk_factors.list'); }); }
+        });
+    };
 
 
+    /************** List Template **************/
 
     var visibleGridColumns = [
       'has_risk_factor',
@@ -68,51 +107,52 @@
     ];
 
 
-
-    /************** List Template **************/
-
-    var risk_evidences = [];
-
     function loadRiskEvidences(id) {
       
       vm.gridLoading = Risk_factors.risk_evidences(id).then(function(res) {
-
-        vm.mygrid.data = res.data;
-
-        //make the response available in the view
-        vm.res = res;
-
-        /* Reset columns */
-        vm.mygrid.columnDefs = [];
         
-        vm.mygrid.columnDefs.push({
-          field: 'View',
-          enableFiltering: false,
-          enableColumnMenu: false,
-          cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.risk_evidences.view({id:row.entity.id_label})"><i class="fa fa-eye"></i></button></div>',
-          width: 60
-        });
-
-        //show edit buttons
-        // if (currentUser.username) {
-        //   vm.mygrid.columnDefs.push({
-        //     field: 'Edit',
-        //     enableFiltering: false,
-        //     enableColumnMenu: false,
-        //     cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.risk_evidences.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
-        //     width: 60
-        //   });
-        // }
-        //dynamic creation of the grid columns
-        content.fields(res.fields, visibleGridColumns).forEach((function(obj) {
-          vm.mygrid.columnDefs.push(obj);
-        }));
-
-        vm.mygrid.columnDefs.push({
-          field: 'id_label',
-          displayName: 'ID',
-          visible: false
-        });
+        if(res.data) {
+          console.log(res.data)
+          vm.mygrid.data = res.data;
+  
+          //make the response available in the view
+          vm.res = res;
+  
+          /* Reset columns */
+          vm.mygrid.columnDefs = [];
+          
+          vm.mygrid.columnDefs.push({
+            field: 'View',
+            enableFiltering: false,
+            enableColumnMenu: false,
+            cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.risk_evidences.view({id:row.entity.id_label})"><i class="fa fa-eye"></i></button></div>',
+            width: 60
+          });
+  
+          //show edit buttons
+          // if (currentUser.username) {
+          //   vm.mygrid.columnDefs.push({
+          //     field: 'Edit',
+          //     enableFiltering: false,
+          //     enableColumnMenu: false,
+          //     cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.risk_evidences.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
+          //     width: 60
+          //   });
+          // }
+          //dynamic creation of the grid columns
+          content.fields(res.fields, visibleGridColumns).forEach((function(obj) {
+            vm.mygrid.columnDefs.push(obj);
+          }));
+  
+          vm.mygrid.columnDefs.push({
+            field: 'id_label',
+            displayName: 'ID',
+            visible: false
+          });
+        } else {
+          vm.mygrid.columnDefs = [];
+          vm.mygrid.data=[];
+        }
 
 
 
