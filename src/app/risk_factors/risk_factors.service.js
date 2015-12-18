@@ -15,25 +15,6 @@ angular.module('CarreEntrySystem').service('Risk_factors', function($http, CARRE
     console.log('Old: ',oldElem);
     console.log('New: ',newElem);
     
-    /*
-    
-    oldElem Template
-    
-       "node":"http://carre.kmi.open.ac.uk/risk_factors/RF_3",
-       "type":"http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_factor",
-       "has_author":"https://carre.kmi.open.ac.uk/users/KalliopiPafili",
-       "has_reviewer":"https://carre.kmi.open.ac.uk/users/GintareJuozalenaite",
-       "has_risk_factor_source":"http://umls.nlm.nih.gov/sab/mth/cui/C0001783",
-       "has_risk_factor_target":"age",       
-       "has_risk_factor_association_type":"no"
-    
-    newElem Template
-        "source": "",
-        "target": "risk_element_type_demographic",
-        "type": "age"
-        
-    */
-
     var updateQuery, deleteQuery, insertQuery = "";
 
     if (oldElem.id) {

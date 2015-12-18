@@ -6,10 +6,11 @@
     .controller('risk_evidencesController', risk_evidencesController);
 
   /** @ngInject */
-  function risk_evidencesController(toastr, Risk_evidences, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function risk_evidencesController(toastr, Auth, Risk_evidences, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
     // currentUser is our user model;
 
+    var currentUser = Auth.getUser();
 
     var visibleGridColumns = [
       'has_risk_factor',

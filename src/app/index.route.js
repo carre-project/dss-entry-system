@@ -14,12 +14,7 @@
         'abstract': true,
         controller: 'MainController',
         controllerAs: 'main',
-        templateUrl: 'app/main/main.html',
-        resolve: {
-          'currentUser': function(Auth) {
-            return Auth.getUser();
-          }
-        }
+        templateUrl: 'app/main/main.html'
       })
       .state('main.dashboard', {
         controller: 'DashboardController',
@@ -249,6 +244,10 @@
       .state('404_error', {
         templateUrl: '404.html',
         url: '/404_error'
+      })
+      .state('500_API_ERROR', {
+        templateUrl: '500_API.html',
+        url: '/500_API_ERROR'
       });
   }
 

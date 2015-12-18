@@ -6,10 +6,11 @@
     .controller('risk_elementsSingleController', risk_elementsSingleController);
 
   /** @ngInject */
-  function risk_elementsSingleController(toastr, content, Bioportal, Risk_elements, CARRE, SweetAlert,currentUser, $stateParams, $timeout, Pubmed, $state, $scope) {
+  function risk_elementsSingleController(toastr, content, Auth, Bioportal, Risk_elements, CARRE, SweetAlert, $stateParams, $timeout, $state, $scope) {
     var vm = this;
-    vm.user = currentUser;
 
+    var currentUser=Auth.getUser();
+    vm.user = currentUser;
     var visibleFields = [
       // "type",      
       // "id",
@@ -95,6 +96,7 @@
           if (isConfirm) { CARRE.delete(vm.current.id).then(function() { $state.go('main.risk_elements.list'); }); }
         });
     };
+    
   }
 
 })();

@@ -6,10 +6,10 @@
     .controller('risk_elementsController', risk_elementsController);
 
   /** @ngInject */
-  function risk_elementsController(toastr, Risk_elements, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state , content) {
+  function risk_elementsController(toastr, Auth, Risk_elements, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state , content) {
     var vm = this; //controller as vm
     // currentUser is our user model;
-    
+    var currentUser=Auth.getUser();
     var visibleGridColumns=[
       'has_risk_element_name',
       'has_risk_element_identifier',
@@ -69,31 +69,6 @@
 
     /* GRID Default options */
     vm.mygrid = content.default;
-
-
-    /*Pubmed browser*/
-    vm.setPubmed = function(grid, row, useApi) {
-
-      vm.pubmedApi = useApi;
-      var id = row ? row.entity.id : null;
-
-      if (!id) {
-        vm.selectedRisk_element = '';
-        vm.pubmedArticle = '';
-      }
-      else if (vm.selectedRisk_element !== id) {
-        vm.selectedRisk_element = id;
-        vm.loading = Pubmed.fetch(id).then(function(res) {
-
-          vm.pubmedArticle = res.data;
-
-        });
-      }
-      else {
-        vm.selectedRisk_element = '';
-        vm.pubmedArticle = '';
-      }
-    };
     
 
   }

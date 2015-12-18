@@ -6,10 +6,10 @@
     .controller('observablesController', observablesController);
 
   /** @ngInject */
-  function observablesController(toastr, Observables, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function observablesController(toastr,Auth, Observables, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
     // currentUser is our user model;
-    
+    var currentUser=Auth.getUser();
     var visibleGridColumns=[
       'has_observable_name',
       'has_observable_type',
@@ -40,15 +40,15 @@
       });
 
       //show edit buttons
-      // if (currentUser.username) {
-      //   vm.mygrid.columnDefs.push({
-      //     field: 'Edit',
-      //     enableFiltering: false,
-      //     enableColumnMenu: false,
-      //     cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.observables.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
-      //     width: 60
-      //   });
-      // }
+      if (currentUser.username) {
+        vm.mygrid.columnDefs.push({
+          field: 'Edit',
+          enableFiltering: false,
+          enableColumnMenu: false,
+          cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.observables.edit({id:row.entity.id_label})"><i class="fa fa-edit"></i></button></div>',
+          width: 60
+        });
+      }
       
       //dynamic creation of the grid columns
       content.fields(res.fields, visibleGridColumns).forEach((function(obj) {
@@ -66,31 +66,6 @@
 
     /* GRID Default options */
     vm.mygrid = content.default;
-
-    /*Pubmed browser*/
-    vm.setPubmed = function(grid, row, useApi) {
-
-      vm.pubmedApi = useApi;
-      var id = row ? row.entity.id : null;
-
-      if (!id) {
-        vm.selectedObservable = '';
-        vm.pubmedArticle = '';
-      }
-      else if (vm.selectedObservable !== id) {
-        vm.selectedObservable = id;
-        vm.loading = Pubmed.fetch(id).then(function(res) {
-
-          vm.pubmedArticle = res.data;
-
-        });
-      }
-      else {
-        vm.selectedObservable = '';
-        vm.pubmedArticle = '';
-      }
-    };
-    
 
   }
 })();

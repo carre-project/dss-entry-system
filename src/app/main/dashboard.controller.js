@@ -6,7 +6,7 @@
     .controller('DashboardController', DashboardController);
 
   /** @ngInject */
-  function DashboardController($rootScope, $timeout, toastr, CARRE, currentUser, $location, CONFIG) {
+  function DashboardController($rootScope, $timeout, toastr, CARRE, $location, CONFIG) {
     var vm = this;
 
     //graph init

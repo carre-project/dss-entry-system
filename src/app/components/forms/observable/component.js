@@ -10,72 +10,42 @@ angular.module('CarreEntrySystem')
     scope: {
       'model': '='
     },
-    controller: function($scope, Observables, Bioportal, Risk_elements,Auth,toastr) {
+    controller: function($scope, Observables, Bioportal, Measurement_types,Auth,toastr) {
       
       Auth.getUser().then(function(res){ $scope.user=res; });
       $scope.model = $scope.model || {};
-      $scope.bioportalAutocompleteResults = [];
 
-      //get observables
-      Observables.get().then(function(res) {
-        $scope.observables = res.data.map(function(ob) {
+      //get measurement types
+      Measurement_types.get().then(function(res) {
+        $scope.measurement_types = res.data.map(function(obj) {
             return {
-              value: ob.id,
-              label: ob.has_observable_name_label
+              value: obj.id,
+              label: obj.has_measurement_type_name_label
             };
           });
       });
 
-      //get risk elements
-      Risk_elements.get().then(function(res) {
-        $scope.observables = res.data.map(function(rl) {
-            return {
-              value: rl.id,
-              label: rl.has_observable_name_label
-            };
-          });
-      });
-
-      //risk element types
+      //Observable types
       $scope.types = [{
-        label: "behavioural",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#observable_type_behavioural"
+        label: "Personal",
+        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#observable_type_personal"
       }, {
-        label: "biomedical",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#observable_type_biomedical"
+        label: "Clinical",
+        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#observable_type_clinical"
       }, {
-        label: "demographic",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#observable_type_demographic"
-      }, {
-        label: "intervention",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#observable_type_intervention"
-      }, {
-        label: "genetic",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#observable_type_genetic"
-      }, {
-        label: "environmental",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#observable_type_environmental"
+        label: "Other",
+        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#observable_type_other"
       }];
 
-      //Bioportal stuff
-      $scope.bioportalAutocomplete = function(term) {
-        // var options = { };
-        if (term.length < 2) return false;
-        $scope.loadingElementIdentifier = true;
-        Bioportal.fetch(term).then(function(res) {
-          $scope.bioportalAutocompleteResults = res;
-          $scope.loadingElementIdentifier = false;
-        });
-      };
       
       //Save to RDF method
       $scope.saveModel=function(){
-        Risk_elements.insert($scope.model,$scope.observable,$scope.user.graphName).then(function(res){
+        Observables.insert($scope.model,$scope.observable,$scope.user.graphName).then(function(res){
           //success
-          console.log('Risk Element saved',res);
+          console.log('Observable saved',res);
           
           $scope.$emit('observable:save');
-          toastr.success('<b>'+$scope.observable.name+'</b>'+($scope.model.id?' has been updated':' has been created'),'<h4>Risk element saved</h4>');
+          toastr.success('<b>'+$scope.observable.name+'</b>'+($scope.model.id?' has been updated':' has been created'),'<h4>Observable saved</h4>');
 
         });
       };
@@ -93,17 +63,10 @@ angular.module('CarreEntrySystem')
 
         //Init Form object
         $scope.observable = {
-          observables: $scope.model.includes_observable||[],
+          name: $scope.model.has_observable_name[0],
           type: $scope.model.has_observable_type[0],
-          name: $scope.model.has_observable_name_label,
-          identifier: $scope.model.has_observable_identifier_label,
-          modifiable_status: $scope.model.has_observable_modifiable_status_label
+          measurement_type: $scope.model.has_observable_measurement_type[0]
         };
-
-
-        //init Bioportal Fetch
-        $scope.bioportalAutocomplete($scope.observable.identifier);
-
 
       }
       else {
@@ -113,11 +76,9 @@ angular.module('CarreEntrySystem')
 
         //Init Form object
         $scope.observable = {
-          observables: [],
-          type: "",
           name: "",
-          identifier: "",
-          modifiable_status: ""
+          type: "",
+          measurement_type: ""
         };
 
 

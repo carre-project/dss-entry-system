@@ -6,7 +6,7 @@
     .controller('measurement_typesSingleController', measurement_typesSingleController);
 
   /** @ngInject */
-  function measurement_typesSingleController(toastr,content ,Bioportal, Measurement_types, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state ) {
+  function measurement_typesSingleController(toastr,content ,Bioportal, Measurement_types, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state ) {
     var vm = this;
 
 
