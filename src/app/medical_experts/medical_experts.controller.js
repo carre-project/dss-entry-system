@@ -11,11 +11,13 @@
     // currentUser is our user model;
     
     var visibleGridColumns=[
-      'has_risk_element_name',
-      'has_risk_element_identifier',
-      'has_risk_element_type',
-      'has_risk_element_modifiable_status',
-      'has_risk_element_observable',
+      "has_firstname",
+      "has_lastname",
+      "has_medical_specialty_identifier",
+      "has_medical_position",
+      "has_short_cv",
+      "has_personal_page_url",
+      "has_user_graph"
       ];
     
     
@@ -41,17 +43,6 @@
         cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.medical_experts.view({id:row.entity.id_label})"><i class="fa fa-eye"></i></button></div>',
         width: 60
       });
-
-      //show edit buttons
-      if (currentUser.username) {
-        vm.mygrid.columnDefs.push({
-          field: 'Edit',
-          enableFiltering: false,
-          enableColumnMenu: false,
-          cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.medical_experts.edit({id:row.entity.id_label})"><i class="fa fa-edit"></i></button></div>',
-          width: 60
-        });
-      }
       
       //dynamic creation of the grid columns
       content.fields(res.fields, visibleGridColumns).forEach((function(obj) {
@@ -69,32 +60,6 @@
 
     /* GRID Default options */
     vm.mygrid = content.default;
-
-
-    /*Pubmed browser*/
-    vm.setPubmed = function(grid, row, useApi) {
-
-      vm.pubmedApi = useApi;
-      var id = row ? row.entity.id : null;
-
-      if (!id) {
-        vm.selectedRisk_element = '';
-        vm.pubmedArticle = '';
-      }
-      else if (vm.selectedRisk_element !== id) {
-        vm.selectedRisk_element = id;
-        vm.loading = Pubmed.fetch(id).then(function(res) {
-
-          vm.pubmedArticle = res.data;
-
-        });
-      }
-      else {
-        vm.selectedRisk_element = '';
-        vm.pubmedArticle = '';
-      }
-    };
-    
 
   }
 })();

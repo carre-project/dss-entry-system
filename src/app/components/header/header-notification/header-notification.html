@@ -13,13 +13,13 @@
             <li><a ng-href="{{main.settingsUrl}}" target="_blank"><i class="fa fa-gear fa-fw"></i> Settings</a>
             </li>
             <li class="divider"></li>
-            <li><a ng-href="{{main.logoutUrl}}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+            <li><a id="logoutUrl" ng-href="{{main.logoutUrl}}{{pathname}}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
             </li>
         </ul>
         <!-- /.dropdown-user -->
     </li>
     <li ng-hide="main.user.username">
-        <a ng-href="{{main.loginUrl}}">Hello Guest, Login<i class="fa fa-sign-in fa-fw"></i> </a>
+        <a id="loginUrl" ng-href="{{main.loginUrl}}{{pathname}}">Hello Guest, Login<i class="fa fa-sign-in fa-fw"></i> </a>
     </li>
     <!-- /.dropdown -->
 </ul>

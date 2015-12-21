@@ -6,7 +6,7 @@
     .controller('risk_factorsSingleController', risk_factorsSingleController);
 
   /** @ngInject */
-  function risk_factorsSingleController(toastr, content, Risk_factors, CARRE, SweetAlert, currentUser, $stateParams, uiGridGroupingConstants, $scope, $timeout, Pubmed, uiGridConstants, $state) {
+  function risk_factorsSingleController(toastr, content, Risk_factors, CARRE, SweetAlert, $stateParams, uiGridGroupingConstants, $scope, $timeout, Pubmed, uiGridConstants, $state) {
     var vm = this;
 
 
@@ -128,17 +128,7 @@
             cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.risk_evidences.view({id:row.entity.id_label})"><i class="fa fa-eye"></i></button></div>',
             width: 60
           });
-  
-          //show edit buttons
-          // if (currentUser.username) {
-          //   vm.mygrid.columnDefs.push({
-          //     field: 'Edit',
-          //     enableFiltering: false,
-          //     enableColumnMenu: false,
-          //     cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.risk_evidences.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
-          //     width: 60
-          //   });
-          // }
+          
           //dynamic creation of the grid columns
           content.fields(res.fields, visibleGridColumns).forEach((function(obj) {
             vm.mygrid.columnDefs.push(obj);

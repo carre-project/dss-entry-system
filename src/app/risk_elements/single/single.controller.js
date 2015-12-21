@@ -9,8 +9,6 @@
   function risk_elementsSingleController(toastr, content, Auth, Bioportal, Risk_elements, CARRE, SweetAlert, $stateParams, $timeout, $state, $scope) {
     var vm = this;
 
-    var currentUser=Auth.getUser();
-    vm.user = currentUser;
     var visibleFields = [
       // "type",      
       // "id",

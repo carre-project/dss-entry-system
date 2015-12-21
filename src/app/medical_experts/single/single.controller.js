@@ -6,57 +6,25 @@
     .controller('medical_expertsSingleController', medical_expertsSingleController);
 
   /** @ngInject */
-  function medical_expertsSingleController(toastr, content, Bioportal, Medical_experts, CARRE, SweetAlert,currentUser, $stateParams, $timeout, Pubmed, $state, $scope) {
+  function medical_expertsSingleController(toastr, content, Bioportal, Medical_experts, CARRE, SweetAlert, $stateParams, $timeout, Pubmed, $state, $scope) {
     var vm = this;
-    vm.user = currentUser;
-
+    
     var visibleFields = [
-      // "type",      
-      // "id",
-      "has_medical_expert_name",
-      "has_medical_expert_identifier",
-      "has_medical_expert_type",
-      "has_medical_expert_modifiable_status",
-      "has_medical_expert_observable",
-      "has_medical_expert_observable_condition",
-      "includes_medical_expert",
-      "has_author",
-      "has_reviewer"
+      "has_firstname",
+      "has_lastname",
+      "has_medical_specialty_identifier",
+      "has_medical_position",
+      "has_short_cv",
+      "has_personal_page_url",
+      "has_user_graph"
     ];
 
 
     /* View Risk_element */
     vm.id = $stateParams.id;
     vm.current = {};
-    vm.edit = $stateParams.edit;
     if (vm.id) getRisk_element(vm.id);
 
-
-    //Handle events
-    $scope.$on('medical_expert:save', function() {
-      if (vm.current.id) {
-        $state.go('main.medical_experts.view', {
-          id: vm.id
-        });
-      }
-      else $state.go('main.medical_experts.list');
-    });
-    $scope.$on('medical_expert:cancel', function() {
-      if (vm.current.id) {
-        $state.go('main.medical_experts.view', {
-          id: vm.id
-        });
-      }
-      else $state.go('main.medical_experts.list');
-    });
-
-
-    if ($state.is("main.medical_experts.create")) {
-      vm.create = true;
-      vm.current = {};
-    }
-    else if ($state.is("main.medical_experts.edit")) {}
-    else {}
 
 
 
@@ -80,21 +48,6 @@
       });
     }
 
-    vm.deleteCurrent = function() {
-      SweetAlert.swal({
-          title: "Are you sure?",
-          text: "Your will not be able to recover this element!",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Yes, delete it!",
-          closeOnConfirm: true,
-          closeOnCancel: true
-        },
-        function(isConfirm) {
-          if (isConfirm) { CARRE.delete(vm.current.id).then(function() { $state.go('main.medical_experts.list'); }); }
-        });
-    };
   }
 
 })();

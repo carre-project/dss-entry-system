@@ -6,27 +6,22 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($rootScope, $timeout, toastr, $location, CONFIG, Auth) {
+  function MainController($rootScope, $timeout, toastr ,currentUser, $location, CONFIG, Auth) {
     var vm = this;
     
-    vm.user = {};
-    Auth.getUser().then(function(currentUser) {
-      vm.user=currentUser;
-    },function(err){
-      console.log(err);
-    })
+    vm.user = currentUser;
+    
     vm.config = CONFIG;
     CONFIG.ROOT_URL=rootUrl();
     
     //clean up the browser url
     $location.url($location.path());
-    var baseUrl = $location.absUrl();
 
     //set up the urls 
-    vm.loginUrl = CONFIG.CARRE_DEVICES + 'login?next=' + baseUrl;
-    vm.logoutUrl = CONFIG.CARRE_DEVICES + 'logout?next=' + baseUrl;
+    vm.loginUrl = CONFIG.CARRE_DEVICES + 'login?next=';
+    vm.logoutUrl = CONFIG.CARRE_DEVICES + 'logout?next=';
     vm.settingsUrl = CONFIG.CARRE_DEVICES + 'settings';
-    vm.passwordUrl = CONFIG.CARRE_DEVICES + 'recover?next=' + baseUrl;
+    vm.passwordUrl = CONFIG.CARRE_DEVICES + 'recover?next=';
 
     
     //show message for the user
@@ -35,9 +30,7 @@
     } else {
       toastr.info('Please login if you want to add/edit data.','<h4>Hello Guest!</h4>');
     }
-
     
-
     function rootUrl(){
       if(CONFIG.ENV==='DEV'){
         return window.location.host+'/#/';

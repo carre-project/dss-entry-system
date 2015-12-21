@@ -6,6 +6,16 @@ angular.module('CarreEntrySystem').service('CarreTranslate', function() {
     "has_author":"Entered by",
     "has_reviewer":"Reviewed by",
     
+    //medical_expert
+    
+    "has_firstname":"First name",
+    "has_lastname":"Last name",
+    "has_medical_specialty":"Medical specialty",
+    "has_medical_position":"Medical position",
+    "has_short_cv":"Short CV",
+    "has_personal_page_url":"Personal website",
+    "has_user_graph":"User graph",
+    
     //observable
     
     "has_observable_name":"Name",

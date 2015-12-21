@@ -6,7 +6,7 @@
     .controller('measurement_typesController', measurement_typesController);
 
   /** @ngInject */
-  function measurement_typesController(toastr, Measurement_types, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function measurement_typesController(toastr, Measurement_types, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
     // currentUser is our user model;
     
@@ -39,16 +39,6 @@
         width: 60
       });
 
-      //show edit buttons
-      // if (currentUser.username) {
-      //   vm.mygrid.columnDefs.push({
-      //     field: 'Edit',
-      //     enableFiltering: false,
-      //     enableColumnMenu: false,
-      //     cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.measurement_types.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
-      //     width: 60
-      //   });
-      // }
       
       //dynamic creation of the grid columns
       content.fields(res.fields, visibleGridColumns).forEach((function(obj) {
@@ -66,32 +56,6 @@
 
     /* GRID Default options */
     vm.mygrid = content.default;
-
-
-
-    /*Pubmed browser*/
-    vm.setPubmed = function(grid, row, useApi) {
-
-      vm.pubmedApi = useApi;
-      var id = row ? row.entity.id : null;
-
-      if (!id) {
-        vm.selectedMeasurement_type = '';
-        vm.pubmedArticle = '';
-      }
-      else if (vm.selectedMeasurement_type !== id) {
-        vm.selectedMeasurement_type = id;
-        vm.loading = Pubmed.fetch(id).then(function(res) {
-
-          vm.pubmedArticle = res.data;
-
-        });
-      }
-      else {
-        vm.selectedMeasurement_type = '';
-        vm.pubmedArticle = '';
-      }
-    };
     
 
   }

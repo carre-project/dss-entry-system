@@ -9,8 +9,6 @@
   /** @ngInject */
   function risk_evidencesSingleController(toastr, content, Bioportal, Auth, Risk_evidences, CARRE,SweetAlert, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, $scope) {
     var vm = this;
-    var currentUser = Auth.getUser();
-    vm.user = currentUser;
 
     var visibleFields = [
       // "type",

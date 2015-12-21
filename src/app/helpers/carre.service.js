@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$q,toastr) {
+angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$q,toastr,$state) {
 
   this.exports = {
     // 'count': countInstance,
@@ -161,12 +161,15 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     if (Auth.cookie) params.token = Auth.cookie;
 
     console.info('Final query: ', params.sparql);
-    return $http.post(CONFIG.CARRE_API_URL + 'query', params).then(function(res){
+    return $http.post(CONFIG.CARRE_API_URL + 'query', params, {timeout:6000}).then(function(res){
       if(res.data==='No JSON object could be decoded') {
         console.error(res);
         toastr.error('<p>'+res.data+'</p>','<h4>Oh Error</h4>');
         return $q.reject(res);
       }  else return res;
+    }).catch(function(err){
+        console.log(err);
+        $state.go('500_API_ERROR');
     });
 
   }

@@ -14,6 +14,7 @@
     vm.countAll = 0;
   
     vm.counterchart_labels = [
+      // "Medical Experts",
       "Risk Factors",
       "Risk Evidences",
       "Risk Elements",
@@ -53,6 +54,10 @@
         total:Number(r.risk_factors.value),
         noreviews:Number(r.risk_factors_unreviewed.value)
       };
+      // vm.medical_experts = {
+      //   total:Number(r.risk_factors.value),
+      //   noreviews:Number(r.risk_factors_unreviewed.value)
+      // };
       
       //set data for the graph
       vm.counterchart_data[0][0]=vm.risk_factors.total;
@@ -70,45 +75,6 @@
                     vm.observables.total+
                     vm.measurement_types.total;
     });
-    
-    
-    //get total and unreviewed elements======== OLD many requests;
-    // CARRE.count('citation').then(function(res) {
-    //   vm.citations = res;
-    //   vm.countAllInit = vm.countAll;
-    //   vm.countAll += res.total;
-    //   vm.counterchart_data[0][0]=res.total;
-    // });
-    // CARRE.count('measurement_type').then(function(res) {
-    //   vm.measurement_types = res;
-    //   vm.countAllInit = vm.countAll;
-    //   vm.countAll += res.total;
-    //   vm.counterchart_data[0][1]=res.total;
-    // });
-    // CARRE.count('observable').then(function(res) {
-    //   vm.observables = res;
-    //   vm.countAllInit = vm.countAll;
-    //   vm.countAll += res.total;
-    //   vm.counterchart_data[0][2]=res.total;
-    // });
-    // CARRE.count('risk_element').then(function(res) {
-    //   vm.risk_elements = res;
-    //   vm.countAllInit = vm.countAll;
-    //   vm.countAll += res.total;
-    //   vm.counterchart_data[0][3]=res.total;
-    // });
-    // CARRE.count('risk_evidence').then(function(res) {
-    //   vm.risk_evidences = res;
-    //   vm.countAllInit = vm.countAll;
-    //   vm.countAll += res.total;
-    //   vm.counterchart_data[0][4]=res.total;
-    // });
-    // CARRE.count('risk_factor').then(function(res) {
-    //   vm.risk_factors = res;
-    //   vm.countAllInit = vm.countAll;
-    //   vm.countAll += res.total;
-    //   vm.counterchart_data[0][5]=res.total;
-    // });
 
   }
 })();

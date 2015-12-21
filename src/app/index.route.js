@@ -14,7 +14,12 @@
         'abstract': true,
         controller: 'MainController',
         controllerAs: 'main',
-        templateUrl: 'app/main/main.html'
+        templateUrl: 'app/main/main.html',
+        resolve:{
+          'currentUser':function(Auth){
+            return Auth.getUser();
+          }
+        }
       })
       .state('main.dashboard', {
         controller: 'DashboardController',
@@ -178,7 +183,7 @@
         url: '/:id'
       })
       
-            /*  Measurement Types  */
+      /*  Measurement Types  */
       .state('main.measurement_types', {
         'abstract':true,
         templateUrl: 'app/measurement_types/main.html',
@@ -209,7 +214,7 @@
         url: '/:id'
       })
       
-            /*  Measurement Types  */
+      /*  Medical Experts  */
       .state('main.medical_experts', {
         'abstract':true,
         templateUrl: 'app/medical_experts/main.html',
@@ -220,18 +225,6 @@
         controllerAs: 'medical_experts',
         templateUrl: 'app/medical_experts/list.html',
         url: ''
-      })
-      .state('main.medical_experts.create', {
-        templateUrl: 'app/medical_experts/single/edit.create.html',
-        controller: 'medical_expertsSingleController',
-        controllerAs: 'measurement_type',
-        url: '/create'
-      })
-      .state('main.medical_experts.edit', {
-        templateUrl: 'app/medical_experts/single/edit.create.html',
-        controller: 'medical_expertsSingleController',
-        controllerAs: 'measurement_type',
-        url: '/:id/edit'
       })
       .state('main.medical_experts.view', {
         controller: 'medical_expertsSingleController',
@@ -247,7 +240,7 @@
       })
       .state('500_API_ERROR', {
         templateUrl: '500_API.html',
-        url: '/500_API_ERROR'
+        url: '/500_api_error'
       });
   }
 

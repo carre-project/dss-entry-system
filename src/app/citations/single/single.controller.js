@@ -6,7 +6,7 @@
     .controller('citationsSingleController', citationsSingleController);
 
   /** @ngInject */
-  function citationsSingleController(toastr,content ,Citations, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state){
+  function citationsSingleController(toastr,content ,Citations, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state){
     var vm = this;
 
 

@@ -6,10 +6,10 @@
     .controller('risk_elementsController', risk_elementsController);
 
   /** @ngInject */
-  function risk_elementsController(toastr, Auth, Risk_elements, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state , content) {
+  function risk_elementsController(toastr, Auth, Risk_elements, $stateParams, currentUser, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state , content) {
     var vm = this; //controller as vm
     // currentUser is our user model;
-    var currentUser=Auth.getUser();
+    
     var visibleGridColumns=[
       'has_risk_element_name',
       'has_risk_element_identifier',

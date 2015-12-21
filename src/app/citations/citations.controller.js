@@ -6,7 +6,7 @@
     .controller('citationsController', citationsController);
 
   /** @ngInject */
-  function citationsController(toastr, Citations, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function citationsController(toastr, Citations, $stateParams, currentUser, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
     // currentUser is our user model;
     
@@ -40,15 +40,15 @@
       });
 
       //show edit buttons
-      // if (currentUser.username) {
-      //   vm.mygrid.columnDefs.push({
-      //     field: 'Edit',
-      //     enableFiltering: false,
-      //     enableColumnMenu: false,
-      //     cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ng-click="grid.appScope.citations.setPubmed(grid, row, true)"><i class="fa fa-edit"></i></button></div>',
-      //     width: 60
-      //   });
-      // }
+      if (currentUser.username) {
+        vm.mygrid.columnDefs.push({
+          field: 'Edit',
+          enableFiltering: false,
+          enableColumnMenu: false,
+          cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.citations.edit({id:row.entity.id_label})"><i class="fa fa-edit"></i></button></div>',
+          width: 60
+        });
+      }
       
       //dynamic creation of the grid columns
       content.fields(res.fields, visibleGridColumns).forEach((function(obj) {

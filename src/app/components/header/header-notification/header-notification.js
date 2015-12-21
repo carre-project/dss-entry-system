@@ -7,12 +7,16 @@
  * # adminPosHeader
  */
 angular.module('CarreEntrySystem')
-	.directive('headerNotification',function(){
+	.directive('headerNotification',function($rootScope,$timeout,$state,$location){
 		return {
-        templateUrl:'app/components/header/header-notification/header-notification.html',
-        restrict: 'E',
-        replace: true
-    	}
+            templateUrl:'app/components/header/header-notification/header-notification.html',
+            restrict: 'E',
+            replace: true,
+            link:function(scope,elem,attr){
+                scope.pathname=$location.absUrl();
+                $rootScope.$on('$stateChangeSuccess', function(){ scope.pathname=$location.absUrl(); })
+            }
+		}
 	});
 
 
