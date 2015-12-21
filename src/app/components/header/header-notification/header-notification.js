@@ -13,8 +13,9 @@ angular.module('CarreEntrySystem')
             restrict: 'E',
             replace: true,
             link:function(scope,elem,attr){
-                scope.pathname=$location.absUrl();
-                $rootScope.$on('$stateChangeSuccess', function(){ scope.pathname=$location.absUrl(); })
+                scope.pathname=setPath();
+                $rootScope.$on('$stateChangeSuccess', function(){ scope.pathname=setPath(); })
+                function setPath(){ return $location.absUrl().replace('/edit','');}
             }
 		}
 	});
