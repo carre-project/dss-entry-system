@@ -6,13 +6,15 @@
     .controller('DashboardController', DashboardController);
 
   /** @ngInject */
-  function DashboardController($rootScope, $timeout, toastr, CARRE, $location, CONFIG) {
+  function DashboardController($rootScope, $timeout, toastr, CARRE, $location, CONFIG, $scope) {
     var vm = this;
 
     //graph init
     vm.countAllInit = 0;
     vm.countAll = 0;
   
+    vm.colors=CONFIG.COLORS;
+    console.log(vm.colors);
     vm.counterchart_labels = [
       // "Medical Experts",
       "Risk Factors",
@@ -24,7 +26,19 @@
     ];
     vm.counterchart_data=[];
     vm.counterchart_data[0] = [0,0,0,0,0];
-
+    
+    //event on create method
+    $scope.$on('create', function (event, chart) {
+      // set colors for each bar
+      console.log(chart);
+      if(chart.datasets){
+        chart.datasets[0].bars.map(function(obj,index){
+          obj.fillColor=vm.colors[index];
+          obj.strokeColor="#FFF";
+          return obj;
+        });
+      }
+    });
 
     //get total and unreviewed elements 
     
@@ -74,7 +88,20 @@
                     vm.risk_evidences.total+
                     vm.observables.total+
                     vm.measurement_types.total;
+                    
+                    
+      /* Donut graph temp */
+    vm.counterdonut_data=[
+      vm.risk_factors.total,
+      vm.risk_evidences.total,
+      vm.risk_elements.total,
+      vm.observables.total,
+      vm.citations.total
+    ];
+    vm.counterdonut_labels=vm.counterchart_labels;
+    vm.counterdonut_options={};
+    
     });
-
+    
   }
 })();

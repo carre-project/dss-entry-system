@@ -40,6 +40,11 @@
               label: content.labelOf(field)
             };
           });
+          
+          CARRE.countFor(id).then(function(res){
+            console.log(res);
+          });
+          
         }
         else $state.go('main.medical_experts.list');
       }, function(err) {

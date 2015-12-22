@@ -6,9 +6,13 @@
     .config(config);
 
   /** @ngInject */
-  function config(toastrConfig, $httpProvider, cfpLoadingBarProvider) {
+  function config(toastrConfig, $httpProvider, cfpLoadingBarProvider,CONFIG) {
     
     // Set options third-party lib
+  
+    
+    //chart colors
+    Chart.defaults.global.colours=CONFIG.COLORS;
     
     angular.extend(toastrConfig, {
       allowHtml: true,
