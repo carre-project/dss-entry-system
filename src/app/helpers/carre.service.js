@@ -3,6 +3,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
   this.exports = {
     // 'count': countInstance,
     'countAll': countAllInstances,
+    'countFor': countAllInstancesFor,
     'query': apiQuery,
     'selectQuery': selectQuery,
     'instances': queryInstances,
@@ -95,7 +96,6 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     (COUNT(?rv_r) as ?risk_evidences_unreviewed) \n\
     (COUNT(?ci) as ?citations) \n\
     (COUNT(?me) as ?measurement_types)  \n\
-    (COUNT(?ex) as ?medical_experts)  \n\
     FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
     {?rf a risk:risk_factor} \n\
     UNION { ?rf_r a risk:risk_factor FILTER NOT EXISTS {?rf_r risk:has_reviewer ?anything} } \n\
@@ -104,25 +104,37 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     UNION {?ob a risk:observable} UNION { ?ob_r a risk:observable FILTER NOT EXISTS {?ob_r risk:has_reviewer ?anything} } \n\
     UNION {?rv a risk:risk_evidence} UNION { ?rv_r a risk:risk_evidence FILTER NOT EXISTS {?rv_r risk:has_reviewer ?anything} } \n\
     UNION {?ci a risk:citation} \n\
-    UNION {?ex a risk:medical_expert} \n\
     UNION {?me a risk:measurement_type}  }";
     
     return apiQuery(query);
   }
-  /* DEPRECATED */
-  // function countInstance(instanceType) {
-  //   var query = "SELECT ?s (COUNT(?r) as ?reviews) FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { ?s a risk:" + instanceType + " . OPTIONAL {?s risk:has_reviewer ?r .} } GROUP BY ?s";
-  //   return apiQuery(query).then(function(res) {
-  //     var sum = 0;
-  //     res.data.forEach(function(obj) {
-  //       if (obj.reviews.value === '0') sum += 1;
-  //     });
-  //     return {
-  //       total: res.data.length,
-  //       noreviews: sum
-  //     };
-  //   });
-  // }
+
+  /* Dashboard count instances methods */
+  function countAllInstancesFor(medicalExpert) {
+    var query = "SELECT \n\
+    (COUNT(?rf) as ?risk_factors) \n\
+    (COUNT(?rf_r) as ?risk_factors_unreviewed) \n\
+    (COUNT(?rl) as ?risk_elements) \n\
+    (COUNT(?rl_r) as ?risk_elements_unreviewed) \n\
+    (COUNT(?ob) as ?observables) \n\
+    (COUNT(?ob_r) as ?observables_unreviewed) \n\
+    (COUNT(?rv) as ?risk_evidences) \n\
+    (COUNT(?rv_r) as ?risk_evidences_unreviewed) \n\
+    (COUNT(?ci) as ?citations) \n\
+    (COUNT(?me) as ?measurement_types)  \n\
+    FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
+    {?rf a risk:risk_factor; risk:has_author <"+medicalExpert+">.} \n\
+    UNION { ?rf_r a risk:risk_factor FILTER NOT EXISTS {?rf_r risk:has_reviewer <"+medicalExpert+">} } \n\
+    UNION {?rl a risk:risk_element; risk:has_author <"+medicalExpert+">.} \n\
+    UNION { ?rl_r a risk:risk_element FILTER NOT EXISTS {?rl_r risk:has_reviewer <"+medicalExpert+">} } \n\
+    UNION {?ob a risk:observable; risk:has_author <"+medicalExpert+">.} UNION { ?ob_r a risk:observable FILTER NOT EXISTS {?ob_r risk:has_reviewer <"+medicalExpert+">} } \n\
+    UNION {?rv a risk:risk_evidence; risk:has_author <"+medicalExpert+">.} UNION { ?rv_r a risk:risk_evidence FILTER NOT EXISTS {?rv_r risk:has_reviewer <"+medicalExpert+">} } \n\
+    UNION {?ci a risk:citation; risk:has_author <"+medicalExpert+">.} \n\
+    UNION {?me a risk:measurement_type; risk:has_author <"+medicalExpert+">.}  }";
+    
+    return apiQuery(query);
+  }
+  
 
   /* Easy select query to transform triples to javascript objects */
   function selectQuery(sparqlQuery, raw) {

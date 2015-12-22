@@ -23,14 +23,14 @@
     /* View Risk_element */
     vm.id = $stateParams.id;
     vm.current = {};
-    if (vm.id) getRisk_element(vm.id);
+    if (vm.id) getMedical_expert(vm.id);
 
 
 
 
     /* Helper functions */
 
-    function getRisk_element(id) {
+    function getMedical_expert(id) {
       Medical_experts.get([id]).then(function(res) {
         if (res.data) {
           vm.current = res.data[0];
