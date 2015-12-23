@@ -111,27 +111,15 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
   /* Dashboard count instances methods */
   function countAllInstancesFor(medicalExpert) {
-    var query = "SELECT \n\
-    (COUNT(?rf) as ?risk_factors) \n\
-    (COUNT(?rf_r) as ?risk_factors_unreviewed) \n\
-    (COUNT(?rl) as ?risk_elements) \n\
-    (COUNT(?rl_r) as ?risk_elements_unreviewed) \n\
-    (COUNT(?ob) as ?observables) \n\
-    (COUNT(?ob_r) as ?observables_unreviewed) \n\
-    (COUNT(?rv) as ?risk_evidences) \n\
-    (COUNT(?rv_r) as ?risk_evidences_unreviewed) \n\
-    (COUNT(?ci) as ?citations) \n\
-    (COUNT(?me) as ?measurement_types)  \n\
+    var query = "SELECT ?user (COUNT(?authorships) AS ?authored) (COUNT(?reviews) AS ?reviewed) \n\
     FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
-    {?rf a risk:risk_factor; risk:has_author <"+medicalExpert+">.} \n\
-    UNION { ?rf_r a risk:risk_factor FILTER NOT EXISTS {?rf_r risk:has_reviewer <"+medicalExpert+">} } \n\
-    UNION {?rl a risk:risk_element; risk:has_author <"+medicalExpert+">.} \n\
-    UNION { ?rl_r a risk:risk_element FILTER NOT EXISTS {?rl_r risk:has_reviewer <"+medicalExpert+">} } \n\
-    UNION {?ob a risk:observable; risk:has_author <"+medicalExpert+">.} UNION { ?ob_r a risk:observable FILTER NOT EXISTS {?ob_r risk:has_reviewer <"+medicalExpert+">} } \n\
-    UNION {?rv a risk:risk_evidence; risk:has_author <"+medicalExpert+">.} UNION { ?rv_r a risk:risk_evidence FILTER NOT EXISTS {?rv_r risk:has_reviewer <"+medicalExpert+">} } \n\
-    UNION {?ci a risk:citation; risk:has_author <"+medicalExpert+">.} \n\
-    UNION {?me a risk:measurement_type; risk:has_author <"+medicalExpert+">.}  }";
-    
+    {?authorships risk:has_author ?user. } UNION {?reviews risk:has_reviewer ?user } \n\
+    }"
+    //add filter to query if a single observable is requested
+    if (medicalExpert) {
+      query += "FILTER ( ?user=<" +medicalExpert+ ">) }";
+    }
+    else query += "}";
     return apiQuery(query);
   }
   
