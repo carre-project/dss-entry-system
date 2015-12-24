@@ -71,24 +71,24 @@
     
     
     //event on create method
-    $scope.$on('create', function (event, chart) {
-      // set colors for each bar
-      if(chart.datasets){
-        chart.datasets[0].bars.map(function(obj,index){
-          var rgb=hexToRgb(vm.colors[index])
-          obj.fillColor="rgba("+rgb.r+","+rgb.g+","+rgb.b+",0.5)";
-          obj.strokeColor="#FFF";
-          return obj;
-        });
+    // $scope.$on('create', function (event, chart) {
+    //   // set colors for each bar
+    //   if(chart.datasets){
+    //     chart.datasets[0].bars.map(function(obj,index){
+    //       var rgb=hexToRgb(vm.colors[index])
+    //       obj.fillColor="rgba("+rgb.r+","+rgb.g+","+rgb.b+",0.5)";
+    //       obj.strokeColor="#FFF";
+    //       return obj;
+    //     });
         
-        chart.datasets[1].bars.map(function(obj,index){
-          var rgb=hexToRgb(vm.colors[index])
-          obj.fillColor="rgba("+rgb.r+","+rgb.g+","+rgb.b+",1)";
-          obj.strokeColor="#FFF";
-          return obj;
-        });
-      }
-    });
+    //     chart.datasets[1].bars.map(function(obj,index){
+    //       var rgb=hexToRgb(vm.colors[index])
+    //       obj.fillColor="rgba("+rgb.r+","+rgb.g+","+rgb.b+",1)";
+    //       obj.strokeColor="#FFF";
+    //       return obj;
+    //     });
+    //   }
+    // });
 
   }
 

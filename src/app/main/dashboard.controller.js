@@ -28,17 +28,17 @@
     vm.counterchart_data[0] = [0,0,0,0,0];
     
     //event on create method
-    $scope.$on('create', function (event, chart) {
-      // set colors for each bar
-      console.log(chart);
-      if(chart.datasets){
-        chart.datasets[0].bars.map(function(obj,index){
-          obj.fillColor=vm.colors[index];
-          obj.strokeColor="#FFF";
-          return obj;
-        });
-      }
-    });
+    // $scope.$on('create', function (event, chart) {
+    //   // set colors for each bar
+    //   console.log(chart);
+    //   if(chart.datasets){
+    //     chart.datasets[0].bars.map(function(obj,index){
+    //       obj.fillColor=vm.colors[index];
+    //       obj.strokeColor="#FFF";
+    //       return obj;
+    //     });
+    //   }
+    // });
 
     //get total and unreviewed elements 
     
