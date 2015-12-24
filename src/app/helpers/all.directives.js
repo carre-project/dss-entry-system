@@ -16,9 +16,9 @@
 
                 function update() {
                     if ($state.includes(state) || $state.is(state)) {
-                        angular.element("#side-menu li").each(function() {
-                          $( this ).removeClass("active");
-                        });
+                        // angular.element("#side-menu li").each(function() {
+                        //   $( this ).removeClass("active");
+                        // });
                         $element.addClass("active");
                     }
                     else {
