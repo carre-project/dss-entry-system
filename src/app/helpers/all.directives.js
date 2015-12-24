@@ -11,18 +11,46 @@
     function uiSrefActiveIfDirective($state) {
         return {
             restrict: "A",
-            controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs, $timeout) {
-
+            controller: ['$scope', '$element', '$attrs', 'CONFIG', function($scope, $element, $attrs, CONFIG) {
+                
+                var menuColor=function(state){
+                    var elem=state.substr(state.lastIndexOf('.')+1);
+                    console.log(elem);
+                    var color="";
+                    switch (elem) {
+                        case 'risk_factors':
+                            color=CONFIG.COLORS[0];
+                            break;
+                        case 'risk_evidences':
+                            color=CONFIG.COLORS[1];
+                            break;
+                        case 'risk_elements':
+                            color=CONFIG.COLORS[2];
+                            break;
+                        case 'observables':
+                            color=CONFIG.COLORS[3];
+                            break;
+                        case 'citations':
+                            color=CONFIG.COLORS[4];
+                            break;
+                        
+                        default:
+                            color="#EEEEEE";
+                    }
+                    return color;
+                }
                 function update() {
                     var state = $attrs.uiSrefActiveIf;
                     if ($state.includes(state) || $state.is(state)) {
                             // console.log(state,$state.includes(state),$state.is(state))
+                            $element.css("border-right","5px solid "+menuColor(state))
                             $element.addClass("active");
                     }
                     else {
                         // angular.element("#side-menu li").each(function() {
                         //   $( this ).removeClass("active");
                         // });
+                        $element.css("border-right","none");
                         $element.removeClass("active");
                     }
                 }
