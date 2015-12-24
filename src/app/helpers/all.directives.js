@@ -11,17 +11,18 @@
     function uiSrefActiveIfDirective($state) {
         return {
             restrict: "A",
-            controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
-                var state = $attrs.uiSrefActiveIf;
+            controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs, $timeout) {
 
                 function update() {
+                    var state = $attrs.uiSrefActiveIf;
                     if ($state.includes(state) || $state.is(state)) {
+                            console.log(state,$state.includes(state),$state.is(state))
+                            $element.addClass("active");
+                    }
+                    else {
                         // angular.element("#side-menu li").each(function() {
                         //   $( this ).removeClass("active");
                         // });
-                        $element.addClass("active");
-                    }
-                    else {
                         $element.removeClass("active");
                     }
                 }
