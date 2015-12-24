@@ -2,7 +2,7 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
 
   // Retrieving a cookie and set initial user object
   this.cookie = $cookies.get('CARRE_USER') || CONFIG.TEST_TOKEN || '';
-  this.user={'guest':true};
+  this.user={'guest':true,username:null};
   this.getUser=function(){ 
     //validate cookie token with userProfile api function and get username userGraph
     if (this.cookie.length > 0 && !this.user.username) {
@@ -14,7 +14,10 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
         console.log(err);
         $state.go('500_API_ERROR');
       });
-    } else return {'guest':true};
+    } else {  
+      this.user={'guest':true,username:null};
+      return this.user;
+    }
   };
   
 });

@@ -16,7 +16,7 @@
                 function update() {
                     var state = $attrs.uiSrefActiveIf;
                     if ($state.includes(state) || $state.is(state)) {
-                            console.log(state,$state.includes(state),$state.is(state))
+                            // console.log(state,$state.includes(state),$state.is(state))
                             $element.addClass("active");
                     }
                     else {
