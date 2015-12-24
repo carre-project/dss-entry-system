@@ -3,7 +3,6 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
   this.exports = {
     // 'count': countInstance,
     'countAll': countAllInstances,
-    'countFor': countAllInstancesFor,
     'query': apiQuery,
     'selectQuery': selectQuery,
     'instances': queryInstances,
@@ -26,6 +25,7 @@ PREFIX OB: <http://carre.kmi.open.ac.uk/observables/> \n\
 PREFIX RL: <http://carre.kmi.open.ac.uk/risk_elements/> \n\
 PREFIX RV: <http://carre.kmi.open.ac.uk/risk_evidences/> \n\
 PREFIX RF: <http://carre.kmi.open.ac.uk/risk_factors/> \n\
+PREFIX MD: <http://carre.kmi.open.ac.uk/medical_experts/> \n\
 PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
 
@@ -108,20 +108,6 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     
     return apiQuery(query);
   }
-
-  /* Dashboard count instances methods */
-  function countAllInstancesFor(medicalExpert) {
-    var query = "SELECT ?user (COUNT(?authorships) AS ?authored) (COUNT(?reviews) AS ?reviewed) \n\
-    FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
-    {?authorships risk:has_author ?user. } UNION {?reviews risk:has_reviewer ?user } \n\
-    }"
-    //add filter to query if a single observable is requested
-    if (medicalExpert) {
-      query += "FILTER ( ?user=<" +medicalExpert+ ">) }";
-    }
-    else query += "}";
-    return apiQuery(query);
-  }
   
 
   /* Easy select query to transform triples to javascript objects */
@@ -169,7 +155,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
       }  else return res;
     }).catch(function(err){
         console.log(err);
-        $state.go('500_API_ERROR');
+        // $state.go('500_API_ERROR');
     });
 
   }

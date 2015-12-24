@@ -12,8 +12,10 @@
   
     
     //chart colors
+    CONFIG.COLORS=["#46BFBD", "#2E8B57", "#F7464A", "#DB7093", "#FDB45C", "#949FB1", "#4D5360"]
     Chart.defaults.global.colours=CONFIG.COLORS;
     
+    //toaster notification
     angular.extend(toastrConfig, {
       allowHtml: true,
       closeButton: false,
@@ -79,7 +81,7 @@
               return retryRequest(response.config);
             }
             else {
-              document.location.href = '/500_API_ERROR';
+              // document.location.href = '/500_API_ERROR';
               console.log('The remote server seems to be busy at the moment. Please try again in 5 minutes');
             }
           }

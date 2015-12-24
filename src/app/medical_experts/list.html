@@ -1,19 +1,39 @@
 <!--medical_experts list template-->
 <div class="col-xs-12">
-  <div cg-busy="medical_experts.gridLoading" id="grid1" ui-grid="medical_experts.mygrid" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-exporter ui-grid-auto-resize class="grid"></div>
-</div>
-<div pageslide ps-size="640px" ps-open="medical_experts.selectedRisk_element" ps-side="right">
-  
-  <div cg-busy="medical_experts.loading" style="padding:10px;">
-    <a ui-sref="main.medical_experts.view({id:medical_experts.selectedRisk_element})" class="btn btn-primary">Profile</a>
-    <a href="" ng-click="medical_experts.setPubmed()" class="btn btn-primary"><i class="fa fa-times fa-lg"></i></a>
-    <br>
-    <br>
-    <div ng-if="medical_experts.selectedRisk_element">
-      <div ng-if="medical_experts.pubmedApi" style="white-space: pre-line; overflow-y: auto;height: 95%; width:620px; position: fixed;" ng-bind-html="medical_experts.pubmedArticle"></div>
 
-      <iframe ng-if="!medical_experts.pubmedApi" style="border:none; position: fixed; height:90%; width:620px" height="90%" width="620px" src="{{'http://www.ncbi.nlm.nih.gov/pubmed/'+medical_experts.selectedRisk_element | trustAsResourceUrl}}"></iframe>
-    </div>
-  </div>
+  <div class="mansonry row">
   
+    <div class="panel panel-default mansonryitem" ng-repeat="item in medical_experts.users |  orderBy:'has_lastname_label'">
+     	
+     	<div class="panel-heading">
+     		   <a href="" ui-sref="main.medical_experts.view({id:item.id_label})">
+     		     {{item.has_firstname_label}} {{item.has_lastname_label}} {{item.has_educational_degree_label}}
+     		   </a>
+     		   
+        <div class="box-tools pull-right">
+          
+     		   <a href="" ui-sref="main.medical_experts.view({id:item.id_label})">
+     		     View profile
+     		   </a>
+        </div>
+        
+     	</div>
+     	
+     	<div class="panel-body">
+     	  <b><a target="_blank" ng-href="{{item.has_medical_specialty_link}}"> {{item.has_medical_specialty_label}} </a></b>
+     	  <hr>
+          <ul style="padding-left:5px">
+            
+          <li style="list-style-type: none;" ng-repeat="pos in item.has_medical_position">
+            <i class="fa fa-angle-right fa-lg fa-x2"></i>  {{ pos}}
+          </li>
+          
+          </ul>
+                
+      </div>
+      
+    </div>
+     
+    
+  </div>
 </div>

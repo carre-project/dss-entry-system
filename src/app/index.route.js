@@ -229,7 +229,7 @@
       .state('main.medical_experts.view', {
         controller: 'medical_expertsSingleController',
         templateUrl: 'app/medical_experts/single/view.html',
-        controllerAs: 'measurement_type',
+        controllerAs: 'medical_expert',
         url: '/:id'
       })
       

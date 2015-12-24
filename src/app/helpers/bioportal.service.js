@@ -18,12 +18,12 @@ angular.module('CarreEntrySystem').service('Bioportal', function($http, CONFIG) 
       var cuis = [];
       var results = [];
       res.data.collection.forEach(function(obj) {
-        
         if ((obj.cui?obj.cui.length>0:false) && cuis.indexOf(obj.cui[0]) === -1) {
           cuis.push(obj.cui[0]);
           results.push({
             label: obj.prefLabel,
-            value: obj.cui[0]
+            value: obj.cui[0],
+            link:obj.links.ui
           });
         }
         

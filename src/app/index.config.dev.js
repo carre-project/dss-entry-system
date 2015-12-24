@@ -12,8 +12,7 @@
       "BIOPORTAL_API_KEY": "a15281a9-d87d-4c0f-b7aa-31debe0f6449",
       "PUBMED_API_URL": "//eutils.ncbi.nlm.nih.gov/entrez/eutils/",
       // "TEST_TOKEN": "0213be219dc1821eb2f7b0bbc7c8a6cbe3c3559b",
-      'ENV': 'DEV',
-      "COLORS":["#97BBCD", "#DCDCDC", "#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"]
+      'ENV': 'DEV'
     })
     .config(function($locationProvider, $compileProvider, $urlRouterProvider) {
 

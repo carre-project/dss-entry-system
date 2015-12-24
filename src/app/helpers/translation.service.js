@@ -1,4 +1,8 @@
-angular.module('CarreEntrySystem').service('CarreTranslate', function() {
+angular.module('CarreEntrySystem').filter('translateMapping', function(CarreTranslate) {
+  return function(input) {
+    return CarreTranslate(input);
+  };
+}).service('CarreTranslate', function() {
   
   var translations={
     //global
