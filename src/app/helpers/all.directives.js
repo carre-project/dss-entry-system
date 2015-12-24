@@ -15,10 +15,10 @@
                 var state = $attrs.uiSrefActiveIf;
 
                 function update() {
-                    angular.element("#side-menu li").each(function() {
-                      $( this ).removeClass("active");
-                    });
                     if ($state.includes(state) || $state.is(state)) {
+                        angular.element("#side-menu li").each(function() {
+                          $( this ).removeClass("active");
+                        });
                         $element.addClass("active");
                     }
                     else {

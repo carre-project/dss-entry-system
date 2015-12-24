@@ -14,7 +14,7 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
         console.log(err);
         $state.go('500_API_ERROR');
       });
-    } else return this.user;
+    } else return {'guest':true};
   };
   
 });
