@@ -32,7 +32,7 @@ angular.module('CarreEntrySystem')
               label_arr.forEach(function(username){
                 var user = USERS[username];
                   $scope.items.push({
-                    link: (CONFIG.ENV === 'PROD' ? '' : '#/medical_experts/') + user.id_label,
+                    link: (CONFIG.ENV === 'PROD' ? '' : '#/') + "medical_experts/" + user.id_label,
                     label: user.has_firstname_label+' '+user.has_lastname_label
                   });
               })
