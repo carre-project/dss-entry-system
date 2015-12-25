@@ -11,31 +11,31 @@
     <hr>
     <ul class="list-group">
       <li class="list-group-item">
-        Name : <b>
+        Name: <b>
           {{medical_expert.current.has_firstname_label}} 
-          {{medical_expert.current.has_lastname_label}} 
+          {{medical_expert.current.has_lastname_label}}, 
           {{medical_expert.current.has_educational_degree_label}}
           </b>
       </li>
       <li class="list-group-item">
-        Medical specialty : <b>
+        Medical specialty: <b>
           <a target="_blank" ng-href="{{medical_expert.current.has_medical_specialty_link}}"> {{medical_expert.current.has_medical_specialty_label}} </a>
           </b>
       </li>
       <li class="list-group-item">
-        Medical Positions : 
+        Medical Positions: 
           <ul style="padding-left:5px">
             <li style="list-style-type: none;" ng-repeat="pos in medical_expert.current.has_medical_position">
             <b><i class="fa fa-angle-right fa-lg fa-x2"></i>  {{ pos}}</b> </li>
           </ul>
       </li>
       <li ng-if="medical_expert.current.has_short_cv.length>1" class="list-group-item">
-        Short CV : <b>
+        Short CV: <b>
           {{medical_expert.current.has_short_cv}}
           </b>
       </li>
       <li ng-if="medical_expert.current.has_personal_page_url.length>1" class="list-group-item">
-        Personal website : <b>
+        Personal website: <b>
           <a target="_blank" ng-href="{{medical_expert.current.has_personal_page_url}}"> link </a>
           </b>
       </li>

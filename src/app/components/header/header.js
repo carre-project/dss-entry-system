@@ -20,7 +20,7 @@ angular.module('CarreEntrySystem')
                 }
                 //when you change state close again the navbar
                 $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
-                    console.log(fromState,toState);
+                    // console.log(fromState,toState);
                     if(fromState!==toState) $('div.navbar-collapse').addClass('collapse');
                 })
             }

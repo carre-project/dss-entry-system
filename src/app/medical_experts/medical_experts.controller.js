@@ -25,22 +25,11 @@
     
     var medical_experts = [];
     vm.gridLoading=Medical_experts.get().then(function(res) {
-      medical_experts = res.data;
-      vm.users = [];
+      vm.users = res.data;
       
       console.log('Model response: ', res);
       //make the response available in the view
       vm.res = res;
-      medical_experts.forEach(function(user){
-          var u={};
-          angular.copy(user,u);
-          Bioportal.fetch(user.has_medical_specialty_identifier_label).then(function(res){
-            
-            u.has_medical_specialty_label=res[0].label||"";
-            u.has_medical_specialty_link=res[0].link||"";
-            vm.users.push(u);
-          })
-      })
 
     });
 
