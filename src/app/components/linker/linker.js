@@ -10,17 +10,37 @@ angular.module('CarreEntrySystem')
         'property': '@',
         'model': '='
       },
-      controller: function($scope, CONFIG) {
+      controller: function($scope, CONFIG, Medical_experts) {
+        
         $scope.show = 'label';
         $scope.items = [];
         var label_arr = [];
         var avoidExpressions = ['has_observable_condition'];
         var arr = $scope.model[$scope.property];
         $scope.label = $scope.model[$scope.property + '_label'];
-        if ($scope.property === 'has_observable_condition') {
+        
+        //handle medical experts
+        if ($scope.property === 'has_author' || $scope.property === 'has_reviewer') {
+            Medical_experts.get().then(function(res) {
+              var USERS={}
+              res.data.forEach(function(user){
+                USERS[user.has_graph_uri_label]=user;
+              });
+              
+              label_arr = $scope.model[$scope.property + '_label_arr'];
+              $scope.show = 'links';
+              label_arr.forEach(function(username){
+                var user = USERS[username];
+                  $scope.items.push({
+                    link: (CONFIG.ENV === 'PROD' ? '' : '#/medical_experts/') + user.id_label,
+                    label: user.has_firstname_label+' '+user.has_lastname_label
+                  });
+              })
+            });
+        } else //handle condition
+            if ($scope.property === 'has_observable_condition') {
           $scope.show='condition';
           
-          // handle expressions first
           $scope.model['has_risk_evidence_observable'].forEach(function(obj,index){
             var id=obj.substr(obj.lastIndexOf('/')+1);
             var link=(CONFIG.ENV === 'PROD' ? '' : '#/') + 'observables/' + id;

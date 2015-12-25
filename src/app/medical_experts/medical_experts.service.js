@@ -8,9 +8,23 @@ angular.module('CarreEntrySystem').service('Medical_experts', function($http, CA
     'countFor': countAllInstancesFor
     // 'insert': insertMedical_expert
   };
-
+    
+  CONFIG.medical_experts=CONFIG.medical_experts|| {};
+  
   function getMedical_experts(ArrayOfIDs) {
-    return CARRE.instances('medical_expert', ArrayOfIDs);
+    if(ArrayOfIDs) return CARRE.instances('medical_expert', ArrayOfIDs);
+    else if(CONFIG.medical_experts.cache) {
+      console.info("CACHE WORKS!");
+      return $q(function(resolve, reject) {
+        resolve(CONFIG.medical_experts.cache)
+        reject();
+      });
+    }
+    else return CARRE.instances('medical_expert', ArrayOfIDs).then(function(res){ 
+      CONFIG.medical_experts.cache=res;
+      console.info("CACHE LOADED!");
+      return res;
+    })
   }
 
 
