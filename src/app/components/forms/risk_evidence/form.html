@@ -1,117 +1,102 @@
 <div>
-  
+
   <form name="form" novalidate ng-submit="saveModel()">
 
 
-    
-    <div class="col-xs-12">
-      <div class="alert alert-warning" ng-bind-html="output"></div>
-    </div>
-    
-    <div class="col-xs-12">
-  
-      <div class="col-sm-6">
-          <div class="form-group">
-            <label>Condition</label>
 
-            <le-editor observables="observables" group="filter.group"></le-editor>            
+    <div class="col-xs-12">
+    </div>
+
+    <div class="col-xs-12">
+
+      <div class="col-sm-6">
+        
+        <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+          <label>Risk factor</label>
+          <ui-select ng-model="risk_evidence.risk_factor" theme="bootstrap">
+            <ui-select-match placeholder="Select risk factor">{{$select.selected.label}}</ui-select-match>
+            <ui-select-choices repeat="rl.value as rl in risk_factors | propsFilter: {label: $select.search}">
+              <div ng-bind-html="rl.label | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+        
+        <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+          <label>Observables</label>
+          <!--&lt;{{$item.id}}&gt;-->
+          <ui-select multiple ng-model="risk_evidence.observables" theme="bootstrap">
+            <ui-select-match placeholder="Select observables">{{$item.label}} </ui-select-match>
+            <ui-select-choices repeat="ob.value as ob in observables | propsFilter: {label: $select.search}">
+              <div ng-bind-html="ob.label | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+        
+        <div class="form-group">
+          <label>Condition</label>
+          <div>
+            <span class="alert" ng-bind-html="output"></span>
+            <a class="btn btn-xs btn-default" ng-click="leEditEnabled=!leEditEnabled">
+              <i ng-class="{'fa fa-plus-square':!leEditEnabled,'fa fa-minus-square':leEditEnabled}"></i>
+            </a>
           </div>
+          <div uib-collapse="!leEditEnabled">
+            <le-editor observables="observables" group="filter.group"></le-editor>
+          </div>
+        </div>
+        
+        <div class="row">
+          
+          <div class="form-group col-sm-6" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+            <label>Ratio value</label>
+            <input type="number" min="{{risk_evidence.confidence_interval_min||0}}" max="{{risk_evidence.confidence_interval_max}}" step="0.01" class="form-control" ng-model="risk_evidence.ratio_value">
+          </div>
+          
+          <div class="form-group col-sm-6" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+            <label>Confidence Interval Minimum</label>
+            <input type="number" step="0.01" class="form-control" min="0" max="{{risk_evidence.confidence_interval_max}}" ng-model="risk_evidence.confidence_interval_min">
+          </div>
+          
+          <div class="form-group col-sm-6" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+            <label>Ratio Type</label>
+            <ui-select ng-model="risk_evidence.ratio_type" theme="bootstrap">
+              <ui-select-match placeholder="Select ratio type">{{$select.selected.label}}</ui-select-match>
+              <ui-select-choices repeat="type.value as type in ratiotypes">
+                <div ng-bind-html="type.label | highlight: $select.search"></div>
+                <!--<small> {{type.label}} </small>-->
+              </ui-select-choices>
+            </ui-select>
+          </div>
+          
+          <div class="form-group col-sm-6" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+            <label>Confidence Interval Maximum</label>
+            <input type="number" step="0.01" class="form-control" min="{{risk_evidence.confidence_interval_min||0}}" max="" ng-model="risk_evidence.confidence_interval_max">
+          </div>
+          
+      </div>
+      
+      <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+        <label>Evidence source</label>
+        <ui-select on-select="viewPubmed($item,$model)" ng-model="risk_evidence.evidence_source" theme="bootstrap">
+          <ui-select-match placeholder="Select evidence source">{{$select.selected.label}}</ui-select-match>
+          <ui-select-choices repeat="obj.value as obj in citations | propsFilter: {label: $select.search}">
+            <span ng-bind-html="obj.label | highlight: $select.search"></span>
+          </ui-select-choices>
+        </ui-select>
       </div>
     
+      </div>
+
       <div class="col-sm-6">
-          <div class="form-group">
-            <label>Pubmed Id</label>
-            <input type="text" name="name" placeholder="Enter pubmed Id" class="form-control" ng-change="loadPubmed()" ng-model="risk_evidence.pubmedId" required>
-            
-          </div>
+        <div class="form-group">
+          <label>Pubmed Id</label>
+          <input type="text" name="name" placeholder="Enter pubmed Id" class="form-control" ng-change="loadPubmed()" ng-model="risk_evidence.pubmedId" required>
+
+        </div>
         <carre-view-pubmed ng-if="showPubmed" id="{{risk_evidence.pubmedId}}"></carre-view-pubmed>
       </div>
-    
+
     </div>
-    
-    <div ng-show="$parent.main.config.ENV==='DEV'" class="row">
-      
-      <div class="col-xs-6">
-        <pre>{{model.has_observable_condition_json|json}}</pre>
-      </div>
-      
-      <div class="col-xs-6">
-        {{model.has_observable_condition_label}}
-      </div>
-      
-    </div>
-      
-    <!--<div class="form-group" ng-class="{ 'has-error': form.name.$touched && form.name.$invalid }">-->
-    <!--  <label>Condition</label>-->
-    <!--  <input type="text" name="name" placeholder="Risk element name e.g acute kidney disease" class="form-control" ng-model="risk_evidence.name" required>-->
-
-    <!--  <div class="help-block" ng-messages="form.name.$error" ng-if="form.name.$touched">-->
-    <!--    <p ng-message="required">Name is required.</p>-->
-    <!--  </div>-->
-    <!--</div>-->
-    
-
-    <!--<div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">-->
-    <!--  <label>Modifiable status</label>-->
-    <!--  <input type="checkbox" ng-true-value="'yes'" ng-false-value="'no'" ng-model="risk_evidence.modifiable_status">-->
-
-    <!--</div>-->
-
-    <!--<div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">-->
-    <!--  <label>Risk element type</label>-->
-
-    <!--  <ui-select ng-model="risk_evidence.type" theme="bootstrap">-->
-    <!--    <ui-select-match placeholder="Select risk element type">{{$select.selected.label}}</ui-select-match>-->
-    <!--    <ui-select-choices repeat="type.value as type in types | propsFilter: {label: $select.search}">-->
-    <!--      <div ng-bind-html="type.label | highlight: $select.search"></div>-->
-          <!--<small> {{type.label}} </small>-->
-    <!--    </ui-select-choices>-->
-    <!--  </ui-select>-->
-
-    <!--  <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">-->
-    <!--    <div ng-messages-include="messages.html"></div>-->
-    <!--  </div>-->
-
-    <!--</div>-->
-
-
-    <!--<div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">-->
-
-      <!-- on-select="addOutcome($item, $model)" -->
-    <!--  <label>Risk element Identifier</label>-->
-    <!--  <div ng-show="loadingElementIdentifier" class="loadingSelect"></div>-->
-
-    <!--  <ui-select ng-model="risk_evidence.identifier" theme="bootstrap">-->
-    <!--    <ui-select-match placeholder="Search for CUI...">{{$select.selected.label+' - '+$select.selected.value}}</ui-select-match>-->
-    <!--    <ui-select-choices repeat="elem.value as elem in bioportalAutocompleteResults" refresh="bioportalAutocomplete($select.search)" refresh-delay="500">-->
-    <!--      <div ng-bind-html="elem.label | highlight: $select.search"></div>-->
-    <!--      <small>{{elem.value}}</small>-->
-    <!--    </ui-select-choices>-->
-    <!--  </ui-select>-->
-
-    <!--  <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">-->
-    <!--    <div ng-messages-include="messages.html"></div>-->
-    <!--  </div>-->
-
-    <!--</div>-->
-
-    <!--<div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">-->
-    <!--  <label>Observables</label>-->
-
-      <!--&lt;{{$item.id}}&gt;-->
-    <!--  <ui-select multiple ng-model="risk_evidence.observables" theme="bootstrap">-->
-    <!--    <ui-select-match placeholder="Select observables">{{$item.label}} </ui-select-match>-->
-    <!--    <ui-select-choices repeat="ob.value as ob in observables | propsFilter: {label: $select.search}">-->
-    <!--      <div ng-bind-html="ob.label | highlight: $select.search"></div>-->
-    <!--    </ui-select-choices>-->
-    <!--  </ui-select>-->
-
-    <!--  <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">-->
-    <!--    <div ng-messages-include="messages.html"></div>-->
-    <!--  </div>-->
-
-    <!--</div>-->
-
 
 
     <div class="form-group">
