@@ -77,19 +77,18 @@
       
       <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
         <label>Evidence source</label>
-        <ui-select on-select="viewPubmed($item,$model)" class="evidence-source-search"  ng-model="risk_evidence.evidence_source" theme="bootstrap">
+        <ui-select on-select="viewPubmed($item,$model)" class="ui-select-big-text"  ng-model="risk_evidence.evidence_source" theme="bootstrap">
           <ui-select-match placeholder="Select evidence source">
-            <div>
-              <div>{{$select.selected.title | limitTo: 80}}</div>
-              <div>{{$select.selected.authors | limitTo: 80}}</div>
-              <div>{{$select.selected.date | limitTo: 80}}</div>
-            </div>
-          
+            <div>{{$select.selected.title}}</div>
+            <div>{{$select.selected.authors}}</div>
+            <div>{{$select.selected.date}}</div>
           </ui-select-match>
           <ui-select-choices repeat="obj.value as obj in citations | propsFilter: {title: $select.search,authors: $select.search,date: $select.search}">
-            <div style="width:80px;" ng-bind-html="obj.title | highlight: $select.search"></div>
-            <div style="width:80px"><small ng-bind-html="obj.authors | highlight: $select.search"></small></div>
-            <div style="width:80px"><small ng-bind-html="obj.date | highlight: $select.search"></small></div>
+            <div class="ui-select-big-text">
+            <div ng-bind-html="obj.title | highlight: $select.search"></div>
+            <div><small ng-bind-html="obj.authors | highlight: $select.search"></small></div>
+            <div><small ng-bind-html="obj.date | highlight: $select.search"></small></div>
+            </div>
           </ui-select-choices>
         </ui-select>
       </div>

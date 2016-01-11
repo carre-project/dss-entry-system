@@ -84,9 +84,15 @@
     text-align: left !important;
     padding-right:25px !important;
 }
+
+/* big text in autocomplete */
 .form-control {
     height: auto!important;
 }
-.evidence-source-search > .ui-select-search.form-control {
-    height:100% !important;
+.btn {
+    white-space: normal;
+}
+.ui-select-big-text > div {
+        word-wrap: break-word;
+        white-space: normal;
 }
