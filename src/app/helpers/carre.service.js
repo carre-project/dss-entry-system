@@ -8,12 +8,12 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
     'instances': queryInstances,
     'delete': deleteInstance
   };
+  
 
   /*
-
-                      PREFIX carreManufacturer: <http://carre.kmi.open.ac.uk/manufacturers/> \n\
-                      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n\
-                      PREFIX sensors: <http://carre.kmi.open.ac.uk/ontology/sensors.owl#> \n\
+    PREFIX carreManufacturer: <http://carre.kmi.open.ac.uk/manufacturers/> \n\
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n\
+    PREFIX sensors: <http://carre.kmi.open.ac.uk/ontology/sensors.owl#> \n\
   */
   /* The prefixes for CARRE*/
   var PREFIXSTR = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n\
@@ -30,7 +30,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
 
   function deleteInstance(id){
-    var query = "WITH " + CONFIG.CARRE_DEFAULT_GRAPH + " DELETE { ?id ?s ?p .  }  WHERE { ?id ?s ?p . FILTER (?id=<"+id+">) }";
+    var query = "WITH " + CONFIG.CARRE_ARCHIVE_GRAPH + " DELETE { ?id ?s ?p .  }  WHERE { ?id ?s ?p . FILTER (?id=<"+id+">) }";
     return apiQuery(query);
   }
   

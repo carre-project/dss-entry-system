@@ -84,5 +84,9 @@
     text-align: left !important;
     padding-right:25px !important;
 }
-
-
+.form-control {
+    height: auto!important;
+}
+.evidence-source-search > .ui-select-search.form-control {
+    height:100% !important;
+}

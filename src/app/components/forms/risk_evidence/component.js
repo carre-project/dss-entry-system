@@ -41,10 +41,14 @@ angular.module('CarreEntrySystem')
       //get citations
       Citations.get().then(function(res) {
         $scope.citations = res.data.map(function(obj) {
+          var label=[];
+          if(obj.has_citation_summary_label) label=obj.has_citation_summary_label.split('.');
             return {
               value: obj.id,
               pubmed:obj.has_citation_pubmed_identifier[0],
-              label: obj.has_citation_summary_label
+              title: label[1],
+              authors: label[0],
+              date: label[2]
             };
           });
       });
