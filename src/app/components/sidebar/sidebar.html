@@ -2,9 +2,9 @@
     <div class="sidebar-nav navbar-collapse collapse">
         <ul class="nav in" id="side-menu">
             <!--<sidebar-search></sidebar-search>-->
-            <!--<li>-->
-            <!--    <img src="assets/images/merry_christmas2.png" style="width:100%" alt="Merry Christmas!">-->
-            <!--</li>-->
+            <li>
+                <a href=""  style="border:none; text-align:left;" class="btn btn-default" ng-click="showAbout=!showAbout"><i class="fa fa-info"></i> About</a>
+            </li>
             <li>
                 <a ui-sref="main.dashboard" ui-sref-active-if="main.dashboard"> Dashboard</a>
             </li>
@@ -32,5 +32,16 @@
         </ul>
     </div>
 
+    
+    <!-- /.sidebar-collapse -->
+    <div pageslide ps-size="{{(window.innerWidth>600)?window.innerWidth*0.4:window.innerWidth*0.9}}px" ps-open="showAbout" ps-side="right">
+        <div class="row" style="padding:30px; padding-top:15px; padding-bottom:0; margin-bottom:0;">
+            <a href="" ng-click="showAbout=!showAbout" class="btn btn-primary pull-left"><i class="fa fa-times fa-lg"></i></a>
+        </div>
+        <div class="row" style="padding:50px; margin-top:0; padding-top:0; overflow: auto; height: 90%;">            
+            <h2 class="header"> About</h2>
+            <div autoscroll ng-include src="'app/main/about.html'"></div>
+        </div>
+    </div>
 
 </div>

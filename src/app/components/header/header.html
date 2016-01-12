@@ -10,17 +10,6 @@
         <a class="navbar-brand" href="/">
             <img src="assets/images/carre_logo.png" class="logo" alt="CARRE">
         CARRE Risk entry system</a>
-        <a href="" class="navbar-brand" ng-click="showAbout=!showAbout"><i class="fa fa-lg fa-info"></i></a>
-    </div>
-    
-    <!-- /.sidebar-collapse -->
-    <div pageslide ps-size="{{(window.innerWidth>600)?window.innerWidth*0.6:window.innerWidth*0.9}}px" ps-open="showAbout" ps-side="right">
-        <div style="padding:10px;">
-            <a href="" ng-click="showAbout=!showAbout" class="btn btn-primary"><i class="fa fa-times fa-lg"></i></a>
-        </div>
-        <div style="padding:30px; overflow: auto; height: 100%;">
-            <div autoscroll ng-include src="'app/main/about.html'"></div>
-        </div>
     </div>
     
     <!-- /.navbar-header -->

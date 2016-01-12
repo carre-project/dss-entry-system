@@ -17,7 +17,10 @@ angular.module('CarreEntrySystem')
       scope: {
         collapsed:'='
       },
-      controller:function($scope){
+      controller:function($scope,$window){
+        
+        $scope.window=$window;
+        $scope.showAbout=false;
         // $scope.selectedMenu = 'dashboard';
         // $scope.collapseVar = 0;
         // $scope.multiCollapseVar = 0;
