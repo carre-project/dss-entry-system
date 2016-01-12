@@ -13,7 +13,7 @@ angular.module('CarreEntrySystem')
             restrict: 'E',
             replace: true,
             controllerAs:'header',
-            controller:function($scope,$rootScope){
+            controller:function($scope,$rootScope,$window){
                 $scope.toggleNavbar=function(){
                     if($('div.navbar-collapse').hasClass('collapse')) $('div.navbar-collapse').removeClass('collapse'); 
                     else $('div.navbar-collapse').addClass('collapse');
@@ -23,6 +23,9 @@ angular.module('CarreEntrySystem')
                     // console.log(fromState,toState);
                     if(fromState!==toState) $('div.navbar-collapse').addClass('collapse');
                 })
+                
+                $scope.window=$window;
+                $scope.showAbout=false;
             }
     	}
 	});

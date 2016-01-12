@@ -6,9 +6,10 @@
  * @description
  * # adminPosHeader
  */
-
 angular.module('CarreEntrySystem')
-  .directive('sidebar',function() {
+  .directive('sidebar',sidebarDirective);
+  
+  function sidebarDirective() {
     return {
       templateUrl:'app/components/sidebar/sidebar.html',
       restrict: 'E',
@@ -38,4 +39,4 @@ angular.module('CarreEntrySystem')
         // };
       }
     };
-  });
+  };
