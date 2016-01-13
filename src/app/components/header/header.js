@@ -23,9 +23,6 @@ angular.module('CarreEntrySystem')
                     // console.log(fromState,toState);
                     if(fromState!==toState) $('div.navbar-collapse').addClass('collapse');
                 })
-                
-                $scope.window=$window;
-                $scope.showAbout=false;
             }
     	}
 	});

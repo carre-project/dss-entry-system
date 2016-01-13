@@ -17,10 +17,20 @@ angular.module('CarreEntrySystem')
       scope: {
         collapsed:'='
       },
-      controller:function($scope,$window){
+      controller:function($scope){
+             
+        $scope.slideWidth=(window.innerWidth>730)?window.innerWidth*0.4:window.innerWidth*0.9;
         
-        $scope.window=$window;
-        $scope.showAbout=false;
+        $(window).resize(function(){
+            if($scope.showAbout) { 
+              // console.log('Width changed', window.innerWidth);
+              $scope.slideWidth=(window.innerWidth>730)?window.innerWidth*0.4:window.innerWidth*0.9;
+              $scope.$apply(function(){ $scope.showAbout=false;  });
+              $scope.$apply(function(){ $scope.showAbout=true;  });
+            }
+        });
+        
+        // $scope.showAbout=false;
         // $scope.selectedMenu = 'dashboard';
         // $scope.collapseVar = 0;
         // $scope.multiCollapseVar = 0;
