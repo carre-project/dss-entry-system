@@ -16,7 +16,10 @@
       "has_medical_position",
       "has_short_cv",
       "has_personal_page_url",
-      "has_user_graph"
+      "has_user_graph",
+      "has_avatar",
+      "is_coordinator_of_team",
+      "has_team_name"
     ];
     
     var labels=[

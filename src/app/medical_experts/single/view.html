@@ -9,6 +9,9 @@
   <div class="col-sm-6">
     ID: <b>{{medical_expert.id}}</b>
     <hr>
+    <div class="thumbnail" style="display: inline-block;">
+      <img class="avatar-img" ng-src="{{medical_expert.current.has_avatar[0]}}">
+    </div>
     <ul class="list-group">
       <li class="list-group-item">
         Name: <b>
@@ -34,10 +37,20 @@
           {{medical_expert.current.has_short_cv}}
           </b>
       </li>
-      <li ng-if="medical_expert.current.has_personal_page_url.length>1" class="list-group-item">
-        Personal website: <b>
-          <a target="_blank" ng-href="{{medical_expert.current.has_personal_page_url}}"> link </a>
+      <li ng-if="medical_expert.current.has_personal_page_url" class="list-group-item">
+        More details: <b>
+          <a target="_blank" ng-href="{{medical_expert.current.has_personal_page_url[0]}}"> link </a>
           </b>
+      </li>
+      <li ng-if="medical_expert.current.is_coordinator_of_team" class="list-group-item">
+        Coordinator: <b>
+         {{medical_expert.current.is_coordinator_of_team[0]}} team
+        </b>
+      </li>
+      <li ng-if="!medical_expert.current.is_coordinator_of_team" class="list-group-item">
+        Team: <b>
+          {{medical_expert.current.has_team_name[0]}}
+        </b>
       </li>
       
       

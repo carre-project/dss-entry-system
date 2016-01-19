@@ -4,7 +4,7 @@
   <div class="row">
     
     <div class="col-sm-6 col-lg-4" ng-repeat="item in medical_experts.users track by $index|  orderBy:'$index'">
-      <div class="panel panel-default" style="height:300px" >
+      <div class="panel panel-default" style="height:300px">
 
         <div class="panel-heading">
           <a href="" ui-sref="main.medical_experts.view({id:item.id_label})">
@@ -30,6 +30,14 @@
             </li>
 
           </ul>
+        </div>
+        
+        <div class="panel-footer" style="background: none;">
+        
+          <span style="float:left">
+            <span ng-if="item.is_coordinator_of_team"><b>Coordinator</b></span>
+          </span>
+          <span style="float:right">{{item.has_team_name[0]}}</span>
 
         </div>
 
