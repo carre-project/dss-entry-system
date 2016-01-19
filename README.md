@@ -9,7 +9,7 @@ Production server: [entry.carre-project.eu](http://entry.carre-project.eu)
 
 ## CARRE Risk Model Semantic Data Entry System v2.0
 
-![CARRE Risk Concenptual Model](http:////entry.carre-project.eu/assets/images/model.jpg)
+![CARRE Risk Concenptual Model](http://entry.carre-project.eu/assets/images/model.jpg)
 
 The CARRE risk entry system enables the [medical experts][1] in the [CARRE project][2] to encode the risk factors between biological, demographic, lifestyle and environmental elements and clinical outcomes in accordance with evidence from the clinical literature. The presented system is based fundamentally on Linked Data principles, and so in order to make the best use of these encoded factors, they are available as Linked Data through the [CARRE SPARQL Endpoint][3], making use of control vocabularies ([UMLS][4] , SNOMED, etc.) and the [CARRE risk factor ontology][5]; specifically, they are encoded in the (standard) Resource Description Framework ([RDF][6]) format.
 
