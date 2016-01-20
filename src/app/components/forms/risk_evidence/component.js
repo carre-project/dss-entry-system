@@ -19,10 +19,14 @@ angular.module('CarreEntrySystem')
 
       //get observables
       Observables.get().then(function(res) {
+        console.log('Observables',res);
         $scope.observables = res.data.map(function(obj) {
             return {
-              value: obj.id,
-              label: obj.has_observable_name_label
+              value: obj.id_label,
+              id: obj.id,
+              label: obj.has_observable_name_label,
+              metype_label: obj.has_observable_measurement_type_label,
+              metype_id: obj.has_observable_measurement_type[0]
             };
           });
         $scope.output=removeOuterParenthesis(computed($scope.risk_evidence.condition_json.group));
@@ -214,9 +218,10 @@ angular.module('CarreEntrySystem')
 
       
       function getObservableName(id){
+        if (!id) return '';
         if($scope.observables) {
           return "<a href='/observables/"+id+"'>"+$scope.observables.filter(function(ob){
-            return ob.value==='http://carre.kmi.open.ac.uk/observables/'+id;
+            return ob.value===id;
           })[0].label+"</a>";
         }
         // return <carre-linker model="risk_evidence.current" property="{{field.value}}"></carre-linker>""

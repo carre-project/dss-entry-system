@@ -15,14 +15,20 @@
                 <div ng-switch-default="ng-switch-default">
                     <div class="form-inline">
                         <div class="row">
-                                <ui-select class="le-editor observables" ng-model="rule.field" theme="bootstrap">
+                                <ui-select class="le-editor observables input-sm" ng-model="rule.field" theme="bootstrap" on-select="getMeasurementType($item, $model, rule)">
                                     <ui-select-match placeholder="Select observable">{{$select.selected.label}} </ui-select-match>
                                     <ui-select-choices repeat="ob.value as ob in observables | propsFilter: {label: $select.search}">
                                         <div ng-bind-html="ob.label | highlight: $select.search"></div>
                                     </ui-select-choices>
                                 </ui-select>
-                                <select style="margin-left: 5px" ng-options="c.value as c.name for c in conditions" ng-model="rule.condition" class="form-control input-sm"></select>
-                                <input style="margin-left: 5px" type="text" ng-model="rule.data" class="form-control input-sm">
+                                <select style="margin-left: 5px" ng-options="c.value as c.name for c in conditions" ng-model="rule.condition" class="form-control"></select>
+                                <div class="input-group">
+                                    <input ng-if="rule.datatype==='integer'" style="margin-left: 5px" type="number" ng-model="rule.data" class="form-control">
+                                    <input ng-if="rule.datatype==='float'" style="margin-left: 5px" type="number" ng-model="rule.data" class="form-control">
+                                    <select ng-if="rule.datatype==='enum'||rule.datatype==='boolean'"  style="margin-left: 5px" ng-options="c.value as c.name for c in rule.dataoptions" ng-model="rule.data" class="form-control"></select>
+
+                                  <span ng-if="rule.unit" class="input-group-addon">{{rule.unit}}</span>
+                                </div>
                                 <a style="margin-left: 5px" ng-click="removeCondition($index)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-minus-sign"></span></a>
                         </div>
                     </div>

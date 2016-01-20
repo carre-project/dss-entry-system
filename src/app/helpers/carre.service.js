@@ -147,7 +147,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     if (Auth.cookie) params.token = Auth.cookie;
 
     console.info('Final query: ', params.sparql);
-    return $http.post(CONFIG.CARRE_API_URL + 'query', params, {timeout:6000}).then(function(res){
+    return $http.post(CONFIG.CARRE_API_URL + 'query', params, {timeout:10000}).then(function(res){
       if(res.data==='No JSON object could be decoded') {
         console.error(res);
         toastr.error('<p>'+res.data+'</p>','<h4>Oh Error</h4>');

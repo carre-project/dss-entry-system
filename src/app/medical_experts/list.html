@@ -20,7 +20,7 @@
 
         </div>
 
-        <div class="panel-body">
+        <div class="panel-body" style="height:220px">
           <b>{{item.has_medical_specialty_label}}</b>
           <hr>
           <ul style="padding-left:5px">
@@ -32,12 +32,12 @@
           </ul>
         </div>
         
-        <div class="panel-footer" style="background: none;">
+        <div class="panel-footer" style="padding-bottom:26px">
         
           <span style="float:left">
             <span ng-if="item.is_coordinator_of_team"><b>Coordinator</b></span>
           </span>
-          <span style="float:right">{{item.has_team_name[0]}}</span>
+          <span style="float:right">{{item.has_team_name[0]}} Team</span>
 
         </div>
 
