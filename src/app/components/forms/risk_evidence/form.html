@@ -41,7 +41,7 @@
             </a>
           </div>
           <div uib-collapse="!leEditEnabled">
-            <le-editor observables="observables" group="filter.group"></le-editor>
+            <le-editor ng-if="showLeEditor" observables="observables" metypes="metypes" group="filter.group"></le-editor>
           </div>
         </div>
         

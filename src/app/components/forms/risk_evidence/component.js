@@ -10,17 +10,19 @@ angular.module('CarreEntrySystem')
     scope: {
       'model': '='
     },
-    controller: function($scope, Citations, Observables, Bioportal, Risk_factors, toastr,$timeout) {
+    controller: function($scope, Citations, Observables, Bioportal, Risk_factors, toastr,$timeout,Measurement_types,$q) {
       $scope.copyModel={};
       angular.copy($scope.model,$scope.copyModel);
       
+      $scope.showLeEditor=false;
       $scope.model = $scope.model || {};
       $scope.bioportalAutocompleteResults = [];
-
-      //get observables
-      Observables.get().then(function(res) {
-        console.log('Observables',res);
-        $scope.observables = res.data.map(function(obj) {
+      
+      //Get combined requests done in an async way!
+      $q.all([Observables.get(),Measurement_types.get()]).then(function(res){
+        console.log('Promises',res);      
+        //observables
+        $scope.observables = res[0].data.map(function(obj) {
             return {
               value: obj.id_label,
               id: obj.id,
@@ -30,7 +32,10 @@ angular.module('CarreEntrySystem')
             };
           });
         $scope.output=removeOuterParenthesis(computed($scope.risk_evidence.condition_json.group));
-      });
+        //measurement types
+        $scope.metypes=res[1].data;
+        $scope.showLeEditor=true;
+      })
 
       //get risk factors
       Risk_factors.get().then(function(res) {
