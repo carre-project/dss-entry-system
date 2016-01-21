@@ -225,9 +225,12 @@ angular.module('CarreEntrySystem')
       function getObservableName(id){
         if (!id) return '';
         if($scope.observables) {
-          return "<a href='/observables/"+id+"'>"+$scope.observables.filter(function(ob){
+          var result=$scope.observables.filter(function(ob){
             return ob.value===id;
-          })[0].label+"</a>";
+          });
+          if(result.length>0){
+            return "<a href='/observables/"+id+"'>"+result[0].label+"</a>";
+          } else return '';
         }
         // return <carre-linker model="risk_evidence.current" property="{{field.value}}"></carre-linker>""
       }
