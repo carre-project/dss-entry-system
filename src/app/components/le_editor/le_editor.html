@@ -24,20 +24,18 @@
                                     <div ng-bind-html="ob.label | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
-                            
-                            <select style="margin-left: 5px" 
-                            ng-options="c.value as c.name for c in conditions | filter: {types:rule.datatype}" ng-model="rule.condition" class="form-control"></select>
+                            <select ng-options="c.value as c.name for c in conditions | filter: {types:rule.datatype}" ng-model="rule.condition" class="form-control"></select>
                             <div class="input-group">
                                 <input ng-if="rule.datatype==='integer'" style="margin-left: 5px; width:100px" min="0" type="number" ng-model="rule.data" class="form-control">
                                 <input ng-if="rule.datatype==='float'" style="margin-left: 5px; width:100px" type="number" step="0.01" min="0" ng-model="rule.data" class="form-control">
                                 <select ng-if="rule.datatype==='enum'||rule.datatype==='boolean'"  style="margin-left: 5px" 
                                 ng-options="c.value as c.name for c in rule.dataoptions" ng-model="rule.data" class="form-control">
-                                    <option value="">--Select--</option>
+                                    <option value=""> Select </option>
                                 </select>
 
                                   <span popover-trigger="mouseenter" uib-popover="{{rule.unit_label}}" class="input-group-addon" ng-show="rule.unit">{{rule.unit}}</span>
                             </div>
-                            <a style="margin-left: 5px" ng-click="removeCondition($index)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-minus-sign"></span></a>
+                            <a style="margin-left: 10px" ng-click="removeCondition($index)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-minus-sign"></span></a>
                         </div>
                     </div>
                 </div>

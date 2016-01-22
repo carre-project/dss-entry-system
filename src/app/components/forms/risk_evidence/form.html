@@ -37,7 +37,8 @@
           <div>
             <span class="alert" ng-bind-html="output"></span>
             <a class="btn btn-xs btn-default" ng-click="leEditEnabled=!leEditEnabled">
-              <i ng-class="{'fa fa-plus-square':!leEditEnabled,'fa fa-minus-square':leEditEnabled}"></i>
+              <span ng-if="!leEditEnabled"> Show editor <i class="fa fa-plus-square"></i></span>
+              <span ng-if="leEditEnabled"> Hide editor <i class="fa fa-minus-square"></i></span>
             </a>
           </div>
           <div uib-collapse="!leEditEnabled">
