@@ -31,7 +31,7 @@ angular.module('CarreEntrySystem')
               metype_id: obj.has_observable_measurement_type[0]
             };
           });
-        $scope.output=removeOuterParenthesis(computed($scope.risk_evidence.condition_json.group));
+        $scope.output=removeOuterParenthesis(computed($scope.filter.group));
         //measurement types
         $scope.metypes=res[1].data;
         $scope.showLeEditor=true;
