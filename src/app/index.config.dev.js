@@ -17,7 +17,10 @@
     .config(function($locationProvider, $compileProvider, $urlRouterProvider) {
 
       //show home page on error
-      $urlRouterProvider.otherwise('/citations');
+      $urlRouterProvider.otherwise( function($injector) {
+        var $state = $injector.get("$state");
+        $state.go('main.dashboard');
+      });
       
       //Set url handler  
       $locationProvider.html5Mode(false);

@@ -6,7 +6,7 @@
     .controller('risk_elementsSingleController', risk_elementsSingleController);
 
   /** @ngInject */
-  function risk_elementsSingleController(toastr, content, Auth, Bioportal, Risk_elements, CARRE, SweetAlert, $stateParams, $timeout, $state, $scope) {
+  function risk_elementsSingleController(toastr, content, Bioportal, Risk_elements, CARRE, SweetAlert, $stateParams, $timeout, $state, $scope) {
     var vm = this;
 
     var visibleFields = [
@@ -22,7 +22,7 @@
       "has_author",
       "has_reviewer"
     ];
-
+    
 
     /* View Risk_element */
     vm.id = $stateParams.id;

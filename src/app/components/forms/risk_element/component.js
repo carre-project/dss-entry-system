@@ -12,7 +12,6 @@ angular.module('CarreEntrySystem')
     },
     controller: function($scope, Observables, Bioportal, Risk_elements,Auth,toastr) {
       
-      Auth.getUser().then(function(res){ $scope.user=res; });
       $scope.model = $scope.model || {};
       $scope.bioportalAutocompleteResults = [];
 

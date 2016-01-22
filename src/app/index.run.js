@@ -1,35 +1,47 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('CarreEntrySystem')
-    .run(runBlock);
+    angular
+        .module('CarreEntrySystem')
+        .run(runBlock)
+        .run(setPermissionValidator);
 
-  /** @ngInject */
-  function runBlock($rootScope) {
-
-    //handle ui-router errors
-    $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){ 
-        // this is required if you want to prevent the $UrlRouter reverting the URL to the previous valid location
-        event.preventDefault();
-        console.error('Ui Router error:' ,event, toState, toParams, fromState, fromParams, error);
-    });
-    
-    window.hexToRgb	= function (hex) {
-        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-            return r + r + g + g + b + b;
+    /** @ngInject */
+    function setPermissionValidator(Permission, Auth, $q) {
+        // Define anonymous role
+        console.log('Role Definition called!');
+        Permission.defineRole('authenticated_user', function(stateParams) {
+            return Auth.isLoggedIn();
         });
-    
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
     }
 
-  }
+    /** @ngInject */
+    function runBlock($rootScope,$state) {
+
+        //handle ui-router errors
+        $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
+            // this is required if you want to prevent the $UrlRouter reverting the URL to the previous valid location
+            event.preventDefault();
+            console.error('Ui Router error:', event, toState, toParams, fromState, fromParams, error);
+            console.log(error);
+            // $state.go(toState.name,toParams.id);
+        });
+
+        window.hexToRgb = function(hex) {
+            var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+            hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+                return r + r + g + g + b + b;
+            });
+
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+    }
 
 })();
 
@@ -52,7 +64,8 @@ $(function() {
         if (width < 768) {
             $('div.navbar-collapse').addClass('collapse');
             topOffset = 100; // 2-row-menu
-        } else {
+        }
+        else {
             $('div.navbar-collapse').removeClass('collapse');
         }
 

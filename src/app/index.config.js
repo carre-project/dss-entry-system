@@ -77,7 +77,7 @@
 
 
             console.warn('Weird API 500 error intercepted! : ', response);
-            if (incrementalTimeout < 3000) {
+            if (incrementalTimeout < 5000) {
               return retryRequest(response.config);
             }
             else {

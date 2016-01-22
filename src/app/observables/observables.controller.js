@@ -6,9 +6,9 @@
     .controller('observablesController', observablesController);
 
   /** @ngInject */
-  function observablesController(toastr,Auth, Observables,currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function observablesController(toastr,currentUser, Observables,CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
-    // currentUser is our user model;
+    
     
     var visibleGridColumns=[
       'has_observable_name',

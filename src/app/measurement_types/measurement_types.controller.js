@@ -6,9 +6,9 @@
     .controller('measurement_typesController', measurement_typesController);
 
   /** @ngInject */
-  function measurement_typesController(toastr, Measurement_types, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function measurement_typesController(toastr, Measurement_types, CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
-    // currentUser is our user model;
+    
     
     var visibleGridColumns=[
       'has_measurement_type_name',

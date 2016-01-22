@@ -50,7 +50,16 @@
         templateUrl: 'app/citations/single/edit.create.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
-        url: '/:id/edit'
+        url: '/:id/edit',
+        data: {
+          permissions: {
+            only: ['authenticated_user'],
+            redirectTo: function(rejectedPromise) {
+              return '404_error';
+            }        
+            
+          }
+        }
       })
       .state('main.citations.view', {
         controller: 'citationsSingleController',
@@ -81,7 +90,17 @@
         templateUrl: 'app/observables/single/edit.create.html',
         controller: 'observablesSingleController',
         controllerAs: 'observable',
-        url: '/:id/edit'
+        url: '/:id/edit',
+        data: {
+          permissions: {
+            only: ['authenticated_user'],
+            redirectTo: function(rejectedPromise) {
+              return '404_error';
+            }        
+            
+          }
+        }
+        
       })
       .state('main.observables.view', {
         controller: 'observablesSingleController',
@@ -112,7 +131,16 @@
         templateUrl: 'app/risk_elements/single/edit.create.html',
         controller: 'risk_elementsSingleController',
         controllerAs: 'risk_element',
-        url: '/:id/edit'
+        url: '/:id/edit',
+        data: {
+          permissions: {
+            only: ['authenticated_user'],
+            redirectTo: function(rejectedPromise) {
+              return '404_error';
+            }
+          }
+        }
+        
       })
       .state('main.risk_elements.view', {
         controller: 'risk_elementsSingleController',
@@ -143,7 +171,16 @@
         templateUrl: 'app/risk_evidences/single/edit.create.html',
         controller: 'risk_evidencesSingleController',
         controllerAs: 'risk_evidence',
-        url: '/:id/edit'
+        url: '/:id/edit',
+        data: {
+          permissions: {
+            only: ['authenticated_user'],
+            redirectTo: function(rejectedPromise) {
+              return '404_error';
+            }            
+          }
+        }
+        
       })
       .state('main.risk_evidences.view', {
         controller: 'risk_evidencesSingleController',
@@ -174,7 +211,17 @@
         templateUrl: 'app/risk_factors/single/edit.create.html',
         controller: 'risk_factorsSingleController',
         controllerAs: 'risk_factor',
-        url: '/:id/edit'
+        url: '/:id/edit',
+        data: {
+          permissions: {
+            only: ['authenticated_user'],
+            redirectTo: function(rejectedPromise) {
+              return '404_error';
+            }        
+            
+          }
+        }
+        
       })
       .state('main.risk_factors.view', {
         controller: 'risk_factorsSingleController',
@@ -205,7 +252,17 @@
         templateUrl: 'app/measurement_types/single/edit.create.html',
         controller: 'measurement_typesSingleController',
         controllerAs: 'measurement_type',
-        url: '/:id/edit'
+        url: '/:id/edit',
+        data: {
+          permissions: {
+            only: ['authenticated_user'],
+            redirectTo: function(rejectedPromise) {
+              return '404_error';
+            }        
+            
+          }
+        }
+        
       })
       .state('main.measurement_types.view', {
         controller: 'measurement_typesSingleController',

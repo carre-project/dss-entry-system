@@ -6,9 +6,9 @@
     .controller('risk_factorsController', risk_factorsController);
 
   /** @ngInject */
-  function risk_factorsController(toastr, Risk_factors, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function risk_factorsController(toastr, Risk_factors,currentUser, CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
-    // currentUser is our user model;
+    
     
     var visibleGridColumns=[
       'has_risk_factor_source',

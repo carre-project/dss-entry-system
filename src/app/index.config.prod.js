@@ -15,7 +15,10 @@
     }).config(function($locationProvider, $compileProvider, $urlRouterProvider) {
       
       //show error
-      $urlRouterProvider.otherwise('/404_error');
+      $urlRouterProvider.otherwise( function($injector) {
+        var $state = $injector.get("$state");
+        $state.go('/404_error');
+      });
       
       //Set url handler  
       $locationProvider.html5Mode(true);

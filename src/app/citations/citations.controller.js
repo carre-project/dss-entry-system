@@ -6,9 +6,9 @@
     .controller('citationsController', citationsController);
 
   /** @ngInject */
-  function citationsController(toastr, Citations, $stateParams, currentUser, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function citationsController(toastr, Citations,currentUser, $stateParams, CONFIG, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
-    // currentUser is our user model;
+    
     
     var visibleGridColumns=[
       'has_citation_pubmed_identifier',

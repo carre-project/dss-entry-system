@@ -12,7 +12,7 @@ angular.module('CarreEntrySystem')
     },
     controller: function($scope, Observables, Bioportal, Risk_elements, Risk_factors, Auth, toastr) {
       
-      Auth.getUser().then(function(res){ $scope.user=res; });
+      
       $scope.model = $scope.model || {};
 
       //get risk elements

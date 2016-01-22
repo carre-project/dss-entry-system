@@ -6,9 +6,9 @@
     .controller('medical_expertsController', medical_expertsController);
 
   /** @ngInject */
-  function medical_expertsController(Bioportal, toastr, Medical_experts, currentUser, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state , content) {
+  function medical_expertsController(Bioportal, toastr, Medical_experts, CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state , content) {
     var vm = this; //controller as vm
-    // currentUser is our user model;
+    
     
     var visibleGridColumns=[
       "has_firstname",

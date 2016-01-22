@@ -6,12 +6,13 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($rootScope, $timeout, toastr ,currentUser, $location, CONFIG, Auth) {
+  function MainController($rootScope, $timeout, toastr, $location, CONFIG, Auth) {
     var vm = this;
     
-    vm.user = currentUser;
+    
     
     vm.config = CONFIG;
+    vm.user = vm.config.currentUser || {};
     CONFIG.ROOT_URL=rootUrl();
     
     //clean up the browser url
