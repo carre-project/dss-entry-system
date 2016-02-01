@@ -6,7 +6,7 @@
     .controller('measurement_typesController', measurement_typesController);
 
   /** @ngInject */
-  function measurement_typesController(toastr, Measurement_types, CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function measurement_typesController(toastr, currentUser, Measurement_types, CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
     
     
@@ -39,6 +39,16 @@
         width: 60
       });
 
+      //show edit buttons
+      if (currentUser.username) {
+        vm.mygrid.columnDefs.push({
+          field: 'Edit',
+          enableFiltering: false,
+          enableColumnMenu: false,
+          cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.measurement_types.edit({id:row.entity.id_label})"><i class="fa fa-edit"></i></button></div>',
+          width: 60
+        });
+      }
       
       //dynamic creation of the grid columns
       content.fields(res.fields, visibleGridColumns).forEach((function(obj) {

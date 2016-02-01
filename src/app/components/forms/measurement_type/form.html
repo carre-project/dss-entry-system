@@ -4,82 +4,65 @@
 
     <div class="form-group" ng-class="{ 'has-error': form.name.$touched && form.name.$invalid }">
       <label>Name</label>
-      <input type="text" name="name" placeholder="Risk element name e.g acute kidney disease" class="form-control" ng-model="measurement_type.name" required>
+      <input type="text" name="name" placeholder="e.g filtration rate" class="form-control" ng-model="measurement_type.name" required>
 
       <div class="help-block" ng-messages="form.name.$error" ng-if="form.name.$touched">
         <p ng-message="required">Name is required.</p>
       </div>
     </div>
-
-    <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
-      <label>Modifiable status</label>
-      <input type="checkbox" ng-true-value="'yes'" ng-false-value="'no'" ng-model="measurement_type.modifiable_status">
-
-    </div>
-
-    <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
-      <label>Type</label>
-
-      <ui-select ng-model="measurement_type.type" theme="bootstrap">
-        <ui-select-match placeholder="Select risk element type">{{$select.selected.label}}</ui-select-match>
-        <ui-select-choices repeat="type.value as type in types | propsFilter: {label: $select.search}">
-          <div ng-bind-html="type.label | highlight: $select.search"></div>
-          <!--<small> {{type.label}} </small>-->
-        </ui-select-choices>
-      </ui-select>
-
-      <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
-        <div ng-messages-include="messages.html"></div>
-      </div>
-
-    </div>
-
-
-    <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
-
-      <!-- on-select="addOutcome($item, $model)" -->
-      <label>Identifier</label>
-      <div ng-show="loadingElementIdentifier" class="loadingSelect"></div>
-
-      <ui-select ng-model="measurement_type.identifier" theme="bootstrap">
-        <ui-select-match placeholder="Search for CUI...">{{$select.selected.label+' - '+$select.selected.value}}</ui-select-match>
-        <ui-select-choices repeat="elem.value as elem in bioportalAutocompleteResults" refresh="bioportalAutocomplete($select.search)" refresh-delay="500">
-          <div ng-bind-html="elem.label | highlight: $select.search"></div>
-          <small>{{elem.value}}</small>
-        </ui-select-choices>
-      </ui-select>
-
-      <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
-        <div ng-messages-include="messages.html"></div>
-      </div>
-
-    </div>
-
-    <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
-      <label>Observables</label>
-
-      <!--&lt;{{$item.id}}&gt;-->
-      <ui-select multiple ng-model="measurement_type.observables" theme="bootstrap">
-        <ui-select-match placeholder="Select observables">{{$item.label}} </ui-select-match>
-        <ui-select-choices repeat="ob.value as ob in observables | propsFilter: {label: $select.search}">
-          <div ng-bind-html="ob.label | highlight: $select.search"></div>
-        </ui-select-choices>
-      </ui-select>
-
-      <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
-        <div ng-messages-include="messages.html"></div>
-      </div>
-
-    </div>
     
-    <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
-      <label>Include other risk elements</label>
+    <div class="form-group" ng-class="{ 'has-error': form.unit.$touched && form.unit.$invalid }">
+      <label>Unit</label>
+      <input type="text" name="unit" placeholder="e.g ml/min/1.73 m^2" class="form-control" ng-model="measurement_type.unit" required>
 
-      <!--&lt;{{$item.id}}&gt;-->
-      <ui-select multiple ng-model="measurement_type.measurement_types" theme="bootstrap">
-        <ui-select-match placeholder="Select risk elements">{{$item.label}} </ui-select-match>
-        <ui-select-choices repeat="el.value as el in measurement_types | propsFilter: {label: $select.search}">
-          <div ng-bind-html="el.label | highlight: $select.search"></div>
+      <div class="help-block" ng-messages="form.unit.$error" ng-if="form.unit.$touched">
+        <p ng-message="required">Unit is required.</p>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+      <label>Date type</label>
+
+      <ui-select ng-model="measurement_type.datatype" theme="bootstrap">
+        <ui-select-match placeholder="Select datatype">{{$select.selected}}</ui-select-match>
+        <ui-select-choices repeat="type in datatypes">
+          <div ng-bind-html="type | highlight: $select.search"></div>
+        </ui-select-choices>
+      </ui-select>
+
+      <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
+        <div ng-messages-include="messages.html"></div>
+      </div>
+
+    </div>
+
+    <div class="form-group" ng-if="measurement_type.datatype==='enum'" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+      <label>Values</label>
+
+
+
+      <ui-select multiple tagging tagging-label="(custom 'new' value)"  ng-model="measurement_type.values" theme="bootstrap">
+        <ui-select-match placeholder="Select values...">{{$item}}</ui-select-match>
+        <ui-select-choices repeat="val in []">
+          {{val}}
+        </ui-select-choices>
+      </ui-select>
+
+      <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
+        <div ng-messages-include="messages.html"></div>
+      </div>
+
+    </div>
+
+    <div class="form-group" ng-if="measurement_type.datatype==='boolean'" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+      <label>Values</label>
+
+
+
+      <ui-select multiple limit="2"  tagging tagging-label="(custom 'new' value)" ng-model="measurement_type.values" theme="bootstrap">
+        <ui-select-match placeholder="Select values...">{{$item}}</ui-select-match>
+        <ui-select-choices repeat="val in ['yes','no']">
+          {{val}}
         </ui-select-choices>
       </ui-select>
 

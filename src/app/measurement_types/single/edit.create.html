@@ -6,12 +6,5 @@
 <!--debug vars-->
 
 <div class="col-xs-12">
-    <a class="btn btn-sm btn-default" ui-sref="main.measurement_types.view({id:measurement_type.id})"><i class="fa fa-eye"></i> Profile</a>
-
-    <ul class="list-group">
-      <li ng-repeat="field in measurement_type.fields" class="list-group-item">
-        {{field.label}} : <b>{{measurement_type.current[field.value+'_label']}}</b>
-      </li>
-    </ul>
- 
+    <measurement-type-form ng-if="measurement_type.current.id||measurement_type.create" model="measurement_type.current"></measurement-type-form>
 </div>

@@ -33,7 +33,6 @@
       /* Reset columns */
       vm.mygrid.columnDefs = [];
       
-      
       vm.mygrid.columnDefs.push({
         field: 'View',
         enableFiltering: false,
