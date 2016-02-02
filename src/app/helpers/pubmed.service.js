@@ -11,8 +11,10 @@ angular.module('CarreEntrySystem').service('Pubmed', function($http,CONFIG) {
   //search Pubmed Central through EuropePMC
   var esearch=function(query){
     return $http.jsonp('http://www.ebi.ac.uk/europepmc/webservices/rest/search?resulttype=lite&format=json&callback=JSON_CALLBACK&query='+query,{ignoreLoadingBar: false,cache:true}).then(function(res){
-            console.info(res);
-            return res;
+      return { 
+        count : res.data.hitCount,
+        result : res.data.resultList.result
+      };
     },function(err){console.error(err)});
   };
   

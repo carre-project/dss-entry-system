@@ -6,21 +6,42 @@
     <div class="col-sm-6">
       
     <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
-      <label>Evidence source</label>
-      <ui-select on-select="viewPubmed($item,$model)" class="ui-select-big-text"  ng-model="citation.evidence_source" theme="bootstrap">
+      <label>Evidence source </label>
+      <span class="badge badge-default">{{pubmedAutocompleteResultsCount}} Result(s)</span>
+      <ui-select on-select="selectPubmed($item,$model)" class="ui-select-big-text"  ng-model="citation.pubmedId" theme="bootstrap">
         <ui-select-match placeholder="Select evidence source">
           <div>{{$select.selected.title}}</div>
           <div>{{$select.selected.authors}}</div>
-          <div>{{$select.selected.date}}</div>
+          <div>{{$select.selected.source}} - {{$select.selected.pubYear}}</div>
         </ui-select-match>
-        <ui-select-choices repeat="obj.value as obj in citations | propsFilter: {title: $select.search,authors: $select.search,date: $select.search}">
+        <ui-select-choices repeat="obj.pmid as obj in pubmedAutocompleteResults | propsFilter: { 
+          title: $select.search,
+          authors: $select.search,
+          source: $select.search,
+          pmid: $select.search,
+          pubYear: $select.search
+        }"
+        refresh="searchPubmed($select.search)" refresh-delay="500">
           <div class="ui-select-big-text">
           <div ng-bind-html="obj.title | highlight: $select.search"></div>
           <div><small ng-bind-html="obj.authors | highlight: $select.search"></small></div>
-          <div><small ng-bind-html="obj.date | highlight: $select.search"></small></div>
+          <div>
+            <small ng-bind-html="obj.source | highlight: $select.search"></small>
+              /
+            <small ng-bind-html="obj.pubYear | highlight: $select.search"></small>
+              /
+            <small ng-bind-html="obj.pmid | highlight: $select.search"></small>
+          </div>
           </div>
         </ui-select-choices>
       </ui-select>
+    </div>
+    
+    
+    <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+      <label>Citation summary</label>
+      <textarea class="form-control" rows="6" ng-model="citation.summary"></textarea>
+
     </div>
 
     <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
@@ -46,6 +67,11 @@
       <input type="number" min="1" max="4"  class="form-control" ng-model="citation.level">
 
     </div>
+
+    <div class="form-group">
+      <button type="button" ng-click="cancelForm()" class="btn btn-danger">Cancel</button>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
     
     
     </div>
@@ -54,14 +80,9 @@
     <div class="col-sm-6">
       <label>Pubmed Id</label>
       <input type="text" name="name" placeholder="Enter pubmed Id" class="form-control" ng-change="loadPubmed()" ng-model="citation.pubmedId" required>
-      <carre-view-pubmed ng-if="citation.pubmedId" id="{{citation.pubmedId}}"></carre-view-pubmed>
+      <carre-view-pubmed ng-if="showPubmed" id="{{citation.pubmedId}}"></carre-view-pubmed>
     </div>
 
-
-    <div class="form-group">
-      <button type="button" ng-click="cancelForm()" class="btn btn-danger">Cancel</button>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
 
   </form>
 
