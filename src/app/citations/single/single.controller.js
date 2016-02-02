@@ -6,7 +6,7 @@
     .controller('citationsSingleController', citationsSingleController);
 
   /** @ngInject */
-  function citationsSingleController(toastr,content ,Citations, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state){
+  function citationsSingleController(toastr,content ,Citations, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, SweetAlert, $state, CARRE, $scope){
     var vm = this;
 
 
@@ -21,46 +21,39 @@
       "has_reviewer"
     ];
 
-    
-    /* View Citation */
+
+    /* View Risk_evidence */
     vm.id = $stateParams.id;
+    vm.current = {};
     vm.edit = $stateParams.edit;
     if (vm.id) getCitation(vm.id);
 
+
+    //Handle events
+    $scope.$on('citation:save', function() {
+      if (vm.current.id) {
+        $state.go('main.citations.view', {
+          id: vm.id
+        });
+      }
+      else $state.go('main.citations.list');
+    });
+    $scope.$on('citation:cancel', function() {
+      if (vm.current.id) {
+        $state.go('main.citations.view', {
+          id: vm.id
+        });
+      }
+      else $state.go('main.citations.list');
+    });
+
+
     if ($state.is("main.citations.create")) {
-      
-      console.info('---Create---');
-      console.info('State: ', $state);
-      console.info('State params: ', $stateParams);
-
-      /************** Edit/Create Template **************/
-      
-      
-      
-      
+      vm.create = true;
+      vm.current = {};
     }
-    else if ($state.is("main.citations.edit")) {
-      
-      console.info('---Edit---');
-      console.info('State: ', $state);
-      console.info('State params: ', $stateParams);
-
-      /************** Edit/Create Template **************/
-
-
-
-    }
-    else {
-
-      console.info('---View---');
-      console.info('State: ', $state);
-      console.info('State params: ', $stateParams);
-
-      /************** View Template **************/
-      
-      
-      
-    }
+    else if ($state.is("main.citations.edit")) {}
+    else {}
 
 
 
@@ -85,7 +78,27 @@
         
       });
     }
-
+    
+    vm.deleteCurrent = function() {
+      SweetAlert.swal({
+          title: "Are you sure?",
+          text: "Your will not be able to recover this element!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, delete it!",
+          closeOnConfirm: true,
+          closeOnCancel: true
+        },
+        function(isConfirm) {
+          if (isConfirm) {
+            CARRE.delete(vm.current.id).then(function() {
+              $state.go('main.citations.list');
+            });
+          }
+        });
+    };
+    
 
   }
 

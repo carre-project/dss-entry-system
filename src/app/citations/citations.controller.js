@@ -35,8 +35,12 @@
         field: 'View',
         enableFiltering: false,
         enableColumnMenu: false,
-        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.citations.view({id:row.entity.id_label})"><i class="fa fa-eye"></i></button></div>',
-        width: 60
+        cellTemplate: 
+          '<div class="ui-grid-cell-contents">'+
+          '<button type="button" class="btn btn-xs btn-primary" ui-sref="main.citations.view({id:row.entity.id_label})"><i class="fa fa-eye"></i></button> '+
+          '<button type="button" class="btn btn-xs btn-primary" ng-click="citations.setPubmed(56)"><i class="fa fa-search-plus"></i></button>'+
+          '</div>',
+        width: 70
       });
 
       //show edit buttons
@@ -45,7 +49,10 @@
           field: 'Edit',
           enableFiltering: false,
           enableColumnMenu: false,
-          cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.citations.edit({id:row.entity.id_label})"><i class="fa fa-edit"></i></button></div>',
+          cellTemplate: 
+            '<div class="ui-grid-cell-contents">'+
+            '<button type="button" class="btn btn-xs btn-primary" ui-sref="main.citations.edit({id:row.entity.id_label})"><i class="fa fa-edit"></i></button> '+
+            '</div>',
           width: 60
         });
       }
@@ -71,11 +78,8 @@
 
 
     /*Pubmed browser*/
-    vm.setPubmed = function(grid, row, useApi) {
-
-      vm.pubmedApi = useApi;
-      var id = row ? row.entity.id : null;
-
+    vm.setPubmed = function(id) {
+      console.log(id);
       if (!id) {
         vm.selectedCitation = '';
         vm.pubmedArticle = '';

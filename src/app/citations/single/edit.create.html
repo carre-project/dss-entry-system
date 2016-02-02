@@ -6,12 +6,5 @@
 <!--debug vars-->
 
 <div class="col-xs-12">
-    <a class="btn btn-sm btn-default" ui-sref="main.citations.view({id:citation.id})"><i class="fa fa-eye"></i> Profile</a>
-
-    <ul class="list-group">
-      <li ng-repeat="field in citation.fields" class="list-group-item">
-        {{field.label}} : <b>{{citation.current[field.value+'_label']}}</b>
-      </li>
-    </ul>
- 
+  <citation-form ng-if="citation.current.id||citation.create" model="citation.current"></citation-form>
 </div>

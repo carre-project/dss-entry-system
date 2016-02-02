@@ -10,72 +10,67 @@ angular.module('CarreEntrySystem')
     scope: {
       'model': '='
     },
-    controller: function($scope, Observables, Bioportal, Risk_elements,Auth,toastr) {
+    controller: function($scope, Citations, Pubmed, toastr) {
       
       
       $scope.model = $scope.model || {};
-      $scope.bioportalAutocompleteResults = [];
-
-      //get observables
-      Observables.get().then(function(res) {
-        $scope.observables = res.data.map(function(ob) {
-            return {
-              value: ob.id,
-              label: ob.has_observable_name_label
-            };
-          });
-      });
-
-      //get risk elements
-      Risk_elements.get().then(function(res) {
-        $scope.citations = res.data.map(function(rl) {
-            return {
-              value: rl.id,
-              label: rl.has_citation_name_label
-            };
-          });
-      });
+      $scope.pubmedAutocompleteResults = [];
 
       //risk element types
       $scope.types = [{
-        label: "behavioural",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#citation_type_behavioural"
-      }, {
-        label: "biomedical",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#citation_type_biomedical"
-      }, {
-        label: "demographic",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#citation_type_demographic"
-      }, {
-        label: "intervention",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#citation_type_intervention"
-      }, {
-        label: "genetic",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#citation_type_genetic"
-      }, {
-        label: "environmental",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#citation_type_environmental"
+        label: "observational",
+        value: "observational"
+      },{
+        label: "meta-analysis",
+        value: "meta-analysis"
+      },{
+        label: "longitudinal population study",
+        value: "longitudinal population study"
+      },{
+        label: "cohort study",
+        value: "cohort study"
+      },{
+        label: "cross-sectional analyses of a community-based multicenter study",
+        value: "cross-sectional analyses of a community-based multicenter study"
+      },{
+        label: "longitudinal population study",
+        value: "longitudinal population study"
+      },{
+        label: "prospective cohort study",
+        value: "prospective cohort study"
+      },{
+        label: "multi-national RCT",
+        value: "multi-national RCT"
+      },{
+        label: "systematic review",
+        value: "systematic review"
+      },{
+        label: "follow-up",
+        value: "follow-up"
+      },{
+        label: "RCT",
+        value: "RCT"
       }];
 
       //Bioportal stuff
-      $scope.bioportalAutocomplete = function(term) {
+      $scope.pubmedAutocomplete = function(term) {
         // var options = { };
         if (term.length < 2) return false;
         $scope.loadingElementIdentifier = true;
-        Bioportal.fetch(term).then(function(res) {
-          $scope.bioportalAutocompleteResults = res;
+        Pubmed.search(term).then(function(res) {
+          $scope.pubmedAutocompleteResults = res;
           $scope.loadingElementIdentifier = false;
         });
       };
       
       //Save to RDF method
       $scope.saveModel=function(){
-        Risk_elements.insert($scope.model,$scope.citation,$scope.user.graphName).then(function(res){
+        Citations.insert($scope.model,$scope.citation,$scope.user.graphName).then(function(res){
           //success
-          console.log('Risk Element saved',res);
+          console.log('Citation saved',res);
           
           $scope.$emit('citation:save');
-          toastr.success('<b>'+$scope.citation.name+'</b>'+($scope.model.id?' has been updated':' has been created'),'<h4>Risk element saved</h4>');
+          toastr.success('<b>'+$scope.citation.name+'</b>'+($scope.model.id?' has been updated':' has been created'),'<h4>Citations saved</h4>');
 
         });
       };
@@ -93,17 +88,11 @@ angular.module('CarreEntrySystem')
 
         //Init Form object
         $scope.citation = {
-          observables: $scope.model.has_citation_observable,
-          citations: $scope.model.includes_citation||[],
-          type: $scope.model.has_citation_type[0],
-          name: $scope.model.has_citation_name_label,
-          identifier: $scope.model.has_citation_identifier_label,
-          modifiable_status: $scope.model.has_citation_modifiable_status_label
+          type: $scope.model.has_citation_source_type_label,
+          level: Number($scope.model.has_citation_source_level_label),
+          summary: $scope.model.has_citation_summary_label,
+          pubmedId: $scope.model.has_citation_pubmed_identifier_label
         };
-
-
-        //init Bioportal Fetch
-        $scope.bioportalAutocomplete($scope.citation.identifier);
 
 
       }
@@ -114,12 +103,10 @@ angular.module('CarreEntrySystem')
 
         //Init Form object
         $scope.citation = {
-          observables: [],
-          citations: [],
           type: "",
-          name: "",
-          identifier: "",
-          modifiable_status: ""
+          level: 1,
+          summary: "",
+          pubmedId: ""
         };
 
 
