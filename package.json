@@ -50,6 +50,6 @@
     "wrench": "~1.5.8"
   },
   "engines": {
-    "node": "~4.x"
+    "node": "~4"
   }
 }
