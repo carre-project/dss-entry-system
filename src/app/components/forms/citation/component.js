@@ -10,58 +10,42 @@ angular.module('CarreEntrySystem')
     scope: {
       'model': '='
     },
-    controller: function($scope, Citations, Pubmed, toastr,$timeout) {
+    controller: function($scope, Citations, Pubmed, toastr,$timeout, CONFIG) {
       
       
       $scope.model = $scope.model || {};
       $scope.pubmedAutocompleteResults = [];
 
-      //risk element types
-      $scope.types = [{
-        label: "observational",
-        value: "observational"
-      },{
-        label: "meta-analysis",
-        value: "meta-analysis"
-      },{
-        label: "longitudinal population study",
-        value: "longitudinal population study"
-      },{
-        label: "cohort study",
-        value: "cohort study"
-      },{
-        label: "cross-sectional analyses of a community-based multicenter study",
-        value: "cross-sectional analyses of a community-based multicenter study"
-      },{
-        label: "longitudinal population study",
-        value: "longitudinal population study"
-      },{
-        label: "prospective cohort study",
-        value: "prospective cohort study"
-      },{
-        label: "multi-national RCT",
-        value: "multi-national RCT"
-      },{
-        label: "systematic review",
-        value: "systematic review"
-      },{
-        label: "follow-up",
-        value: "follow-up"
-      },{
-        label: "RCT",
-        value: "RCT"
-      }];
+      //citation study types
+      $scope.types=[];
+      $scope.addStudyType=function(item,model){
+        console.log(item,model);
+        if($scope.types.indexOf(item)===-1 && item) {
+          $scope.types.push(item);
+          $scope.showNewType=false;
+        }
+      };
+      if(CONFIG.CitationTypes) {
+        $scope.types = CONFIG.CitationTypes;
+      } else {
+        Citations.get().then(function(res){
+          $timeout(function(){
+            $scope.types = CONFIG.CitationTypes;
+          },100);
+        });
+      }
+      
       
       $scope.selectPubmed=function(item,model){
         //build the summary
         var summary = null;
-        if(item.title) summary=item.authors+"; "+item.title+" "+
+        if(item.title) summary=item.authorString+"; "+item.title+" "+
                 item.journalTitle+" "+item.pubYear+";"+
                 item.journalVolume+"("+item.issue+"):"+item.pageInfo+"."+
                 " doi:"+item.doi;
                 
         $scope.citation.pubmedId=item.pmid||$scope.citation.pubmedId;
-        $scope.citation.summary=$scope.citation.summary||summary;
+        $scope.citation.summary=summary || $scope.citation.summary;
         $scope.loadPubmed();
       };
       
@@ -109,15 +93,14 @@ angular.module('CarreEntrySystem')
           
           */
           $scope.pubmedAutocompleteResultsCount = res.count;
-          $scope.pubmedAutocompleteResults = res.result.map(function(obj){
-            var newobj={
-              "title": obj.title || "",
-              "authors": obj.authorString || "",
-              "source": obj.source || "",
-              "pubYear": obj.pubYear || "",
-              "pmid": obj.pmid || obj.id || ""
-            };
-            return angular.extend({}, newobj, obj);
+          $scope.pubmedAutocompleteResults = res.result
+          .map(function(obj){
+              obj.title = obj.title || "";
+              obj.authorString = obj.authorString || "";
+              obj.source =obj.source || "";
+              obj.pubYear = obj.pubYear || "";
+              obj.pmid = obj.pmid || obj.id;
+              return obj;
           });
           $scope.loadingElementIdentifier = false;
         });

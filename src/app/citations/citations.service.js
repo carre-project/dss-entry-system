@@ -7,7 +7,19 @@ angular.module('CarreEntrySystem').service('Citations', function($http, CARRE, C
   
   function getCitations(ArrayOfIDs) {
     
-    return CARRE.instances('citation',ArrayOfIDs);
+    return CARRE.instances('citation',ArrayOfIDs).then(function(res){
+      
+      //get all citation study types and cache them into CONFIG object
+      if(!CONFIG.CitationTypes) {
+        CONFIG.CitationTypes=[];
+        res.data.forEach(function(obj){
+          if (CONFIG.CitationTypes.indexOf(obj.has_citation_source_type_label)===-1){
+            CONFIG.CitationTypes.push(obj.has_citation_source_type_label);
+          }
+        });
+      }
+      return res;
+    });
     
   }
 

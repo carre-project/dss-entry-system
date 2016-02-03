@@ -11,20 +11,20 @@
       <ui-select on-select="selectPubmed($item,$model)" class="ui-select-big-text"  ng-model="citation.pubmedId" theme="bootstrap">
         <ui-select-match placeholder="Select evidence source">
           <div>{{$select.selected.title}}</div>
-          <div>{{$select.selected.authors}}</div>
+          <div>{{$select.selected.authorString}}</div>
           <div>{{$select.selected.source}} - {{$select.selected.pubYear}}</div>
         </ui-select-match>
-        <ui-select-choices repeat="obj.pmid as obj in pubmedAutocompleteResults | propsFilter: { 
+        <ui-select-choices style="max-height: 500px;" repeat="obj.pmid as obj in pubmedAutocompleteResults | propsFilter: { 
           title: $select.search,
-          authors: $select.search,
+          authorString: $select.search,
           source: $select.search,
           pmid: $select.search,
           pubYear: $select.search
         }"
-        refresh="searchPubmed($select.search)" refresh-delay="500">
+        refresh="searchPubmed($select.search)" refresh-delay="350">
           <div class="ui-select-big-text">
           <div ng-bind-html="obj.title | highlight: $select.search"></div>
-          <div><small ng-bind-html="obj.authors | highlight: $select.search"></small></div>
+          <div><small ng-bind-html="obj.authorString | highlight: $select.search"></small></div>
           <div>
             <small ng-bind-html="obj.source | highlight: $select.search"></small>
               /
@@ -44,14 +44,19 @@
 
     </div>
 
+    <script type="text/ng-template" id="newStudyTypeTemplate.html">
+        <form ng-submit="addStudyType(citation.type)" class="form-group">
+          <input type="text" ng-model="citation.type" class="form-control">
+        </form>
+    </script>
     <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
-      <label>Study type</label>
+      <label>Study type <a href="" popover-is-open="showNewType" uib-popover-template="'newStudyTypeTemplate.html'" popover-title="New Type: {{citation.type}}" 
+      class="btn btn-xs btn-default" ng-click="citation.type=''">New <i class="fa fa-plus"></i></a></label>
 
       <ui-select ng-model="citation.type" theme="bootstrap">
-        <ui-select-match placeholder="Select risk element type">{{$select.selected.label}}</ui-select-match>
-        <ui-select-choices repeat="type.value as type in types | propsFilter: {label: $select.search}">
-          <div ng-bind-html="type.label | highlight: $select.search"></div>
-          <!--<small> {{type.label}} </small>-->
+        <ui-select-match placeholder="Select study type">{{$select.selected}}</ui-select-match>
+        <ui-select-choices repeat="type in types | filter: $select.search">
+          <div ng-bind-html="type | highlight: $select.search"></div>
         </ui-select-choices>
       </ui-select>
 
