@@ -196,7 +196,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
       }  else return res;
     }).catch(function(err){
         console.log(err);
-        // $state.go('500_API_ERROR');
+        $state.go('500_API_ERROR');
     });
 
   }
