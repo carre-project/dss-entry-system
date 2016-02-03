@@ -74,6 +74,12 @@
         controllerAs: 'citation',
         url: '/create'
       })
+      .state('main.citations.createWithId', {
+        templateUrl: 'app/citations/single/edit.create.html',
+        controller: 'citationsSingleController',
+        controllerAs: 'citation',
+        url: '/create/:pubmedId'
+      })
       .state('main.citations.edit', {
         templateUrl: 'app/citations/single/edit.create.html',
         controller: 'citationsSingleController',

@@ -152,9 +152,14 @@ angular.module('CarreEntrySystem')
           type: "",
           level: 1,
           summary: "",
-          pubmedId: ""
+          pubmedId: $scope.model.pubmedId||""
         };
-
+        
+        if($scope.model.pubmedId){
+          //run pubmed search
+          $scope.searchPubmed($scope.citation.pubmedId);
+          $scope.selectPubmed({}); //pass an empty object for no errors
+        }
 
       }
 

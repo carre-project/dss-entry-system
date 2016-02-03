@@ -52,6 +52,23 @@
       vm.create = true;
       vm.current = {};
     }
+
+    if ($state.is("main.citations.createWithId")) {
+      vm.create = true;
+      if($stateParams.pubmedId) {
+        //check if already exists a citation with this PubmedID;
+        CARRE.search('citation',$stateParams.pubmedId).then(function(res){
+          console.log('Citation Records for this pubmedid'+ $stateParams.pubmedId, res);
+          if(res.data){
+            $state.go('main.citations.edit',{id:res.data[0].id_label});
+          } else {
+              console.log('Article with id: ',$stateParams.pubmedId);
+              vm.current = {pubmedId:$stateParams.pubmedId};
+          }
+        })
+      } else vm.current = {};
+      
+    }
     else if ($state.is("main.citations.edit")) {}
     else {}
 
