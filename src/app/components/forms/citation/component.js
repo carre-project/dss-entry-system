@@ -8,11 +8,12 @@ angular.module('CarreEntrySystem')
     restrict: 'E',
     replace: true,
     scope: {
-      'model': '='
+      'model': '=',
+      'hideviewer': '='
     },
     controller: function($scope, Citations, Pubmed, toastr,$timeout, CONFIG) {
       
-      
+      $scope.hideviewer = $scope.hideviewer || false;
       $scope.model = $scope.model || {};
       $scope.pubmedAutocompleteResults = [];
 
@@ -103,6 +104,7 @@ angular.module('CarreEntrySystem')
               return obj;
           });
           $scope.loadingElementIdentifier = false;
+          $scope.selectPubmed($scope.pubmedAutocompleteResults[0]||{}); //pass an empty object for no errors
         });
       };
       
@@ -139,7 +141,6 @@ angular.module('CarreEntrySystem')
         
         //run pubmed search
         $scope.searchPubmed($scope.citation.pubmedId);
-        $scope.selectPubmed({}); //pass an empty object for no errors
 
       }
       else {
@@ -158,7 +159,6 @@ angular.module('CarreEntrySystem')
         if($scope.model.pubmedId){
           //run pubmed search
           $scope.searchPubmed($scope.citation.pubmedId);
-          $scope.selectPubmed({}); //pass an empty object for no errors
         }
 
       }

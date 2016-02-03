@@ -8,11 +8,26 @@ angular.module('CarreEntrySystem')
     restrict: 'E',
     replace: true,
     scope: {
-      'model': '='
+      'model': '=',
+      'hideviewer': '='
     },
     controller: function($scope, Citations, Observables, Bioportal, Risk_factors, toastr,$timeout,Measurement_types,$q) {
+      
+      $scope.hideviewer = $scope.hideviewer || false;
       $scope.copyModel={};
       angular.copy($scope.model,$scope.copyModel);
+      
+      
+      //citation form
+      $scope.newCitation=function(){
+        $scope.citation={
+          current:{
+            pubmedId:$scope.risk_evidence.pubmedId
+          },
+          create:true
+        };
+      };
+      
       
       $scope.showLeEditor=false;
       $scope.model = $scope.model || {};
