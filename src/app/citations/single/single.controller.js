@@ -54,12 +54,14 @@
     }
 
     if ($state.is("main.citations.createWithId")) {
-      vm.create = true;
       if($stateParams.pubmedId) {
         //check if already exists a citation with this PubmedID;
         CARRE.search('citation',$stateParams.pubmedId).then(function(res){
+          
+          vm.create = true;
           console.log('Citation Records for this pubmedid'+ $stateParams.pubmedId, res);
-          if(res.data){
+          res.data=res.data||[];
+          if(res.data.length>0){
             $state.go('main.citations.edit',{id:res.data[0].id_label});
           } else {
               console.log('Article with id: ',$stateParams.pubmedId);
