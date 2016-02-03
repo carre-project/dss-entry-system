@@ -38,7 +38,7 @@
         cellTemplate: 
           '<div class="ui-grid-cell-contents">'+
           '<button type="button" class="btn btn-xs btn-primary" ui-sref="main.citations.view({id:row.entity.id_label})"><i class="fa fa-eye"></i></button> '+
-          '<button type="button" class="btn btn-xs btn-primary" ng-click="citations.setPubmed(56)"><i class="fa fa-search-plus"></i></button>'+
+          // '<button type="button" class="btn btn-xs btn-primary" ng-click="citations.setPubmed(56)"><i class="fa fa-search-plus"></i></button>'+
           '</div>',
         width: 70
       });

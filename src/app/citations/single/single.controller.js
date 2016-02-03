@@ -62,17 +62,15 @@
           console.log('Citation Records for this pubmedid'+ $stateParams.pubmedId, res);
           res.data=res.data||[];
           if(res.data.length>0){
-            $state.go('main.citations.edit',{id:res.data[0].id_label});
+            $state.go('main.citations.edit',{id:res.data[0].id_label},{reload:true});
           } else {
               console.log('Article with id: ',$stateParams.pubmedId);
               vm.current = {pubmedId:$stateParams.pubmedId};
           }
         })
-      } else vm.current = {};
+      } else $state.go('main.citations.create',{},{reload:true});
       
-    }
-    else if ($state.is("main.citations.edit")) {}
-    else {}
+    } else if ($state.is("main.citations.edit")) {} else {}
 
 
 
