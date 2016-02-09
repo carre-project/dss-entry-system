@@ -69,26 +69,27 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
         risk:has_risk_element_modifiable_status \"" + newElem.modifiable_status + "\"^^xsd:string; \n\
         risk:has_author <" + user + ">; \n";
         
-              //add observables
-              newElem.observables.forEach(function(ob) {
-                insertQuery += "risk:has_risk_element_observable <" + ob + ">; \n";
-              });
-              if (newElem.risk_elements) {
-                newElem.risk_elements.forEach(function(rl) {
-                  insertQuery += "              risk:includes_risk_element <" + rl + ">; \n";
-                });
-              }
-              //add type and close query
-              insertQuery += "a risk:risk_element . } } WHERE \n\
-          { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
-          { { \n\
-              SELECT (COUNT(DISTINCT ?elems) AS ?oldindex) FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
-              WHERE { \n\
-               ?elems a risk:risk_element . \n\
-              } \n\
+        //add observables
+        newElem.observables.forEach(function(ob) {
+          insertQuery += "risk:has_risk_element_observable <" + ob + ">; \n";
+        });
+        if (newElem.risk_elements) {
+          newElem.risk_elements.forEach(function(rl) {
+            insertQuery += "              risk:includes_risk_element <" + rl + ">; \n";
+          });
+        }
+          
+        //add type and close query
+        insertQuery += "a risk:risk_element . } } WHERE \n\
+        { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
+        { { \n\
+            SELECT (COUNT(DISTINCT ?elems) AS ?oldindex) FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
+            WHERE { \n\
+             ?elems a risk:risk_element . \n\
             } \n\
-            BIND (IRI(CONCAT(RL:, \"RL_\", ?oldindex+1)) AS ?newid) \n\
-          } }";
+          } \n\
+          BIND (IRI(CONCAT(RL:, \"RL_\", ?oldindex+1)) AS ?newid) \n\
+        } }";
 
 
       console.info('-----insertQuery------');

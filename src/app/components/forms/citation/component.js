@@ -110,7 +110,7 @@ angular.module('CarreEntrySystem')
       
       //Save to RDF method
       $scope.saveModel=function(){
-        Citations.insert($scope.model,$scope.citation,$scope.user.graphName).then(function(res){
+        Citations.insert($scope.model,$scope.citation).then(function(res){
           //success
           console.log('Citation saved',res);
           

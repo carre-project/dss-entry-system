@@ -188,7 +188,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     if (Auth.cookie) params.token = Auth.cookie;
 
     console.info('Final query: ', params.sparql);
-    return $http.post(CONFIG.CARRE_API_URL + 'query', params, {timeout:10000}).then(function(res){
+    return $http.post(CONFIG.CARRE_API_URL + 'query', params).then(function(res){
       if(res.data==='No JSON object could be decoded') {
         console.error(res);
         toastr.error('<p>'+res.data+'</p>','<h4>Oh Error</h4>');
@@ -201,83 +201,6 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
   }
   
-  
-  
-/* ======================IMPORTANT SPARQL QUERIES =============================*/
-//['subject','predicate','object','has_observable_name','has_risk_element_name','has_measurement_type_name','has_risk_factor_association_type','has_risk_factor_source','has_risk_factor_target','has_source_risk_element_name','has_target_risk_element_name']
-    /* Try to fill the names of other elements */
-    /*
-#try to fetch linked observables,risk_elements,measurements,risk_factors details from ids
-
-#observable stuff
-OPTIONAL {  
- ?object a risk:observable.
- ?object risk:has_observable_name ?has_observable_name
-}
-#risk element stuff
-OPTIONAL {  
- ?object a risk:risk_element.
- ?object risk:has_risk_element_name ?has_risk_element_name
-}
-#measurement stuff
-OPTIONAL {  
- ?object a risk:measurement_type.
- ?object risk:has_measurement_type_name ?has_measurement_type_name
-}
-#risk factor stuff
-OPTIONAL {  
- ?object a risk:risk_factor.
- ?object risk:has_risk_factor_association_type ?has_risk_factor_association_type.
- ?object risk:has_risk_factor_source ?has_risk_factor_source.
- ?object risk:has_risk_factor_target ?has_risk_factor_target.
- ?has_risk_factor_source risk:has_risk_element_name ?has_source_risk_element_name.
- ?has_risk_factor_target risk:has_risk_element_name ?has_target_risk_element_name.
-}
-}
-
-
-# COUNT elements and reviews
-
-SELECT 
-(COUNT(?rf) as ?risk_factors) 
-(COUNT(?rf_r) as ?risk_factors_unreviewed)
-(COUNT(?rl) as ?risk_elements) 
-(COUNT(?rl_r) as ?risk_elements_unreviewed)
-(COUNT(?ob) as ?observables) 
-(COUNT(?ob_r) as ?observables_unreviewed)
-(COUNT(?rv) as ?risk_evidences) 
-(COUNT(?rv_r) as ?risk_evidences_unreviewed)
-(COUNT(?ci) as ?citations) 
-(COUNT(?me) as ?measurement_types) 
-FROM <http://carre.kmi.open.ac.uk/public> WHERE { 
-{?rf a risk:risk_factor}
-UNION
-{ ?rf_r a risk:risk_factor FILTER NOT EXISTS {?rf_r risk:has_reviewer ?anything} }
-UNION
-{?rl a risk:risk_element}
-UNION
-{ ?rl_r a risk:risk_element FILTER NOT EXISTS {?rl_r risk:has_reviewer ?anything} }
-UNION
-{?ob a risk:observable}
-UNION
-{ ?ob_r a risk:observable FILTER NOT EXISTS {?ob_r risk:has_reviewer ?anything} }
-UNION
-{?rv a risk:risk_evidence}
-UNION
-{ ?rv_r a risk:risk_evidence FILTER NOT EXISTS {?rv_r risk:has_reviewer ?anything} }
-UNION
-{?ci a risk:citation}
-UNION
-{?me a risk:measurement_type}
-
-
-}
-
-
-    */
-
-
-
 
   return this.exports;
 });
