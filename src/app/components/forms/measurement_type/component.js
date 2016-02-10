@@ -21,7 +21,16 @@ angular.module('CarreEntrySystem')
       
       //Save to RDF method
       $scope.saveModel=function(){
-        Measurement_types.insert($scope.model,$scope.measurement_type,$scope.user.graphName).then(function(res){
+        
+        //fix measurement type multi values
+        if($scope.measurement_type.datatype==='enum'||$scope.measurement_type.datatype==='boolean') {
+          $scope.measurement_type.has_enumeration_values = $scope.measurement_type.values.join(';');
+          
+          console.log($scope.measurement_type.values,$scope.measurement_type.has_enumeration_values);
+        } else $scope.measurement_type.has_enumeration_values = "";
+        delete $scope.measurement_type.values;
+        
+        Measurement_types.save($scope.model,$scope.measurement_type).then(function(res){
           //success
           console.log('Measurement type saved',res);
           

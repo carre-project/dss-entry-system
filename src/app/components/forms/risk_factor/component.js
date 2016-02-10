@@ -43,7 +43,7 @@ angular.module('CarreEntrySystem')
       
       //Save to RDF method
       $scope.saveModel=function(){
-        Risk_factors.insert($scope.model,$scope.risk_factor,$scope.user.graphName).then(function(res){
+        Risk_factors.save($scope.model,$scope.risk_factor).then(function(res){
           //success
           console.log('Risk factor saved',res);
           $scope.$emit('risk_factor:save');

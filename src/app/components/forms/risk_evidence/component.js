@@ -11,7 +11,7 @@ angular.module('CarreEntrySystem')
       'model': '=',
       'hideviewer': '='
     },
-    controller: function($scope, Citations, Observables, Bioportal, Risk_factors, toastr,$timeout,Measurement_types,$q) {
+    controller: function($scope, Citations, Observables, Bioportal, Risk_factors, Risk_evidences, toastr,$timeout,Measurement_types,$q) {
       
       $scope.hideviewer = $scope.hideviewer || false;
       $scope.copyModel={};
@@ -95,12 +95,12 @@ angular.module('CarreEntrySystem')
       
       //Save to RDF method
       $scope.saveModel = function() {
-        Risk_factors.insert($scope.model, $scope.risk_evidence, $scope.user.graphName).then(function(res) {
+        Risk_evidences.save($scope.model, $scope.risk_evidence).then(function(res) {
           //success
-          console.log('Risk Element saved', res);
+          console.log('Risk Evidence saved', res);
 
           $scope.$emit('risk_evidence:save');
-          toastr.success('<b>' + $scope.risk_evidence.name + '</b>' + ($scope.model.id ? ' has been updated' : ' has been created'), '<h4>Risk element saved</h4>');
+          toastr.success('<b>' + $scope.risk_evidence.pubmedId + '</b>' + ($scope.model.id ? ' has been updated' : ' has been created'), '<h4>Risk evidence saved</h4>');
 
         });
       };

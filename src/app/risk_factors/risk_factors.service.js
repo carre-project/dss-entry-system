@@ -1,75 +1,45 @@
-angular.module('CarreEntrySystem').service('Risk_factors', function($http, CARRE, CONFIG) {
+angular.module('CarreEntrySystem').service('Risk_factors', function($http, CARRE, CONFIG, QUERY) {
 
   this.exports={
     'get': getRisk_factors,
-    'insert': insertRisk_factor,
+    'save': saveRisk_factor,
     'risk_evidences': getRisk_evidencesFromRisk_Factor
   };
   
   function getRisk_factors(ArrayOfIDs,raw) {
     return CARRE.instances('risk_factor',ArrayOfIDs);
   }
-
-  function insertRisk_factor(oldElem, newElem, user) {
+  
+  function saveRisk_factor(oldElem, newElem, user) {
+    user = user || CONFIG.currentUser.graphName;
+    var updateQuery = "",insertQuery = "";
+    var newObj = {};
+    
+    if(newElem.source.length>0) newObj.has_risk_factor_source = {pre:'risk',value:newElem.source,type:"node"};
+    if(newElem.target.length>0) newObj.has_risk_factor_target = {pre:'risk',value:newElem.target.toString(),type:"node"};
+    if(newElem.type.length>0) newObj.has_risk_factor_association_type = {pre:'risk',value:newElem.type.toString(),type:"node"};
     
     console.log('Old: ',oldElem);
     console.log('New: ',newElem);
+    console.log('Mapped: ',newObj);
     
-    var updateQuery, deleteQuery, insertQuery = "";
 
     if (oldElem.id) {
-
-      /* Update query */
-
-      deleteQuery = "DELETE DATA { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " { \n\
-        <" + oldElem.id + ">  risk:has_risk_factor_source <" + oldElem.has_risk_factor_source[0] + ">; \n\
-                              risk:has_risk_factor_target <" + oldElem.has_risk_factor_target[0] + ">; \n\
-                              risk:has_risk_factor_association_type <" + oldElem.has_risk_factor_association_type[0] + ">. }}";
-
-      /*----------*/
-
-      insertQuery = "INSERT DATA { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " { \n\
-        <" + oldElem.id + ">  risk:has_risk_factor_source <" + newElem.source + ">; \n\
-                              risk:has_risk_factor_target <" + newElem.target + ">; \n\
-                              risk:has_risk_factor_association_type <" + newElem.type + ">. }}";
-      
-
-      /*----------*/
-
-      updateQuery = deleteQuery + insertQuery;
-      
-      console.info('-----updateQuery------');
-      return CARRE.query(updateQuery);
+      /*Update query*/
+      updateQuery = QUERY.update(oldElem,newObj);
+      console.log('----Update Query----');
+      return CARRE.query(updateQuery,'no prefix');
     }
     else {
       /*Insert query*/
-
-
-      insertQuery = "INSERT { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " { \n\
-        ?newid  risk:has_risk_factor_source <" + newElem.source + ">; \n\
-                risk:has_risk_factor_target <" + newElem.target + ">; \n\
-                risk:has_risk_factor_association_type <" + newElem.type + ">; \n\
-                risk:has_author <" + user + ">; \n";
-                
-          //add type and close query
-          insertQuery += "a risk:risk_factor . } } WHERE \n\
-      { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
-          { { \n\
-              SELECT (COUNT(DISTINCT ?elems) AS ?oldindex) FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
-              WHERE { \n\
-               ?elems a risk:risk_factor . \n\
-              } \n\
-            } \n\
-            BIND (IRI(CONCAT(RF:, \"RF_\", ?oldindex+1)) AS ?newid) \n\
-          } }";
-    
-    
-          console.info('-----insertQuery------');
-          return CARRE.query(insertQuery);
+      insertQuery = QUERY.insert(newObj,"risk_factor","RF",user);
+      console.info('-----insertQuery------');
+      return CARRE.query(insertQuery,'no prefix');
     }
 
   }
   
+
   function getRisk_evidencesFromRisk_Factor(id) {
 
     var listQuery = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\

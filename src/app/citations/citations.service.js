@@ -5,16 +5,6 @@ angular.module('CarreEntrySystem').service('Citations', function($http, CARRE, C
     'save': saveCitation
   };
   
-  //map the final object to rdf properties
-  function mapper(obj){
-    return {
-      has_citation_source_type: {pre:'risk',value:obj.type.toString(),type:"string"},
-      has_citation_source_level: {pre:'risk',value:obj.level.toString(),type:"integer"},
-      has_citation_summary: {pre:'risk',value:obj.summary.toString(),type:"string"},
-      has_citation_pubmed_identifier: {pre:'risk',value:obj.pubmedId.toString(),type:"string"}
-    };
-  }
-  
   function getCitations(ArrayOfIDs) {
     
     return CARRE.instances('citation',ArrayOfIDs).then(function(res){
@@ -56,6 +46,16 @@ angular.module('CarreEntrySystem').service('Citations', function($http, CARRE, C
       return CARRE.query(insertQuery,'no prefix');
     }
 
+  }
+  
+  //map the final object to rdf properties
+  function mapper(obj){
+    return {
+      has_citation_source_type: {pre:'risk',value:obj.type.toString(),type:"string"},
+      has_citation_source_level: {pre:'risk',value:obj.level.toString(),type:"integer"},
+      has_citation_summary: {pre:'risk',value:obj.summary.toString(),type:"string"},
+      has_citation_pubmed_identifier: {pre:'risk',value:obj.pubmedId.toString(),type:"string"}
+    };
   }
   
   return this.exports;

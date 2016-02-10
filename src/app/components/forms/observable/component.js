@@ -39,7 +39,7 @@ angular.module('CarreEntrySystem')
       
       //Save to RDF method
       $scope.saveModel=function(){
-        Observables.insert($scope.model,$scope.observable,$scope.user.graphName).then(function(res){
+        Observables.save($scope.model,$scope.observable).then(function(res){
           //success
           console.log('Observable saved',res);
           

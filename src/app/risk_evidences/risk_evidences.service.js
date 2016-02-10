@@ -1,8 +1,8 @@
-angular.module('CarreEntrySystem').service('Risk_evidences', function($http, CARRE, CONFIG) {
+angular.module('CarreEntrySystem').service('Risk_evidences', function($http, CARRE, CONFIG, QUERY) {
 
   this.exports = {
     'get': getRisk_evidences,
-    'insert': insertRisk_evidence
+    'save': saveRisk_evidence
 
   };
 
@@ -10,122 +10,45 @@ angular.module('CarreEntrySystem').service('Risk_evidences', function($http, CAR
     return CARRE.instances('risk_evidence', ArrayOfIDs);
   }
 
-  function insertRisk_evidence(oldElem, newElem, user) {
-
-    console.log('Old: ', oldElem);
-    console.log('New: ', newElem);
-
-    /*
+  function saveRisk_evidence(oldElem, newElem, user) {
+    user = user || CONFIG.currentUser.graphName;
+    var updateQuery = "",insertQuery = "";
+    var newObj = {};
     
-    oldElem Template
+    if(newElem.observables.length>0) newObj.has_risk_evidence_observable = {pre:'risk',value:newElem.observables,type:"node"};
+    if(newElem.ratio_type.length>0) newObj.has_risk_evidence_ratio_type = {pre:'risk',value:newElem.ratio_type.toString(),type:"node"};
+    if(newElem.ratio_value.length>0) newObj.has_risk_evidence_ratio_value = {pre:'risk',value:newElem.ratio_value.toString(),type:"float"};
+    if(newElem.confidence_interval_min.length>0) newObj.has_confidence_interval_min = {pre:'risk',value:newElem.confidence_interval_min.toString(),type:"float"};
+    if(newElem.confidence_interval_max.length>0) newObj.has_confidence_interval_max = {pre:'risk',value:newElem.confidence_interval_max.toString(),type:"float"};
+    if(newElem.risk_factor.length>0) newObj.has_risk_factor = {pre:'risk',value:newElem.risk_factor,type:"node"};
+    if(newElem.evidence_source.length>0) newObj.has_risk_evidence_source = {pre:'risk',value:newElem.evidence_source.toString(),type:"string"};
+    if(newElem.condition.length>0) {
+      newObj.has_observable_condition = {pre:'risk',value:newElem.condition.toString(),type:"string"};
+      newObj.has_observable_condition_json = {pre:'risk',value:newElem.condition_json.toString(),type:"string"};
+      newObj.has_observable_condition_text = {pre:'risk',value:newElem.condition_text.toString(),type:"string"};
+    }
     
-       "node":"http://carre.kmi.open.ac.uk/risk_elements/RL_3",
-       "type":"http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_element",
-       "has_author":"https://carre.kmi.open.ac.uk/users/KalliopiPafili",
-       "has_reviewer":"https://carre.kmi.open.ac.uk/users/GintareJuozalenaite",
-       "has_risk_element_identifier":"http://umls.nlm.nih.gov/sab/mth/cui/C0001783",
-       "has_risk_element_modifiable_status":"no",
-       "has_risk_element_name":"age",
-       "has_risk_element_observable":"http://carre.kmi.open.ac.uk/observables/OB_7",
-       "has_risk_element_type":"http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_element_type_demographic",
-       "has_risk_element_index":"3"
     
-    newElem Template
-        "observables": [
-          "http://carre.kmi.open.ac.uk/observables/OB_7"
-        ],
-        "type": "risk_element_type_demographic",
-        "name": "age",
-        "identifier": "C0001783",
-        "modifiable_status": "no"
-        
-    */
-
-    var updateQuery, deleteQuery, insertQuery = "";
+    console.log('Old: ',oldElem);
+    console.log('New: ',newElem);
+    console.log('Mapped: ',newObj);
+    
 
     if (oldElem.id) {
-
-      /* Update query */
-
-      deleteQuery = "DELETE DATA { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " { \n\
-              <" + oldElem.id + "> risk:has_risk_element_name \"" + oldElem.has_risk_element_name[0] + "\"^^xsd:string; \n\
-              risk:has_risk_element_identifier <http://umls.nlm.nih.gov/sab/mth/cui/" + oldElem.has_risk_element_identifier[0] + ">; \n\
-              risk:has_risk_element_type <" + oldElem.has_risk_element_type[0] + ">; \n";
-      oldElem.has_risk_element_observable.forEach(function(ob) {
-        deleteQuery += "              risk:has_risk_element_observable <" + ob + ">; \n";
-      });
-      deleteQuery += "              risk:has_risk_element_modifiable_status \"" + oldElem.has_risk_element_modifiable_status[0] + "\"^^xsd:string . \n }} \n";
-
-      /*----------*/
-
-      insertQuery = "INSERT DATA { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " { \n\
-              <" + oldElem.id + "> risk:has_risk_element_name \"" + newElem.name + "\"^^xsd:string; \n\
-              risk:has_risk_element_identifier <http://umls.nlm.nih.gov/sab/mth/cui/" + newElem.identifier + ">; \n\
-              risk:has_risk_element_type <" + newElem.type + ">; \n";
-      newElem.observables.forEach(function(ob) {
-        insertQuery += "              risk:has_risk_element_observable <" + ob + ">; \n";
-      });
-      insertQuery += "              risk:has_risk_element_modifiable_status \"" + newElem.modifiable_status + "\"^^xsd:string . \n }}";
-
-      /*----------*/
-
-      updateQuery = deleteQuery + insertQuery;
-
-      console.info('-----updateQuery------');
-      // return CARRE.query(updateQuery);
+      /*Update query*/
+      updateQuery = QUERY.update(oldElem,newObj);
+      console.log('----Update Query----');
+      return CARRE.query(updateQuery,'no prefix');
     }
     else {
       /*Insert query*/
-/*
-INSERT DATA { GRAPH <http://carre.kmi.open.ac.uk/public> { 
-<http://carre.kmi.open.ac.uk/risk_evidences/RV_1> rdf:type risk:risk_evidence . 
-<http://carre.kmi.open.ac.uk/risk_evidences/RV_1> risk:has_risk_factor <http://carre.kmi.open.ac.uk/risk_factors/RF_1> . 
-<http://carre.kmi.open.ac.uk/risk_evidences/RV_1> risk:has_observable_condition "OB_3 = 'yes'"^^xsd:string . 
-<http://carre.kmi.open.ac.uk/risk_evidences/RV_1> risk:has_risk_evidence_source <http://carre.kmi.open.ac.uk/citations/CI_42> . 
-<http://carre.kmi.open.ac.uk/risk_evidences/RV_1> risk:has_risk_evidence_ratio_type risk:risk_evidence_ratio_type_hazard_ratio . 
-<http://carre.kmi.open.ac.uk/risk_evidences/RV_1> risk:has_risk_evidence_ratio_value "8.8"^^xsd:float . 
-<http://carre.kmi.open.ac.uk/risk_evidences/RV_1> risk:has_confidence_interval_min "3.1"^^xsd:float . 
-<http://carre.kmi.open.ac.uk/risk_evidences/RV_1> risk:has_confidence_interval_max "25.5"^^xsd:float . 
-<http://carre.kmi.open.ac.uk/risk_evidences/RV_1> risk:has_author carreUsers:LaurynasRimsevicius . 
-<http://carre.kmi.open.ac.uk/risk_evidences/RV_1> risk:has_reviewer carreUsers:StefanosRoumeliotis . 
-<http://carre.kmi.open.ac.uk/risk_evidences/RV_1> risk:has_reviewer carreUsers:PloumisPassadakis . 
-<http://carre.kmi.open.ac.uk/risk_evidences/RV_1> risk:has_risk_evidence_observable <http://carre.kmi.open.ac.uk/observables/OB_3> . 
-} }
-*/
-
-
-
-      insertQuery = "INSERT { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " { \n\
-?newid risk:has_risk_element_name \"" + newElem.name + "\"^^xsd:string; \n\
-risk:has_risk_element_identifier <http://umls.nlm.nih.gov/sab/mth/cui/" + newElem.identifier + ">; \n\
-risk:has_risk_element_type <" + newElem.type + ">; \n\
-risk:has_risk_element_modifiable_status \"" + newElem.modifiable_status + "\"^^xsd:string; \n\
-risk:has_author <" + user + ">; \n";
-
-      //add observables
-      newElem.observables.forEach(function(ob) {
-        insertQuery += "risk:has_risk_element_observable <" + ob + ">; \n";
-      });
-
-      //add type and close query
-      insertQuery += "a risk:risk_element . } } WHERE \n\
-  { GRAPH " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
-      { { \n\
-          SELECT (COUNT(DISTINCT ?elems) AS ?oldindex) FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
-          WHERE { \n\
-           ?elems a risk:risk_element . \n\
-          } \n\
-        } \n\
-        BIND (IRI(CONCAT(RL:, \"RL_\", ?oldindex+1)) AS ?newid) \n\
-      } }";
-
-
+      insertQuery = QUERY.insert(newObj,"risk_evidence","RV",user);
       console.info('-----insertQuery------');
-      // return CARRE.query(insertQuery);
+      return CARRE.query(insertQuery,'no prefix');
     }
 
   }
-  
+
   return this.exports;
 
 });

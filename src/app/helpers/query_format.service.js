@@ -2,8 +2,7 @@ angular.module('CarreEntrySystem').service('QUERY', function(CONFIG) {
 
   this.exports = {
     'insert': buildInsertQuery,
-    'update': buildUpdateQuery,
-    
+    'update': buildUpdateQuery
   };
 
   /* The prefixes for CARRE*/
@@ -18,7 +17,7 @@ angular.module('CarreEntrySystem').service('QUERY', function(CONFIG) {
     'RV': 'http://carre.kmi.open.ac.uk/risk_evidences/',
     'RF': 'http://carre.kmi.open.ac.uk/risk_factors/',
     'MD': 'http://carre.kmi.open.ac.uk/medical_experts/',
-    'CI': 'http://carre.kmi.open.ac.uk/citations/',
+    'CI': 'http://carre.kmi.open.ac.uk/citations/'
   };
   var PREFIXSTR = '';
   var PREFIXARR = [];
@@ -43,28 +42,37 @@ angular.module('CarreEntrySystem').service('QUERY', function(CONFIG) {
     var obj={};
     for (var prop in newObj) {
       //iterate new object properties
-      if( newObj[prop].value instanceof Array) {
+      if( newObj[prop].value instanceof Array ) {
         //if array
-        if((newObj[prop].value.length!==oldObj[prop].length)) obj[prop]=newObj[prop];
+        console.log("Array DEBUG: ",prop,newObj[prop].value,oldObj[prop]);
+        if(!(oldObj[prop] instanceof Array)) obj[prop]=newObj[prop];
+        else if((newObj[prop].value.length!==oldObj[prop].length)) obj[prop]=newObj[prop];
         else {
           for (var i=0,arr=newObj[prop].value;i<arr.length;i++){
             if(oldObj[prop].indexOf(arr[i])===-1) {
+            console.log(oldObj[prop],newObj[prop]);
               obj[prop]=newObj[prop];
               break;
             }
           }
         }
-      } else if(oldObj[prop+'_label']!=newObj[prop].value) obj[prop]=newObj[prop];
+      } else if(oldObj[prop][0]!=newObj[prop].value) obj[prop]=newObj[prop];
     }
     return obj;
   }
   
   function parse(node){
-    if(node instanceof Object) return "\"" + node.value + "\"^^" + fillPrefix('xsd:' + node.type); //if it is value
-    else {
-        if(node.indexOf('<')===0 && node.indexOf('>')===node.length-1) return node; //if has already parsed
-        if (node.indexOf('http://') === 0 || node.indexOf('https://') === 0) return '<' + node + '>';  //if it is node without prefix
-        else return fillPrefix(node); //if it is node or relation with prefix
+    if(node instanceof Object) {
+      //it should be an object
+      if(node.type!=="node"){
+        return "\"" + node.value + "\"^^" + fillPrefix('xsd:' + node.type); //if it is value
+      } else {
+          if (node.value.indexOf('http://') === 0 || node.value.indexOf('https://') === 0) return '<' + node.value + '>';  //if it is node without prefix
+          else return fillPrefix(node.value); //if it is node or relation with prefix
+      }
+    } else {
+      if (node.indexOf('http://') === 0 || node.indexOf('https://') === 0) return '<' + node + '>';  //if it is node without prefix
+      else return fillPrefix(node); //if it is node or relation with prefix
     }
   }
   
@@ -108,7 +116,6 @@ angular.module('CarreEntrySystem').service('QUERY', function(CONFIG) {
     var insertQuery = "INSERT DATA { GRAPH " + graph + " { \n" + insertTriples + " }} \n";
     
     return (CONFIG.OPTIONS.usePrefix?PREFIXSTR:"")+deleteQuery + insertQuery;
-
   }
 
   /* Insert query */
@@ -141,7 +148,7 @@ angular.module('CarreEntrySystem').service('QUERY', function(CONFIG) {
               SELECT ?oldindex FROM " + graph + " \n\
               WHERE { \n\
                ?elem a "+parse("risk:"+type)+" . \n\
-                BIND (xsd:integer(strafter(STR(?elem),\"CI_\")) AS ?oldindex) \n\
+                BIND (xsd:integer(strafter(STR(?elem),\""+idlabel+"_\")) AS ?oldindex) \n\
               } ORDER BY DESC(?oldindex) LIMIT 1 \n\
             } \n\
             BIND (IRI(CONCAT("+parse(idlabel+":")+", \""+idlabel+"_\", ?oldindex+1)) AS ?newid) \n\
