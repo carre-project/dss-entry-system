@@ -45,8 +45,8 @@ angular.module('CarreEntrySystem')
                 item.journalVolume+"("+item.issue+"):"+item.pageInfo+"."+
                 " doi:"+item.doi;
                 
-        $scope.citation.has_citation_pubmed_identifier.val=item.pmid||$scope.citation.has_citation_pubmed_identifier.val;
-        $scope.citation.has_citation_summary.val=summary || $scope.citation.has_citation_summary.val;
+        $scope.citation.pubmedId=item.pmid||$scope.citation.pubmedId;
+        $scope.citation.summary=summary || $scope.citation.summary;
         $scope.loadPubmed();
       };
       
@@ -110,12 +110,12 @@ angular.module('CarreEntrySystem')
       
       //Save to RDF method
       $scope.saveModel=function(){
-        Citations.insert($scope.model,$scope.citation).then(function(res){
+        Citations.save($scope.model,$scope.citation).then(function(res){
           //success
           console.log('Citation saved',res);
           
           $scope.$emit('citation:save');
-          toastr.success('<b>'+$scope.citation.has_citation_summary.val+'</b>'+($scope.model.id?' has been updated':' has been created'),'<h4>Citations saved</h4>');
+          toastr.success('<b>Citation with PMID:'+$scope.citation.pubmedId+'</b>'+($scope.model.id?' has been updated':' has been created'),'<h4>Citations saved</h4>');
 
         });
       };
@@ -126,34 +126,44 @@ angular.module('CarreEntrySystem')
 
 
       if ($scope.model.id) {
+
         /************** Edit Mode **************/
         console.info('---Edit---');
+
+
         //Init Form object
         $scope.citation = {
-          has_citation_source_type: {val:$scope.model.has_citation_source_type_label || "",type:'string'},
-          has_citation_source_level: {val:Number($scope.model.has_citation_source_level_label) || 1,type:'integer'},
-          has_citation_summary: {val:$scope.model.has_citation_summary_label || "",type:'string'},
-          has_citation_pubmed_identifier: {val:$scope.model.has_citation_pubmed_identifier_label || "",type:'string'}
+          type: $scope.model.has_citation_source_type_label || "",
+          level: Number($scope.model.has_citation_source_level_label) || 1,
+          summary: $scope.model.has_citation_summary_label || "",
+          pubmedId: $scope.model.has_citation_pubmed_identifier_label || ""
         };
-        $scope.searchPubmed($scope.citation.has_citation_pubmed_identifier.val);
+        
+        //run pubmed search
+        $scope.searchPubmed($scope.citation.pubmedId);
+
       }
       else {
+
         /************** Create Mode **************/
         console.info('---Create---');
+
         //Init Form object
         $scope.citation = {
-          has_citation_source_type: {val:"",type:'string'},
-          has_citation_source_level: {val:1,type:'integer'},
-          has_citation_summary: {val:"",type:'string'},
-          has_citation_pubmed_identifier: {val:$scope.model.pubmedId||"",type:'string'}
+          type: "",
+          level: 1,
+          summary: "",
+          pubmedId: $scope.model.pubmedId||""
         };
+        
         if($scope.model.pubmedId){
           //run pubmed search
-          $scope.searchPubmed($scope.citation.has_citation_pubmed_identifier.val);
+          $scope.searchPubmed($scope.citation.pubmedId);
         }
-    
+
       }
 
+      
 
       console.info('Model: ', $scope.model);
       console.info('Form params: ', $scope.citation);

@@ -179,11 +179,11 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
 
   /* CORE query method*/
-  function apiQuery(sparqlQuery) {
+  function apiQuery(sparqlQuery,noprefix) {
 
     var params = {};
     //add prefixes
-    params.sparql = PREFIXSTR + sparqlQuery;
+    params.sparql = (noprefix?"":PREFIXSTR) + sparqlQuery;
     // use token
     if (Auth.cookie) params.token = Auth.cookie;
 

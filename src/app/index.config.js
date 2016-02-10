@@ -9,7 +9,9 @@
   function config(toastrConfig, $httpProvider, cfpLoadingBarProvider,CONFIG) {
     
     // Set options third-party lib
-  
+    CONFIG.OPTIONS={
+      usePrefix:true
+    };
     
     //chart colors
     CONFIG.COLORS=["#46BFBD", "#2E8B57", "#F7464A", "#DB7093", "#FDB45C", "#949FB1", "#4D5360"]
