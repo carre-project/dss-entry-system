@@ -33,19 +33,18 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
   function deleteInstance(id){
     var query = "WITH " + CONFIG.CARRE_ARCHIVE_GRAPH + " DELETE { ?id ?s ?p .  }  WHERE { ?id ?s ?p . FILTER (?id=<"+id+">) }";
     return apiQuery(query);
-  }
-  
   /*               
-  OPTIONAL {    \n\
+      OPTIONAL {    \n\
                  ?object risk:includes_risk_element ?includes_risk_element. \n\
                  ?includes_risk_element risk:has_risk_element_name ?includes_risk_element_name. \n\
                 } \n\
                 */
+  }
+  
 
   function searchInstances(type, term) {
     if(!type||!term) {
       throw "CARRE Error: Cannot search without type and term!";
-      return false;
     } 
     var listQuery = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
              ?subject a risk:" + type + "; ?predicate ?object. \n\
@@ -109,7 +108,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
                ?object risk:has_risk_factor_target ?has_risk_factor_target. \n\
                ?has_risk_factor_source risk:has_risk_element_name ?has_source_risk_element_name.  \n\
                ?has_risk_factor_target risk:has_risk_element_name ?has_target_risk_element_name.  \n\
-              } \n"
+              } \n";
 
 
     //add filter to query if a single observable is requested
