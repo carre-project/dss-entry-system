@@ -18,7 +18,12 @@
     </ul>
   </div>
   <div class="col-sm-6">
-
+    
+    <div ng-if="main.config.ENV==='DEV'" class="row">
+      <div class="col-xs-12">
+        Risk element Associations<pre>{{risk_element.risk_associations | json}}</pre>
+      </div>
+    </div>
     <!--<div cg-busy="{promise:risk_elements.loading,message:'Searching Bioportal...',backdrop:false,minDuration:700}" style="padding:25px;">-->
 
     <!--  <h4>Risk_element:  <u>{{risk_elements.selectedRisk_element.entity.has_risk_element_name}}</u></h4>-->

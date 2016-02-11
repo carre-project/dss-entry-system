@@ -28,7 +28,10 @@
     vm.id = $stateParams.id;
     vm.current = {};
     vm.edit = $stateParams.edit;
-    if (vm.id) getRisk_element(vm.id);
+    if (vm.id) {
+      getRisk_element(vm.id);
+      showAssociations(vm.id);
+    }
 
 
     //Handle events
@@ -60,7 +63,13 @@
 
 
     /* Helper functions */
-
+    
+    function showAssociations(id){
+      Risk_elements.associations(id).then(function(data){
+        vm.risk_associations=data;
+      });
+    }
+    
     function getRisk_element(id) {
       Risk_elements.get([id]).then(function(res) {
         if (res.data) {

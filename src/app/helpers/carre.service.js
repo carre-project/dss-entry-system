@@ -124,6 +124,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
   }
 
+  
   /* Dashboard count instances methods */
   function countAllInstances() {
     var query = "SELECT \n\
