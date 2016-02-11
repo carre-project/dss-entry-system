@@ -17,22 +17,32 @@ angular.module('CarreEntrySystem')
 
       //get observables
       Observables.get().then(function(res) {
+        //auto select initial
+        var selected=[];
         $scope.observables = res.data.map(function(ob) {
-            return {
+            var obj={
               value: ob.id,
               label: ob.has_observable_name_label
             };
+            if($scope.model.has_risk_element_observable.indexOf(ob.id)>=0) selected.push(obj.value);
+            return obj;
           });
+        $scope.risk_element.observables=selected;
       });
 
       //get risk elements
       Risk_elements.get().then(function(res) {
+        //auto select initial
+        var selected=[];
         $scope.risk_elements = res.data.map(function(rl) {
-            return {
+            var obj={
               value: rl.id,
               label: rl.has_risk_element_name_label
             };
+            if($scope.model.includes_risk_element.indexOf(rl.id)>=0) selected.push(obj.value);
+            return obj;
           });
+          $scope.risk_element.risk_elements=selected;
       });
 
       //risk element types
@@ -92,8 +102,8 @@ angular.module('CarreEntrySystem')
 
         //Init Form object
         $scope.risk_element = {
-          observables: $scope.model.has_risk_element_observable,
-          risk_elements: $scope.model.includes_risk_element||[],
+          observables: [],
+          risk_elements: [],
           type: $scope.model.has_risk_element_type[0],
           name: $scope.model.has_risk_element_name_label,
           identifier: $scope.model.has_risk_element_identifier_label,

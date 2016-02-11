@@ -18,15 +18,15 @@ angular.module('CarreEntrySystem')
       angular.copy($scope.model,$scope.copyModel);
       
       
-      //citation form
-      $scope.newCitation=function(){
-        $scope.citation={
-          current:{
-            pubmedId:$scope.risk_evidence.pubmedId
-          },
-          create:true
-        };
-      };
+      // //citation form
+      // $scope.newCitation=function(){
+      //   $scope.citation={
+      //     current:{
+      //       pubmedId:$scope.risk_evidence.pubmedId
+      //     },
+      //     create:true
+      //   };
+      // };
       
       
       $scope.showLeEditor=false;
@@ -36,22 +36,46 @@ angular.module('CarreEntrySystem')
       //Get combined requests done in an async way!
       $q.all([Observables.get(),Measurement_types.get()]).then(function(res){
         console.log('Promises',res);      
+        
         //observables
+        //auto select initial
+        var selected=[];
         $scope.observables = res[0].data.map(function(obj) {
-            return {
+            var result= {
               value: obj.id_label,
               id: obj.id,
               label: obj.has_observable_name_label,
               metype_label: obj.has_observable_measurement_type_label,
               metype_id: obj.has_observable_measurement_type[0]
             };
+            if($scope.model.has_risk_evidence_observable.indexOf(obj.id)>=0) selected.push(obj.id);
+            return result;
           });
+        $scope.risk_evidence.observables=selected;
+        
+        
         $scope.output=removeOuterParenthesis(computed($scope.filter.group));
         //measurement types
         $scope.metypes=res[1].data;
         $scope.showLeEditor=true;
       })
-
+      
+      //get risk evidence adjusted for
+      
+      $scope.adjusted_for=[];
+      Risk_evidences.adjusted_for().then(function(res){
+        console.log('adjusted_for',res);
+        $scope.adjusted_for=res;
+        
+        //initial selection
+        if($scope.risk_evidence.adjusted_for) {
+          $scope.risk_evidence.adjusted_for=$scope.model.is_adjusted_for[0].split(',').map(function(str){
+            return str.trim().toLocaleLowerCase();
+          });
+        }
+      });
+      
+      
       //get risk factors
       Risk_factors.get().then(function(res) {
         $scope.risk_factors = res.data.map(function(obj) {
@@ -95,6 +119,15 @@ angular.module('CarreEntrySystem')
       
       //Save to RDF method
       $scope.saveModel = function() {
+        //save condition text format
+        $scope.risk_evidence.condition_text=$scope.output
+          .replace(/<\/?[a-z][a-z0-9]*[^>]*>/ig, "")
+          .replace(/&nbsp;/gi," ")
+          .replace(/&amp;/gi,"&")
+          .replace(/&quot;/gi,'"')
+          .replace(/&lt;/gi,'<')
+          .replace(/&gt;/gi,'>');
+          
         Risk_evidences.save($scope.model, $scope.risk_evidence).then(function(res) {
           //success
           console.log('Risk Evidence saved', res);
@@ -118,7 +151,7 @@ angular.module('CarreEntrySystem')
 
         //Init Form object
         $scope.risk_evidence = {
-          observables: $scope.model.has_risk_evidence_observable,
+          observables: [],
           ratio_type:$scope.model.has_risk_evidence_ratio_type[0],
           ratio_value:Number($scope.model.has_risk_evidence_ratio_value[0]),
           confidence_interval_min:Number($scope.model.has_confidence_interval_min[0]),
@@ -127,7 +160,9 @@ angular.module('CarreEntrySystem')
           pubmedId:$scope.model.has_risk_evidence_source_label,
           evidence_source:$scope.model.has_risk_evidence_source[0],
           condition: $scope.model.has_observable_condition,
-          condition_json: angular.fromJson($scope.model.has_observable_condition_json[0])
+          condition_json: angular.fromJson($scope.model.has_observable_condition_json[0]),
+          condition_text: "",
+          adjusted_for:[]
         };
         
         //init expression
@@ -159,6 +194,7 @@ angular.module('CarreEntrySystem')
         
         //Init Form object
         $scope.risk_evidence = {
+          observables:[],
           pubmedId:'',
           risk_factor:''
         };
@@ -223,17 +259,6 @@ angular.module('CarreEntrySystem')
       $scope.$watch('filter', function(newValue) {
         $scope.model.has_observable_condition_json = newValue;
         $scope.output = removeOuterParenthesis(computed(newValue.group, 0, {}));
-        
-        // $scope.reset=false;
-        // $timeout(function(){
-        //   $scope.output
-        //   $scope.reset=true;
-          
-        //   $scope.copyModel.has_observable_condition[0] = $scope.output;
-        //   $scope.copyModel.has_observable_condition_label = $scope.output;
-        // },100);
-        // console.log($scope.output);
-        // console.log($scope.copyModel);
       }, true);
 
       

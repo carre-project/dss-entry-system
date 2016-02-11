@@ -60,6 +60,7 @@
 
       <!--&lt;{{$item.id}}&gt;-->
       <ui-select multiple ng-model="risk_element.observables" theme="bootstrap">
+        <pre>{{$model| json}}</pre>
         <ui-select-match placeholder="Select observables">{{$item.label}} </ui-select-match>
         <ui-select-choices repeat="ob.value as ob in observables | propsFilter: {label: $select.search}">
           <div ng-bind-html="ob.label | highlight: $select.search"></div>

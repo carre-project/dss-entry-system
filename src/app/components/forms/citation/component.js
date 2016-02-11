@@ -26,15 +26,11 @@ angular.module('CarreEntrySystem')
           $scope.showNewType=false;
         }
       };
-      if(CONFIG.CitationTypes) {
-        $scope.types = CONFIG.CitationTypes;
-      } else {
-        Citations.get().then(function(res){
-          $timeout(function(){
-            $scope.types = CONFIG.CitationTypes;
-          },100);
-        });
-      }
+
+      Citations.types().then(function(res){
+        console.log('Citation types',res);
+          $scope.types=res;
+      });
       
       
       $scope.selectPubmed=function(item,model){

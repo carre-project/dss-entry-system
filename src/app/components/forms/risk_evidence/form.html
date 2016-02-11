@@ -93,6 +93,21 @@
           </ui-select-choices>
         </ui-select>
       </div>
+      
+    <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+      <label>Adjusted for</label>
+      <ui-select multiple tagging tagging-label="(custom 'new' value)" ng-model="risk_evidence.adjusted_for" theme="bootstrap">
+        <ui-select-match placeholder="Select values...">{{$item}}</ui-select-match>
+        <ui-select-choices repeat="val in adjusted_for">
+          {{val}}
+        </ui-select-choices>
+      </ui-select>
+
+      <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
+        <div ng-messages-include="messages.html"></div>
+      </div>
+
+    </div>
 
       <div class="form-group">
         <button type="button" ng-click="cancelForm()" class="btn btn-danger">Cancel</button>

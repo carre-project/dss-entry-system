@@ -2,10 +2,29 @@ angular.module('CarreEntrySystem').service('Risk_evidences', function($http, CAR
 
   this.exports = {
     'get': getRisk_evidences,
+    'adjusted_for': getRisk_evidenceAdjusted_for,
     'save': saveRisk_evidence
 
   };
 
+  function getRisk_evidenceAdjusted_for() {
+    var query="PREFIX risk: <http://carre.kmi.open.ac.uk/ontology/risk.owl#> \n\
+              SELECT ?adjusted_for FROM "+CONFIG.CARRE_DEFAULT_GRAPH+" WHERE { ?subject a risk:risk_evidence; risk:is_adjusted_for ?adjusted_for}";
+    return CARRE.query(query,'no prefix').then(function(res){
+      var types=[];
+      if(res.data instanceof Array) {
+        res.data.forEach(function(obj){
+          var arr=obj.adjusted_for.value.split(",");
+          arr.forEach(function(elem){
+            elem=elem.trim().toLocaleLowerCase();
+            if(elem.length>0 && types.indexOf(elem)===-1) types.push(elem);
+          });
+        });
+      }
+      return types;
+    });
+  }
+  
   function getRisk_evidences(ArrayOfIDs) {
     return CARRE.instances('risk_evidence', ArrayOfIDs);
   }
@@ -22,6 +41,7 @@ angular.module('CarreEntrySystem').service('Risk_evidences', function($http, CAR
     if(newElem.confidence_interval_max.length>0) newObj.has_confidence_interval_max = {pre:'risk',value:newElem.confidence_interval_max.toString(),type:"float"};
     if(newElem.risk_factor.length>0) newObj.has_risk_factor = {pre:'risk',value:newElem.risk_factor,type:"node"};
     if(newElem.evidence_source.length>0) newObj.has_risk_evidence_source = {pre:'risk',value:newElem.evidence_source.toString(),type:"string"};
+    if(newElem.adjusted_for.length>0) newObj.is_adjusted_for = {pre:'risk',value:newElem.adjusted_for.join(","),type:"string"};
     if(newElem.condition.length>0) {
       newObj.has_observable_condition = {pre:'risk',value:newElem.condition.toString(),type:"string"};
       newObj.has_observable_condition_json = {pre:'risk',value:newElem.condition_json.toString(),type:"string"};

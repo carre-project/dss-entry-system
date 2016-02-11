@@ -1,26 +1,26 @@
 angular.module('CarreEntrySystem').service('Citations', function($http, CARRE, CONFIG,QUERY) {
 
   this.exports={
+    'types': getCitationTypes,
     'get': getCitations,
     'save': saveCitation
   };
   
-  function getCitations(ArrayOfIDs) {
-    
-    return CARRE.instances('citation',ArrayOfIDs).then(function(res){
-      
-      //get all citation study types and cache them into CONFIG object
-      if(!CONFIG.CitationTypes && !ArrayOfIDs) {
-        CONFIG.CitationTypes=[];
+  function getCitations(ArrayOfIDs) { return CARRE.instances('citation',ArrayOfIDs); }
+  
+  function getCitationTypes() {
+    var query="PREFIX risk: <http://carre.kmi.open.ac.uk/ontology/risk.owl#> \n\
+              SELECT ?citationType FROM "+CONFIG.CARRE_DEFAULT_GRAPH+" WHERE { ?subject a risk:citation; risk:has_citation_source_type ?citationType}";
+    return CARRE.query(query,'no prefix').then(function(res){
+      var types=[];
+      if(res.data instanceof Array) {
         res.data.forEach(function(obj){
-          if (CONFIG.CitationTypes.indexOf(obj.has_citation_source_type_label)===-1){
-            CONFIG.CitationTypes.push(obj.has_citation_source_type_label);
-          }
+          var type=obj.citationType.value;
+          if(type.length>0 && types.indexOf(type)===-1) types.push(type);
         });
       }
-      return res;
+      return types;
     });
-    
   }
 
   function saveCitation(oldElem, newElem, user) {

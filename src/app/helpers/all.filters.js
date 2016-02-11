@@ -5,13 +5,40 @@
     angular
         .module('CarreEntrySystem')
         .filter('trustAsResourceUrl', trustResourceFilter)
-        .filter('propsFilter', propsFilter);
+        .filter('hideSelected', hideSelected)
+        .filter('propsFilter', propsFilter)
+        .filter('exclude', excludeItems);
 
 
     /** @ngInject */
     function trustResourceFilter($sce) {
         return function(val) {
             return $sce.trustAsResourceUrl(val);
+        };
+    }
+
+    /** @ngInject */
+    function hideSelected() {
+        return function(item, selectedItems) {
+            if(selectedItems.length===0) return false; 
+            selectedItems.forEach(function(obj){
+                if(item.value===obj) return true;
+            });
+            return false;
+        };
+    }
+
+
+    /** @ngInject */
+    function excludeItems() {
+        return function(items, selectedItems) {
+            var out=[];
+            if(selectedItems.length===0) return items; 
+            //you want to remove the selected items from items
+            items.forEach(function(item){
+                if(selectedItems.indexOf(item.value)===-1) out.push(item);
+            });
+            return out;
         };
     }
 
