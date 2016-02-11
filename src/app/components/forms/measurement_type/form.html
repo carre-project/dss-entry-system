@@ -10,15 +10,6 @@
         <p ng-message="required">Name is required.</p>
       </div>
     </div>
-    
-    <div class="form-group" ng-class="{ 'has-error': form.unit.$touched && form.unit.$invalid }">
-      <label>Unit</label>
-      <input type="text" name="unit" placeholder="e.g ml/min/1.73 m^2" class="form-control" ng-model="measurement_type.unit" required>
-
-      <div class="help-block" ng-messages="form.unit.$error" ng-if="form.unit.$touched">
-        <p ng-message="required">Unit is required.</p>
-      </div>
-    </div>
 
     <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
       <label>Date type</label>
@@ -35,12 +26,18 @@
       </div>
 
     </div>
+    
+    <div class="form-group" ng-if="measurement_type.datatype==='integer' || measurement_type.datatype==='float'" ng-class="{ 'has-error': form.unit.$touched && form.unit.$invalid }">
+      <label>Unit</label>
+      <input type="text" name="unit" placeholder="e.g ml/min/1.73 m^2" class="form-control" ng-model="measurement_type.unit" required>
+
+      <div class="help-block" ng-messages="form.unit.$error" ng-if="form.unit.$touched">
+        <p ng-message="required">Unit is required.</p>
+      </div>
+    </div>
 
     <div class="form-group" ng-if="measurement_type.datatype==='enum'" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
       <label>Values</label>
-
-
-
       <ui-select multiple tagging tagging-label="(custom 'new' value)"  ng-model="measurement_type.values" theme="bootstrap">
         <ui-select-match placeholder="Select values...">{{$item}}</ui-select-match>
         <ui-select-choices repeat="val in []">
@@ -56,9 +53,6 @@
 
     <div class="form-group" ng-if="measurement_type.datatype==='boolean'" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
       <label>Values</label>
-
-
-
       <ui-select multiple limit="2"  tagging tagging-label="(custom 'new' value)" ng-model="measurement_type.values" theme="bootstrap">
         <ui-select-match placeholder="Select values...">{{$item}}</ui-select-match>
         <ui-select-choices repeat="val in ['yes','no']">
