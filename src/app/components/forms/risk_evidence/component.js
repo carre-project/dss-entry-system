@@ -18,20 +18,74 @@ angular.module('CarreEntrySystem')
       angular.copy($scope.model,$scope.copyModel);
       
       
-      // //citation form
-      // $scope.newCitation=function(){
-      //   $scope.citation={
-      //     current:{
-      //       pubmedId:$scope.risk_evidence.pubmedId
-      //     },
-      //     create:true
-      //   };
-      // };
-      
-      
       $scope.showLeEditor=false;
       $scope.model = $scope.model || {};
       $scope.bioportalAutocompleteResults = [];
+      
+      
+
+      if ($scope.model.id) {
+
+        /************** Edit Mode **************/
+        console.info('---Edit---');
+
+
+        //Init Form object
+        $scope.risk_evidence = {
+          observables: [],
+          ratio_type:$scope.model.has_risk_evidence_ratio_type?$scope.model.has_risk_evidence_ratio_type[0]:"",
+          ratio_value:$scope.model.has_risk_evidence_ratio_value?Number($scope.model.has_risk_evidence_ratio_value[0]):0,
+          confidence_interval_min:$scope.model.has_confidence_interval_min?Number($scope.model.has_confidence_interval_min[0]):0,
+          confidence_interval_max:$scope.model.has_confidence_interval_max?Number($scope.model.has_confidence_interval_max[0]):0,
+          risk_factor:$scope.model.has_risk_factor,
+          pubmedId:$scope.model.has_risk_evidence_source_label,
+          evidence_source:$scope.model.has_risk_evidence_source[0],
+          condition: $scope.model.has_observable_condition,
+          condition_json: angular.fromJson($scope.model.has_observable_condition_json[0]),
+          condition_text: "",
+          adjusted_for:[]
+        };
+        
+        //init expression
+        $scope.filter = $scope.risk_evidence.condition_json || {
+          "group": {
+            "operator": "AND",
+            "rules": []
+          }
+        };
+
+        //init Pubmed Fetch
+        loadPubmed();
+
+
+      }
+      else {
+
+        /************** Create Mode **************/
+        console.info('---Create---');
+
+        //init expression
+        $scope.filter = {
+          "group": {
+            "operator": "AND",
+            "rules": []
+          }
+        };
+        
+        
+        //Init Form object
+        $scope.risk_evidence = {
+          observables:[],
+          pubmedId:'',
+          risk_factor:'',
+          condition_text: "",
+          adjusted_for:[]
+        };
+
+
+      }
+      
+      
       
       //Get combined requests done in an async way!
       $q.all([Observables.get(),Measurement_types.get()]).then(function(res){
@@ -41,6 +95,7 @@ angular.module('CarreEntrySystem')
         //auto select initial
         var selected=[];
         $scope.observables = res[0].data.map(function(obj) {
+            
             var result= {
               value: obj.id_label,
               id: obj.id,
@@ -48,7 +103,11 @@ angular.module('CarreEntrySystem')
               metype_label: obj.has_observable_measurement_type_label,
               metype_id: obj.has_observable_measurement_type[0]
             };
-            if($scope.model.has_risk_evidence_observable.indexOf(obj.id)>=0) selected.push(obj.id);
+            
+            if($scope.model.id) {
+              if($scope.model.has_risk_evidence_observable.indexOf(obj.id)>=0) selected.push(obj.id);
+            }
+            
             return result;
           });
         $scope.risk_evidence.observables=selected;
@@ -148,68 +207,6 @@ angular.module('CarreEntrySystem')
         $scope.$emit('risk_evidence:cancel');
       };
 
-
-      if ($scope.model.id) {
-
-        /************** Edit Mode **************/
-        console.info('---Edit---');
-
-
-        //Init Form object
-        $scope.risk_evidence = {
-          observables: [],
-          ratio_type:$scope.model.has_risk_evidence_ratio_type[0],
-          ratio_value:Number($scope.model.has_risk_evidence_ratio_value[0]),
-          confidence_interval_min:Number($scope.model.has_confidence_interval_min[0]),
-          confidence_interval_max:Number($scope.model.has_confidence_interval_max[0]),
-          risk_factor:$scope.model.has_risk_factor,
-          pubmedId:$scope.model.has_risk_evidence_source_label,
-          evidence_source:$scope.model.has_risk_evidence_source[0],
-          condition: $scope.model.has_observable_condition,
-          condition_json: angular.fromJson($scope.model.has_observable_condition_json[0]),
-          condition_text: "",
-          adjusted_for:[]
-        };
-        
-        //init expression
-        $scope.filter = $scope.risk_evidence.condition_json || {
-          "group": {
-            "operator": "AND",
-            "rules": []
-          }
-        };
-
-        //init Pubmed Fetch
-        loadPubmed();
-
-
-      }
-      else {
-
-        /************** Create Mode **************/
-        console.info('---Create---');
-
-        //init expression
-        $scope.filter = {
-          "group": {
-            "operator": "AND",
-            "rules": []
-          }
-        };
-        
-        
-        //Init Form object
-        $scope.risk_evidence = {
-          observables:[],
-          pubmedId:'',
-          risk_factor:'',
-          condition_text: "",
-          adjusted_for:[]
-        };
-
-
-      }
-      
       
       
       /* LoadPubmed */
@@ -275,6 +272,7 @@ angular.module('CarreEntrySystem')
           delete obj.datatype;
           delete obj.unit_label;
           delete obj.dataoptions;
+          delete obj.unit;
         } else {
           //group
           if(obj.group.rules) {

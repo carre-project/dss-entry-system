@@ -40,7 +40,7 @@ angular.module('CarreEntrySystem').service('Risk_evidences', function($http, CAR
     if(newElem.confidence_interval_min.length>0) newObj.has_confidence_interval_min = {pre:'risk',value:newElem.confidence_interval_min.toString(),type:"float"};
     if(newElem.confidence_interval_max.length>0) newObj.has_confidence_interval_max = {pre:'risk',value:newElem.confidence_interval_max.toString(),type:"float"};
     if(newElem.risk_factor.length>0) newObj.has_risk_factor = {pre:'risk',value:newElem.risk_factor,type:"node"};
-    if(newElem.evidence_source.length>0) newObj.has_risk_evidence_source = {pre:'risk',value:newElem.evidence_source.toString(),type:"string"};
+    if(newElem.evidence_source.length>0) newObj.has_risk_evidence_source = {pre:'risk',value:newElem.evidence_source.toString(),type:"node"};
     if(newElem.adjusted_for.length>0) newObj.is_adjusted_for = {pre:'risk',value:newElem.adjusted_for.join(","),type:"string"};
     if(newElem.condition.length>0) {
       newObj.has_observable_condition = {pre:'risk',value:newElem.condition.toString(),type:"string"};
