@@ -24,7 +24,9 @@ angular.module('CarreEntrySystem')
               value: ob.id,
               label: ob.has_observable_name_label
             };
-            if($scope.model.has_risk_element_observable.indexOf(ob.id)>=0) selected.push(obj.value);
+            if($scope.model.id) {
+              if($scope.model.has_risk_element_observable.indexOf(ob.id)>=0) selected.push(obj.value);
+            }
             return obj;
           });
         $scope.risk_element.observables=selected;
@@ -39,7 +41,9 @@ angular.module('CarreEntrySystem')
               value: rl.id,
               label: rl.has_risk_element_name_label
             };
-            if($scope.model.includes_risk_element.indexOf(rl.id)>=0) selected.push(obj.value);
+            if($scope.model.id) {
+              if($scope.model.includes_risk_element.indexOf(rl.id)>=0) selected.push(obj.value);
+            }
             return obj;
           });
           $scope.risk_element.risk_elements=selected;
