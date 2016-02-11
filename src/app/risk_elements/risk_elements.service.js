@@ -3,8 +3,9 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
   this.exports = {
     'get': getRisk_elements,
     'save': saveRisk_element,
-    'associations' : RiskElementAssociations
+    'associations': RiskElementAssociations
   };
+
 
   function getRisk_elements(ArrayOfIDs) {
     return CARRE.instances('risk_element', ArrayOfIDs);
@@ -66,8 +67,6 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
     }
 
   }
-  
-  
 
   function RiskElementAssociations(id) {
 
@@ -85,7 +84,7 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
     }
 
     var query = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
-                  WHERE { \n\
+                WHERE { \n\
                     ?subject a risk:risk_factor; ?predicate ?object. \n\
                     ?subject  risk:has_risk_factor_association_type ?has_risk_factor_association_type.  \n\
                     {?subject risk:has_risk_factor_source " + id + "} UNION { ?subject risk:has_risk_factor_target " + id + " }. \n\
@@ -96,7 +95,7 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
                   }";
 
     return CARRE.selectQuery(query).then(function(res) {
-      
+
       var array = [];
       // { {this} , {links to} , {that} }
       res.data.forEach(function(rf) {
@@ -105,25 +104,25 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
           label: rf.has_risk_factor_source_label,
           id: rf.has_risk_factor_source[0]
         };
-        
+
         var target = {
           label: rf.has_risk_factor_target_label,
           id: rf.has_risk_factor_target[0]
         };
-        
+
         var relation = {
           label: rf.has_risk_factor_association_type_label,
           id: rf.id
         };
-        
-        array.push({ source, relation, target });
+
+        array.push({source:source, relation:relation, target:target});
 
       });
-      
+
       return array;
 
     });
-    
+
   }
 
   return this.exports;
