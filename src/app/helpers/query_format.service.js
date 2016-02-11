@@ -56,7 +56,7 @@ angular.module('CarreEntrySystem').service('QUERY', function(CONFIG) {
             }
           }
         }
-      } else if(oldObj[prop][0]!=newObj[prop].value) obj[prop]=newObj[prop];
+      } else if(!oldObj[prop]||oldObj[prop][0]!=newObj[prop].value) obj[prop]=newObj[prop];
     }
     return obj;
   }

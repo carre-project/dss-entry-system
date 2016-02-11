@@ -68,7 +68,7 @@ angular.module('CarreEntrySystem')
         $scope.adjusted_for=res;
         
         //initial selection
-        if($scope.risk_evidence.adjusted_for) {
+        if($scope.model.is_adjusted_for instanceof Array) {
           $scope.risk_evidence.adjusted_for=$scope.model.is_adjusted_for[0].split(',').map(function(str){
             return str.trim().toLocaleLowerCase();
           });
@@ -128,6 +128,12 @@ angular.module('CarreEntrySystem')
           .replace(/&lt;/gi,'<')
           .replace(/&gt;/gi,'>');
           
+        //cleanse condition json format
+        var condition_clean={};
+        angular.copy($scope.filter,condition_clean);
+        cleanseCondition(condition_clean);
+        $scope.risk_evidence.condition_json=angular.toJson(condition_clean).toString().replace(/"/g, '\\"');
+        
         Risk_evidences.save($scope.model, $scope.risk_evidence).then(function(res) {
           //success
           console.log('Risk Evidence saved', res);
@@ -196,7 +202,9 @@ angular.module('CarreEntrySystem')
         $scope.risk_evidence = {
           observables:[],
           pubmedId:'',
-          risk_factor:''
+          risk_factor:'',
+          condition_text: "",
+          adjusted_for:[]
         };
 
 
@@ -219,26 +227,8 @@ angular.module('CarreEntrySystem')
         loadPubmed();
       }
 
-      /*Logical expression builder */
-      function repeat(pattern, count) {
-        if (count < 1) return '';
-        var result = '';
-        while (count > 1) {
-          if (count & 1) result += pattern;
-          count >>= 1, pattern += pattern;
-        }
-        return result + pattern;
-      }
-
       function htmlEntities(str) {
         return String(str).replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      }
-
-      function groupExist(rules) {
-        for (var obj in rules) {
-          if (obj === 'group') return true;
-        }
-        return false;
       }
 
       function computed(group) {
@@ -257,7 +247,7 @@ angular.module('CarreEntrySystem')
       }
 
       $scope.$watch('filter', function(newValue) {
-        $scope.model.has_observable_condition_json = newValue;
+        $scope.risk_evidence.condition_json = newValue;
         $scope.output = removeOuterParenthesis(computed(newValue.group, 0, {}));
       }, true);
 
@@ -278,7 +268,23 @@ angular.module('CarreEntrySystem')
       function removeOuterParenthesis(str){
         return str.substr(1,str.length-2);
       }
-
+      
+      function cleanseCondition(obj){
+        if(obj.condition) {
+          delete obj.hiddenData;
+          delete obj.datatype;
+          delete obj.unit_label;
+          delete obj.dataoptions;
+        } else {
+          //group
+          if(obj.group.rules) {
+            obj.group.rules.forEach(function(condition){
+              cleanseCondition(condition);
+            })
+          }
+        }
+      }
+      
       console.info('Model: ', $scope.model);
       console.info('Form params: ', $scope.risk_evidence);
 
