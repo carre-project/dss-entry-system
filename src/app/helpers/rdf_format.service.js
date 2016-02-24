@@ -129,22 +129,6 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG,Carre
     return settings;
   }
 
-  // function simplify(obj, valueProp, addLabelsFlag) {
-  //   //default valueProp as value
-  //   valueProp = valueProp || 'value';
-  //   //addLabelsFlag default true
-  //   addLabelsFlag = addLabelsFlag || true;
-  //   var newObj = {};
-  //   for (var i in obj) {
-  //     newObj[i] = obj.i[valueProp];
-  //     if (addLabelsFlag) newObj[i + '_label'] = makeLabel(newObj[i]);
-  //   }
-  //   return newObj;
-  // }
-
-  // function replaceAll(str, find, replace) {
-  //   return str.replace(new RegExp(find, 'g'), replace);
-  // }
   function translate(str){
     if(str.indexOf('#') >= 0) return CarreTranslate(str.split('#')[1]);
     else return CarreTranslate(str);
