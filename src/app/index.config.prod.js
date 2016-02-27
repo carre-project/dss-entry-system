@@ -5,7 +5,7 @@
     .module('CarreEntrySystem')
     .constant("CONFIG", {    
       "currentUser":{},
-      'ENV': 'PROD'
+      "ENV": "PROD"
     }).config(function($locationProvider, $compileProvider, $urlRouterProvider) {
       
       //show error

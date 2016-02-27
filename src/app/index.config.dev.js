@@ -5,7 +5,8 @@
     .module('CarreEntrySystem')
     .constant("CONFIG", {
       "currentUser":{},
-      'ENV': 'DEV'
+      "USECACHE":true,
+      "ENV": "DEV"
     })
     .config(function($locationProvider, $compileProvider, $urlRouterProvider) {
 
