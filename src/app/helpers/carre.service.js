@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$q,toastr,$state) {
+angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$q,toastr,$state,$cacheFactory) {
 
   this.exports = {
     // 'count': countInstance,
@@ -243,8 +243,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
             +(Auth.cookie?'/'+Auth.cookie:'');
     console.log(url);
     
-    var validCache=CONFIG.VALID_CACHED_QUERIES[graphName+'_'+req_url_id];
-    return $http.get(url, {"cache":validCache}).then(function(res){
+    return $http.get(url, {"cache":true}).then(function(res){
       if(res.data==='No JSON object could be decoded') {
         console.error(res);
         toastr.error('<p>'+res.data+'</p>','<h4>Oh Error</h4>');
@@ -252,7 +251,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
       }  else {
         
           //setup client caching
-          CONFIG.VALID_CACHED_QUERIES[graphName+'_'+req_url_id]=true;
+          CONFIG.CACHED_QUERIES[graphName+'_'+req_url_id]=url;
     
         return res;
         };
@@ -267,10 +266,11 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     var graphName=CONFIG.CARRE_DEFAULT_GRAPH.substring(CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf("/")+1,CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf(">"));
     var url=CONFIG.CARRE_CACHE_URL + 'expire/'+graphName+'_'+req_url_id;
     
-    //remove cached url
-    CONFIG.VALID_CACHED_QUERIES[graphName+'_'+req_url_id]=null;
+    // remove cached url
+    var cached_url=CONFIG.CACHED_QUERIES[graphName+'_'+req_url_id];
+    $cacheFactory.get('$http').remove(cached_url); 
     
-    return $http.get(url, {"cache":false}).then(function(res){
+    return $http.get(url).then(function(res){
       console.log(res);
     }).catch(function(err){
         console.log(err);

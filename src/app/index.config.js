@@ -24,7 +24,7 @@
     CONFIG.EUROPEPMC_API_URL="http://www.ebi.ac.uk/europepmc/webservices/rest/";
     
     //Client caching
-    CONFIG.VALID_CACHED_QUERIES={};
+    CONFIG.CACHED_QUERIES={};
     
     // Set options third-party lib
     CONFIG.OPTIONS={
