@@ -13,7 +13,7 @@
     CONFIG.CARRE_DEFAULT_GRAPH="<http://carre.kmi.open.ac.uk/public>";
     CONFIG.CARRE_ARCHIVE_GRAPH="<http://carre.kmi.open.ac.uk/riskdata>";
     CONFIG.CARRE_DEVICES="http://devices.carre-project.eu/devices/accounts/";
-    CONFIG.CARRE_CACHE_URL="http://cache.carre-project.eu/";
+    CONFIG.CARRE_CACHE_URL="http://beta.carre-project.eu:3002/";
     // CONFIG.TEST_TOKEN="0213be219dc1821eb2f7b0bbc7c8a6cbe3c3559b";
     
     //EXTERNAL API'S

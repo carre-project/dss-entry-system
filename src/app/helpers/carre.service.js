@@ -4,6 +4,7 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
     // 'count': countInstance,
     'countAll': countAllInstances,
     'query': apiQuery,
+    'cacheQuery': cacheQuery,
     'selectQuery': selectQuery,
     'instances': queryInstances,
     'search': searchInstances,
@@ -116,10 +117,15 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
       listQuery += "FILTER ( " + ArrayOfIDs.map(function(id) {
         return "?subject=" + id.split('_')[0] + ":" + id;
       }).join("||") + "  )\n }";
+      
+      return selectQuery(listQuery);
     }
-    else listQuery += "}";
-
-    return selectQuery(listQuery);
+    else {
+      listQuery += "}";
+      
+      return selectQuery(listQuery,null,type+'_all');
+    }
+   
 
   }
 
@@ -147,33 +153,57 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     UNION {?ci a risk:citation} \n\
     UNION {?me a risk:measurement_type}  }";
     
-    return apiQuery(query);
+    return cacheQuery(query,null,'count_all');
   }
   
 
   /* Easy select query to transform triples to javascript objects */
-  function selectQuery(sparqlQuery, raw) {
-    return apiQuery(sparqlQuery).then(function(res) {
-      var props=[
-        'subject',
-        'predicate',
-        'object',
-        'has_observable_name',
-        'has_risk_element_name',
-        'has_measurement_type_name',
-        'has_risk_factor_association_type',
-        'has_risk_factor_source',
-        'has_risk_factor_target',
-        'has_source_risk_element_name',
-        'has_target_risk_element_name',
-        'has_citation_pubmed_identifier'
-        ];
-      if (raw) return res;
-      // console.log(res.data);
-      var results = RdfFormatter.groupByProp(res.data, props, null, 'value');
-      if (results.data.length > 0) return RdfFormatter.mappings(results);
-      else return [];
-    });
+  function selectQuery(sparqlQuery, raw,cache_id) {
+    if( cache_id ) { 
+      return cacheQuery(sparqlQuery,null,cache_id).then(function(res) {
+        var props=[
+          'subject',
+          'predicate',
+          'object',
+          'has_observable_name',
+          'has_risk_element_name',
+          'has_measurement_type_name',
+          'has_risk_factor_association_type',
+          'has_risk_factor_source',
+          'has_risk_factor_target',
+          'has_source_risk_element_name',
+          'has_target_risk_element_name',
+          'has_citation_pubmed_identifier'
+          ];
+        if (raw) return res;
+        // console.log(res.data);
+        var results = RdfFormatter.groupByProp(res.data, props, null, 'value');
+        if (results.data.length > 0) return RdfFormatter.mappings(results);
+        else return [];
+      });
+    } else {
+      return apiQuery(sparqlQuery).then(function(res) {
+        var props=[
+          'subject',
+          'predicate',
+          'object',
+          'has_observable_name',
+          'has_risk_element_name',
+          'has_measurement_type_name',
+          'has_risk_factor_association_type',
+          'has_risk_factor_source',
+          'has_risk_factor_target',
+          'has_source_risk_element_name',
+          'has_target_risk_element_name',
+          'has_citation_pubmed_identifier'
+          ];
+        if (raw) return res;
+        // console.log(res.data);
+        var results = RdfFormatter.groupByProp(res.data, props, null, 'value');
+        if (results.data.length > 0) return RdfFormatter.mappings(results);
+        else return [];
+      });
+    } 
   }
 
 
@@ -203,8 +233,15 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
   
 
   /* CORE query method*/
-  function cacheQuery(sparqlQuery,noprefix) {
-    return $http.get(CONFIG.CARRE_CACHE_URL + '/carre?sparql='+(noprefix?"":PREFIXSTR) + sparqlQuery, {"cache":true}).then(function(res){
+  function cacheQuery(sparqlQuery,noprefix,req_url_id) {
+    var graphName=CONFIG.CARRE_DEFAULT_GRAPH.substring(CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf("/")+1,CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf(">"));
+    var url=CONFIG.CARRE_CACHE_URL + 'carre/'
+            +graphName+'_'+req_url_id+'/'
+            +encodeURIComponent(CONFIG.CARRE_API_URL+'query')+'/'
+            +encodeURIComponent((noprefix?"":PREFIXSTR) + sparqlQuery)
+            +(Auth.cookie?'/'+Auth.cookie:'');
+    console.log(url);
+    return $http.get(url, {"cache":true}).then(function(res){
       if(res.data==='No JSON object could be decoded') {
         console.error(res);
         toastr.error('<p>'+res.data+'</p>','<h4>Oh Error</h4>');

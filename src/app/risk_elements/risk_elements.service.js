@@ -94,7 +94,7 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
                     } \n\
                   }";
 
-    return CARRE.selectQuery(query).then(function(res) {
+    return CARRE.selectQuery(query,null,'risk_factor_'+id).then(function(res) {
 
       var array = [];
       // { {this} , {links to} , {that} }

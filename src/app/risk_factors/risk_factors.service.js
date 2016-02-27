@@ -73,7 +73,7 @@ angular.module('CarreEntrySystem').service('Risk_factors', function($http, CARRE
 
     listQuery += "}";
 
-    return CARRE.selectQuery(listQuery);
+    return CARRE.selectQuery(listQuery,null,'risk_evidences_for_'+id);
 
   }
   
