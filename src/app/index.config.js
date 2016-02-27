@@ -18,7 +18,7 @@
     //EXTERNAL API'S
     CONFIG.BIOPORTAL_API_URL="https://data.bioontology.org/";
     CONFIG.BIOPORTAL_API_KEY="a15281a9-d87d-4c0f-b7aa-31debe0f6449";
-    CONFIG.BIOPORTAL_ONTOLOGIES="ICD10,ICD10CM,ICD10PCS";
+    CONFIG.BIOPORTAL_ONTOLOGIES="ICD10,ICD10CM";//",ICD10CM,ICD10PCS,ICD9CM";
     CONFIG.PUBMED_API_URL="https://eutils.ncbi.nlm.nih.gov/entrez/eutils/";
     CONFIG.EUROPEPMC_API_URL="http://www.ebi.ac.uk/europepmc/webservices/rest/";
     
