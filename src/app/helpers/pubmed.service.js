@@ -3,7 +3,7 @@ angular.module('CarreEntrySystem').service('Pubmed', function($http,CONFIG) {
   var apiSearch=CONFIG.EUROPEPMC_API_URL;
   
   var efetch=function(id){
-    return $http.get(api+'efetch.fcgi?db=pubmed&retmode=text&rettype=abstract&id='+id,{ignoreLoadingBar: false,cache:true}).then(function(res){
+    return $http.get(apiEfetch+'efetch.fcgi?db=pubmed&retmode=text&rettype=abstract&id='+id,{ignoreLoadingBar: false,cache:true}).then(function(res){
             console.info(res);
             return res;
     },function(err){console.error(err)});
