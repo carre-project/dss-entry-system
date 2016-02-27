@@ -202,5 +202,21 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
   }
   
 
+  /* CORE query method*/
+  function cacheQuery(sparqlQuery,noprefix) {
+    return $http.get(CONFIG.CARRE_CACHE_URL + '/carre?sparql='+(noprefix?"":PREFIXSTR) + sparqlQuery, {"cache":true}).then(function(res){
+      if(res.data==='No JSON object could be decoded') {
+        console.error(res);
+        toastr.error('<p>'+res.data+'</p>','<h4>Oh Error</h4>');
+        return $q.reject(res);
+      }  else return res;
+    }).catch(function(err){
+        console.log(err);
+        $state.go('500_API_ERROR');
+    });
+
+  }
+  
+
   return this.exports;
 });
