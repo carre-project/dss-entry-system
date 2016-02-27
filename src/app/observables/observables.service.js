@@ -21,6 +21,9 @@ angular.module('CarreEntrySystem').service('Observables', function($http, CARRE,
     console.log('New: ',newElem);
     console.log('Mapped: ',newObj);
     
+    /* invalidate observable_all */
+    CARRE.invalidateCache('observable_all');
+    CARRE.invalidateCache('count_all');
 
     if (oldElem.id) {
       /*Update query*/

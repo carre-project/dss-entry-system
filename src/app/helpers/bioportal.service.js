@@ -1,7 +1,7 @@
 angular.module('CarreEntrySystem').service('Bioportal', function($http, CONFIG) {
 
   var apikey = CONFIG.BIOPORTAL_API_KEY;
-  var apiurl = CONFIG.CARRE_CACHE_URL?CONFIG.CARRE_CACHE_URL +'/bioportal/':CONFIG.BIOPORTAL_API_URL;
+  var apiurl = !CONFIG.CARRE_CACHE_URL?CONFIG.CARRE_CACHE_URL +'/bioportal/':CONFIG.BIOPORTAL_API_URL;
 
   //pass the Bioportal supported options to override the default 
   var fetch = function(term, options) {

@@ -52,6 +52,9 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
     console.log('New: ', newElem);
     console.log('Mapped: ', newObj);
 
+    /* invalidate risk_element_all */
+    CARRE.invalidateCache('risk_element_all');
+    CARRE.invalidateCache('count_all');
 
     if (oldElem.id) {
       /*Update query*/
@@ -94,7 +97,7 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
                     } \n\
                   }";
 
-    return CARRE.selectQuery(query,null,'risk_factor_'+id).then(function(res) {
+    return CARRE.selectQuery(query).then(function(res) {
 
       var array = [];
       // { {this} , {links to} , {that} }

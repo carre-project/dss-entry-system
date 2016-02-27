@@ -23,6 +23,9 @@
     CONFIG.PUBMED_API_URL="https://eutils.ncbi.nlm.nih.gov/entrez/eutils/";
     CONFIG.EUROPEPMC_API_URL="http://www.ebi.ac.uk/europepmc/webservices/rest/";
     
+    //Client caching
+    CONFIG.VALID_CACHED_QUERIES={};
+    
     // Set options third-party lib
     CONFIG.OPTIONS={
       usePrefix:true

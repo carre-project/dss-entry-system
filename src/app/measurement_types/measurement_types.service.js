@@ -30,6 +30,9 @@ angular.module('CarreEntrySystem').service('Measurement_types', function($http, 
     console.log('New: ',newElem);
     console.log('Mapped: ',newObj);
     
+    /* invalidate measurement_type_all */
+    CARRE.invalidateCache('measurement_type_all');
+    CARRE.invalidateCache('count_all');
 
     if (oldElem.id) {
       /*Update query*/

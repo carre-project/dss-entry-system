@@ -53,6 +53,10 @@ angular.module('CarreEntrySystem').service('Risk_evidences', function($http, CAR
     console.log('New: ',newElem);
     console.log('Mapped: ',newObj);
     
+    /* invalidate Risk factors and Risk evidences */
+    CARRE.invalidateCache('risk_factor_all');
+    CARRE.invalidateCache('risk_evidence_all');
+    CARRE.invalidateCache('count_all');
 
     if (oldElem.id) {
       /*Update query*/

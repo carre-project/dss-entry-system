@@ -31,6 +31,10 @@ angular.module('CarreEntrySystem').service('Citations', function($http, CARRE, C
     console.log('New: ',newElem);
     console.log('Mapped: ',newObj);
     
+    /* invalidate citation_all */
+    CARRE.invalidateCache('citation_all');
+    CARRE.invalidateCache('count_all');
+    
     var updateQuery = "",insertQuery = "";
 
     if (oldElem.id) {
