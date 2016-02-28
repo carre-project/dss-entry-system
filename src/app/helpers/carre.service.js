@@ -243,7 +243,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
             +(Auth.cookie?'/'+Auth.cookie:'');
     console.log(url);
     
-    return $http.get(url, {"cache":true}).then(function(res){
+    return $http.get(url, {"cache":false}).then(function(res){
       if(res.data==='No JSON object could be decoded') {
         console.error(res);
         toastr.error('<p>'+res.data+'</p>','<h4>Oh Error</h4>');
@@ -254,7 +254,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
           CONFIG.CACHED_QUERIES[graphName+'_'+req_url_id]=url;
     
         return res;
-        };
+      }
     }).catch(function(err){
         console.log(err);
         $state.go('500_API_ERROR');
