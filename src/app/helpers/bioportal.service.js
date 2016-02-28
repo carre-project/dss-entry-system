@@ -38,6 +38,17 @@ angular.module('CarreEntrySystem').service('Bioportal', function($http, CONFIG) 
 
 
   /*Implement basic methods*/
+  var cachesearch = function(input, options) {
+    var params = options || {};
+    params.q = input;
+    params.apikey = apikey;
+    return $http.get('http://beta.carre-project.eu:3002/bioportal/'+encodeURIComponent(apiurl + 'search/'+$.param( params )), {
+      ignoreLoadingBar: true,
+      cache: true
+    });
+  };
+  
+  /*Implement basic methods*/
   var search = function(input, options) {
     var params = options || {};
     params.q = input;
