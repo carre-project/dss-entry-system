@@ -7,11 +7,11 @@
 
 <div class="col-xs-12">
   <div class="col-sm-6">
-    ID: <b>{{citation.id}}</b>
     <a ng-show="main.user.username" class="btn btn-xs btn-default" ui-sref="main.citations.edit({id:citation.id})"><i class="fa fa-pencil"></i> Edit</a>
-    <a ng-show="main.user.username && main.config.ENV==='DEV'" class="btn btn-xs btn-danger" href="" ng-click="citation.deleteCurrent()"><i class="fa fa-trash-o"></i> Delete</a>
-    
-    <hr>
+    <div ng-show="main.user.username && main.config.ENV==='DEV'"> 
+      ID: <b>{{citation.id}}</b>
+      <a class="btn btn-xs btn-danger" href="" ng-click="citation.deleteCurrent()"><i class="fa fa-trash-o"></i> Delete</a>
+    </div>
     <ul class="list-group">
       <li ng-repeat="field in citation.fields" ng-if="citation.current[field.value]" class="list-group-item">
         {{field.label}}: <carre-linker model="citation.current" property="{{field.value}}"></carre-linker>

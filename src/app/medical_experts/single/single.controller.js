@@ -34,6 +34,9 @@
 
   
     vm.colors=CONFIG.COLORS;
+    vm.counterchart_options = {
+      
+    };
     vm.counterchart_labels = labels;
     vm.counterchart_series=["Entered","Reviewed"];
     vm.counterchart_data=[[0,0,0,0,0],[0,0,0,0,0]];

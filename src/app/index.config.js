@@ -32,8 +32,8 @@
     };
     
     //chart colors
-    CONFIG.COLORS=["#46BFBD", "#2E8B57", "#F7464A", "#DB7093", "#FDB45C", "#949FB1", "#4D5360"]
-    Chart.defaults.global.colours=CONFIG.COLORS;
+    CONFIG.COLORS=["#46BFBD", "#F7464A","#2E8B57", "#DB7093", "#FDB45C", "#949FB1", "#4D5360"]
+    Chart.defaults.global.colours=CONFIG.COLORS.map(function(color){return { fillColor: color }; });
     
     //toaster notification
     angular.extend(toastrConfig, {

@@ -6,9 +6,11 @@
 <!--debug vars-->
 
 <div class="col-xs-12">
-  <div class="col-sm-6">
-    ID: <b>{{medical_expert.id}}</b>
-    <hr>
+  <div class="col-sm-6">    
+    <div ng-show="main.user.username && main.config.ENV==='DEV'"> 
+      ID: <b>{{medical_expert.id}}</b>
+      <a class="btn btn-xs btn-danger" href="" ng-click="medical_expert.deleteCurrent()"><i class="fa fa-trash-o"></i> Delete</a>
+    </div>
     <div class="thumbnail" style="display: inline-block;">
       <img class="avatar-img" ng-src="{{medical_expert.current.has_avatar[0]}}">
     </div>
@@ -59,7 +61,7 @@
     </ul>
   </div>
   <div class="col-sm-6">
-      <canvas height="170%" class="chart chart-bar chart-sm" chart-data="medical_expert.counterchart_data" chart-series="medical_expert.counterchart_series" chart-labels="medical_expert.counterchart_labels" chart-options="medical_expert.counterchart_options"></canvas>
+      <canvas height="170%" class="chart chart-bar chart-sm" chart-legend="true" chart-data="medical_expert.counterchart_data" chart-series="medical_expert.counterchart_series" chart-labels="medical_expert.counterchart_labels" chart-options="medical_expert.counterchart_options"></canvas>
 
 
   </div>

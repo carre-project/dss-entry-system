@@ -7,10 +7,11 @@
 
 <div class="col-xs-12">
   <div class="col-sm-6">
-    ID: <b>{{observable.id}}</b>
-    <a ng-show="main.user.username" class="btn btn-xs btn-default" ui-sref="main.observables.edit({id:observable.id})"><i class="fa fa-pencil"></i> Edit</a>
-    <a ng-show="main.user.username && main.config.ENV==='DEV'" class="btn btn-xs btn-danger" href="" ng-click="observable.deleteCurrent()"><i class="fa fa-trash-o"></i> Delete</a>
-    <hr>
+    <a ng-show="main.user.username" class="btn btn-xs btn-default" ui-sref="main.observables.edit({id:observable.id})"><i class="fa fa-pencil"></i> Edit</a>    
+    <div ng-show="main.user.username && main.config.ENV==='DEV'"> 
+      ID: <b>{{observable.id}}</b>
+      <a class="btn btn-xs btn-danger" href="" ng-click="observable.deleteCurrent()"><i class="fa fa-trash-o"></i> Delete</a>
+    </div>
     <ul class="list-group">
       <li ng-repeat="field in observable.fields" ng-if="observable.current[field.value]" class="list-group-item">
         {{field.label}}: <carre-linker model="observable.current" property="{{field.value}}"></carre-linker>
