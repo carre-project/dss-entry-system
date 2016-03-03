@@ -53,7 +53,13 @@
         controller: 'DashboardController',
         controllerAs: 'dashboard',
         url: '/',
-        templateUrl: 'app/main/dashboard.html'
+        templateUrl: 'app/dashboard/index.html'
+      })
+      .state('main.explore', {
+        controller: 'ExploreController',
+        controllerAs: 'explore',
+        url: '/explore',
+        templateUrl: 'app/explore/index.html'
       })
       
       /*  Citations  */

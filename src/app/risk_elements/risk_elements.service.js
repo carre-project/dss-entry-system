@@ -72,37 +72,40 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
   }
 
   function RiskElementAssociations(id) {
-
+    var FilterString="";
     //accept only risk element ids
-    if (id.indexOf("RL_") === -1) return false;
-
-    //id fix
-    var prefix = "";
-    if (id.indexOf("http") === -1) {
-      prefix = id.split("_")[0];
-      id = prefix + ":" + id;
-    }
-    else {
-      id = "<" + id + ">";
+    if(id) {
+      if (id.indexOf("RL_") === -1) return false;
+  
+      //id fix
+      var prefix = "";
+      if (id.indexOf("http") === -1) {
+        prefix = id.split("_")[0];
+        id = prefix + ":" + id;
+      }
+      else {
+        id = "<" + id + ">";
+      }
+      
+      FilterString="FILTER (?has_risk_factor_source="+id+"||?has_risk_factor_target="+id+")";
     }
 
     var query = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
-                WHERE { \n\
-                    ?subject a risk:risk_factor; ?predicate ?object. \n\
-                    ?subject  risk:has_risk_factor_association_type ?has_risk_factor_association_type.  \n\
-                    {?subject risk:has_risk_factor_source " + id + "} UNION { ?subject risk:has_risk_factor_target " + id + " }. \n\
-                    OPTIONAL {    \n\
-                     ?object a risk:risk_element. \n\
-                     ?object risk:has_risk_element_name ?has_risk_element_name  \n\
-                    } \n\
-                  }";
+              WHERE { ?subject a risk:risk_factor; ?predicate ?object. \n\
+               ?subject risk:has_risk_factor_association_type ?has_risk_factor_association_type. \n\
+               ?subject risk:has_risk_factor_source ?has_risk_factor_source. \n\
+               ?subject risk:has_risk_factor_target ?has_risk_factor_target. \n\
+              OPTIONAL {    \n\
+               ?object a risk:risk_element. \n\
+               ?object risk:has_risk_element_name ?has_risk_element_name  \n\
+              }"+ FilterString+" }";
 
     return CARRE.selectQuery(query).then(function(res) {
 
       var array = [];
       // { {this} , {links to} , {that} }
       res.data.forEach(function(rf) {
-
+      
         var source = {
           label: rf.has_risk_factor_source_label,
           id: rf.has_risk_factor_source[0]

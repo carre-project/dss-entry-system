@@ -1,0 +1,33 @@
+<div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">Explore</h2>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        
+        <div class="col-sm-4">
+            <h4>DataSet (change the data while it's loaded and initialzed):</h4>
+            <input type="button" ng-click="explore.addNode()" value="add node dynamically"> <br />
+            <input type="button" ng-click="explore.changeNode1()" value="change node 1's color dynamically"> <br />
+            <input type="button" ng-click="explore.removeRandomNode()" value="remove a random Node"> <br />
+            <input type="button" ng-click="explore.resetAllNodes()" value="reload all nodes"> <br />
+            <input type="button" ng-click="explore.resetAllNodesStabilize()" value="reload all nodes and stabilize"> <br />
+            
+            <h4>setOptions (change the global options):</h4>
+            <input type="button" ng-click="explore.changeOptions()" value="change the global options"><br />
+            
+            <h4>setData (reinitialize the data): </h4>
+            <input type="button" ng-click="explore.setTheData()" value="setData. This stabilizes again if stabilization is true."><br />
+            
+            <h4>Cleanly destroy the network and restart it:</h4>
+            <input type="button" ng-click="explore.resetAll()" value="Destroy the network and restart it."><br />
+            
+        </div>
+        <div class="col-sm-8">
+             <div id="mynetwork"></div> 
+        </div>
+               
+    </div>
+</div>
