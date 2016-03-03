@@ -251,7 +251,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
       }  else {
         
           //setup client caching
-          CONFIG.CACHED_QUERIES[graphName+'_'+req_url_id]=url;
+          // CONFIG.CACHED_QUERIES[graphName+'_'+req_url_id]=url;
     
         return res;
       }
@@ -264,11 +264,11 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
   
   function invalidateCache(req_url_id){
     var graphName=CONFIG.CARRE_DEFAULT_GRAPH.substring(CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf("/")+1,CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf(">"));
-    var url=CONFIG.CARRE_CACHE_URL + 'expire/'+graphName+'_'+req_url_id;
+    var url=CONFIG.CARRE_CACHE_URL + 'refresh_cache/'+graphName+'_'+req_url_id;
     
     // remove cached url
-    var cached_url=CONFIG.CACHED_QUERIES[graphName+'_'+req_url_id];
-    $cacheFactory.get('$http').remove(cached_url); 
+    // var cached_url=CONFIG.CACHED_QUERIES[graphName+'_'+req_url_id];
+    // $cacheFactory.get('$http').remove(cached_url); 
     
     return $http.get(url).then(function(res){
       console.log(res);
