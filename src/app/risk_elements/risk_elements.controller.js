@@ -68,14 +68,6 @@
 
     /* GRID Default options */
     vm.mygrid = content.default;
-    
-    /* Play with graph*/
-    
-    Risk_elements.associations().then(function(data){
-      vm.risk_associations=data;
-      
-      console.log('Risk element associations',JSON.stringify(data));
-    });
 
   }
 })();

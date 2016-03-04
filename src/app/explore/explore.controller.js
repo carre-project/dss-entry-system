@@ -6,110 +6,180 @@
     .controller('ExploreController', ExploreController);
 
   /** @ngInject */
-  function ExploreController($rootScope, $timeout, toastr, CARRE, $location, CONFIG, $scope) {
+  function ExploreController($rootScope, $timeout, toastr, CARRE, $location, CONFIG, $scope, Risk_elements) {
     var vm = this;
     
     //graph init
     vm.countAllInit = 0;
     vm.countAll = 0;
+    vm.minConnections = 12;
   
     vm.colors=CONFIG.COLORS;
+    Risk_elements.associations().then(function(data){
+      
+      
+      //perform manipulations
+      vm.nodesArr=data.nodes
+        .filter(function(obj){ return obj.value>vm.minConnections; });
+      
+      //filter edges
+      vm.edgesArr=data.edges.filter(function(edge){
+        var keepEdge=false;
+        vm.nodesArr.some(function(node){
+            if(node.id===edge.from||node.id===edge.to) {
+              keepEdge=true;
+              return true;
+            }
+        });
+        return keepEdge;
+      });
+      
+      $timeout(function(){vm.startNetwork();},500);
+      
+    }); 
     
+    /* Play with graph*/
+    vm.addNodeRelations = function (id) {
+      Risk_elements.associations(id).then(function(data){
+        
+        // var limit=4;
+        // var nodes={};
+        
+        // data.nodes.forEach(function(node){
+        //   nodes[node.id]=node;
+        // });
+        
+        // data.edges.forEach(function(edge){
+        //   if(!vm.edges._data[edge.id]&&limit>0) {
+            
+        //     //add edge
+        //     vm.edges.add(edge);
+            
+        //     //add nodes
+        //     var from=nodes[edge.from];
+        //     var to=nodes[edge.to];
+        //     if(!vm.nodes._data[from.id]) vm.nodes.add(from);
+        //     if(!vm.nodes._data[to.id]) vm.nodes.add(to);
+            
+        //     limit--;
+        //   }
+        // });
+        
+        data.nodes.forEach(function(node){
+          if(!vm.nodes._data[node.id]) vm.nodes.add(node);
+        });
+        data.edges.forEach(function(edge){
+          if(!vm.edges._data[edge.id]) vm.edges.add(edge);
+        });
+        
+      });
+    };
     
+    vm.removeOrphan = function(data){
+      
+      data.nodes.forEach(function(node){vm.nodes.remove(node);});
+      var nodes=[];
+      data.edges.forEach(function(edge){
+        var edgeData=vm.edges._data[edge];
+        if(nodes.indexOf(edgeData.from)===-1) nodes.push(edgeData.from);
+        if(nodes.indexOf(edgeData.to)===-1) nodes.push(edgeData.to);
+        vm.edges.remove(edge);
+      });
+      nodes.forEach(function(node){
+        var edges=network.getConnectedEdges(node);
+        if(edges.length<=0) {
+          vm.nodes.remove(node);
+        }
+      });
+    };
+
     /* Network Graph testing */
-     var nodeIds, shadowState, nodesArray, nodes, edgesArray, edges, network;
+    var nodeIds, shadowState, nodes, edges, network;
 
     vm.startNetwork = function() {
         // this list is kept to remove a random node.. we do not add node 1 here because it's used for changes
-        nodeIds = [2, 3, 4, 5];
         shadowState = false;
-
-
-        // create an array with nodes
-        nodesArray = [
-            {id: 1, label: 'Node 1'},
-            {id: 2, label: 'Node 2'},
-            {id: 3, label: 'Node 3'},
-            {id: 4, label: 'Node 4'},
-            {id: 5, label: 'Node 5'}
-        ];
-        nodes = new vis.DataSet(nodesArray);
-
-        // create an array with edges
-        edgesArray = [
-            {from: 1, to: 3},
-            {from: 1, to: 2},
-            {from: 2, to: 4},
-            {from: 2, to: 5}
-        ];
-        edges = new vis.DataSet(edgesArray);
+        vm.nodes = new vis.DataSet(vm.nodesArr);
+        vm.edges = new vis.DataSet(vm.edgesArr);
 
         // create a network
         var container = document.getElementById('mynetwork');
         var data = {
-            nodes: nodes,
-            edges: edges
+            nodes: vm.nodes,
+            edges: vm.edges
         };
         var options = {
           height: '600px',
-          width: '100%'
+          width: '100%',
+          manipulation: {
+            enabled:true,
+            initiallyActive:true,
+            addNode: false,
+            addEdge: false,
+            editNode:false,
+            editEdge:false,
+            deleteEdge: false,
+            deleteNode: function(nodeData,callback) {
+              vm.removeOrphan(nodeData);
+              callback(nodeData);
+            }
+          },
+          configure: {
+            enabled:false
+          },  
+          edges:{
+            arrows: 'to',
+            font: {
+              color: '#343434',
+              size: 14, // px
+              face: 'arial',
+              background: 'none',
+              strokeWidth: 2, // px
+              strokeColor: '#ffffff',
+              align:'middle'
+            }
+          },
+          nodes:{},
+          physics:{
+            enabled: true,
+            barnesHut: {
+              gravitationalConstant: -2000,
+              centralGravity: 0.3,
+              springLength: 295,
+              springConstant: 0.04,
+              damping: 0.09,
+              avoidOverlap: 0
+            },
+            forceAtlas2Based: {
+              gravitationalConstant: -50,
+              centralGravity: 0.01,
+              springConstant: 0.08,
+              springLength: 100,
+              damping: 0.4,
+              avoidOverlap: 0
+            },
+            maxVelocity: 50,
+            minVelocity: 0.1,
+            solver: 'barnesHut',
+            stabilization: {
+              enabled: true,
+              iterations: 300,
+              updateInterval: 100,
+              onlyDynamicEdges: false,
+              fit: true
+            },
+            timestep: 0.5,
+            adaptiveTimestep: true
+          }
         };
         network = new vis.Network(container, data, options);
-    }
-
-    vm.addNode = function() {
-        var newId = (Math.random() * 1e7).toString(32);
-        nodes.add({id:newId, label:"I'm new!"});
-        nodeIds.push(newId);
-    }
-
-    vm.changeNode1 = function() {
-        var newColor = '#' + Math.floor((Math.random() * 255 * 255 * 255)).toString(16);
-        nodes.update([{id:1, color:{background:newColor}}]);
-    }
-
-    vm.removeRandomNode = function() {
-        var randomNodeId = nodeIds[Math.floor(Math.random() * nodeIds.length)];
-        nodes.remove({id:randomNodeId});
-
-        var index = nodeIds.indexOf(randomNodeId);
-        nodeIds.splice(index,1);
-    }
-
-    vm.changeOptions = function() {
-        shadowState = !shadowState;
-        network.setOptions({nodes:{shadow:shadowState},edges:{shadow:shadowState}});
-    }
-
-    vm.resetAllNodes = function() {
-        nodes.clear();
-        edges.clear();
-        nodes.add(nodesArray);
-        edges.add(edgesArray);
-    }
-
-    vm.resetAllNodesStabilize = function() {
-        vm.resetAllNodes();
-        network.stabilize();
-    }
-
-    vm.setTheData = function() {
-        nodes = new vis.DataSet(nodesArray);
-        edges = new vis.DataSet(edgesArray);
-        network.setData({nodes:nodes, edges:edges})
-    }
-
-    vm.resetAll = function() {
-        if (network !== null) {
-            network.destroy();
-            network = null;
-        }
-        vm.startNetwork();
-    }
-
-    vm.startNetwork();
+        
+        
+        network.on("doubleClick", function (params) {
+            if(params.nodes.length>0) vm.addNodeRelations(params.nodes[0]);
+        });
     
-    
+    }
     
   }
 })();

@@ -53,7 +53,7 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
     console.log('Mapped: ', newObj);
 
     /* invalidate risk_element_all */
-    CARRE.invalidateCache('risk_element_all');
+    CARRE.invalidateCache('risk');
     CARRE.invalidateCache('count_all');
 
     if (oldElem.id) {
@@ -99,21 +99,29 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
                ?object a risk:risk_element. \n\
                ?object risk:has_risk_element_name ?has_risk_element_name  \n\
               }"+ FilterString+" }";
+    var cache_key=id?id.substring(id.lastIndexOf("/")+1,id.lastIndexOf(">")):"all";
+    return CARRE.selectQuery(query,null,'risk_associations_for_'+cache_key).then(function(res) {
 
-    return CARRE.selectQuery(query).then(function(res) {
-
-      var array = [];
-      // { {this} , {links to} , {that} }
+      var graphData = {
+        nodes:[],
+        edges:[]
+      };
+        
+      var tmp_nodes=[];
+      console.log("Raw response: ",res.data);
+      
       res.data.forEach(function(rf) {
       
         var source = {
           label: rf.has_risk_factor_source_label,
-          id: rf.has_risk_factor_source[0]
+          id: rf.has_risk_factor_source[0],
+          value:1
         };
 
         var target = {
           label: rf.has_risk_factor_target_label,
-          id: rf.has_risk_factor_target[0]
+          id: rf.has_risk_factor_target[0],
+          value:1
         };
 
         var relation = {
@@ -121,11 +129,28 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
           id: rf.id
         };
 
-        array.push({source:source, relation:relation, target:target});
+        //add the nodes
+        var source_index=tmp_nodes.indexOf(source.id);
+        if(source_index===-1) {
+          tmp_nodes.push(source.id);
+          graphData.nodes.push(source);
+        } else {
+          graphData.nodes[source_index].value++;
+        }
+        var target_index=tmp_nodes.indexOf(target.id);
+        if(target_index===-1) {
+          tmp_nodes.push(target.id);
+          graphData.nodes.push(target);
+        } else {
+          graphData.nodes[target_index].value++;
+        }
+        
+        //add the edges
+        graphData.edges.push({id:relation.id, from:source.id, label:relation.label, to:target.id});
 
       });
-
-      return array;
+      
+      return graphData;
 
     });
 
