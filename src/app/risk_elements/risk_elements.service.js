@@ -76,8 +76,6 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
     var cache_key="";
     //accept only risk element ids
     if(id) {
-      if (id.indexOf("RL_") === -1) return false;
-  
       //id fix
       var prefix = "";
       if (id.indexOf("http") === -1) {
@@ -89,7 +87,12 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
         id = "<" + id + ">";
       }
       
-      FilterString="FILTER (?has_risk_factor_source="+id+"||?has_risk_factor_target="+id+")";
+      //now filter depending on id
+      if(id.indexOf("RL")>=0){
+        FilterString="FILTER (?has_risk_factor_source="+id+"||?has_risk_factor_target="+id+")";
+      } else if(id.indexOf("RF")>=0) {
+        FilterString="FILTER (?subject="+id+")";
+      }
     } else cache_key="all";
 
     var query = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\

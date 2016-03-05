@@ -6,7 +6,7 @@
 <!--debug vars-->
 
 <div class="col-xs-12">
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <a ng-show="main.user.username" class="btn btn-xs btn-primary" ui-sref="main.risk_elements.edit({id:risk_element.id})"><i class="fa fa-pencil"></i> Edit</a>    
     <div ng-show="main.user.username && main.config.ENV==='DEV'"> 
       ID: <b>{{risk_element.id}}</b>
@@ -18,11 +18,13 @@
       </li>
     </ul>
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-8">
     
+    <carre-graph-risk height="400" limit-new-connections="4" id="risk_element.id"></carre-graph-risk>
+
     <div ng-if="main.config.ENV==='DEV'" class="row">
       <div class="col-xs-12">
-        Risk element Associations<pre>{{risk_element.risk_associations | json}}</pre>
+        
       </div>
     </div>
     <!--<div cg-busy="{promise:risk_elements.loading,message:'Searching Bioportal...',backdrop:false,minDuration:700}" style="padding:25px;">-->
