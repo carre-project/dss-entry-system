@@ -6,34 +6,29 @@
     .controller('ExploreController', ExploreController);
 
   /** @ngInject */
-  function ExploreController($rootScope, $timeout, toastr, CARRE, $location, CONFIG, $scope, Risk_elements) {
+  function ExploreController($rootScope, $timeout, toastr, CARRE, $location, CONFIG, $scope, Risk_elements,$state) {
     var vm = this;
     
     //graph init
-    vm.countAllInit = 0;
-    vm.countAll = 0;
+    vm.limitNewConnections = 4;
     vm.minConnections = 12;
-  
-    vm.colors=CONFIG.COLORS;
+    
     Risk_elements.associations().then(function(data){
       
-      
       //perform manipulations
-      vm.nodesArr=data.nodes
-        .filter(function(obj){ return obj.value>vm.minConnections; });
-      
+      vm.nodesArr=data.nodes.filter(function(obj){ return obj.value>vm.minConnections; });
       //filter edges
       vm.edgesArr=data.edges.filter(function(edge){
-        var keepEdge=false;
-        vm.nodesArr.some(function(node){
-            if(node.id===edge.from||node.id===edge.to) {
-              keepEdge=true;
-              return true;
-            }
-        });
-        return keepEdge;
+        var from=false;
+        var to=false;
+        for (var i=0,len=vm.nodesArr.length;i<len;i++){
+          if(vm.nodesArr[i].id===edge.from) from=true;
+          if(vm.nodesArr[i].id===edge.to) to=true
+        }
+        return from&&to;
       });
       
+      //init network
       $timeout(function(){vm.startNetwork();},500);
       
     }); 
@@ -41,50 +36,32 @@
     /* Play with graph*/
     vm.addNodeRelations = function (id) {
       Risk_elements.associations(id).then(function(data){
-        
-        // var limit=4;
-        // var nodes={};
-        
-        // data.nodes.forEach(function(node){
-        //   nodes[node.id]=node;
-        // });
-        
-        // data.edges.forEach(function(edge){
-        //   if(!vm.edges._data[edge.id]&&limit>0) {
-            
-        //     //add edge
-        //     vm.edges.add(edge);
-            
-        //     //add nodes
-        //     var from=nodes[edge.from];
-        //     var to=nodes[edge.to];
-        //     if(!vm.nodes._data[from.id]) vm.nodes.add(from);
-        //     if(!vm.nodes._data[to.id]) vm.nodes.add(to);
-            
-        //     limit--;
-        //   }
-        // });
-        
+        var limit=vm.limitNewConnections;
+        var nodes={};
         data.nodes.forEach(function(node){
-          if(!vm.nodes._data[node.id]) vm.nodes.add(node);
+          nodes[node.id]=node;
         });
         data.edges.forEach(function(edge){
-          if(!vm.edges._data[edge.id]) vm.edges.add(edge);
+          if(!vm.edges._data[edge.id]&&limit>0) {
+            if(!vm.nodes._data[edge.from]) vm.nodes.add(nodes[edge.from]);
+            if(!vm.nodes._data[edge.to]) vm.nodes.add(nodes[edge.to]);
+            vm.edges.add(edge);
+            limit--;
+          }
         });
-        
       });
     };
     
     vm.removeOrphan = function(data){
-      
       data.nodes.forEach(function(node){vm.nodes.remove(node);});
-      var nodes=[];
+      var nodes=Object.keys(vm.nodes._data);
       data.edges.forEach(function(edge){
-        var edgeData=vm.edges._data[edge];
-        if(nodes.indexOf(edgeData.from)===-1) nodes.push(edgeData.from);
-        if(nodes.indexOf(edgeData.to)===-1) nodes.push(edgeData.to);
+        // var edgeData=vm.edges._data[edge];
+        // if(nodes.indexOf(edgeData.from)===-1) nodes.push(edgeData.from);
+        // if(nodes.indexOf(edgeData.to)===-1) nodes.push(edgeData.to);
         vm.edges.remove(edge);
       });
+      
       nodes.forEach(function(node){
         var edges=network.getConnectedEdges(node);
         if(edges.length<=0) {
@@ -176,7 +153,12 @@
         
         
         network.on("doubleClick", function (params) {
-            if(params.nodes.length>0) vm.addNodeRelations(params.nodes[0]);
+            if(params.nodes.length===1) vm.addNodeRelations(params.nodes[0]);
+            else if(params.edges.length===1) {
+              //do something with the edge
+              var rf_id=params.edges[0].substring(params.edges[0].lastIndexOf("/")+1)
+              $state.go("main.risk_factors.view",{id:rf_id});
+            }
         });
     
     }

@@ -73,6 +73,7 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
 
   function RiskElementAssociations(id) {
     var FilterString="";
+    var cache_key="";
     //accept only risk element ids
     if(id) {
       if (id.indexOf("RL_") === -1) return false;
@@ -80,15 +81,16 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
       //id fix
       var prefix = "";
       if (id.indexOf("http") === -1) {
+        cache_key=id;
         prefix = id.split("_")[0];
         id = prefix + ":" + id;
-      }
-      else {
+      } else {
+        cache_key=id.substring(id.lastIndexOf("/")+1);
         id = "<" + id + ">";
       }
       
       FilterString="FILTER (?has_risk_factor_source="+id+"||?has_risk_factor_target="+id+")";
-    }
+    } else cache_key="all";
 
     var query = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
               WHERE { ?subject a risk:risk_factor; ?predicate ?object. \n\
@@ -99,7 +101,7 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
                ?object a risk:risk_element. \n\
                ?object risk:has_risk_element_name ?has_risk_element_name  \n\
               }"+ FilterString+" }";
-    var cache_key=id?id.substring(id.lastIndexOf("/")+1,id.lastIndexOf(">")):"all";
+              
     return CARRE.selectQuery(query,null,'risk_associations_for_'+cache_key).then(function(res) {
 
       var graphData = {
@@ -108,8 +110,6 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
       };
         
       var tmp_nodes=[];
-      console.log("Raw response: ",res.data);
-      
       res.data.forEach(function(rf) {
       
         var source = {
