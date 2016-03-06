@@ -3,7 +3,7 @@
 angular.module('CarreEntrySystem')
   .directive('carreGraphRisk', function() {
     return {
-      template: '<div>'+
+      template: '<div cg-busy="loading">'+
         '<button ng-click="startNetwork()" class="btn btn-sm btn-primary pull-right"><i class="fa fa-refresh"></i></button>'+
         '<button ng-click="removeSize()" class="btn btn-sm btn-default pull-right"><i class="fa fa-search-minus"></i></button>'+
         '<button ng-click="addSize()" class="btn btn-sm btn-default pull-right"><i class="fa fa-search-plus"></i></button>'+
@@ -12,19 +12,19 @@ angular.module('CarreEntrySystem')
         '<div id="mynetwork"></div>'+
         '</div>',
       restrict: 'E',
-      replace: true,
       scope: {
         'limitNewConnections':'@',
         'height': '@',
-        'id': '='
+        'riskid': '='
       },
       controller: function($scope, $timeout, toastr, CARRE, $location, CONFIG, Risk_elements,$state,SweetAlert) {
       
         var vm = $scope;
-        vm.height = vm.height || 600;
+        vm.loading=false;
         //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections||4;
         vm.minConnections = 12;
+        vm.height = vm.height || 600;
         vm.customHeight=0;
         var network;
         
@@ -44,11 +44,11 @@ angular.module('CarreEntrySystem')
         }
         
         //start the initialization
-        init(vm.id);
+        init(vm.riskid);
         
         
         function init(id) {
-          Risk_elements.associations(id).then(function(data){ 
+          vm.loading=Risk_elements.associations(id).then(function(data){ 
             //set initial nodes and edges
             vm.nodesArr=id?data.nodes:data.nodes.filter(function(obj){ return obj.value>vm.minConnections; });
             //filter edges
@@ -108,7 +108,7 @@ angular.module('CarreEntrySystem')
         
         /* Graph manipulations */
         vm.addNodeRelations = function (id) {
-          Risk_elements.associations(id).then(function(data){
+          vm.loading=Risk_elements.associations(id).then(function(data){
             var limit=vm.limitNewConnections;
             var nodes={};
             data.nodes.forEach(function(node){
@@ -188,6 +188,7 @@ angular.module('CarreEntrySystem')
                 enabled:false
               },  
               edges:{
+                smooth:{enabled:false,type:'continuous',roundness:0.4},
                 arrows: 'to',
                 color:'#F7464A',
                 font: {
@@ -208,8 +209,8 @@ angular.module('CarreEntrySystem')
                 enabled: true,
                 barnesHut: {
                   gravitationalConstant: -2000,
-                  centralGravity: 0.3,
-                  springLength: 295,
+                  centralGravity: 0.2,
+                  springLength: 200,
                   springConstant: 0.04,
                   damping: 0.09,
                   avoidOverlap: 0
@@ -220,7 +221,7 @@ angular.module('CarreEntrySystem')
                   springConstant: 0.08,
                   springLength: 100,
                   damping: 0.4,
-                  avoidOverlap: 0
+                  avoidOverlap: 1
                 },
                 maxVelocity: 50,
                 minVelocity: 0.1,

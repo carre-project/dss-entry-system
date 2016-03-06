@@ -9,17 +9,23 @@
         <!-- /.col-lg-12 -->
     </div>
     <div class="row">
-        <!--<div class="col-xs-3">-->
-        <!--    <input type="text" placeholder="Enter risk factor id or risk element id" ng-model="explore.id_input"/>-->
-        <!--    <button ng-click="explore.setNewId()">Set new ID</button>-->
-        <!--</div>-->
-        <div class="col-xs-12">
-            <carre-graph-risk ng-if="explore.ready" limit-new-connections="4" id="explore.id"></carre-graph-risk>
+        <div class="col-xs-3">
+        
+            <div class="form-group">
+              <label>Graph search by risk elements</label>
+              <ui-select multiple ng-model="explore.risk_elements_selected" theme="bootstrap">
+                <ui-select-match placeholder="Select...">{{$item.label}} </ui-select-match>
+                <ui-select-choices repeat="el.value as el in explore.risk_elements | propsFilter: {label: $select.search}">
+                  <div ng-bind-html="el.label | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+
+            <div class="form-group"><button ng-click="explore.setNewId()" class="btn btn-primary">Search</button></div>
+            
         </div>
-        <!--<div class="col-xs-12">-->
-        <!--    <button ng-click="explore.startNetwork()" class="btn btn-primary">Reload</button>-->
-        <!--    <div id="mynetwork"></div> -->
-        <!--</div>-->
-               
+        <div class="col-xs-9">
+            <carre-graph-risk limit-new-connections="4" ng-if="explore.ready" riskid="explore.id"></carre-graph-risk>
+        </div>
     </div>
 </div>

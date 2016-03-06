@@ -74,26 +74,40 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
   function RiskElementAssociations(id) {
     var FilterString="";
     var cache_key="";
-    //accept only risk element ids
-    if(id) {
-      //id fix
-      var prefix = "";
-      if (id.indexOf("http") === -1) {
-        cache_key=id;
-        prefix = id.split("_")[0];
-        id = prefix + ":" + id;
-      } else {
-        cache_key=id.substring(id.lastIndexOf("/")+1);
-        id = "<" + id + ">";
-      }
+    var filters=[];
+    if(id){
+      if(!(id instanceof Array)) {
+        //convert to array;
+        id = [id];
+      } //else it is array
       
-      //now filter depending on id
-      if(id.indexOf("RL")>=0){
-        FilterString="FILTER (?has_risk_factor_source="+id+"||?has_risk_factor_target="+id+")";
-      } else if(id.indexOf("RF")>=0) {
-        FilterString="FILTER (?subject="+id+")";
-      }
-    } else cache_key="all";
+      id.forEach(function(sid){
+        //id fix
+        var prefix = "";
+        if (sid.indexOf("http") === -1) {
+          cache_key=sid;
+          prefix = sid.split("_")[0];
+          sid = prefix + ":" + sid;
+        } else {
+          cache_key=sid.substring(sid.lastIndexOf("/")+1);
+          sid = "<" + sid + ">";
+        }
+        
+        //now filter depending on id
+        if(sid.indexOf("RL")>=0){
+          filters.push("?has_risk_factor_source="+sid+"||?has_risk_factor_target="+sid);
+        } else if(sid.indexOf("RF")>=0) {
+          filters.push("?subject="+sid);
+        }
+      });
+        
+      FilterString="FILTER ("+filters.join("||")+")";
+      
+      //if ids>1 no cache else add prefix
+      if(id.length!==1) cache_key=null;
+      else cache_key="risk_associations_for_"+cache_key;
+      
+    } else cache_key="risk_associations_for_all";
     
     var query = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
               WHERE { ?subject a risk:risk_factor; ?predicate ?object. \n\
@@ -105,7 +119,7 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
                ?object risk:has_risk_element_name ?has_risk_element_name  \n\
               }"+ FilterString+" }";
               
-    return CARRE.selectQuery(query,null,'risk_associations_for_'+cache_key).then(function(res) {
+    return CARRE.selectQuery(query,null,cache_key).then(function(res) {
 
       var graphData = {
         nodes:[],
