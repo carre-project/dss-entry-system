@@ -75,13 +75,15 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
     var FilterString="";
     var cache_key="";
     var filters=[];
+    var nodeColors={};
+    var edgeColors={};
     if(id){
       if(!(id instanceof Array)) {
         //convert to array;
         id = [id];
       } //else it is array
       
-      id.forEach(function(sid){
+      id.forEach(function(sid,index){
         //id fix
         var prefix = "";
         if (sid.indexOf("http") === -1) {

@@ -19,8 +19,13 @@
       },100)
     }
     
-    //init
-    // vm.setNewId();
+    //play with colors
+    $scope.onSelectedItem=function(item,model){
+      var elems=angular.element('.ui-select-match-item');
+      angular.forEach(elems, function( el,index ){
+         angular.element(el).css('background',CONFIG.COLORS[index]);
+      });
+    }
     
     //get risk elements
     Risk_elements.get().then(function(res) {

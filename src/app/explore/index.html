@@ -13,8 +13,8 @@
         
             <div class="form-group">
               <label>Graph search by risk elements</label>
-              <ui-select multiple ng-model="explore.risk_elements_selected" theme="bootstrap">
-                <ui-select-match placeholder="Select...">{{$item.label}} </ui-select-match>
+              <ui-select multiple ng-model="explore.risk_elements_selected" theme="bootstrap" on-select="onSelectedItem($item,$model)">
+                <ui-select-match placeholder="Select..." ng-style="{'color':$index}" >{{$item.label}} </ui-select-match>
                 <ui-select-choices repeat="el.value as el in explore.risk_elements | propsFilter: {label: $select.search}">
                   <div ng-bind-html="el.label | highlight: $select.search"></div>
                 </ui-select-choices>

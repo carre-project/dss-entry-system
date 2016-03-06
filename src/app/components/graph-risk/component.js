@@ -49,10 +49,22 @@ angular.module('CarreEntrySystem')
         
         function init(id) {
           vm.loading=Risk_elements.associations(id).then(function(data){ 
+            
             //set initial nodes and edges
-            vm.nodesArr=id?data.nodes:data.nodes.filter(function(obj){ return obj.value>vm.minConnections; });
+            vm.nodesArr=id?data.nodes.map(function(obj){
+                var obj_pos=-1;
+                //handle colors
+                if(id instanceof Array) obj_pos=id.indexOf(obj.id);
+                else obj_pos=id.indexOf(obj.id.substring(obj.id.lastIndexOf("/")+1));
+                if(obj_pos>=0) obj.color=CONFIG.COLORS[obj_pos];
+                
+                return obj;
+              }):data.nodes.filter(function(obj){ return obj.value>vm.minConnections;});
+              
             //filter edges
             vm.edgesArr=data.edges.filter(function(edge){
+              
+              
               var from=false;
               var to=false;
               for (var i=0,len=vm.nodesArr.length;i<len;i++){
@@ -202,7 +214,10 @@ angular.module('CarreEntrySystem')
                 }
               },
               nodes:{
-                color:'#83C8F2'
+                color:{
+                  border:'#aaaaaa',
+                  background:'#ffffff'
+                }
                 
               },
               physics:{
