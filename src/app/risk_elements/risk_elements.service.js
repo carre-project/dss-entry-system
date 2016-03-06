@@ -94,7 +94,7 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
         FilterString="FILTER (?subject="+id+")";
       }
     } else cache_key="all";
-
+    
     var query = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
               WHERE { ?subject a risk:risk_factor; ?predicate ?object. \n\
                ?subject risk:has_risk_factor_association_type ?has_risk_factor_association_type. \n\

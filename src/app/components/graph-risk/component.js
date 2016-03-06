@@ -4,9 +4,11 @@ angular.module('CarreEntrySystem')
   .directive('carreGraphRisk', function() {
     return {
       template: '<div>'+
-        '<button ng-click="startNetwork()" class="btn btn-primary">Reload</button>'+
-        '<button ng-click="addSize()" class="btn btn-primary">Size +</button>'+
-        '<button ng-click="removeSize()" class="btn btn-primary">Size -</button>'+
+        '<button ng-click="startNetwork()" class="btn btn-sm btn-primary pull-right"><i class="fa fa-refresh"></i></button>'+
+        '<button ng-click="removeSize()" class="btn btn-sm btn-default pull-right"><i class="fa fa-search-minus"></i></button>'+
+        '<button ng-click="addSize()" class="btn btn-sm btn-default pull-right"><i class="fa fa-search-plus"></i></button>'+
+        '<button ng-click="deleteSelected()" id="explore_deleteButton" style="display:none" class="btn btn-sm btn-danger pull-left">Delete</button>'+
+        '<button ng-click="goToSelected()" id="explore_goButton" style="display:none" class="btn btn-sm btn-success pull-left">Open</button>'+
         '<div id="mynetwork"></div>'+
         '</div>',
       restrict: 'E',
@@ -59,13 +61,8 @@ angular.module('CarreEntrySystem')
               }
               return from&&to;
             });
-            
-            console.log(vm.minConnections,vm.nodesArr,vm.edgesArr);
-            
             //init network after 50ms delay
-            $timeout(function(){ 
-              vm.startNetwork(); 
-            },50);
+            $timeout(function(){vm.startNetwork();},50);
             
           }); 
         }
@@ -92,8 +89,8 @@ angular.module('CarreEntrySystem')
         vm.showRiskElement=function(id,label){
           //implement a basic confirm popup
           SweetAlert.swal({
-              title: "Show the Risk factor?",
-              text: "This will redirect you to the \""+label+"\" risk factor's detail page.",
+              title: "Show the Risk element?",
+              text: "This will redirect you to the \""+label+"\" risk element's detail page.",
               type: "info",
               showCancelButton: true,
               confirmButtonColor: "#2E8B57",
@@ -103,7 +100,7 @@ angular.module('CarreEntrySystem')
             },
             function(isConfirm) {
               if (isConfirm) {
-                $state.go("main.risk_factors.view",{id:id});
+                $state.go("main.risk_elements.view",{id:id});
               }
             });
           
@@ -128,17 +125,38 @@ angular.module('CarreEntrySystem')
           });
         };
         
+        vm.deleteSelected = function(id){
+          var node=id||network.getSelectedNodes()[0];
+          if(!node) return false; 
+          var nodeData={
+            nodes:[node],
+            edges:network.getConnectedEdges(node)
+          }
+          vm.removeOrphan(nodeData);
+        }
+        
+        vm.goToSelected = function(){
+          var nodes=network.getSelectedNodes();
+          var edges=network.getSelectedEdges();
+          
+          if(nodes.length===1) {
+             //then it is a risk element
+             var rl_id=nodes[0].substring(nodes[0].lastIndexOf("/")+1);
+             var rl_label=vm.nodes._data[nodes[0]].label;
+             vm.showRiskElement(rl_id,rl_label);
+          } else if (edges.length===1){
+            //then it is a risk factor
+            var edge=vm.edges._data[edges[0]];
+            var rf_id=edges[0].substring(edges[0].lastIndexOf("/")+1);
+            var rf_label=vm.nodes._data[edge.from].label+" "+edge.label+" "+vm.nodes._data[edge.to].label;
+            vm.showRiskFactor(rf_id,rf_label);
+          } else return false;
+        }
         
         vm.removeOrphan = function(data){
           data.nodes.forEach(function(node){vm.nodes.remove(node);});
+          data.edges.forEach(function(edge){ vm.edges.remove(edge);});
           var nodes=Object.keys(vm.nodes._data);
-          data.edges.forEach(function(edge){
-            // var edgeData=vm.edges._data[edge];
-            // if(nodes.indexOf(edgeData.from)===-1) nodes.push(edgeData.from);
-            // if(nodes.indexOf(edgeData.to)===-1) nodes.push(edgeData.to);
-            vm.edges.remove(edge);
-          });
-          
           nodes.forEach(function(node){
             var edges=network.getConnectedEdges(node);
             if(edges.length<=0) {
@@ -164,23 +182,14 @@ angular.module('CarreEntrySystem')
               height: vm.height+'px',
               width: '100%',
               manipulation: {
-                enabled:true,
-                initiallyActive:true,
-                addNode: false,
-                addEdge: false,
-                editNode:false,
-                editEdge:false,
-                deleteEdge: false,
-                deleteNode: function(nodeData,callback) {
-                  vm.removeOrphan(nodeData);
-                  callback(nodeData);
-                }
+                enabled:false,
               },
               configure: {
                 enabled:false
               },  
               edges:{
                 arrows: 'to',
+                color:'#F7464A',
                 font: {
                   color: '#343434',
                   size: 14, // px
@@ -191,7 +200,10 @@ angular.module('CarreEntrySystem')
                   align:'middle'
                 }
               },
-              nodes:{},
+              nodes:{
+                color:'#83C8F2'
+                
+              },
               physics:{
                 enabled: true,
                 barnesHut: {
@@ -235,6 +247,28 @@ angular.module('CarreEntrySystem')
                   var rf_label=vm.nodes._data[edge.from].label+" "+edge.label+" "+vm.nodes._data[edge.to].label;
                   vm.showRiskFactor(rf_id,rf_label);
                 }
+            });
+            //left click
+            network.on("click", function (params) {
+              var deleteButton=angular.element('#explore_deleteButton');
+              var goButton=angular.element('#explore_goButton');
+              if(params.nodes.length===1) {
+                deleteButton.css("display","inline"); 
+                goButton.css("display","inline"); 
+              } else if(params.edges.length===1) {
+                goButton.css("display","inline"); 
+              } else {
+                goButton.css("display","none"); 
+                deleteButton.css("display","none"); 
+              }
+            });
+            //right click
+            network.on("oncontext", function (params) {
+              var nodeId=network.getNodeAt(params.pointer.DOM);
+              if(nodeId) {
+                params.event.preventDefault();
+                vm.deleteSelected(nodeId);
+              }
             });
         }
         //end of controller
