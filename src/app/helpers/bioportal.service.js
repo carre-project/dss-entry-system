@@ -5,16 +5,6 @@ angular.module('CarreEntrySystem').service('Bioportal', function($http, CONFIG) 
 
   //pass the Bioportal supported options to override the default 
   var fetch = function(term, options) {
-
-    options = options || {
-      display_context: 'false',
-      require_exact_match: 'false',
-      include: 'prefLabel,definition,cui',
-      display_links: 'true',
-      ontologies: CONFIG.BIOPORTAL_ONTOLOGIES,
-      require_definitions: 'false'
-    };
-
     return search(term, options).then(function(res) {
       var cuis = [];
       var results = [];
@@ -50,7 +40,15 @@ angular.module('CarreEntrySystem').service('Bioportal', function($http, CONFIG) 
   
   /*Implement basic methods*/
   var search = function(input, options) {
-    var params = options || {};
+    options = options || {};
+    var params = {
+      display_context: options.display_context||'false',
+      require_exact_match: options.require_exact_match||'false',
+      include: options.include||'prefLabel,definition,cui',
+      display_links: options.display_links||'true',
+      ontologies: options.ontologies||CONFIG.BIOPORTAL_ONTOLOGIES,
+      require_definitions: options.require_definitions||'false'
+    };
     params.q = input;
     params.apikey = apikey;
     return $http.get(apiurl + 'search', {

@@ -53,7 +53,7 @@
         if (res.data) {
           vm.current = res.data[0];
           
-          Bioportal.fetch(vm.current.has_medical_specialty_identifier_label).then(function(res){
+          Bioportal.fetch(vm.current.has_medical_specialty_identifier_label,{ontologies:'MESH,SNOMEDCT'}).then(function(res){
             vm.current.has_medical_specialty_label=res[0].label||"";
             vm.current.has_medical_specialty_link=res[0].link||"";
           })
