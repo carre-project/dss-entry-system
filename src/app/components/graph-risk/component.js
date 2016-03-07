@@ -55,7 +55,7 @@ angular.module('CarreEntrySystem')
                 var obj_pos=-1;
                 //handle colors
                 if(id instanceof Array) obj_pos=id.indexOf(obj.id);
-                else obj_pos=id.indexOf(obj.id.substring(obj.id.lastIndexOf("/")+1));
+                else obj_pos=id.substring(id.lastIndexOf("/")+1)===obj.id.substring(obj.id.lastIndexOf("/")+1)?0:-1;
                 if(obj_pos>=0) obj.color=CONFIG.COLORS[obj_pos];
                 
                 return obj;

@@ -75,8 +75,6 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
     var FilterString="";
     var cache_key="";
     var filters=[];
-    var nodeColors={};
-    var edgeColors={};
     if(id){
       if(!(id instanceof Array)) {
         //convert to array;
