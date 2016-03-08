@@ -13,7 +13,6 @@
         
             <div class="form-group">
               <label>Graph search by risk elements</label>
-              <small><a href="" ng-click="runExample()">Example #1</a></small>
               <ui-select multiple ng-model="explore.risk_elements_selected" theme="bootstrap" on-select="refreshColors()" on-remove="refreshColors()">
                 <ui-select-match placeholder="Select...">{{$item.label}} </ui-select-match>
                 <ui-select-choices repeat="el.value as el in explore.risk_elements | propsFilter: {label: $select.search}">
@@ -25,6 +24,14 @@
             <div class="btn-group">
                 <button ng-click="explore.risk_elements_selected=[];" class="btn btn-deafult">Reset</button>
                 <button ng-click="explore.setNewId()" ng-disabled="explore.risk_elements_selected.length===0" class="btn btn-primary">Search</button>
+            </div>
+            
+            <hr>
+            <div class="form-group">
+                <label>Example scenarios</label>
+                <ol>
+                    <li ng-repeat="ex in explore.examples"><a href="" ng-click="runExample(ex.data)">{{ex.label}}</a></li>
+                </ol>
             </div>
             
         </div>

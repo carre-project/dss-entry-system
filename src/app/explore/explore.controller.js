@@ -19,6 +19,15 @@
       },100)
     }
     
+    vm.examples=[{
+      label:"Connections about diabetes,hypertension and colorectal cancer",
+      data:[
+        "http://carre.kmi.open.ac.uk/risk_elements/RL_29",
+        "http://carre.kmi.open.ac.uk/risk_elements/RL_19",
+        "http://carre.kmi.open.ac.uk/risk_elements/RL_14",
+        ]
+    }];
+    
     //play with colors
     $scope.refreshColors=function(){
       var elems=angular.element('.ui-select-match-item');
@@ -27,28 +36,20 @@
       });
     }
     
-    
     //add item programmatically
-    vm.addItem = function(item){
+    function addItem(item){
       vm.risk_elements_selected.push(item);
       $timeout(function(){$scope.refreshColors()},50);
     }
     
     //example #1
     $scope.runExample=function(exampleItems){
+      var timeInterval=500;
       vm.risk_elements_selected=[];
-      $timeout(function(){
-        vm.addItem('http://carre.kmi.open.ac.uk/risk_elements/RL_9');
-      },0)
-      $timeout(function(){
-        vm.addItem('http://carre.kmi.open.ac.uk/risk_elements/RL_18');
-      },500)
-      $timeout(function(){
-        vm.addItem('http://carre.kmi.open.ac.uk/risk_elements/RL_19');
-      },1000)
-      $timeout(function(){
-        vm.setNewId();
-      },1500);
+      exampleItems.forEach(function(url,index,arr){
+        $timeout(function(){ addItem(url); },index*timeInterval);
+      });
+      $timeout(function(){ vm.setNewId(); },exampleItems.length*timeInterval);
     }
     
     //get risk elements

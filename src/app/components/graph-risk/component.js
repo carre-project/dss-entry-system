@@ -3,14 +3,7 @@
 angular.module('CarreEntrySystem')
   .directive('carreGraphRisk', function() {
     return {
-      template: '<div cg-busy="loading">'+
-        '<button ng-click="startNetwork()" class="btn btn-sm btn-primary pull-right"><i class="fa fa-refresh"></i></button>'+
-        '<button ng-click="removeSize()" class="btn btn-sm btn-default pull-right"><i class="fa fa-search-minus"></i></button>'+
-        '<button ng-click="addSize()" class="btn btn-sm btn-default pull-right"><i class="fa fa-search-plus"></i></button>'+
-        '<button ng-click="deleteSelected()" id="explore_deleteButton" style="display:none" class="btn btn-sm btn-danger pull-left">Delete</button>'+
-        '<button ng-click="goToSelected()" id="explore_goButton" style="display:none" class="btn btn-sm btn-success pull-left">Open</button>'+
-        '<div id="mynetwork"></div>'+
-        '</div>',
+      templateUrl: 'app/components/graph-risk/template.html',
       restrict: 'E',
       scope: {
         'limitNewConnections':'@',
@@ -21,12 +14,37 @@ angular.module('CarreEntrySystem')
       
         var vm = $scope;
         vm.loading=false;
+        vm.onlyCore=false
         //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections||4;
         vm.minConnections = 12;
         vm.height = vm.height || 600;
         vm.customHeight=0;
         var network;
+        
+        
+        
+        vm.showOnlyCore=function(show){
+          var nodes=[];
+          var edges=[];
+          var nodeIds=[];
+          if (vm.riskid instanceof Array && vm.riskid.length>1) {
+            if(!show) {
+              vm.startNetwork();
+            } else {
+              nodes=vm.nodesArr.filter(function(node){
+                if(network.getConnectedEdges(node.id).length>1 || node.color ){
+                  if(nodeIds.indexOf(node.id)===-1) nodeIds.push(node.id);
+                  return true;
+                } else return false;
+              });
+              edges=vm.edgesArr.filter(function(edge){
+                return nodeIds.indexOf(edge.from)>=0 && nodeIds.indexOf(edge.to)>=0;
+              });
+              vm.startNetwork({nodes:nodes,edges:edges});
+            }
+          }
+        }
         
         vm.addSize=function(){
           vm.customHeight+=100;
@@ -43,9 +61,9 @@ angular.module('CarreEntrySystem')
           network.fit();
         }
         
+        
         //start the initialization
         init(vm.riskid);
-        
         
         function init(id) {
           vm.loading=Risk_elements.associations(id).then(function(data){ 
@@ -178,11 +196,13 @@ angular.module('CarreEntrySystem')
         };
     
         /* Network Graph native configuration */
-        vm.startNetwork = function() {
+        vm.startNetwork = function(externalData) {
+            
+            externalData = externalData || {}
             vm.customHeight=0;
-            vm.nodes = new vis.DataSet(vm.nodesArr);
-            vm.edges = new vis.DataSet(vm.edgesArr);
-    
+            vm.edges = new vis.DataSet(externalData.edges||vm.edgesArr);
+            vm.nodes = new vis.DataSet(externalData.nodes||vm.nodesArr);
+            
             // create a network
             var container = document.getElementById('mynetwork');
             var data = {
@@ -253,6 +273,7 @@ angular.module('CarreEntrySystem')
               }
             };
             network = new vis.Network(container, data, options);
+            
             //register events
             network.on("doubleClick", function (params) {
                 if(params.nodes.length===1) vm.addNodeRelations(params.nodes[0]);
