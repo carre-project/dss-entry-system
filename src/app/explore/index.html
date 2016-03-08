@@ -21,11 +21,11 @@
               </ui-select>
             </div>
 
-            <div class="btn-group">
-                <button ng-click="explore.risk_elements_selected=[];" class="btn btn-deafult">Reset</button>
-                <button ng-click="explore.setNewId()" ng-disabled="explore.risk_elements_selected.length===0" class="btn btn-primary">Search</button>
-            </div>
-            
+            <button ng-click="explore.risk_elements_selected=[];" class="btn btn-default">Reset</button>
+            <button ng-click="explore.setNewId()" ng-disabled="explore.risk_elements_selected.length===0" class="btn btn-primary">Search</button>
+            <button popover-is-open="explore.popover_open" ng-disabled="explore.risk_elements_selected.length===0" popover-placement="bottom" uib-popover-template="explore.recommendPopoverUrl" popover-title="Recommend example" type="button" class="btn btn-default"><i class="fa fa-bookmark"></i></button>
+
+        
             <hr>
             <div class="form-group">
                 <label>Example scenarios</label>
@@ -40,3 +40,16 @@
         </div>
     </div>
 </div>
+
+    
+<script type="text/ng-template" id="recommendExampleTemplate.html">
+    <div class="form-group">
+        <label>Add a description for your example</label>
+        <textarea ng-model="exampleDesc" style="width:400px" class="form-control"></textarea>
+        <hr>
+        <div>
+            <a href="" ng-click="explore.popover_open=false;" class="btn btn-default"> Cancel </a>
+            <a href="" ng-click="explore.recommendExample(exampleDesc);explore.popover_open=false;" class="btn btn-primary"> Send </a>
+        </div>
+    </div>
+</script>

@@ -85,11 +85,11 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
         //id fix
         var prefix = "";
         if (sid.indexOf("http") === -1) {
-          cache_key=sid;
+          cache_key=cache_key+"_"+sid;
           prefix = sid.split("_")[0];
           sid = prefix + ":" + sid;
         } else {
-          cache_key=sid.substring(sid.lastIndexOf("/")+1);
+          cache_key=cache_key+"_"+sid.substring(sid.lastIndexOf("/")+1);
           sid = "<" + sid + ">";
         }
         
@@ -104,8 +104,8 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
       FilterString="FILTER ("+filters.join("||")+")";
       
       //if ids>1 no cache else add prefix
-      if(id.length!==1) cache_key=null;
-      else cache_key="risk_associations_for_"+cache_key;
+      // if(id.length!==1) cache_key=null;
+      cache_key="risk_associations_for"+cache_key;
       
     } else cache_key="risk_associations_for_all";
     
