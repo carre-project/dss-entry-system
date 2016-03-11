@@ -44,11 +44,15 @@ angular.module('CarreEntrySystem').service('Risk_factors', function($http, CARRE
   }
   
 
-  function getRisk_evidencesFromRisk_Factor(id) {
-
+  function getRisk_evidencesFromRisk_Factor(ArrayOfIDs) {
+    console.log("getRisk_evidencesFromRisk_Factor",ArrayOfIDs);
+    
+    ArrayOfIDs = ArrayOfIDs ? (ArrayOfIDs instanceof Array ? ArrayOfIDs : [ArrayOfIDs]) : [];
+    
     var listQuery = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
-             ?subject a risk:risk_evidence; ?predicate ?object; \n\
-             risk:has_risk_factor RF:"+id+". \n\
+             ?subject a risk:risk_evidence; ?predicate ?object. \n\
+             ?subject risk:has_risk_factor ?filter. \n\
+             VALUES (?filter) { "+ArrayOfIDs.map(function(id) { return "(" + id.split('_')[0] + ":" + id+ ')'; }).join(" ")+" } \n\
               OPTIONAL {    \n\
                ?object a risk:citation. \n\
                ?object risk:has_citation_pubmed_identifier ?has_citation_pubmed_identifier  \n\
@@ -72,12 +76,13 @@ angular.module('CarreEntrySystem').service('Risk_factors', function($http, CARRE
                ?object risk:has_risk_factor_target ?has_risk_factor_target. \n\
                ?has_risk_factor_source risk:has_risk_element_name ?has_source_risk_element_name.  \n\
                ?has_risk_factor_target risk:has_risk_element_name ?has_target_risk_element_name.  \n\
-              } \n"
-
-
-    listQuery += "}";
-
-    return CARRE.selectQuery(listQuery);
+              } \n";
+              
+    //add filter to query if a single observable is requested
+    listQuery += " }";
+    console.log("getRisk_evidencesFromRisk_Factor: ",listQuery);
+    return CARRE.selectQuery(listQuery);//,null,'risk_evidences_for_'+ArrayOfIDs.join("_"));
+   
 
   }
   

@@ -6,7 +6,7 @@
     .controller('ExploreController', ExploreController);
 
   /** @ngInject */
-  function ExploreController($rootScope, $timeout, toastr, CARRE, $location, CONFIG, $scope, Risk_elements,$state,$http) {
+  function ExploreController($rootScope, $timeout, toastr, CARRE, $location, CONFIG, $scope, Risk_elements,$state,$http,GRAPH, Risk_factors) {
     var vm = this;
     vm.minConnections=0;
     vm.ready=true;
@@ -18,7 +18,6 @@
         vm.ready=true;
       },100)
     }
-    
     vm.examples=[{
       label:"Connections between diabetes,hypertension and colorectal cancer",
       data:[
@@ -36,7 +35,6 @@
     }];
     
     vm.recommendPopoverUrl="recommendExampleTemplate.html";
-    
     vm.recommendExample=function(label,items){
       var data={
         label:label,
@@ -93,7 +91,10 @@
       });
     });
     
-    
+    var RFs=["RF_2","RF_3","RF_4","RF_6","RF_5"];
+    Risk_factors.risk_evidences(RFs).then(function(res){
+      console.log("Risk evidences for: "+RFs.join(","),res);
+    })
     
   }
 })();

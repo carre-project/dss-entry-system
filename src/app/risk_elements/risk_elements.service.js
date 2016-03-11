@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARRE, CONFIG, QUERY) {
+angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARRE, CONFIG, QUERY,RdfFormatter) {
 
   this.exports = {
     'get': getRisk_elements,
@@ -109,18 +109,18 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
       
     } else cache_key="risk_associations_for_all";
     
-    var query = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
-              WHERE { ?subject a risk:risk_factor; ?predicate ?object. \n\
-               ?subject risk:has_risk_factor_association_type ?has_risk_factor_association_type. \n\
-               ?subject risk:has_risk_factor_source ?has_risk_factor_source. \n\
-               ?subject risk:has_risk_factor_target ?has_risk_factor_target. \n\
-              OPTIONAL {    \n\
-               ?object a risk:risk_element. \n\
-               ?object risk:has_risk_element_name ?has_risk_element_name  \n\
-              }"+ FilterString+" }";
-              
-    return CARRE.selectQuery(query,null,cache_key).then(function(res) {
-
+     var query = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " \n\
+            WHERE { \n\
+            ?subject a risk:risk_factor; ?predicate ?object. \n\
+             ?subject risk:has_risk_factor_association_type ?has_risk_factor_association_type. \n\
+             ?subject risk:has_risk_factor_source ?has_risk_factor_source. \n\
+             ?subject risk:has_risk_factor_target ?has_risk_factor_target. \n\
+            OPTIONAL {    \n\
+             ?object a risk:risk_element. \n\
+             ?object risk:has_risk_element_name ?has_risk_element_name  \n\
+            } "+ FilterString+" }";
+            
+    return CARRE.selectQuery(query,null,(CONFIG.ENV!=='DEV'?cache_key:null)).then(function(res) {
       var graphData = {
         nodes:[],
         edges:[]
@@ -128,7 +128,6 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
         
       var tmp_nodes=[];
       res.data.forEach(function(rf) {
-      
         var source = {
           label: rf.has_risk_factor_source_label,
           id: rf.has_risk_factor_source[0],
@@ -166,7 +165,7 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
         graphData.edges.push({id:relation.id, from:source.id, label:relation.label, to:target.id});
 
       });
-      
+      console.log("Graph data",graphData);
       return graphData;
 
     });

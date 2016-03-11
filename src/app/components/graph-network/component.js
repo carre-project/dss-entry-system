@@ -3,7 +3,7 @@
 angular.module('CarreEntrySystem')
   .directive('carreGraphRisk', function() {
     return {
-      templateUrl: 'app/components/graph-risk/template.html',
+      templateUrl: 'app/components/graph-network/template.html',
       restrict: 'E',
       scope: {
         'limitNewConnections':'@',

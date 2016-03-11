@@ -199,8 +199,9 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
           'has_citation_pubmed_identifier'
           ];
         if (raw) return res;
-        // console.log(res.data);
+        // console.log("Raw data: ",res.data[0]);
         var results = RdfFormatter.groupByProp(res.data, props, null, 'value');
+        // console.log("groupByProp data: ",results);
         if (results.data.length > 0) return RdfFormatter.mappings(results);
         else return [];
       });
@@ -235,6 +236,9 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
   /* CACHE methods */
   function cacheQuery(sparqlQuery,noprefix,req_url_id) {
+    
+    console.info('Final query: ', (noprefix?"":PREFIXSTR) + sparqlQuery);
+    
     var graphName=CONFIG.CARRE_DEFAULT_GRAPH.substring(CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf("/")+1,CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf(">"));
     var url=CONFIG.CARRE_CACHE_URL + 'carre/'
             +graphName+'_'+req_url_id+'/'
