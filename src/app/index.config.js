@@ -9,19 +9,17 @@
   function config(toastrConfig, $httpProvider, cfpLoadingBarProvider,CONFIG) {
     
     //DEFAULT CONFIGURATION
-    CONFIG.CARRE_API_URL="http://devices.carre-project.eu/ws/";
     CONFIG.CARRE_DEFAULT_GRAPH="<http://carre.kmi.open.ac.uk/public>";
     CONFIG.CARRE_ARCHIVE_GRAPH="<http://carre.kmi.open.ac.uk/riskdata>";
     CONFIG.CARRE_DEVICES="http://devices.carre-project.eu/devices/accounts/";
-    CONFIG.CARRE_CACHE_URL="http://beta.carre-project.eu:3002/";
     // CONFIG.TEST_TOKEN="0213be219dc1821eb2f7b0bbc7c8a6cbe3c3559b";
     
     //EXTERNAL API'S
-    CONFIG.BIOPORTAL_API_URL="http://data.bioontology.org/";
+    CONFIG.BIOPORTAL_API_URL="https://data.bioontology.org/";
     CONFIG.BIOPORTAL_API_KEY="a15281a9-d87d-4c0f-b7aa-31debe0f6449";
     CONFIG.BIOPORTAL_ONTOLOGIES="ICD10,ICD10CM";//",ICD10CM,ICD10PCS,ICD9CM";
     CONFIG.PUBMED_API_URL="https://eutils.ncbi.nlm.nih.gov/entrez/eutils/";
-    CONFIG.EUROPEPMC_API_URL="http://www.ebi.ac.uk/europepmc/webservices/rest/";
+    CONFIG.EUROPEPMC_API_URL="https://www.ebi.ac.uk/europepmc/webservices/rest/";
     
     //Client caching
     CONFIG.CACHED_QUERIES={};

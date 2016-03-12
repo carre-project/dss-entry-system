@@ -120,7 +120,7 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
              ?object risk:has_risk_element_name ?has_risk_element_name  \n\
             } "+ FilterString+" }";
             
-    return CARRE.selectQuery(query,null,(CONFIG.ENV!=='DEV'?cache_key:null)).then(function(res) {
+    return CARRE.selectQuery(query,null,(CONFIG.USECACHE?cache_key:null)).then(function(res) {
       var graphData = {
         nodes:[],
         edges:[]

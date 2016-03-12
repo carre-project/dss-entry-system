@@ -240,7 +240,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     console.info('Final query: ', (noprefix?"":PREFIXSTR) + sparqlQuery);
     
     var graphName=CONFIG.CARRE_DEFAULT_GRAPH.substring(CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf("/")+1,CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf(">"));
-    var url=CONFIG.CARRE_CACHE_URL + 'carre/'
+    var url=CONFIG.CARRE_CACHE_URL + 'carreapi/'
             +graphName+'_'+req_url_id+'/'
             +encodeURIComponent(CONFIG.CARRE_API_URL+'query')+'/'
             +encodeURIComponent((noprefix?"":PREFIXSTR) + sparqlQuery)

@@ -6,7 +6,9 @@
     .constant("CONFIG", {
       "currentUser":{},
       "USECACHE":true,
-      "ENV": "DEV"
+      "ENV": "DEV",
+      "CARRE_API_URL": "http://devices.carre-project.eu/ws/",
+      "CARRE_CACHE_URL": "http://beta.carre-project.eu:3002/"
     })
     .config(function($locationProvider, $compileProvider, $urlRouterProvider) {
 

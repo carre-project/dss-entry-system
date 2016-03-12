@@ -5,7 +5,10 @@
     .module('CarreEntrySystem')
     .constant("CONFIG", {    
       "currentUser":{},
-      "ENV": "PROD"
+      "USECACHE":true,
+      "ENV": "PROD",
+      "CARRE_API_URL": "https://carre.kmi.open.ac.uk/ws/",
+      "CARRE_CACHE_URL": "https://cache.carre-project.eu/"
     }).config(function($locationProvider, $compileProvider, $urlRouterProvider) {
       
       //show error

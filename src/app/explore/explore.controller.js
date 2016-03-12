@@ -91,10 +91,6 @@
       });
     });
     
-    var RFs=["RF_2","RF_3","RF_4","RF_6","RF_5"];
-    Risk_factors.risk_evidences(RFs).then(function(res){
-      console.log("Risk evidences for: "+RFs.join(","),res);
-    })
     
   }
 })();
