@@ -14,7 +14,7 @@ angular.module('CarreEntrySystem')
       
         var vm = $scope;
         vm.loading=false;
-        vm.onlyCore=false
+        vm.onlyCore=false;
         //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections||4;
         vm.minConnections = 12;
@@ -198,6 +198,7 @@ angular.module('CarreEntrySystem')
         /* Network Graph native configuration */
         vm.startNetwork = function(externalData) {
             
+            vm.onlyCore=false;
             externalData = externalData || {}
             vm.customHeight=0;
             vm.edges = new vis.DataSet(externalData.edges||vm.edgesArr);
