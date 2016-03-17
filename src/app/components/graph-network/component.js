@@ -198,7 +198,6 @@ angular.module('CarreEntrySystem')
         /* Network Graph native configuration */
         vm.startNetwork = function(externalData) {
             
-            vm.onlyCore=false;
             externalData = externalData || {}
             vm.customHeight=0;
             vm.edges = new vis.DataSet(externalData.edges||vm.edgesArr);

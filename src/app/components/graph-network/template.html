@@ -1,5 +1,5 @@
 <div cg-busy="loading">
-    <button ng-click="startNetwork()" class="btn btn-sm btn-primary pull-right"><i class="fa fa-refresh"></i></button>
+    <button ng-click="startNetwork();explore.onlyCore=false;" class="btn btn-sm btn-primary pull-right"><i class="fa fa-refresh"></i></button>
     <button ng-click="removeSize()" class="btn btn-sm btn-default pull-right"><i class="fa fa-minus"></i></button>
     <button ng-click="addSize()" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i></button>
     <div class="checkbox pull-right" style="margin-right:10px" ng-show="riskid[1]"><label><input type="checkbox" ng-model="explore.onlyCore" ng-click="showOnlyCore(explore.onlyCore)">Show only Path</label></div> 
