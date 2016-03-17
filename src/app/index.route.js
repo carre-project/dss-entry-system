@@ -35,6 +35,12 @@
     //   }
     //   return defer.promise;
     // }
+    
+    function getGuestState() {
+      var url=window.location.href.replace('/edit','');
+      console.log(url);
+      window.location.replace(url);
+    }
 
     
     $stateProvider
@@ -83,7 +89,7 @@
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              return '404_error';
+              getGuestState();
             }        
             
           }
@@ -98,7 +104,7 @@
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              return '404_error';
+              getGuestState();
             }        
             
           }
@@ -113,7 +119,7 @@
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              return '404_error';
+              getGuestState();
             }        
             
           }
@@ -147,7 +153,7 @@
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              return '404_error';
+              getGuestState();
             }        
             
           }
@@ -162,7 +168,7 @@
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              return '404_error';
+              getGuestState();
             }        
             
           }
@@ -197,7 +203,7 @@
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              return '404_error';
+              getGuestState();
             }        
             
           }
@@ -212,7 +218,7 @@
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              return '404_error';
+              getGuestState();
             }
           }
         }
@@ -246,7 +252,7 @@
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              return '404_error';
+              getGuestState();
             }        
             
           }
@@ -261,7 +267,7 @@
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              return '404_error';
+              getGuestState();
             }            
           }
         }
@@ -295,7 +301,7 @@
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              return '404_error';
+              getGuestState();
             }        
             
           }
@@ -310,7 +316,7 @@
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              return '404_error';
+              getGuestState();
             }        
             
           }
@@ -345,7 +351,7 @@
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              return '404_error';
+              getGuestState();
             }        
             
           }
@@ -360,7 +366,7 @@
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              return '404_error';
+              getGuestState();
             }        
             
           }
