@@ -6,79 +6,80 @@ angular.module('CarreEntrySystem')
       templateUrl: 'app/components/graph-sanskey/template.html',
       restrict: 'E',
       scope: {
-        'limitNewConnections':'@',
+        'limitNewConnections': '@',
         'height': '@',
         'riskid': '='
       },
-      controller: function($scope, $timeout, toastr, CARRE, $location, CONFIG, Risk_elements,$state,SweetAlert) {
-      
+      controller: function($scope, $timeout, toastr, CARRE, $location, CONFIG, Risk_elements, $state, SweetAlert) {
+
         var vm = $scope;
-        vm.loading=false;
-        vm.onlyCore=false
-        //graph init configuration
-        vm.limitNewConnections = $scope.limitNewConnections||4;
-        vm.minConnections = 12;
-        vm.height = vm.height || 600;
-        vm.customHeight=0;
+        vm.loading = false;
+          //graph init configuration
+        vm.limitNewConnections = $scope.limitNewConnections || 4;
+        vm.minConnections = 6
+        vm.height = vm.height || 800;
+        vm.customHeight = 0;
         var network;
-        
-        
-        
-        vm.addSize=function(){
-          vm.customHeight+=100;
-          network.setSize('100%',Number(vm.height)+vm.customHeight+'px');
-          network.redraw();
-          network.fit();
+
+
+
+        vm.addSize = function() {
+          vm.customHeight += 100;
+          var width = Number(vm.height) + vm.customHeight + 'px';
+          angular.element('#chart svg').css('width',width);
         }
-        
-        vm.removeSize=function(){
-          if(vm.customHeight<=0) return false;
-          vm.customHeight-=100;
-          network.setSize('100%',Number(vm.height)+vm.customHeight+'px');
-          network.redraw();
-          network.fit();
+
+        vm.removeSize = function() {
+          if (vm.customHeight <= 0) return false;
+          vm.customHeight -= 100;
+          var width = Number(vm.height) + vm.customHeight + 'px';
+          angular.element('#chart svg').css('width',width);
         }
-        
-        
+
+
         //start the initialization
         init(vm.riskid);
-        
+
         function init(id) {
-          vm.loading=Risk_elements.associations(id).then(function(data){ 
-            
+          vm.loading = Risk_elements.associations(id).then(function(data) {
+
             //set initial nodes and edges
-            vm.nodesArr=id?data.nodes.map(function(obj){
-                var obj_pos=-1;
-                //handle colors
-                if(id instanceof Array) obj_pos=id.indexOf(obj.id);
-                else obj_pos=id.substring(id.lastIndexOf("/")+1)===obj.id.substring(obj.id.lastIndexOf("/")+1)?0:-1;
-                if(obj_pos>=0) obj.color=CONFIG.COLORS[obj_pos];
-                
-                return obj;
-              }):data.nodes.filter(function(obj){ return obj.value>vm.minConnections;});
-              
+            vm.nodesArr = id ? data.nodes.map(function(obj) {
+              var obj_pos = -1;
+              //handle colors
+              if (id instanceof Array) obj_pos = id.indexOf(obj.id);
+              else obj_pos = id.substring(id.lastIndexOf("/") + 1) === obj.id.substring(obj.id.lastIndexOf("/") + 1) ? 0 : -1;
+              if (obj_pos >= 0) obj.color = CONFIG.COLORS[obj_pos];
+
+              return obj;
+            }) : data.nodes.filter(function(obj) {
+              return obj.value > vm.minConnections;
+            });
+
             //filter edges
-            vm.edgesArr=data.edges.filter(function(edge){
-              
-              
-              var from=false;
-              var to=false;
-              for (var i=0,len=vm.nodesArr.length;i<len;i++){
-                if(vm.nodesArr[i].id===edge.from) from=true;
-                if(vm.nodesArr[i].id===edge.to) to=true;
+            vm.edgesArr = data.edges.filter(function(edge) {
+
+
+              var from = false;
+              var to = false;
+              for (var i = 0, len = vm.nodesArr.length; i < len; i++) {
+                if (vm.nodesArr[i].id === edge.from) from = true;
+                if (vm.nodesArr[i].id === edge.to) to = true;
               }
-              return from&&to;
+              return from && to;
             });
             //init network after 50ms delay
-            $timeout(function(){vm.startNetwork();},50);
-            
-          }); 
+            $timeout(function() {
+              vm.renderSanskey();
+            }, 50);
+
+          });
         }
-        vm.showRiskFactor=function(id,label){
+        vm.showRiskFactor = function(id, label) {
           //implement a basic confirm popup
           SweetAlert.swal({
               title: "Show the Risk factor?",
-              text: "This will redirect you to the \""+label+"\" risk factor's detail page.",
+              text: "This will redirect you to the \"" + label + "\" risk factor's detail page.",
               type: "info",
               showCancelButton: true,
               confirmButtonColor: "#2E8B57",
@@ -88,17 +89,19 @@ angular.module('CarreEntrySystem')
             },
             function(isConfirm) {
               if (isConfirm) {
-                $state.go("main.risk_factors.view",{id:id});
+                $state.go("main.risk_factors.view", {
+                  id: id
+                });
               }
             });
-          
+
         };
-        
-        vm.showRiskElement=function(id,label){
+
+        vm.showRiskElement = function(id, label) {
           //implement a basic confirm popup
           SweetAlert.swal({
               title: "Show the Risk element?",
-              text: "This will redirect you to the \""+label+"\" risk element's detail page.",
+              text: "This will redirect you to the \"" + label + "\" risk element's detail page.",
               type: "info",
               showCancelButton: true,
               confirmButtonColor: "#2E8B57",
@@ -108,109 +111,164 @@ angular.module('CarreEntrySystem')
             },
             function(isConfirm) {
               if (isConfirm) {
-                $state.go("main.risk_elements.view",{id:id});
+                $state.go("main.risk_elements.view", {
+                  id: id
+                });
               }
             });
-          
+
         };
-        
-        
-        vm.deleteSelected = function(id){
-          var node=id||network.getSelectedNodes()[0];
-          if(!node) return false; 
-          var nodeData={
-            nodes:[node],
-            edges:network.getConnectedEdges(node)
+
+
+        vm.deleteSelected = function(id) {
+          var node = id || network.getSelectedNodes()[0];
+          if (!node) return false;
+          var nodeData = {
+            nodes: [node],
+            edges: network.getConnectedEdges(node)
           }
           vm.removeOrphan(nodeData);
         }
-        
-        
+
+
+        vm.renderSanskey = function() {
           // Some setup stuff.
-  var margin = {top: 1, right: 1, bottom: 6, left: 1};
-  var width = 960 - margin.left - margin.right;
-  var height = 500 - margin.top - margin.bottom;
-  var color = d3.scale.category20();
-  // SVG (group) to draw in.
-  var svg = d3.select("#chart").append("svg")
-          .attr({
-            width: width + margin.left + margin.right,
-            height: height + margin.top + margin.bottom
-          })
-          .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  // Set up Sankey object.
-  var sankey = d3.sankey()
-          .nodeWidth(30)
-          .nodePadding(10)
-          .size([width, height])
-          .nodes(data.nodes)
-          .links(data.links)
-          .layout(32);
-  // Path data generator.
-  var path = sankey.link();
-  // Draw the links.
-  var links = svg.append("g").selectAll(".link")
-          .data(data.links)
-          .enter()
-          .append("path")
-          .attr({
-            "class": "link",
-            d: path
-          })
-          .style("stroke-width", function (d) {
-            return Math.max(1, d.dy);
-          })
-  links.append("title")
-          .text(function (d) {
-            return d.source.name + " to " + d.target.name + " = " + d.value;
-          });
-  // Draw the nodes.
-  var nodes = svg.append("g").selectAll(".node")
-          .data(data.nodes)
-          .enter()
-          .append("g")
-          .attr({
-            "class": "node",
-            transform: function (d) {
-              return "translate(" + d.x + "," + d.y + ")";
+          var node_index = {};
+          var graph = {
+            nodes: vm.nodesArr.map(function(obj, index) {
+              node_index[obj.id] = {
+                index: index,
+                value: obj.value
+              };
+              obj.name = obj.label;
+              return obj;
+            }),
+            links: vm.edgesArr.map(function(obj) {
+              obj.source = node_index[obj.from].index;
+              obj.target = node_index[obj.to].index;
+              obj.value = (node_index[obj.from].value + node_index[obj.to].value) * 0.01;
+              return obj;
+            })
+          };
+
+            var margin = {top: 10, right: 10, bottom: 10, left: 10},
+                width = 1200 - margin.left - margin.right,
+                height = 900 - margin.top - margin.bottom;
+            
+            var formatNumber = d3.format(",.0f"), 
+                format = function(d) { return formatNumber(d); },
+                color = d3.scale.category20b();
+            	
+            // append the svg canvas to the page
+            var svg = d3.select("#chart").append("svg")
+            	.attr("width", vm.height||'100%')
+                .attr("data-height", '0.5678')
+                .attr("viewBox",'0 0 1200 900')
+              .append("g")
+                .attr("transform", 
+                      "translate(" + margin.left + "," + margin.top + ")");
+            
+            	   
+            // Set the sankey diagram properties
+            var sankey = d3.sankey()
+                .nodeWidth(100)
+                .nodePadding(3)
+                .size([width, height]);
+            
+            var path = sankey.link();
+            
+            console.log(graph.nodes);
+
+            sankey
+              .nodes(graph.nodes)
+              .links(graph.links)
+              .layout(32);
+
+            // add in the links
+            var link = svg.append("g").selectAll(".link")
+              .data(graph.links)
+              .enter().append("path")
+              .attr("class", "link")
+              .attr("d", path)
+              .style("stroke-width", function(d) {
+                return Math.max(1, d.dy);
+              })
+              .sort(function(a, b) {
+                return b.dy - a.dy;
+              })
+              .attr("data-title", function(d) {
+                return d.source.name + " vs " + d.target.name + "\n" + format(d.value);
+              });
+
+            // add in the nodes
+            var node = svg.append("g").selectAll(".node")
+              .data(graph.nodes)
+              .enter().append("g")
+              .attr("class", "node")
+              .attr("transform", function(d) {
+                return "translate(" + d.x + "," + d.y + ")";
+              })
+              .call(d3.behavior.drag()
+                .origin(function(d) {
+                  return d;
+                })
+                .on("dragstart", function() {
+                  this.parentNode.appendChild(this);
+                })
+                .on("drag", dragmove));
+
+            // add the rectangles for the nodes
+            node.append("rect")
+              .attr("height", function(d) {
+                return d.dy;
+              })
+              .attr("width", sankey.nodeWidth())
+              .style("fill", function(d, i) {
+                return d.color||'#aaaaaa' // = color(i);
+              })
+              .style("stroke", function(d) {
+                return d3.rgb('#aaaaaa');
+              })
+              .attr('data-title', function(d) {
+                return d.name + "\n" + format(d.value);
+              });
+
+
+            // add in the title for the nodes
+            node.append("text")
+              .attr("x", -6)
+              .attr("y", function(d) {
+                return d.dy / 2;
+              })
+              .attr("dy", ".36em")
+              .attr("text-anchor", "end")
+              .attr("transform", null)
+              .text(function(d) {
+                return d.name.charAt(0).toUpperCase() + d.name.slice(1);;
+              })
+              .filter(function(d) {
+                return d.x < width / 2;
+              })
+              .attr("x", 6 + sankey.nodeWidth())
+              .attr("text-anchor", "start");
+
+            // the function for moving the nodes
+            function dragmove(d) {
+              d3.select(this).attr("transform",
+                "translate(" + d.x + "," + (
+                  d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
+                ) + ")");
+              sankey.relayout();
+              link.attr("d", path);
             }
-          });
-  nodes.append("rect")
-          .attr({
-            height: function (d) {
-              return d.dy;
-            },
-            width: sankey.nodeWidth()
-          })
-          .style({
-            fill: function (d) {
-              return d.color = color(d.name.replace(/ .*/, ""));
-            },
-            stroke: function (d) {
-              return d3.rgb(d.color).darker(2);
-            }
-          })
-          .append("title")
-          .text(function (d) {
-            return d.name;
-          });
-  nodes.append("text")
-          .attr({
-            x: sankey.nodeWidth() / 2,
-            y: function (d) {
-              return d.dy / 2;
-            },
-            dy: ".35em",
-            "text-anchor": "middle",
-            transform: null
-          })
-          .text(function (d) {
-            return d.name;
-          });
-        
+
+
+
+
+        }
+
         //end of controller
       }
-    
+
     };
   });

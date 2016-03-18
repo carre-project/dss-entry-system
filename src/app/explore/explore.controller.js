@@ -11,6 +11,7 @@
     vm.minConnections=0;
     vm.ready=true;
     vm.risk_elements_selected=[];
+    vm.graph_type="sanskey";
     vm.setNewId=function(){
       vm.ready=false;
       $timeout(function(){
@@ -78,6 +79,11 @@
         $timeout(function(){ addItem(url); },index*timeInterval);
       });
       $timeout(function(){ vm.setNewId(); },exampleItems.length*timeInterval);
+    }
+    
+    
+    vm.setGraph=function(type){
+      console.log('Graph changed to:',type);
     }
     
     //get risk elements
