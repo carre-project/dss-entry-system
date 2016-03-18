@@ -19,3 +19,7 @@
 #chart{
   height:100%;
 }
+#chart svg {
+    display: block;
+    margin: auto;
+}

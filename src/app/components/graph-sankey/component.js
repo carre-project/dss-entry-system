@@ -17,7 +17,7 @@ angular.module('CarreEntrySystem')
           //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections || 4;
         vm.minConnections = 6
-        vm.height = vm.height || 800;
+        vm.height = vm.height || 600;
         vm.customHeight = 0;
         var network;
 
