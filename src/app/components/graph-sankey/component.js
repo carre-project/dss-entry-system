@@ -17,26 +17,16 @@ angular.module('CarreEntrySystem')
           //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections || 4;
         vm.minConnections = 6;
-        var elem=getComputedStyle(document.getElementById('chart'), null);
-        console.log('Chart Element',elem);
-        vm.height = vm.height || 1000;
-        vm.customHeight = 0;
-
-
-
-        vm.addSize = function() {
-          vm.customHeight += 100;
-          var width = Number(vm.height) + vm.customHeight + 'px';
-          angular.element('#chart svg').css('width',width);
+        vm.height = 700;
+        
+        $(window).resize(function(){
+          $('#chart svg').remove();
+          vm.renderSankey();
+        });
+        
+        function chartCss(attr){
+         return Number(getComputedStyle(document.getElementById('chart'), null).getPropertyValue(attr).replace('px',''));
         }
-
-        vm.removeSize = function() {
-          if (vm.customHeight <= 0) return false;
-          vm.customHeight -= 100;
-          var width = Number(vm.height) + vm.customHeight + 'px';
-          angular.element('#chart svg').css('width',width);
-        }
-
 
         //start the initialization
         init(vm.riskid);
@@ -121,10 +111,6 @@ angular.module('CarreEntrySystem')
         };
 
 
-        vm.deleteSelected = function(id) {
-        }
-
-
         vm.renderSankey = function() {
           // Some setup stuff.
           var node_index = {};
@@ -144,10 +130,13 @@ angular.module('CarreEntrySystem')
               return obj;
             })
           };
-
+          
             var margin = {top: 10, right: 10, bottom: 10, left: 10},
-                width = vm.height - margin.left - margin.right,
-                height = 600 - margin.top - margin.bottom;
+                width = chartCss('width') - margin.left - margin.right,
+                height = vm.height - margin.top - margin.bottom;
+                
+            var viewBox = '0 0 '+(angular.element(window).width()+40)+' '+(height+20);
+            console.log('Viewbox',viewBox);
             
             var formatNumber = d3.format(",.0f"), 
                 format = function(d) { return formatNumber(d); },
@@ -155,9 +144,9 @@ angular.module('CarreEntrySystem')
             	
             // append the svg canvas to the page
             var svg = d3.select("#chart").append("svg")
-            	.attr("width", vm.height)
-                .attr("data-height", '0.5678')
-                .attr("viewBox",'0 0 1600 800')
+                .attr("width", "100%")
+                .attr("height", "100%")
+                .attr("viewBox",viewBox)
               .append("g")
                 .attr("transform", 
                       "translate(" + margin.left + "," + margin.top + ")");
@@ -166,7 +155,7 @@ angular.module('CarreEntrySystem')
             // Set the sankey diagram properties
             var sankey = d3.sankey()
                 .nodeWidth(10)
-                .nodePadding(3)
+                .nodePadding(10)
                 .size([width, height]);
             
             var path = sankey.link();
