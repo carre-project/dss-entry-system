@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('CarreEntrySystem')
-  .directive('carreGraphSanskeyRisk', function() {
+  .directive('carreGraphSankeyRisk', function() {
     return {
-      templateUrl: 'app/components/graph-sanskey/template.html',
+      templateUrl: 'app/components/graph-sankey/template.html',
       restrict: 'E',
       scope: {
         'limitNewConnections': '@',
@@ -70,7 +70,7 @@ angular.module('CarreEntrySystem')
             });
             //init network after 50ms delay
             $timeout(function() {
-              vm.renderSanskey();
+              vm.renderSankey();
             }, 50);
 
           });
@@ -131,7 +131,7 @@ angular.module('CarreEntrySystem')
         }
 
 
-        vm.renderSanskey = function() {
+        vm.renderSankey = function() {
           // Some setup stuff.
           var node_index = {};
           var graph = {

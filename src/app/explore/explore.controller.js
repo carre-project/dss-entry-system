@@ -11,7 +11,7 @@
     vm.minConnections=0;
     vm.ready=true;
     vm.risk_elements_selected=[];
-    vm.graph_type="sanskey";
+    vm.graph_type="sankey";
     vm.setNewId=function(){
       vm.ready=false;
       $timeout(function(){
