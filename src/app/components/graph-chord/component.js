@@ -191,11 +191,11 @@ angular.module('CarreEntrySystem')
               matrix[nodeIndex[link.target]][nodeIndex[link.source]] = 1;
             });
             
-            var cluster = science.stats.hcluster();
+            // var cluster = science.stats.hcluster();
             
             var rows = [];
             
-            traverse(cluster(matrix), rows);
+            // traverse(cluster(matrix), rows);
             
             rows.forEach(function(node, i) {
               nodeIndex[groups[i] = node.centroid.name] = i;
@@ -231,7 +231,7 @@ angular.module('CarreEntrySystem')
             
             var fill = d3.scale.category20b();
             
-            var svg = d3.select("#vis")
+            var svg = d3.select("#chart")
               .append("svg")
                 .attr("width", w + p + p)
                 .attr("height", h + p + p)

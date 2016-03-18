@@ -16,10 +16,11 @@ angular.module('CarreEntrySystem')
         vm.loading = false;
           //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections || 4;
-        vm.minConnections = 6
-        vm.height = vm.height || 600;
+        vm.minConnections = 6;
+        var elem=getComputedStyle(document.getElementById('chart'), null);
+        console.log('Chart Element',elem);
+        vm.height = vm.height || 1000;
         vm.customHeight = 0;
-        var network;
 
 
 
@@ -68,7 +69,7 @@ angular.module('CarreEntrySystem')
               }
               return from && to;
             });
-            //init network after 50ms delay
+            //init chart after 50ms delay
             $timeout(function() {
               vm.renderSankey();
             }, 50);
@@ -121,13 +122,6 @@ angular.module('CarreEntrySystem')
 
 
         vm.deleteSelected = function(id) {
-          var node = id || network.getSelectedNodes()[0];
-          if (!node) return false;
-          var nodeData = {
-            nodes: [node],
-            edges: network.getConnectedEdges(node)
-          }
-          vm.removeOrphan(nodeData);
         }
 
 
@@ -152,8 +146,8 @@ angular.module('CarreEntrySystem')
           };
 
             var margin = {top: 10, right: 10, bottom: 10, left: 10},
-                width = 1200 - margin.left - margin.right,
-                height = 900 - margin.top - margin.bottom;
+                width = vm.height - margin.left - margin.right,
+                height = 600 - margin.top - margin.bottom;
             
             var formatNumber = d3.format(",.0f"), 
                 format = function(d) { return formatNumber(d); },
@@ -161,9 +155,9 @@ angular.module('CarreEntrySystem')
             	
             // append the svg canvas to the page
             var svg = d3.select("#chart").append("svg")
-            	.attr("width", vm.height||'100%')
+            	.attr("width", vm.height)
                 .attr("data-height", '0.5678')
-                .attr("viewBox",'0 0 1200 900')
+                .attr("viewBox",'0 0 1600 800')
               .append("g")
                 .attr("transform", 
                       "translate(" + margin.left + "," + margin.top + ")");
@@ -171,7 +165,7 @@ angular.module('CarreEntrySystem')
             	   
             // Set the sankey diagram properties
             var sankey = d3.sankey()
-                .nodeWidth(100)
+                .nodeWidth(10)
                 .nodePadding(3)
                 .size([width, height]);
             
