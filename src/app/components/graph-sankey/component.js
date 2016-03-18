@@ -19,15 +19,6 @@ angular.module('CarreEntrySystem')
         vm.minConnections = 6;
         vm.height = 700;
         
-        $(window).resize(function(){
-          $('#chart svg').remove();
-          vm.renderSankey();
-        });
-        
-        function chartCss(attr){
-         return Number(getComputedStyle(document.getElementById('chart'), null).getPropertyValue(attr).replace('px',''));
-        }
-
         //start the initialization
         init(vm.riskid);
 
@@ -66,49 +57,15 @@ angular.module('CarreEntrySystem')
 
           });
         }
-        vm.showRiskFactor = function(id, label) {
-          //implement a basic confirm popup
-          SweetAlert.swal({
-              title: "Show the Risk factor?",
-              text: "This will redirect you to the \"" + label + "\" risk factor's detail page.",
-              type: "info",
-              showCancelButton: true,
-              confirmButtonColor: "#2E8B57",
-              confirmButtonText: "Yes, show me!",
-              closeOnConfirm: true,
-              closeOnCancel: true
-            },
-            function(isConfirm) {
-              if (isConfirm) {
-                $state.go("main.risk_factors.view", {
-                  id: id
-                });
-              }
-            });
-
-        };
-
-        vm.showRiskElement = function(id, label) {
-          //implement a basic confirm popup
-          SweetAlert.swal({
-              title: "Show the Risk element?",
-              text: "This will redirect you to the \"" + label + "\" risk element's detail page.",
-              type: "info",
-              showCancelButton: true,
-              confirmButtonColor: "#2E8B57",
-              confirmButtonText: "Yes, show me!",
-              closeOnConfirm: true,
-              closeOnCancel: true
-            },
-            function(isConfirm) {
-              if (isConfirm) {
-                $state.go("main.risk_elements.view", {
-                  id: id
-                });
-              }
-            });
-
-        };
+        
+        $(window).resize(function(){
+          $('#chart svg').remove();
+          vm.renderSankey();
+        });
+        
+        function chartCss(attr){
+         return Number(getComputedStyle(document.getElementById('chart'), null).getPropertyValue(attr).replace('px',''));
+        }
 
 
         vm.renderSankey = function() {
@@ -140,7 +97,7 @@ angular.module('CarreEntrySystem')
             
             var formatNumber = d3.format(",.0f"), 
                 format = function(d) { return formatNumber(d); },
-                color = d3.scale.category20b();
+                d3colors = d3.scale.category20b();
             	
             // append the svg canvas to the page
             var svg = d3.select("#chart").append("svg")
@@ -207,7 +164,7 @@ angular.module('CarreEntrySystem')
               })
               .attr("width", sankey.nodeWidth())
               .style("fill", function(d, i) {
-                return d.color||'#aaaaaa' // = color(i);
+                return vm.riskid?(d.color||'#aaaaaa'):d3colors(i) // = color(i);
               })
               .style("stroke", function(d) {
                 return d3.rgb('#aaaaaa');
