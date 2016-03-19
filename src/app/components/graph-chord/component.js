@@ -58,9 +58,7 @@ angular.module('CarreEntrySystem')
           }); 
         }
         
-        
 
-        
 function chartCss(attr){
  var elem=document.getElementById(vm.containerId)
  if(elem) return Number(getComputedStyle(elem, null).getPropertyValue(attr).replace('px',''));
@@ -70,7 +68,7 @@ $(window).resize(function(){
   $('#'+vm.containerId+' svg').remove();
   vm.renderChord();
 });
-var rotation = -0.7;
+var rotation = 0;
 
 
 vm.renderChord = function() {
@@ -132,16 +130,33 @@ vm.renderChord = function() {
         var fill = function(d, i) {
                 i = i||d;
                 return vm.riskid?(vm.nodesArr[i].color||'#aaaaaa'):colors(i) // = color(i);
-          }
-            
+        }
+          
+        var rotate=function(){
+            d3.select("#"+vm.containerId+" svg g")
+            .transition()
+            .duration(1000)
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")rotate("+config.rotation+")")
+        }
+        var rotateRight = function(d,i) { 
+            config.rotation+=45;
+            rotate();
+        }
+        var rotateLeft = function(d,i) { 
+            d3.event.preventDefault();
+            config.rotation-=45;
+            rotate();
+        }
+    
         var svg = d3.select("#"+vm.containerId).append("svg")
-            // .attr("id", vm.containerId)
             .attr("viewBox", viewBoxDimensions)
             .attr("preserveAspectRatio", "xMinYMid")    // add viewBox and preserveAspectRatio
             .attr("width", width)
             .attr("height", height)
-          .append("g")
-            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+            .on("click", rotateRight)
+            .on("contextmenu", rotateLeft);
 
         var g = svg.selectAll("g.group")
             .data(chord.groups)
@@ -166,6 +181,8 @@ vm.renderChord = function() {
                     + (d.angle > Math.PI ? "rotate(180)" : "");
               })
             .text(function(d) { return vm.nodesArr[d.index].label; })
+            .on("mouseover", fade(.1))
+            .on("mouseout", fade(1))
             .style("fill", function(d) { return fill(d.index); });
 
         svg.append("g")

@@ -19,30 +19,23 @@
         vm.ready=true;
       },100)
     }
-    vm.examples=[{
-      label:"Connections between diabetes,hypertension and colorectal cancer",
-      data:[
-        "http://carre.kmi.open.ac.uk/risk_elements/RL_29",
-        "http://carre.kmi.open.ac.uk/risk_elements/RL_19",
-        "http://carre.kmi.open.ac.uk/risk_elements/RL_14",
-        ]
+    vm.examples=[
+    {
+      "label":"Connections between diabetes,hypertension and colorectal cancer",
+      "data":["http://carre.kmi.open.ac.uk/risk_elements/RL_29","http://carre.kmi.open.ac.uk/risk_elements/RL_19","http://carre.kmi.open.ac.uk/risk_elements/RL_14"]
     },{
-      label:"How do obesity, diabetes and depression relate with each other?",
-      data:[
-        "http://carre.kmi.open.ac.uk/risk_elements/RL_38",
-        "http://carre.kmi.open.ac.uk/risk_elements/RL_19",
-        "http://carre.kmi.open.ac.uk/risk_elements/RL_18",
-        ]
-    },{
+      "label":"How do obesity, diabetes and depression relate with each other?",
+      "data":["http://carre.kmi.open.ac.uk/risk_elements/RL_38","http://carre.kmi.open.ac.uk/risk_elements/RL_19","http://carre.kmi.open.ac.uk/risk_elements/RL_18"]
+    },
+    {
       "label": "a complex one",
-      "data": [
-        "http://carre.kmi.open.ac.uk/risk_elements/RL_19", 
-        "http://carre.kmi.open.ac.uk/risk_elements/RL_33", 
-        "http://carre.kmi.open.ac.uk/risk_elements/RL_36", 
-        "http://carre.kmi.open.ac.uk/risk_elements/RL_38", 
-        "http://carre.kmi.open.ac.uk/risk_elements/RL_25"
-        ]
-    }];
+      "data": ["http://carre.kmi.open.ac.uk/risk_elements/RL_19","http://carre.kmi.open.ac.uk/risk_elements/RL_33", "http://carre.kmi.open.ac.uk/risk_elements/RL_36", "http://carre.kmi.open.ac.uk/risk_elements/RL_38", "http://carre.kmi.open.ac.uk/risk_elements/RL_25"]
+    },
+    {
+      "label":"too complex to read",
+      "data":["http://carre.kmi.open.ac.uk/risk_elements/RL_19","http://carre.kmi.open.ac.uk/risk_elements/RL_33","http://carre.kmi.open.ac.uk/risk_elements/RL_36","http://carre.kmi.open.ac.uk/risk_elements/RL_38","http://carre.kmi.open.ac.uk/risk_elements/RL_25","http://carre.kmi.open.ac.uk/risk_elements/RL_7","http://carre.kmi.open.ac.uk/risk_elements/RL_10","http://carre.kmi.open.ac.uk/risk_elements/RL_11","http://carre.kmi.open.ac.uk/risk_elements/RL_18","http://carre.kmi.open.ac.uk/risk_elements/RL_22","http://carre.kmi.open.ac.uk/risk_elements/RL_9","http://carre.kmi.open.ac.uk/risk_elements/RL_29","http://carre.kmi.open.ac.uk/risk_elements/RL_16","http://carre.kmi.open.ac.uk/risk_elements/RL_31","http://carre.kmi.open.ac.uk/risk_elements/RL_40"]
+    }
+    ];
     
     vm.recommendPopoverUrl="recommendExampleTemplate.html";
     vm.recommendExample=function(label,items){
