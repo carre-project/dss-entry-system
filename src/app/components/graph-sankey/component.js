@@ -114,7 +114,7 @@ angular.module('CarreEntrySystem')
             	   
             // Set the sankey diagram properties
             var sankey = d3.sankey()
-                .nodeWidth(10)
+                .nodeWidth(20)
                 .nodePadding(10)
                 .size([width, height]);
             
@@ -133,6 +133,9 @@ angular.module('CarreEntrySystem')
               .enter().append("path")
               .attr("class", "link")
               .attr("d", path)
+              .style("stroke", function(d, i) {
+                return vm.riskid?(d.source.color||'#aaaaaa'):d3colors(node_index[d.source.id].index);
+              })
               .style("stroke-width", function(d) {
                 return Math.max(1, d.dy);
               })

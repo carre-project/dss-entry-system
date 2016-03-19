@@ -1,6 +1,6 @@
 .node rect {
   cursor: move;
-  fill-opacity: .9;
+  fill-opacity: 1;
   shape-rendering: crispEdges;
 }
 .node text {
@@ -10,8 +10,8 @@
 .link {
   fill: none;
   stroke: #aaaaaa;
-  stroke-opacity: .2;
+  stroke-opacity: .6;
 }
 .link:hover {
-  stroke-opacity: .5;
+  stroke-opacity: 1;
 }
