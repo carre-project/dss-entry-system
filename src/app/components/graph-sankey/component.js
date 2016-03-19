@@ -14,6 +14,7 @@ angular.module('CarreEntrySystem')
 
         var vm = $scope;
         vm.loading = false;
+        var containerID = "sankey";
           //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections || 4;
         vm.minConnections = 6;
@@ -59,12 +60,12 @@ angular.module('CarreEntrySystem')
         }
         
         $(window).resize(function(){
-          $('#chart svg').remove();
+          $('#'+containerID+' svg').remove();
           vm.renderSankey();
         });
         
         function chartCss(attr){
-         return Number(getComputedStyle(document.getElementById('chart'), null).getPropertyValue(attr).replace('px',''));
+         return Number(getComputedStyle(document.getElementById(containerID), null).getPropertyValue(attr).replace('px',''));
         }
 
 
@@ -100,7 +101,7 @@ angular.module('CarreEntrySystem')
                 d3colors = d3.scale.category20b();
             	
             // append the svg canvas to the page
-            var svg = d3.select("#chart").append("svg")
+            var svg = d3.select("#"+containerID).append("svg")
                 .attr("width", "100%")
                 .attr("height", "100%")
                 .attr("viewBox",viewBox)

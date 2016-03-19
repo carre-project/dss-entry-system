@@ -204,7 +204,7 @@ angular.module('CarreEntrySystem')
             vm.nodes = new vis.DataSet(externalData.nodes||vm.nodesArr);
             
             // create a network
-            var container = document.getElementById('chart');
+            var container = document.getElementById('network');
             var data = {
                 nodes: vm.nodes,
                 edges: vm.edges
