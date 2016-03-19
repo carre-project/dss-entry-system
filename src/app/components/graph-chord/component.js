@@ -54,16 +54,22 @@ angular.module('CarreEntrySystem')
             $timeout(function(){
               vm.renderChord();
             },50);
-            //init network after 50ms delay
-            $timeout(function(){
-              // d3.select("#"+containerId).style("height", "600px");
-            },400);
             
           }); 
         }
         
         
 
+        
+function chartCss(attr){
+ var elem=document.getElementById(vm.containerId)
+ if(elem) return Number(getComputedStyle(elem, null).getPropertyValue(attr).replace('px',''));
+ else return null;
+}
+$(window).resize(function(){
+  $('#'+vm.containerId+' svg').remove();
+  vm.renderChord();
+});
 var rotation = -0.7;
 
 
@@ -92,7 +98,7 @@ vm.renderChord = function() {
         
         // initialize the chord configuration variables
         var config = {
-            width: 700,
+            width: chartCss('width'),
             height: 700,
             rotation: 0,
             textgap: 10

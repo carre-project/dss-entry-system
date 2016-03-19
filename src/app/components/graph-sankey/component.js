@@ -65,7 +65,9 @@ angular.module('CarreEntrySystem')
         });
         
         function chartCss(attr){
-         return Number(getComputedStyle(document.getElementById(containerID), null).getPropertyValue(attr).replace('px',''));
+          var elem=document.getElementById(containerID);
+          if(elem) return Number(getComputedStyle(elem, null).getPropertyValue(attr).replace('px',''));
+          else return null;
         }
 
 
