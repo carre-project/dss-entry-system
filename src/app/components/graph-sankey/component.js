@@ -172,9 +172,9 @@ angular.module('CarreEntrySystem')
               .style("fill", function(d, i) {
                 return vm.riskid?(d.color||'#aaaaaa'):d3colors(i) // = color(i);
               })
-              .style("stroke", function(d) {
-                return d3.rgb('#aaaaaa');
-              })
+              // .style("stroke", function(d) {
+              //   return d3.rgb('#aaaaaa');
+              // })
               .attr('data-title', function(d) {
                 return d.name + "\n" + format(d.value);
               });
