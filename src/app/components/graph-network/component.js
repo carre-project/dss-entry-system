@@ -10,7 +10,7 @@ angular.module('CarreEntrySystem')
         'height': '@',
         'riskid': '='
       },
-      controller: function($scope, $timeout, toastr, CARRE, $location, CONFIG, Risk_elements,$state,SweetAlert) {
+      controller: function($scope, $timeout, toastr, $location, CONFIG, GRAPH ,$state,SweetAlert) {
       
         var vm = $scope;
         vm.loading=false;
@@ -66,7 +66,7 @@ angular.module('CarreEntrySystem')
         init(vm.riskid);
         
         function init(id) {
-          vm.loading=Risk_elements.associations(id).then(function(data){ 
+          vm.loading=GRAPH.network(id).then(function(data){ 
             
             //set initial nodes and edges
             vm.nodesArr=id?data.nodes.map(function(obj){
@@ -138,7 +138,7 @@ angular.module('CarreEntrySystem')
         
         /* Graph manipulations */
         vm.addNodeRelations = function (id) {
-          vm.loading=Risk_elements.associations(id).then(function(data){
+          vm.loading=GRAPH.network(id).then(function(data){
             var limit=vm.limitNewConnections;
             var nodes={};
             data.nodes.forEach(function(node){
