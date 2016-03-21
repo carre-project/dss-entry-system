@@ -5,7 +5,7 @@
     .module('CarreEntrySystem')
     .constant("CONFIG", {
       "currentUser":{},
-      "USECACHE":true,
+      "USECACHE":false,
       "ENV": "DEV",
       "CARRE_API_URL": "http://devices.carre-project.eu/ws/",
       "CARRE_CACHE_URL": "http://beta.carre-project.eu:3002/"

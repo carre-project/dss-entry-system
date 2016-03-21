@@ -115,7 +115,7 @@ angular.module('CarreEntrySystem')
             // Set the sankey diagram properties
             var sankey = d3.sankey()
                 .nodeWidth(20)
-                .nodePadding(10)
+                .nodePadding(20)
                 .size([width, height]);
             
             var path = sankey.link();

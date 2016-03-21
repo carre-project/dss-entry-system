@@ -124,7 +124,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     else {
       listQuery += "}";
       
-      return selectQuery(listQuery,null,type+'_all');
+      return selectQuery(listQuery,null,(CONFIG.USECACHE?type+'_all':null));
     }
    
 
@@ -153,8 +153,8 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     UNION {?rv a risk:risk_evidence} UNION { ?rv_r a risk:risk_evidence FILTER NOT EXISTS {?rv_r risk:has_reviewer ?anything} } \n\
     UNION {?ci a risk:citation} \n\
     UNION {?me a risk:measurement_type}  }";
-    
-    return cacheQuery(query,null,'count_all');
+    if(CONFIG.USECACHE) return cacheQuery(query,null,'count_all');
+    else return apiQuery(query);
   }
   
 
