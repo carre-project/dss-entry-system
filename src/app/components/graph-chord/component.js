@@ -10,7 +10,7 @@ return {
         'height': '@',
         'riskid': '='
     },
-    controller: function($scope, $timeout, toastr, CARRE, $location, CONFIG, Risk_elements,$state,SweetAlert) {
+    controller: function($scope, $timeout, toastr, CARRE, $location, CONFIG, GRAPH,$state,SweetAlert) {
   
         var vm = $scope;
         vm.loading=false;
@@ -25,7 +25,7 @@ return {
         init(vm.riskid);
         
         function init(id) {
-          vm.loading=Risk_elements.associations(id).then(function(data){ 
+          vm.loading=GRAPH.network(id).then(function(data){ 
             
             //set initial nodes and edges
             vm.nodesArr=id?data.nodes.map(function(obj){
@@ -100,7 +100,7 @@ return {
         
         /* Graph manipulations */
         vm.addNodeRelations = function (id) {
-          vm.loading=Risk_elements.associations(id).then(function(data){
+          vm.loading=GRAPH.network(id).then(function(data){
             var limit=vm.limitNewConnections;
             var nodes={};
             data.nodes.forEach(function(node){
@@ -321,7 +321,9 @@ return {
                 .style("opacity", 1)
               .append("svg:title")
                 .text(function(d) { 
-                    return  vm.nodesArr[d.source.index].label +" "+ edgeMatrix[d.source.index][d.target.index].label +" "+ vm.nodesArr[d.target.index].label; 
+                    return  vm.nodesArr[d.source.index].label +" "+ 
+                    edgeMatrix[d.source.index][d.target.index].label +" "+ 
+                    vm.nodesArr[d.target.index].label+" with risk ratio "+Math.round(edgeMatrix[d.source.index][d.target.index].value*100)/100; 
                 });
         
             // helper functions start here

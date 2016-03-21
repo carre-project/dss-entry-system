@@ -10,7 +10,7 @@ angular.module('CarreEntrySystem')
         'height': '@',
         'riskid': '='
       },
-      controller: function($scope, $timeout, toastr, CARRE, $location, CONFIG, Risk_elements, $state, SweetAlert) {
+      controller: function($scope, $timeout, toastr, CARRE, $location, CONFIG, GRAPH, $state, SweetAlert) {
 
         var vm = $scope;
         vm.loading = false;
@@ -24,7 +24,7 @@ angular.module('CarreEntrySystem')
         init(vm.riskid);
 
         function init(id) {
-          vm.loading = Risk_elements.associations(id).then(function(data) {
+          vm.loading = GRAPH.network(id).then(function(data) {
 
             //set initial nodes and edges
             vm.nodesArr = id ? data.nodes.map(function(obj) {
@@ -86,7 +86,6 @@ angular.module('CarreEntrySystem')
             links: vm.edgesArr.map(function(obj) {
               obj.source = node_index[obj.from].index;
               obj.target = node_index[obj.to].index;
-              obj.value = (node_index[obj.from].value + node_index[obj.to].value) * 0.01;
               return obj;
             })
           };
@@ -142,8 +141,12 @@ angular.module('CarreEntrySystem')
               .sort(function(a, b) {
                 return b.dy - a.dy;
               })
-              .attr("data-title", function(d) {
-                return d.source.name + " vs " + d.target.name + "\n" + format(d.value);
+              .append("svg:title")
+                .text(function(d) {
+                console.log(d);
+                return d.source.name +" "
+                + d.label +" "+ d.target.name + 
+                " with risk ratio "+Math.round(d.value*100)/100; ;
               });
 
             // add in the nodes

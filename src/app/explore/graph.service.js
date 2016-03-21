@@ -160,7 +160,14 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
         }
         
         //add the edges
-        graphData.edges.push({id:relation.id, from:source.id, label:relation.label, to:target.id, value:relation.ratio, evidences:relation.evidences});
+        graphData.edges.push({
+          id:relation.id, 
+          from:source.id, 
+          label:relation.label, 
+          to:target.id, 
+          value:relation.ratio, 
+          evidences:relation.evidences
+        });
 
       });
       
