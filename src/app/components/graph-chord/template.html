@@ -1,3 +1,10 @@
 <div cg-busy="loading">
+    <div style="width:200px;float:right;">
+        <slider floor="0" step="20" ceiling="360" ng-model="rotation"></slider>
+    </div>
+    <div style="width:200px;float:left;">    
+        <button ng-click="deleteSelected()" id="chord_deleteButton" style="display:none" class="btn btn-sm btn-danger">Delete</button>
+        <button ng-click="goToSelected()" id="chord_goButton" style="display:none" class="btn btn-sm btn-success">Open</button>
+    </div>
     <div id="chord"></div>
 </div>

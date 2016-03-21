@@ -29,7 +29,8 @@
       'toggle-switch',
       'chart.js',
       'oitozero.ngSweetAlert',
-      'permission'
+      'permission',
+      'ui.slider'
     ]);
 
 })();
