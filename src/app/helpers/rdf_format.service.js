@@ -2,7 +2,8 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG,Carre
 
   this.exports = {
     'groupByProp': groupByProp,
-    'mappings': replaceMappings
+    'mappings': replaceMappings,
+    'translate':translate
   };
 
   /* =====================Simple groupby prop============================================ */
@@ -21,10 +22,11 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG,Carre
       fields: [],
       mappings: {},
       data: []
-    };
+    };                  
+                      //reducer           //initial object acts as prev in the reducer
     return data.reduce(tripleAccumulator, settingsObj);
-  }
-
+  }   
+                            //accumulatedObj , current
   function tripleAccumulator(settings, obj) {
     
     

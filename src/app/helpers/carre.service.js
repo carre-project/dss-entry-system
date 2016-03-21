@@ -198,12 +198,23 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
           'has_target_risk_element_name',
           'has_citation_pubmed_identifier'
           ];
+          
+        console.log("============================");
+        
+        console.log("Sparql Query: ",sparqlQuery);
+        console.log("Raw: ",res.data[0]);
         if (raw) return res;
-        // console.log("Raw data: ",res.data[0]);
         var results = RdfFormatter.groupByProp(res.data, props, null, 'value');
-        // console.log("groupByProp data: ",results);
-        if (results.data.length > 0) return RdfFormatter.mappings(results);
-        else return [];
+        console.log("groupByProp: ",results);
+        if (results.data.length > 0) {
+          var MappedResults = RdfFormatter.mappings(results);
+          console.log("MappedResults: ",results);
+          return MappedResults
+        } else return [];
+        
+        
+        console.log("============================");
+        
       });
     } 
   }
@@ -218,8 +229,6 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     params.sparql = (noprefix?"":PREFIXSTR) + sparqlQuery;
     // use token
     if (Auth.cookie) params.token = Auth.cookie;
-
-    console.info('Final query: ', params.sparql);
     return $http.post(CONFIG.CARRE_API_URL + 'query', params).then(function(res){
       if(res.data==='No JSON object could be decoded') {
         console.error(res);

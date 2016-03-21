@@ -1,10 +1,13 @@
-angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE) {
+angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFormatter) {
     
   this.exports = {
-    'networkData': getNetworkData
+    'network': getNetworkData
   };
   
+  
+  //Returns a Tree ( RF: {RL_source,RL_target,RV:{OB:[],.. })
   function getNetworkData(idFilter){
+    
     var FilterString="";
     var cache_key="";
     var filters=[];
@@ -62,31 +65,82 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE) {
             ?has_risk_evidence_observable risk:has_observable_name ?has_risk_evidence_observable_name. \n\
             "+ FilterString+" }";
             
-    return CARRE.selectQuery(query,'raw',(CONFIG.ENV!=='DEV'?cache_key:null)).then(function(res) {
-      console.log("Graph service: ",res.data);
+    return CARRE.selectQuery(query,'raw',(CONFIG.USECACHE?cache_key:null)).then(function(res) {
+
+      var formattedData=res.data.reduce(function(init,cur){
+        var val=init.valueProp;
+        //construct risk factor element tree
+        var rf_index=cur.risk_factor[val].substring(cur.risk_factor[val].lastIndexOf('/')+1);
+        var rf={
+          rf_id:cur.risk_factor[val],
+          rf_type:cur.has_risk_factor_association_type[val],
+          rf_source_id:cur.has_risk_factor_source[val],
+          rf_source_label:cur.has_risk_source_element_name[val],
+          rf_target_id:cur.has_risk_factor_target[val],
+          rf_target_label:cur.has_risk_target_element_name[val],
+          rf_evidences:[]
+        };
+        var rv_index=rf_index+'_'+cur.has_risk_evidence[val].substring(cur.has_risk_evidence[val].lastIndexOf('/')+1);
+        var rv={
+          rv_id:cur.has_risk_evidence[val],
+          rv_observable_condition:cur.has_observable_condition_text[val],
+          rv_ratio_value:cur.has_risk_evidence_ratio_value[val],
+          rv_observables:[]
+        };
+        var ob={
+          ob_id:cur.has_risk_evidence_observable[val],
+          ob_label:cur.has_risk_evidence_observable_name[val]
+        };
+        var rf_pos=init.index[rf_index];
+        var rv_pos=init.index[rv_index];
+        
+        if (!rf_pos && rf_pos!==0) {
+          rv.rv_observables.push(ob);
+          rf.rf_evidences.push(rv);
+          init.data.push(rf);
+          init.index[rv_index] = 0;
+          init.index[rf_index] = init.data.indexOf(rf);
+        }
+        else if (!rv_pos && rv_pos!==0) {
+          rv.rv_observables.push(ob);
+          init.data[rf_pos].rf_evidences.push(rv);
+          init.index[rv_index] = init.data[rf_pos].rf_evidences.indexOf(rv);
+        }
+        else {
+          init.data[rf_pos].rf_evidences[rv_pos].rv_observables.push(ob);
+        }
+        
+        return init;
+          
+      },{data:[],index:{},valueProp:'value'});
+      
+      console.log("Graph Formatter: ",formattedData);
+      
       var graphData = {
         nodes:[],
         edges:[]
       };
         
       var tmp_nodes=[];
-      res.data.forEach(function(rf) {
+      formattedData.data.forEach(function(rf) {
       
         var source = {
-          label: rf.has_risk_factor_source_label,
-          id: rf.has_risk_factor_source[0],
+          label: rf.rf_source_label,
+          id: rf.rf_source_id,
           value:1
         };
 
         var target = {
-          label: rf.has_risk_factor_target_label,
-          id: rf.has_risk_factor_target[0],
+          label: rf.rf_target_label,
+          id: rf.rf_target_id,
           value:1
         };
 
         var relation = {
-          label: rf.has_risk_factor_association_type_label,
-          id: rf.id
+          label: RdfFormatter.translate(rf.rf_type),
+          id: rf.rf_id,
+          ratio:rf.rf_evidences.reduce(function(prev,cur){return prev+Number(cur.rv_ratio_value);},0),
+          evidences:rf.rf_evidences
         };
 
         //add the nodes
@@ -106,14 +160,16 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE) {
         }
         
         //add the edges
-        graphData.edges.push({id:relation.id, from:source.id, label:relation.label, to:target.id});
+        graphData.edges.push({id:relation.id, from:source.id, label:relation.label, to:target.id, value:relation.ratio, evidences:relation.evidences});
 
       });
       
+      console.log(graphData);
       return graphData;
 
     });
   }
-      
+
+
     return this.exports;
 });

@@ -80,7 +80,6 @@ angular.module('CarreEntrySystem').service('Risk_factors', function($http, CARRE
               
     //add filter to query if a single observable is requested
     listQuery += " }";
-    console.log("getRisk_evidencesFromRisk_Factor: ",listQuery);
     return CARRE.selectQuery(listQuery);//,null,'risk_evidences_for_'+ArrayOfIDs.join("_"));
    
 
