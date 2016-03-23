@@ -140,15 +140,16 @@ angular.module('CarreEntrySystem')
               })
               .sort(function(a, b) {
                 return b.dy - a.dy;
-              })
-              .append("svg:title")
+              });
+              
+              link.append("title")
+              .append("title")
                 .text(function(d) {
-                console.log(d);
                 return d.source.name +" "
                 + d.label +" "+ d.target.name + 
                 " with risk ratio "+Math.round(d.value*100)/100; ;
               });
-
+              
             // add in the nodes
             var node = svg.append("g").selectAll(".node")
               .data(graph.nodes)
