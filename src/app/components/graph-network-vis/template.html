@@ -8,11 +8,15 @@
             <button ng-show="showDetails" ng-click="showDetails=!showDetails" class="btn btn-sm ">
                  <i class="fa fa-caret-square-o-up"></i> Hide details
             </button>
-            <button ng-click="goToSelected()" class="btn btn-xs btn-primary">{{getType(selectedId).label}}</button>            
+            <strong>{{getType(selectedId).label}}</strong>
+            <button ng-click="goToSelected()" class="btn btn-xs btn-default">Navigate</button>
+            <div class="btn-group">
+            <button ng-show="selectedId && selectedId.indexOf('RL')>=0 " ng-click="addNodeRelations(selectedId)" class="btn btn-xs btn-info">Expand</button>
             <button ng-show="selectedId && selectedId.indexOf('RL')>=0 " ng-click="deleteSelected()" class="btn btn-xs btn-danger">Clear <i class="fa fa-remove"></i></button>
 
+            </div>
           </div>
-          <div ng-if="showDetails" class="panel-body">
+          <div ng-if="showDetails&&selectedId" class="panel-body">
             <carre-element elem-id="{{selectedId}}" mode="view" not-fields="has_author,has_reviewer"></carre-element>
           </div>
         </div>

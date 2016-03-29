@@ -145,11 +145,11 @@ angular.module('CarreEntrySystem')
         };
         
         vm.selectElement = function(id){
-          if(!id) $timeout(function(){vm.showDetails=false; vm.selectedId = false; },0);
+          if(!id) $timeout(function(){vm.selectedId = false; },0);
           else {
             if(id.indexOf('/')!==-1) id = id.substr(id.lastIndexOf('/')+1);
             $timeout(function(){vm.selectedId = id; },0);
-            if(vm.showDetails || vm.options.alwaysOnDetails) { //reload element hack
+            if(vm.showDetails && vm.options.alwaysOnDetails) { //reload element hack
               $timeout(function(){vm.showDetails=false; },0);
               $timeout(function(){vm.showDetails = true;},100);
             }
