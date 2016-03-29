@@ -5,9 +5,17 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
   };
   
   
+  window.FindnodeIndex=function(arr,val,prop){
+    for (var i=0;i<arr.length;i++){
+      if(val===arr[i][prop]) return i;
+    }
+    console.error('Node Index not found',val)
+    return -1;
+  }
+  
   //Returns a Tree ( RF: {RL_source,RL_target,RV:{OB:[],.. })
-  function getNetworkData(idFilter){
-    
+  function getNetworkData(idFilter,edgeType){
+    edgeType = edgeType || "risk_evidence";
     var FilterString="";
     var cache_key="";
     var filters=[];
@@ -127,19 +135,18 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
         var source = {
           label: rf.rf_source_label,
           id: rf.rf_source_id,
-          value:1
+          connections:0
         };
 
         var target = {
           label: rf.rf_target_label,
           id: rf.rf_target_id,
-          value:1
+          connections:0
         };
 
         var relation = {
           label: RdfFormatter.translate(rf.rf_type),
           id: rf.rf_id,
-          ratio:rf.rf_evidences.reduce(function(prev,cur){return prev+Number(cur.rv_ratio_value);},0),
           evidences:rf.rf_evidences
         };
 
@@ -149,25 +156,45 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
           tmp_nodes.push(source.id);
           graphData.nodes.push(source);
         } else {
-          graphData.nodes[source_index].value++;
+          graphData.nodes[source_index].connections++;
         }
         var target_index=tmp_nodes.indexOf(target.id);
         if(target_index===-1) {
           tmp_nodes.push(target.id);
           graphData.nodes.push(target);
         } else {
-          graphData.nodes[target_index].value++;
+          graphData.nodes[target_index].connections++;
         }
+        if(edgeType==='risk_factor') { 
+          graphData.edges.push({
+              id:relation.id, 
+              source:source.id,
+              target:target.id,
+              from:source.id, 
+              label:relation.label, 
+              to:target.id,
+              evidences:relation.evidences
+            });
+          } else { //risk evidences
+          
+          relation.evidences.forEach(function(rv){
+            var ratio=Number(rv.rv_ratio_value)||1;
+            //add the edges
+            graphData.edges.push({
+              risk_factor:relation.id,
+              id:rv.rv_id, 
+              source:source.id,
+              target:target.id,
+              from:source.id, 
+              label:relation.label, 
+              to:target.id, 
+              ratio:ratio,
+              observables:rv.rv_observables
+            });
+            
+          });
         
-        //add the edges
-        graphData.edges.push({
-          id:relation.id, 
-          from:source.id, 
-          label:relation.label, 
-          to:target.id, 
-          value:relation.ratio, 
-          evidences:relation.evidences
-        });
+        }
 
       });
       

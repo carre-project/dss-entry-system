@@ -6,20 +6,12 @@
     .controller('risk_elementsController', risk_elementsController);
 
   /** @ngInject */
-  function risk_elementsController(toastr, currentUser, Risk_elements, $stateParams, CONFIG, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state , content) {
+  function risk_elementsController(toastr, currentUser, Risk_elements, $stateParams, CONFIG, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state , content,VisibleFields) {
     var vm = this; //controller as vm
-    
-    
-    var visibleGridColumns=[
-      'has_risk_element_name',
-      'has_risk_element_identifier',
-      'has_risk_element_type',
-      'has_risk_element_modifiable_status',
-      'has_risk_element_observable',
-      ];
-    
-    
+  
     /************** List Template **************/
+      
+    var visibleGridColumns=VisibleFields('risk_element','list');
     
     var risk_elements = [];
     vm.gridLoading=Risk_elements.get().then(function(res) {
@@ -68,6 +60,9 @@
 
     /* GRID Default options */
     vm.mygrid = content.default;
-
+    
+    
   }
+    
+
 })();

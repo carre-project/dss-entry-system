@@ -16,18 +16,21 @@
           </div>
         </div>
     </div>
-    <div style="width:170px;position:absolute;right:0;text-align:left;z-index:5">
+    <div style="width:200px;position:absolute;right:0;text-align:right;z-index:5">
     <!-- Single button -->
     <div class="btn-group" uib-dropdown is-open="status.isopen">
       <button id="single-button" type="button" class="btn btn-sm btn-default" uib-dropdown-toggle ng-disabled="disabled">
         Options <span class="caret"></span>
       </button>
         <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
-          <li role="menuitem" ng-click="toggleRiskEvidences()" ><a href=""> Show Risk evidences <input type="checkbox" ng-model="options.showRiskEvidences"></a></li>   
+          <li role="menuitem" ng-click="toggleRiskEvidences()" ><a href=""> Show Risk evidences <input type="checkbox" ng-model="options.showRiskEvidences"></a></li>        
+          <li ng-if="riskid" role="menuitem" ng-click="toggleOnlyCore()"><a href=""> Show only path  <input type="checkbox" ng-model="options.onlyCore"> </a></li>
         </ul>
         </div>
-        
+            <button ng-click="removeSize()" class="btn btn-sm btn-default"><i class="fa fa-minus"></i></button>
+            <button ng-click="addSize()" class="btn btn-sm btn-default"><i class="fa fa-plus"></i></button>
             <button ng-click="init(riskid)" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></button>
     </div>
-    <div id="sankey"></div>
+        
+    <div id="network" style="z-index:1"></div>
 </div>

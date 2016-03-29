@@ -20,12 +20,13 @@ return {
         vm.minConnections = 5;
         vm.height = vm.height || 600;
         vm.containerId = "chord";
+        vm.edgeType = 'risk_factor';
         
         //start the initialization
         init(vm.riskid);
         
         function init(id) {
-          vm.loading=GRAPH.network(id).then(function(data){ 
+          vm.loading=GRAPH.network(id,vm.edgeType).then(function(data){ 
             
             //set initial nodes and edges
             vm.nodesArr=id?data.nodes.map(function(obj){
@@ -36,7 +37,7 @@ return {
                 if(obj_pos>=0) obj.color=CONFIG.COLORS[obj_pos];
                 
                 return obj;
-              }):data.nodes.filter(function(obj){ return obj.value>vm.minConnections;});
+              }):data.nodes.filter(function(obj){ return obj.connections>vm.minConnections;});
               
             //filter edges
             vm.edgesArr=data.edges.filter(function(edge){
@@ -100,7 +101,7 @@ return {
         
         /* Graph manipulations */
         vm.addNodeRelations = function (id) {
-          vm.loading=GRAPH.network(id).then(function(data){
+          vm.loading=GRAPH.network(id,vm.edgeType).then(function(data){
             var limit=vm.limitNewConnections;
             var nodes={};
             data.nodes.forEach(function(node){
@@ -219,9 +220,10 @@ return {
             });
             vm.edgesArr.forEach(function(e,i){
               edgeMatrix[nodesIndex[e.from].i][nodesIndex[e.to].i]=e;
-              matrix[nodesIndex[e.from].i][nodesIndex[e.to].i]=e.value||1;
+              matrix[nodesIndex[e.from].i][nodesIndex[e.to].i]=1;
             });
-            console.log("New Matrix,",vm.nodesArr,matrix,edgeMatrix);
+            
+            
             
             // initialize the chord configuration variables
             var config = {
@@ -323,7 +325,7 @@ return {
                 .text(function(d) { 
                     return  vm.nodesArr[d.source.index].label +" "+ 
                     edgeMatrix[d.source.index][d.target.index].label +" "+ 
-                    vm.nodesArr[d.target.index].label+" with risk ratio "+Math.round(edgeMatrix[d.source.index][d.target.index].value*100)/100; 
+                    vm.nodesArr[d.target.index].label; 
                 });
         
             // helper functions start here

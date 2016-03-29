@@ -6,5 +6,6 @@
 <!--debug vars-->
 
 <div class="col-xs-12">
-    <risk-element-form ng-if="risk_element.current.id||risk_element.create" model="risk_element.current"></risk-element-form>
+    <carre-element-controls carre-id="{{id}}"></carre-element-controls>
+    <carre-element type="risk_element" elem-id="{{id}}" mode="{{mode}}"></carre-element>
 </div>

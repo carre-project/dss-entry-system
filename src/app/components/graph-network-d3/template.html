@@ -1,5 +1,5 @@
 <div cg-busy="loading">
-    <div ng-show="selectedId" style="width:40%;position:absolute;left:0;text-align:left;z-index:5">
+    <div ng-show="selectedId" style="width:250px;position:absolute;left:0;text-align:left;z-index:5">
         <div class="panel panel-xs panel-default" style="margin:0;">
           <div class="panel-heading" style="padding-top:0;padding-bottom:0;padding-left:0;">
             <button ng-show="!showDetails" style="background:none" ng-click="showDetails=!showDetails" class="btn btn-sm ">
@@ -16,18 +16,23 @@
           </div>
         </div>
     </div>
-    <div style="width:170px;position:absolute;right:0;text-align:left;z-index:5">
+    <div style="width:200px;position:absolute;right:0;text-align:right;z-index:5">
     <!-- Single button -->
     <div class="btn-group" uib-dropdown is-open="status.isopen">
       <button id="single-button" type="button" class="btn btn-sm btn-default" uib-dropdown-toggle ng-disabled="disabled">
         Options <span class="caret"></span>
       </button>
-        <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
-          <li role="menuitem" ng-click="toggleRiskEvidences()" ><a href=""> Show Risk evidences <input type="checkbox" ng-model="options.showRiskEvidences"></a></li>   
-        </ul>
+          <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
+            <li role="menuitem"><a href=""  ng-click="toggleRiskEvidences()" > <input type="checkbox" ng-model="options.showRiskEvidences"> Show Risk evidences
+            </a>
+            </li>        
+            <li ng-if="riskid" role="menuitem"><a href=""  ng-click="toggleOnlyCore()" > <input type="checkbox" ng-model="options.onlyCore"> Show only path </a></li>
+    
+          </ul>
         </div>
-        
+            <button ng-click="removeSize()" class="btn btn-sm btn-default"><i class="fa fa-minus"></i></button>
+            <button ng-click="addSize()" class="btn btn-sm btn-default"><i class="fa fa-plus"></i></button>
             <button ng-click="init(riskid)" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></button>
-    </div>
-    <div id="sankey"></div>
+        </div>
+    <div id="network" style="z-index:1"></div>
 </div>

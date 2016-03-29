@@ -49,6 +49,7 @@
                     <label for="visualization_type">Visualization type</label>
                     <select id="visualization_type" class="form-control" ng-model="explore.graph_type" ng-change="setGraph(explore.graph_type)">
                         <option value="network">Network graph</option>
+                        <option ng-if="main.config.ENV==='DEV'" value="network-d3">Network graph d3</option>
                         <option value="sankey">Sankey graph</option>
                         <option value="chord">Chord graph</option>
                     </select>
@@ -60,6 +61,7 @@
                     <carre-graph-sankey-risk limit-new-connections="4" ng-if="explore.graph_type==='sankey' && explore.ready" riskid="explore.id"></carre-graph-sankey-risk>
                     <carre-graph-chord-risk limit-new-connections="4" ng-if="explore.graph_type==='chord' && explore.ready" riskid="explore.id"></carre-graph-chord-risk>
                     <carre-graph-risk limit-new-connections="4" ng-if="explore.graph_type==='network' && explore.ready" riskid="explore.id"></carre-graph-risk>
+                    <carre-graph-network limit-new-connections="4" ng-if="explore.graph_type==='network-d3' && explore.ready" riskid="explore.id"></carre-graph-network>
                 </div>
             </div>
         </div>

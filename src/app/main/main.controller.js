@@ -6,14 +6,12 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($rootScope, $timeout, toastr, $location, CONFIG, Auth) {
+  function MainController($timeout, toastr, $location, CONFIG,CARRE,$state,SweetAlert) {
     var vm = this;
     
-    
-    
+    CONFIG.ROOT_URL=rootUrl();
     vm.config = CONFIG;
     vm.user = vm.config.currentUser || {};
-    CONFIG.ROOT_URL=rootUrl();
     
     //clean up the browser url
     $location.url($location.path());
@@ -39,6 +37,32 @@
         return window.location.host+'/';
       }
     }
+    
+    
+
+    vm.deleteCurrent = function(id) {
+      if(!id) return;
+      SweetAlert.swal({
+          title: "Are you sure?",
+          text: "Your will not be able to recover this element!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, delete it!",
+          closeOnConfirm: true,
+          closeOnCancel: true
+        },
+        function(isConfirm) {
+          if (isConfirm) { 
+            if(CONFIG.AllowDelete) {
+              CARRE.delete(id).then(function() { $state.go('^.list'); }); 
+            } else {
+              toastr.info(id+' deleted!','DEBUG');
+              $timeout(function(){ $state.go('^.list') },500);
+            }
+          }
+        });
+    };
 
   }
 })();

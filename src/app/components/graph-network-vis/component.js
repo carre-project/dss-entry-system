@@ -3,48 +3,43 @@
 angular.module('CarreEntrySystem')
   .directive('carreGraphRisk', function() {
     return {
-      templateUrl: 'app/components/graph-network/template.html',
+      templateUrl: 'app/components/graph-network-vis/template.html',
       restrict: 'E',
       scope: {
         'limitNewConnections':'@',
         'height': '@',
         'riskid': '='
       },
-      controller: function($scope, $timeout, toastr, $location, CONFIG, GRAPH ,$state,SweetAlert) {
+      controller: function($scope, $timeout, toastr, $location, CONFIG, GRAPH ,content,$q) {
       
         var vm = $scope;
         vm.loading=false;
         vm.onlyCore=false;
         //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections||4;
-        vm.minConnections = 12;
+        vm.minConnections = 10;
         vm.height = vm.height || 600;
         vm.customHeight=0;
         var network;
-        
-        
-        
-        vm.showOnlyCore=function(show){
-          var nodes=[];
-          var edges=[];
-          var nodeIds=[];
-          if (vm.riskid instanceof Array && vm.riskid.length>1) {
-            if(!show) {
-              vm.startNetwork();
-            } else {
-              nodes=vm.nodesArr.filter(function(node){
-                if(network.getConnectedEdges(node.id).length>1 || node.color ){
-                  if(nodeIds.indexOf(node.id)===-1) nodeIds.push(node.id);
-                  return true;
-                } else return false;
-              });
-              edges=vm.edgesArr.filter(function(edge){
-                return nodeIds.indexOf(edge.from)>=0 && nodeIds.indexOf(edge.to)>=0;
-              });
-              vm.startNetwork({nodes:nodes,edges:edges});
-            }
-          }
+        vm.options = {
+          showRiskEvidences:false,
+          onlyCore: false
         }
+        
+      
+        vm.toggleOnlyCore=function(){
+            $timeout(function(){
+              vm.options.onlyCore = !vm.options.onlyCore;
+              vm.init(vm.riskid); 
+            },0);
+        };
+        
+        vm.toggleRiskEvidences=function(){
+            $timeout(function(){
+              vm.options.showRiskEvidences = !vm.options.showRiskEvidences;
+              vm.init(vm.riskid); 
+            },0);
+        };
         
         vm.addSize=function(){
           vm.customHeight+=100;
@@ -62,11 +57,14 @@ angular.module('CarreEntrySystem')
         }
         
         
-        //start the initialization
-        init(vm.riskid);
         
-        function init(id) {
-          vm.loading=GRAPH.network(id).then(function(data){ 
+        vm.init=function(id) {
+          
+          
+          //check if loading promise exists and act accordingly
+          $timeout(function(){vm.loading=$q.defer();},0);
+          
+          GRAPH.network(id,!vm.options.showRiskEvidences?'risk_factor':null).then(function(data){ 
             
             //set initial nodes and edges
             vm.nodesArr=id?data.nodes.map(function(obj){
@@ -75,14 +73,11 @@ angular.module('CarreEntrySystem')
                 if(id instanceof Array) obj_pos=id.indexOf(obj.id);
                 else obj_pos=id.substring(id.lastIndexOf("/")+1)===obj.id.substring(obj.id.lastIndexOf("/")+1)?0:-1;
                 if(obj_pos>=0) obj.color=CONFIG.COLORS[obj_pos];
-                
                 return obj;
-              }):data.nodes.filter(function(obj){ return obj.value>vm.minConnections;});
+              }):data.nodes.filter(function(obj){ return obj.connections>vm.minConnections;});
               
             //filter edges
             vm.edgesArr=data.edges.filter(function(edge){
-              
-              
               var from=false;
               var to=false;
               for (var i=0,len=vm.nodesArr.length;i<len;i++){
@@ -90,55 +85,40 @@ angular.module('CarreEntrySystem')
                 if(vm.nodesArr[i].id===edge.to) to=true;
               }
               return from&&to;
+            }).map(function(edge){
+              var pos=(id instanceof Array)?id.indexOf(edge.from):null;
+              edge.color = pos>=0?CONFIG.COLORS[pos]:"#aaaaaa";
+              return edge;
             });
+            
             //init network after 50ms delay
-            $timeout(function(){vm.startNetwork();},50);
+            $timeout(function(){
+              if(vm.options.onlyCore && vm.riskid instanceof Array && vm.riskid.length>1) {
+                  var nodeIds=[];
+                  vm.startNetwork({
+                    nodes:vm.nodesArr.filter(function(node){
+                    if(network.getConnectedEdges(node.id).length>1 || node.color ){
+                      if(nodeIds.indexOf(node.id)===-1) nodeIds.push(node.id);
+                      return true;
+                    } else return false;
+                  }),
+                    edges:vm.edgesArr.filter(function(edge){
+                    return nodeIds.indexOf(edge.from)>=0 && nodeIds.indexOf(edge.to)>=0;
+                  })
+                    
+                  });
+              } else vm.startNetwork();
+            },50);
             
           }); 
         }
-        vm.showRiskFactor=function(id,label){
-          //implement a basic confirm popup
-          SweetAlert.swal({
-              title: "Show the Risk factor?",
-              text: "This will redirect you to the \""+label+"\" risk factor's detail page.",
-              type: "info",
-              showCancelButton: true,
-              confirmButtonColor: "#2E8B57",
-              confirmButtonText: "Yes, show me!",
-              closeOnConfirm: true,
-              closeOnCancel: true
-            },
-            function(isConfirm) {
-              if (isConfirm) {
-                $state.go("main.risk_factors.view",{id:id});
-              }
-            });
-          
-        };
         
-        vm.showRiskElement=function(id,label){
-          //implement a basic confirm popup
-          SweetAlert.swal({
-              title: "Show the Risk element?",
-              text: "This will redirect you to the \""+label+"\" risk element's detail page.",
-              type: "info",
-              showCancelButton: true,
-              confirmButtonColor: "#2E8B57",
-              confirmButtonText: "Yes, show me!",
-              closeOnConfirm: true,
-              closeOnCancel: true
-            },
-            function(isConfirm) {
-              if (isConfirm) {
-                $state.go("main.risk_elements.view",{id:id});
-              }
-            });
-          
-        };
+        //start the initialization
+        vm.init(vm.riskid);
         
         /* Graph manipulations */
         vm.addNodeRelations = function (id) {
-          vm.loading=GRAPH.network(id).then(function(data){
+          vm.loading=GRAPH.network(id,!vm.options.showRiskEvidences?'risk_factor':null).then(function(data){
             var limit=vm.limitNewConnections;
             var nodes={};
             data.nodes.forEach(function(node){
@@ -155,60 +135,18 @@ angular.module('CarreEntrySystem')
           });
         };
         
-        function renderRiskEvidencePopup(edge,rv){
-          var html="<b>"+vm.nodes._data[edge.from].label+" "+edge.label+" "+vm.nodes._data[edge.to].label+"</b>"+
-          "<div> Ratio: "+rv.rv_ratio_value+"</div>"+
-          "<div> Condition: "+rv.rv_observable_condition+"</div><ul>";
-          rv.rv_observables.forEach(function(ob){
-            html+="<li>"+ob.ob_label+"</li>";
-          });
-          html+="</ul>";
-          return html;
-        }
-        
-        vm.addRiskEvidences = function (edge) {
-          console.log("Edge",edge);
-          edge.evidences.forEach(function(rv){
-            
-            //add node
-            var node = {
-              id:rv.rv_id.substring(rv.rv_id.lastIndexOf('/')+1),
-              label:rv.rv_ratio_value,
-              condition:rv.rv_observable_condition,
-              observables:rv.rv_observables,
-              shape: 'box',
-              title:renderRiskEvidencePopup(edge,rv)
-            };
-            
-            if(!vm.nodes._data[node.id]) vm.nodes.add(node);
-             
-            //add edges
-            var from_id=edge.id.substring(edge.id.lastIndexOf('/')+1)+'_'+node.id+'_from';
-            var from_edge = {
-              id:from_id,
-              dashes:true,
-              color:'#cccccc',
-              arrows: '',
-              from:edge.from,
-              to:node.id,
-            };
-            var to_id = edge.id.substring(edge.id.lastIndexOf('/')+1)+'_'+node.id+'_to';
-            var to_edge = {
-              id:to_id,
-              dashes:true,
-              color:'#cccccc',
-              arrows: '',
-              from:node.id,
-              to:edge.to,
-            };
-            console.log(node,from_edge,to_edge);
-            if(!vm.edges._data[from_id]) vm.edges.add(from_edge);
-            if(!vm.edges._data[to_id]) vm.edges.add(to_edge);
-            
-          });
+        vm.selectElement = function(id){
+          if(!id) $timeout(function(){vm.showDetails=false; vm.selectedId = false; },0);
+          else {
+            if(id.indexOf('/')!==-1) id = id.substr(id.lastIndexOf('/')+1);
+            $timeout(function(){vm.selectedId = id; },0);
+            if(vm.showDetails) { //reload element hack
+              $timeout(function(){vm.showDetails=false; },0);
+              $timeout(function(){vm.showDetails = true;},100);
+            }
+          }
           
         };
-        
         vm.deleteSelected = function(id){
           var node=id||network.getSelectedNodes()[0];
           if(!node) return false; 
@@ -222,19 +160,20 @@ angular.module('CarreEntrySystem')
         vm.goToSelected = function(){
           var nodes=network.getSelectedNodes();
           var edges=network.getSelectedEdges();
+          var id,label;
           
           if(nodes.length===1) {
              //then it is a risk element
-             var rl_id=nodes[0].substring(nodes[0].lastIndexOf("/")+1);
-             var rl_label=vm.nodes._data[nodes[0]].label;
-             vm.showRiskElement(rl_id,rl_label);
+            id=nodes[0].substring(nodes[0].lastIndexOf("/")+1);
+            label=vm.nodes._data[nodes[0]].label;
+          
           } else if (edges.length===1){
-            //then it is a risk factor
-            var edge=vm.edges._data[edges[0]];
-            var rf_id=edges[0].substring(edges[0].lastIndexOf("/")+1);
-            var rf_label=vm.nodes._data[edge.from].label+" "+edge.label+" "+vm.nodes._data[edge.to].label;
-            vm.showRiskFactor(rf_id,rf_label);
+              var edge=vm.edges._data[edges[0]];
+              id=edges[0].substring(edges[0].lastIndexOf("/")+1);
+              label=vm.nodes._data[edge.from].label+" "+edge.label+" "+vm.nodes._data[edge.to].label;
+              
           } else return false;
+          content.goTo(id,label);
         }
         
         vm.removeOrphan = function(data){
@@ -251,7 +190,8 @@ angular.module('CarreEntrySystem')
     
         /* Network Graph native configuration */
         vm.startNetwork = function(externalData) {
-            
+            if(!vm.loading || !vm.loading.promise || vm.loading.promise.$$state.status===1) $timeout(function(){vm.loading=$q.defer();},0);
+          
             externalData = externalData || {}
             vm.customHeight=0;
             vm.edges = new vis.DataSet(externalData.edges||vm.edgesArr);
@@ -275,17 +215,16 @@ angular.module('CarreEntrySystem')
               },  
               edges:{
                 smooth:{enabled:true,type:'dynamic'},
-                arrowStrikethrough:false,
                 arrows: 'to',
-                color:'#F7464A',
+                color:'#aaaaaa',
                 font: {
                   color: '#343434',
-                  size: 14, // px
+                  size: 11, // px
                   face: 'arial',
                   background: 'none',
-                  strokeWidth: 2, // px
+                  strokeWidth: 1, // px
                   strokeColor: '#ffffff',
-                  align:'middle'
+                  // align:'middle'
                 }
               },
               nodes:{
@@ -298,10 +237,10 @@ angular.module('CarreEntrySystem')
               physics:{
                 enabled: true,
                 barnesHut: {
-                  gravitationalConstant: -2100,
-                  centralGravity: 0.2,
-                  springLength: 300,
-                  springConstant: 0.09,
+                  gravitationalConstant: -1000,
+                  centralGravity: 0.1,
+                  springLength: 200,
+                  springConstant: 0.001,
                   damping: 0.09,
                   avoidOverlap: 0
                 },
@@ -334,27 +273,23 @@ angular.module('CarreEntrySystem')
                 if(params.nodes.length===1) vm.addNodeRelations(params.nodes[0]);
                 else if(params.edges.length===1) {
                   
-                  vm.addRiskEvidences(vm.edges._data[params.edges[0]]);
+                  // vm.addRiskEvidences(vm.edges._data[params.edges[0]]);
                   
-                  //do something with the edge
-                  // var edge=vm.edges._data[params.edges[0]];
-                  // var rf_id=params.edges[0].substring(params.edges[0].lastIndexOf("/")+1);
-                  // var rf_label=vm.nodes._data[edge.from].label+" "+edge.label+" "+vm.nodes._data[edge.to].label;
-                  // vm.showRiskFactor(rf_id,rf_label);
+                  // do something with the edge
+                  var edge=vm.edges._data[params.edges[0]];
+                  var rf_id=params.edges[0].substring(params.edges[0].lastIndexOf("/")+1);
+                  var rf_label=vm.nodes._data[edge.from].label+" "+edge.label+" "+vm.nodes._data[edge.to].label;
+                  content.goTo(rf_id,rf_label);
                 }
             });
             //left click
             network.on("click", function (params) {
-              var deleteButton=angular.element('#explore_deleteButton');
-              var goButton=angular.element('#explore_goButton');
               if(params.nodes.length===1) {
-                deleteButton.css("display","inline"); 
-                goButton.css("display","inline"); 
+                vm.selectElement(params.nodes[0]);
               } else if(params.edges.length===1) {
-                goButton.css("display","inline"); 
+                vm.selectElement(params.edges[0]);
               } else {
-                goButton.css("display","none"); 
-                deleteButton.css("display","none"); 
+                vm.selectElement();
               }
             });
             //right click
@@ -365,7 +300,12 @@ angular.module('CarreEntrySystem')
                 vm.deleteSelected(nodeId);
               }
             });
-        }
+            
+            //after render
+            network.on("afterDrawing", function (params) {
+              if(vm.loading && vm.loading.promise && vm.loading.promise.$$state.status===0) $timeout(function(){vm.loading.resolve();},50);
+            });
+        };
         //end of controller
       }
     
