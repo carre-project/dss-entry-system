@@ -17,7 +17,7 @@ angular.module('CarreEntrySystem')
         vm.onlyCore=false;
         //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections||4;
-        vm.minConnections = 10;
+        vm.minConnections = 7;
         vm.height = vm.height || 600;
         vm.customHeight=0;
         var network;
@@ -25,7 +25,7 @@ angular.module('CarreEntrySystem')
           showRiskEvidences:false,
           onlyCore: false
         }
-        
+        var d3colors=d3.scale.category20b();
       
         vm.toggleOnlyCore=function(){
             $timeout(function(){
@@ -67,14 +67,21 @@ angular.module('CarreEntrySystem')
           GRAPH.network(id,!vm.options.showRiskEvidences?'risk_factor':null).then(function(data){ 
             
             //set initial nodes and edges
-            vm.nodesArr=id?data.nodes.map(function(obj){
+            vm.nodesArr=id
+              ?
+              data.nodes.map(function(obj){
                 var obj_pos=-1;
                 //handle colors
                 if(id instanceof Array) obj_pos=id.indexOf(obj.id);
                 else obj_pos=id.substring(id.lastIndexOf("/")+1)===obj.id.substring(obj.id.lastIndexOf("/")+1)?0:-1;
                 if(obj_pos>=0) obj.color=CONFIG.COLORS[obj_pos];
                 return obj;
-              }):data.nodes.filter(function(obj){ return obj.connections>vm.minConnections;});
+              })
+              :
+              data.nodes.filter(function(obj){ return obj.connections>vm.minConnections;}).map(function(obj,i){
+                obj.color = d3colors(i);
+                return obj;
+              });
               
             //filter edges
             vm.edgesArr=data.edges.filter(function(edge){

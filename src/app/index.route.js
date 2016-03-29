@@ -37,8 +37,7 @@
     // }
     
     function getGuestState() {
-      var url=window.location.href.replace('/edit','');
-      console.log(url);
+      var url=window.location.href.replace('/edit','').replace('/create','');
       window.location.replace(url);
     }
 
