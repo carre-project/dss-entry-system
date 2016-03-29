@@ -71,6 +71,7 @@ angular.module('CarreEntrySystem').service('content', function(CarreTranslate,Sw
   
   
   function getTypeFromId(id){
+    if(!id) return '';
     if(id.indexOf('_')===-1) return '';
     var str=id.substr(id.lastIndexOf('_')-2,2).toUpperCase();
     if(str==='OB') return {state:'observables',raw:'risk_element',label:'Risk element'};
@@ -89,7 +90,7 @@ angular.module('CarreEntrySystem').service('content', function(CarreTranslate,Sw
     //implement a basic confirm popup
     SweetAlert.swal({
         title: "Show the "+type.label+"?",
-        text: "This will redirect you to the \""+label+"\" "+type.label+"'s detail page.",
+        text: "This will redirect you to the `"+label+"` "+type.label+"'s detail page.",
         type: "info",
         showCancelButton: true,
         confirmButtonColor: "#2E8B57",

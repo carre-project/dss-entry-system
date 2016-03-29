@@ -13,18 +13,19 @@ angular.module('CarreEntrySystem')
       controller: function($scope, $timeout, toastr, $location, CONFIG, GRAPH ,content,$q) {
       
         var vm = $scope;
-        vm.loading=false;
-        vm.onlyCore=false;
+        vm.loading=null;
         //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections||4;
         vm.minConnections = 7;
         vm.height = vm.height || 600;
         vm.customHeight=0;
-        var network;
         vm.options = {
+          alwaysOnDetails:true,
           showRiskEvidences:false,
           onlyCore: false
-        }
+        };
+        var network;
+        vm.containerId="network";
         var d3colors=d3.scale.category20b();
       
         vm.toggleOnlyCore=function(){
@@ -46,7 +47,7 @@ angular.module('CarreEntrySystem')
           network.setSize('100%',Number(vm.height)+vm.customHeight+'px');
           network.redraw();
           network.fit();
-        }
+        };
         
         vm.removeSize=function(){
           if(vm.customHeight<=0) return false;
@@ -54,8 +55,9 @@ angular.module('CarreEntrySystem')
           network.setSize('100%',Number(vm.height)+vm.customHeight+'px');
           network.redraw();
           network.fit();
-        }
+        };
         
+        vm.getType=content.typeFromId;
         
         
         vm.init=function(id) {
@@ -147,7 +149,7 @@ angular.module('CarreEntrySystem')
           else {
             if(id.indexOf('/')!==-1) id = id.substr(id.lastIndexOf('/')+1);
             $timeout(function(){vm.selectedId = id; },0);
-            if(vm.showDetails) { //reload element hack
+            if(vm.showDetails || vm.options.alwaysOnDetails) { //reload element hack
               $timeout(function(){vm.showDetails=false; },0);
               $timeout(function(){vm.showDetails = true;},100);
             }
@@ -205,7 +207,7 @@ angular.module('CarreEntrySystem')
             vm.nodes = new vis.DataSet(externalData.nodes||vm.nodesArr);
             
             // create a network
-            var container = document.getElementById('network');
+            var container = document.getElementById(vm.containerId);
             var data = {
                 nodes: vm.nodes,
                 edges: vm.edges

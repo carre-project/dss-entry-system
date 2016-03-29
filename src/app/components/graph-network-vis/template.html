@@ -8,8 +8,9 @@
             <button ng-show="showDetails" ng-click="showDetails=!showDetails" class="btn btn-sm ">
                  <i class="fa fa-caret-square-o-up"></i> Hide details
             </button>
-            <button ng-click="deleteSelected()" class="btn btn-xs btn-danger"><i class="fa fa-remove"></i></button>
-            <button ng-click="goToSelected()" class="btn btn-xs btn-success">Go</button>
+            <button ng-click="goToSelected()" class="btn btn-xs btn-primary">{{getType(selectedId).label}}</button>            
+            <button ng-show="selectedId && selectedId.indexOf('RL')>=0 " ng-click="deleteSelected()" class="btn btn-xs btn-danger">Clear <i class="fa fa-remove"></i></button>
+
           </div>
           <div ng-if="showDetails" class="panel-body">
             <carre-element elem-id="{{selectedId}}" mode="view" not-fields="has_author,has_reviewer"></carre-element>
@@ -27,9 +28,10 @@
           <li ng-if="riskid" role="menuitem" ng-click="toggleOnlyCore()"><a href=""> Show only path  <input type="checkbox" ng-model="options.onlyCore"> </a></li>
         </ul>
         </div>
-            <button ng-click="removeSize()" class="btn btn-sm btn-default"><i class="fa fa-minus"></i></button>
-            <button ng-click="addSize()" class="btn btn-sm btn-default"><i class="fa fa-plus"></i></button>
-            <button ng-click="init(riskid)" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></button>
+        <button ng-click="removeSize()" class="btn btn-sm btn-default"><i class="fa fa-minus"></i></button>
+        <button ng-click="addSize()" class="btn btn-sm btn-default"><i class="fa fa-plus"></i></button>
+        <button ng-click="init(riskid)" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></button>
+        <slider ng-if="containerId==='chord'" floor="0" step="20" ceiling="360" ng-model="rotation"></slider>
     </div>
         
     <div id="network" style="z-index:1"></div>
