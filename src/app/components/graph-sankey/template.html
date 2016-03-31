@@ -1,42 +1,14 @@
 <div cg-busy="loading">
-    <div ng-show="selectedId" style="width:40%;position:absolute;left:0;text-align:left;z-index:5">
-        <div class="panel panel-xs panel-default" style="margin:0;">
-          <div class="panel-heading" style="padding-top:0;padding-bottom:0;padding-left:0;">
-            <button ng-show="!showDetails" style="background:none" ng-click="showDetails=!showDetails" class="btn btn-sm ">
-                <i class="fa fa-caret-square-o-down"></i> Show details
-            </button>
-            <button ng-show="showDetails" ng-click="showDetails=!showDetails" class="btn btn-sm ">
-                 <i class="fa fa-caret-square-o-up"></i> Hide details
-            </button>
-            <strong>{{getType(selectedId).label}}</strong>
-            <button ng-click="goToSelected()" class="btn btn-xs btn-default">Navigate</button>
-            <div class="btn-group">
-            <button ng-show="selectedId && selectedId.indexOf('RL')>=0 " ng-click="addNodeRelations(selectedId)" class="btn btn-xs btn-info">Expand</button>
-            <button ng-show="selectedId && selectedId.indexOf('RL')>=0 " ng-click="deleteSelected()" class="btn btn-xs btn-danger">Clear <i class="fa fa-remove"></i></button>
-
-            </div>
-          </div>
-          <div ng-if="showDetails&&selectedId" class="panel-body">
-            <carre-element elem-id="{{selectedId}}" mode="view" not-fields="has_author,has_reviewer"></carre-element>
-          </div>
-        </div>
-    </div>
-    <div style="width:200px;position:absolute;right:0;text-align:right;z-index:5">
-    <!-- Single button -->
-    <div class="btn-group" uib-dropdown is-open="status.isopen">
-      <button id="single-button" type="button" class="btn btn-sm btn-default" uib-dropdown-toggle ng-disabled="disabled">
-        Options <span class="caret"></span>
-      </button>
-        <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
-          <li role="menuitem" ng-click="toggleRiskEvidences()" ><a href=""> Show Risk evidences <input type="checkbox" ng-model="options.showRiskEvidences"></a></li>        
-          <li ng-if="riskid" role="menuitem" ng-click="toggleOnlyCore()"><a href=""> Show only path  <input type="checkbox" ng-model="options.onlyCore"> </a></li>
-        </ul>
-        </div>
-        <button ng-click="removeSize()" class="btn btn-sm btn-default"><i class="fa fa-minus"></i></button>
-        <button ng-click="addSize()" class="btn btn-sm btn-default"><i class="fa fa-plus"></i></button>
-        <button ng-click="init(riskid)" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></button>
-        <slider ng-if="containerId==='chord'" floor="0" step="20" ceiling="360" ng-model="rotation"></slider>
-    </div>
-        
+    <carre-graph-controls
+      selected-id="selectedId"
+      disable-options="{onlyPath:true}"
+      only-path="onlyCore"
+      show-risk-evidences="showRiskEvidences"
+      refresh="init()"
+      add-size="addSize()"
+      remove-size="removeSize()"
+      navigate="goToSelected()"
+      expand="addNodeRelations()"
+      clear="deleteSelected()"></carre-graph-controls>
     <div id="sankey" style="z-index:1"></div>
 </div>

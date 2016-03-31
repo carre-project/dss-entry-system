@@ -14,7 +14,6 @@ angular.module('CarreEntrySystem')
       
   var vm = $scope;
         vm.loading=false;
-        vm.onlyCore=false;
         //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections||4;
         vm.minConnections = 10;
@@ -25,32 +24,35 @@ angular.module('CarreEntrySystem')
           showRiskEvidences:false,
           onlyCore: false
         }
-        
-      
-        vm.toggleOnlyCore=function(){
+        $timeout(function() {
+            vm.selectedId = 'RL_2'
+        },3000);
+        $scope.$watch('options',function(n,o){
+          if(n.showRiskEvidences!==o.showRiskEvidences) {
+            console.debug('ShowRiskEvidences')
+          } else if(n.onlyCore!==o.onlyCore) {
+            console.debug('onlyCore')
+          }
+          if(n.showRiskEvidences!==o.showRiskEvidences||n.onlyCore!==o.onlyCore)
             vm.loading=$q.defer();
             $timeout(function(){
-              vm.options.onlyCore = !vm.options.onlyCore;
               vm.loading=vm.init(vm.riskid); 
-            },400);
-        };
+            },250);
+        });
         
-        vm.toggleRiskEvidences=function(){
-            vm.loading=$q.defer();
-            $timeout(function(){
-              vm.options.showRiskEvidences = !vm.options.showRiskEvidences;
-              vm.loading=vm.init(vm.riskid); 
-              
-            },400);
-        };
         
-        vm.addSize=function(){}
+        vm.addSize=function(){
+          console.debug("size++")
+        }
         
-        vm.removeSize=function(){}
+        vm.removeSize=function(){
+          console.debug("size--")
+        }
         
         
         
         vm.init=function(id) {
+          if(!id) id = vm.riskid;
           vm.loading=GRAPH.network(id,!vm.options.showRiskEvidences?'risk_factor':null).then(function(data){ 
             
             //set initial nodes and edges
@@ -149,6 +151,7 @@ angular.module('CarreEntrySystem')
         
         /* Graph manipulations */
         vm.addNodeRelations = function (id) {
+          id = id || vm.selectedId;
           vm.loading=GRAPH.network(id,!vm.options.showRiskEvidences?'risk_factor':null).then(function(data){
             var limit=vm.limitNewConnections;
             var nodes={};
@@ -276,7 +279,6 @@ vm.startNetwork = function(externalData) {
         {
           "nodes":nodes,
           "links":links.map(function(l){
-            console.debug(l);
                     l.source = FindnodeIndex(nodes,l.source,"id");
                     l.target = FindnodeIndex(nodes,l.target,"id");
                     l.value = l.ratio;

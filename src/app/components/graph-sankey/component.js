@@ -14,29 +14,81 @@ angular.module('CarreEntrySystem')
 
         var vm = $scope;
         vm.loading = false;
-        var containerID = "sankey";
+        vm.containerId = "sankey";
+        
           //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections || 4;
         vm.minConnections = 6;
         vm.height = vm.height || 600;
-        vm.options = {
-          showRiskEvidences:true
-        }
+        vm.customHeight=0;
         
+        vm.alwaysOnDetails=true;
+        vm.showRiskEvidences=true;
+        vm.onlyCore= false;
         
-        vm.toggleRiskEvidences=function(){
-            vm.loading=$q.defer();
-            $timeout(function(){
-              vm.options.showRiskEvidences = !vm.options.showRiskEvidences;
-              vm.loading=vm.init(vm.riskid); 
-              
-            },0);
+        //resize events
+        $(window).resize(function(){ vm.renderSankey(); });
+        vm.addSize=function(){
+          if(vm.customHeight>=800) return false;
+          vm.customHeight+=100;
+          $timeout(function() {
+            angular.element('#'+vm.containerId+' svg').remove();
+            vm.renderSankey();
+          });
         };
+        vm.removeSize=function(){
+          if(vm.customHeight<=-300) return false;
+          vm.customHeight-=100;
+          $timeout(function() {
+            angular.element('#'+vm.containerId+' svg').remove();
+            vm.renderSankey();
+          });
+        };
+        
+        vm.init =function (id){
+          
+          id = id || vm.riskid;
+          
+          vm.loading = GRAPH.network(id,!vm.showRiskEvidences?'risk_factor':null).then(function(data) {
+
+            //set initial nodes and edges
+            vm.nodesArr = id ? data.nodes.map(function(obj) {
+              var obj_pos = -1;
+              //handle colors
+              if (id instanceof Array) obj_pos = id.indexOf(obj.id);
+              else obj_pos = id.substring(id.lastIndexOf("/") + 1) === obj.id.substring(obj.id.lastIndexOf("/") + 1) ? 0 : -1;
+              if (obj_pos >= 0) obj.color = CONFIG.COLORS[obj_pos];
+
+              return obj;
+            }) : data.nodes.filter(function(obj) {
+              return obj.connections > vm.minConnections;
+            });
+
+            //filter edges
+            vm.edgesArr = data.edges.filter(function(edge) {
+              var from = false;
+              var to = false;
+              for (var i = 0, len = vm.nodesArr.length; i < len; i++) {
+                if (vm.nodesArr[i].id === edge.from) from = true;
+                if (vm.nodesArr[i].id === edge.to) to = true;
+              }
+              return from && to;
+            });
+            //init chart after 50ms delay
+            $timeout(function() {
+              vm.renderSankey();
+            }, 0);
+
+          });
+        };
+        
+        //start the initialization
+        vm.init(vm.riskid);
         
         
         /* Graph manipulations */
         vm.addNodeRelations = function (id) {
-          vm.loading=GRAPH.network(id,!vm.options.showRiskEvidences?'risk_factor':null).then(function(data){
+          vm.loading=GRAPH.network(id,!vm.showRiskEvidences?'risk_factor':null).then(function(data){
             var limit=vm.limitNewConnections;
             var nodes={};
             data.nodes.forEach(function(node){
@@ -54,11 +106,11 @@ angular.module('CarreEntrySystem')
         };
         
         vm.selectElement = function(id){
-          if(!id) $timeout(function(){vm.showDetails=false; vm.selectedId = false; },0);
+          if(!id) $timeout(function(){vm.selectedId = false; },0);
           else {
             if(id.indexOf('/')!==-1) id = id.substr(id.lastIndexOf('/')+1);
             $timeout(function(){vm.selectedId = id; },0);
-            if(vm.showDetails) { //reload element hack
+            if(vm.showDetails && vm.alwaysOnDetails) { //reload element hack
               $timeout(function(){vm.showDetails=false; },0);
               $timeout(function(){vm.showDetails = true;},100);
             }
@@ -106,56 +158,9 @@ angular.module('CarreEntrySystem')
           });
         };
         
-        vm.init =function (id){
-          vm.loading = GRAPH.network(id,!vm.options.showRiskEvidences?'risk_factor':null).then(function(data) {
-
-            //set initial nodes and edges
-            vm.nodesArr = id ? data.nodes.map(function(obj) {
-              var obj_pos = -1;
-              //handle colors
-              if (id instanceof Array) obj_pos = id.indexOf(obj.id);
-              else obj_pos = id.substring(id.lastIndexOf("/") + 1) === obj.id.substring(obj.id.lastIndexOf("/") + 1) ? 0 : -1;
-              if (obj_pos >= 0) obj.color = CONFIG.COLORS[obj_pos];
-
-              return obj;
-            }) : data.nodes.filter(function(obj) {
-              return obj.connections > vm.minConnections;
-            });
-
-            //filter edges
-            vm.edgesArr = data.edges.filter(function(edge) {
-              var from = false;
-              var to = false;
-              for (var i = 0, len = vm.nodesArr.length; i < len; i++) {
-                if (vm.nodesArr[i].id === edge.from) from = true;
-                if (vm.nodesArr[i].id === edge.to) to = true;
-              }
-              return from && to;
-            });
-            //init chart after 50ms delay
-            $timeout(function() {
-              vm.renderSankey();
-            }, 50);
-
-          });
-        };
         
-        //start the initialization
-        vm.init(vm.riskid);
 
-        
-        $(window).resize(function(){
-          $('#'+containerID+' svg').remove();
-          vm.renderSankey();
-        });
-        
-        function chartCss(attr){
-          var elem=document.getElementById(containerID);
-          if(elem) return Number(getComputedStyle(elem, null).getPropertyValue(attr).replace('px',''));
-          else return null;
-        }
-
-
+        //main graph render function
         vm.renderSankey = function() {
           // Some setup stuff.
           var node_index = {};
@@ -176,8 +181,7 @@ angular.module('CarreEntrySystem')
             })
           };
           
-          var calculated_height = Math.log(graph.links.length)*250;
-          console.debug("Calculated Height",calculated_height);
+          var calculated_height = vm.customHeight+Math.log(graph.links.length)*250;
           
             var margin = {top: 10, right: 10, bottom: 10, left: 10},
                 width = chartCss('width') - margin.left - margin.right,
@@ -190,8 +194,8 @@ angular.module('CarreEntrySystem')
                 d3colors = d3.scale.category20b();
             	
             // append the svg canvas to the page
-            angular.element("#"+containerID+" svg").remove();
-            var svg = d3.select("#"+containerID).append("svg")
+            angular.element("#"+vm.containerId+" svg").remove();
+            var svg = d3.select("#"+vm.containerId).append("svg")
                 .attr("width", "100%")
                 .attr("height", "100%")
                 .attr("viewBox",viewBox)
@@ -231,7 +235,7 @@ angular.module('CarreEntrySystem')
               .append("title")
                 .text(function(d) {
                 return d.source.name +" "
-                + d.label +" "+ d.target.name + (vm.options.showRiskEvidences?" with risk ratio "+d.ratio:"");
+                + d.label +" "+ d.target.name + (vm.showRiskEvidences?" with risk ratio "+d.ratio:"");
               });
               
             // add in the nodes
@@ -250,16 +254,19 @@ angular.module('CarreEntrySystem')
                   this.parentNode.appendChild(this);
                 })
                 .on("dragend", function() {
-                    // sankey.relayout();
+                    sankey.relayout();
                 })
                 .on("drag", dragmove));
-
+              
             // add the rectangles for the nodes
             node.append("rect")
               .attr("height", function(d) {
                 return d.dy;
               })
               .attr("width", sankey.nodeWidth())
+              .style("stroke", function(d, i) {
+                return vm.riskid?(d.color||'#aaaaaa'):d3colors(i) // = color(i);
+              })
               .style("fill", function(d, i) {
                 return vm.riskid?(d.color||'#aaaaaa'):d3colors(i) // = color(i);
               })
@@ -268,7 +275,7 @@ angular.module('CarreEntrySystem')
               // })
               .attr('data-title', function(d) {
                 return d.name// + "\n" + format(d.value);
-              });
+              })
 
 
             // add in the title for the nodes
@@ -298,8 +305,78 @@ angular.module('CarreEntrySystem')
               link.attr("d", path);
             }
             
+            //assign events
+            
+            node.on('mousedown',clickNode);
+            link.on('mousedown',clickLink);
+            
+        };
+            
+        //register events
+        function clickNode(obj,i){ 
+          console.log(obj,i,this);
+          clearSelection();
+          d3.select(this).select("rect").classed("selected", !d3.select(this).classed("selected"));
+          vm.selectElement(obj.id);
         }
+        function clickLink(obj,i){ 
+          console.log(obj,i,this);
+          clearSelection();
+          d3.select(this).classed("selected", !d3.select(this).classed("selected"));
+          vm.selectElement(obj.id);
+        }
+        
+        function clearSelection(){
+          d3.select("#"+vm.containerId+" svg").selectAll(".link").classed("selected", false);
+          d3.select("#"+vm.containerId+" svg").selectAll(".node").select("rect").classed("selected", false);
+          
+        }
+        /* Events */
+        
+        // network.on("doubleClick", function (params) {
+        //     if(params.nodes.length===1) vm.addNodeRelations(params.nodes[0]);
+        //     else if(params.edges.length===1) {
+              
+        //       // vm.addRiskEvidences(vm.edges._data[params.edges[0]]);
+              
+        //       // do something with the edge
+        //       var edge=vm.edges._data[params.edges[0]];
+        //       var rf_id=params.edges[0].substring(params.edges[0].lastIndexOf("/")+1);
+        //       var rf_label=vm.nodes._data[edge.from].label+" "+edge.label+" "+vm.nodes._data[edge.to].label;
+        //       content.goTo(rf_id,rf_label);
+        //     }
+        // });
+        // //left click
+        // network.on("click", function (params) {
+        //   if(params.nodes.length===1) {
+        //     vm.selectElement(params.nodes[0]);
+        //   } else if(params.edges.length===1) {
+        //     vm.selectElement(params.edges[0]);
+        //   } else {
+        //     vm.selectElement();
+        //   }
+        // });
+        // //right click
+        // network.on("oncontext", function (params) {
+        //   var nodeId=network.getNodeAt(params.pointer.DOM);
+        //   if(nodeId) {
+        //     params.event.preventDefault();
+        //     vm.deleteSelected(nodeId);
+        //   }
+        // });
+        
+        // //after render
+        // network.on("afterDrawing", function (params) {
+        //   if(vm.loading && vm.loading.promise && vm.loading.promise.$$state.status===0) $timeout(function(){vm.loading.resolve();},50);
+        // });
 
+        //help functions
+        function chartCss(attr){
+          var elem=document.getElementById(vm.containerId);
+          if(elem) return Number(getComputedStyle(elem, null).getPropertyValue(attr).replace('px',''));
+          else return null;
+        }
+        
         //end of controller
       }
 

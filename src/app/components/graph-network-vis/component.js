@@ -19,36 +19,22 @@ angular.module('CarreEntrySystem')
         vm.minConnections = 7;
         vm.height = vm.height || 600;
         vm.customHeight=0;
-        vm.options = {
-          alwaysOnDetails:true,
-          showRiskEvidences:false,
-          onlyCore: false
-        };
+        
+        vm.alwaysOnDetails=true;
+        vm.showRiskEvidences=false;
+        vm.onlyCore= false;
+        
         var network;
         vm.containerId="network";
         var d3colors=d3.scale.category20b();
-      
-        vm.toggleOnlyCore=function(){
-            $timeout(function(){
-              vm.options.onlyCore = !vm.options.onlyCore;
-              vm.init(vm.riskid); 
-            },0);
-        };
         
-        vm.toggleRiskEvidences=function(){
-            $timeout(function(){
-              vm.options.showRiskEvidences = !vm.options.showRiskEvidences;
-              vm.init(vm.riskid); 
-            },0);
-        };
-        
+        //resize events
         vm.addSize=function(){
           vm.customHeight+=100;
           network.setSize('100%',Number(vm.height)+vm.customHeight+'px');
           network.redraw();
           network.fit();
         };
-        
         vm.removeSize=function(){
           if(vm.customHeight<=0) return false;
           vm.customHeight-=100;
@@ -57,16 +43,15 @@ angular.module('CarreEntrySystem')
           network.fit();
         };
         
-        vm.getType=content.typeFromId;
-        
         
         vm.init=function(id) {
           
+          id = id || vm.riskid;
           
           //check if loading promise exists and act accordingly
           $timeout(function(){vm.loading=$q.defer();},0);
           
-          GRAPH.network(id,!vm.options.showRiskEvidences?'risk_factor':null).then(function(data){ 
+          GRAPH.network(id,!vm.showRiskEvidences?'risk_factor':null).then(function(data){ 
             
             //set initial nodes and edges
             vm.nodesArr=id
@@ -100,9 +85,8 @@ angular.module('CarreEntrySystem')
               return edge;
             });
             
-            //init network after 50ms delay
             $timeout(function(){
-              if(vm.options.onlyCore && vm.riskid instanceof Array && vm.riskid.length>1) {
+              if(vm.onlyCore && vm.riskid instanceof Array && vm.riskid.length>1) {
                   var nodeIds=[];
                   vm.startNetwork({
                     nodes:vm.nodesArr.filter(function(node){
@@ -117,17 +101,17 @@ angular.module('CarreEntrySystem')
                     
                   });
               } else vm.startNetwork();
-            },50);
+            },0);
             
           }); 
-        }
+        };
         
         //start the initialization
         vm.init(vm.riskid);
         
         /* Graph manipulations */
         vm.addNodeRelations = function (id) {
-          vm.loading=GRAPH.network(id,!vm.options.showRiskEvidences?'risk_factor':null).then(function(data){
+          vm.loading=GRAPH.network(id,!vm.showRiskEvidences?'risk_factor':null).then(function(data){
             var limit=vm.limitNewConnections;
             var nodes={};
             data.nodes.forEach(function(node){
@@ -149,7 +133,7 @@ angular.module('CarreEntrySystem')
           else {
             if(id.indexOf('/')!==-1) id = id.substr(id.lastIndexOf('/')+1);
             $timeout(function(){vm.selectedId = id; },0);
-            if(vm.showDetails && vm.options.alwaysOnDetails) { //reload element hack
+            if(vm.showDetails && vm.alwaysOnDetails) { //reload element hack
               $timeout(function(){vm.showDetails=false; },0);
               $timeout(function(){vm.showDetails = true;},100);
             }

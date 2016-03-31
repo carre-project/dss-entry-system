@@ -132,6 +132,7 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG,Carre
   }
 
   function translate(str){
+    if(!str) return '';
     if(str.indexOf('#') >= 0) return CarreTranslate(str.split('#')[1]);
     else return CarreTranslate(str);
   };
