@@ -5,11 +5,11 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
   };
   
   
-  window.FindnodeIndex=function(arr,val,prop){
+  window.FindIndex=function(arr,val,prop){
+    prop = prop || 'id';
     for (var i=0;i<arr.length;i++){
       if(val===arr[i][prop]) return i;
     }
-    console.error('Node Index not found',val)
     return -1;
   }
   

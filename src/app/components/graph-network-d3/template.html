@@ -1,15 +1,13 @@
 <div cg-busy="loading">
     <carre-graph-controls
-      ng-if="options"
       selected-id="selectedId"
-      disable-options="{onlyPath:true}"
-      only-path="options.onlyCore"
-      show-risk-evidences="options.showRiskEvidences"
+      only-path="onlyCore"
+      show-risk-evidences="showRiskEvidences"
       refresh="init()"
       add-size="addSize()"
       remove-size="removeSize()"
       navigate="goToSelected()"
       expand="addNodeRelations()"
       clear="deleteSelected()"></carre-graph-controls>
-    <div id="network" style="z-index:1"></div>
+    <div id="network" class="carre-graph"></div>
 </div>

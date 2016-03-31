@@ -279,8 +279,8 @@ vm.startNetwork = function(externalData) {
         {
           "nodes":nodes,
           "links":links.map(function(l){
-                    l.source = FindnodeIndex(nodes,l.source,"id");
-                    l.target = FindnodeIndex(nodes,l.target,"id");
+                    l.source = FindIndex(nodes,l.source,"id");
+                    l.target = FindIndex(nodes,l.target,"id");
                     l.value = l.ratio;
                     return l;
                   })

@@ -74,10 +74,8 @@ angular.module('CarreEntrySystem')
               }
               return from && to;
             });
-            //init chart after 50ms delay
-            $timeout(function() {
-              vm.renderSankey();
-            }, 0);
+            
+            $timeout(function() {vm.renderSankey();}, 0);
 
           });
         };
@@ -87,7 +85,21 @@ angular.module('CarreEntrySystem')
         
         
         /* Graph manipulations */
-        vm.addNodeRelations = function (id) {
+        vm.goToSelected = function(){
+          var elem = vm.selectedItem.obj||{},
+              id = elem.id.substring(elem.id.lastIndexOf("/")+1),
+              label,
+              type = vm.selectedItem.type;
+              
+          if(type==='node') label=elem.label;
+          else if (type==='link'){
+              label=elem.source.label+" "+elem.label+" "+elem.target.label;
+          } else return false;
+          content.goTo(id,label);
+        };
+        
+        vm.addNodeRelations = function () {
+          var id = vm.selectedId;
           vm.loading=GRAPH.network(id,!vm.showRiskEvidences?'risk_factor':null).then(function(data){
             var limit=vm.limitNewConnections;
             var nodes={};
@@ -95,70 +107,61 @@ angular.module('CarreEntrySystem')
               nodes[node.id]=node;
             });
             data.edges.forEach(function(edge){
-              if(!vm.edges._data[edge.id]&&limit>0) {
-                if(!vm.nodes._data[edge.from]) vm.nodes.add(nodes[edge.from]);
-                if(!vm.nodes._data[edge.to]) vm.nodes.add(nodes[edge.to]);
-                vm.edges.add(edge);
+              if(FindIndex(vm.edgesArr,edge.id)===-1&&limit>0) {
+                if(FindIndex(vm.nodesArr,edge.from)===-1) vm.nodesArr.push(nodes[edge.from]);
+                if(FindIndex(vm.nodesArr,edge.to)===-1) vm.nodesArr.push(nodes[edge.to]);
+                vm.edgesArr.push(edge);
                 limit--;
               }
             });
+            //re-render graph
+            $timeout(function() {vm.renderSankey();}, 0);
           });
+          
+        };
+        vm.deleteSelected = function(){
+          var elem = vm.selectedItem.obj||{};
+          if(vm.selectedItem.type!=='node') return false; 
+          
+          //remove node
+          vm.nodesArr.splice(FindIndex(vm.nodesArr,elem.id), 1);
+          
+          //remove connected edges
+          elem.sourceLinks.forEach(function(link){
+            vm.edgesArr.splice(FindIndex(vm.edgesArr,link.id), 1);
+          });
+          elem.targetLinks.forEach(function(link){
+            vm.edgesArr.splice(FindIndex(vm.edgesArr,link.id), 1);
+          });
+          
+          //remove orphan nodes
+          vm.nodesArr.forEach(function(node){
+            if(node.sourceLinks.length+node.targetLinks.length===0) {
+              vm.nodesArr.splice(FindIndex(vm.nodesArr,node.id), 1);
+            }
+          });
+          
+          //re-render graph
+          $timeout(function() {vm.renderSankey();}, 0);
         };
         
-        vm.selectElement = function(id){
+        
+        
+        vm.selectElement = function(obj,type){
+          var id = obj.id;
           if(!id) $timeout(function(){vm.selectedId = false; },0);
           else {
             if(id.indexOf('/')!==-1) id = id.substr(id.lastIndexOf('/')+1);
-            $timeout(function(){vm.selectedId = id; },0);
+            $timeout(function(){
+              vm.selectedId = id; 
+              vm.selectedItem={type:type,obj:obj};
+            },0);
             if(vm.showDetails && vm.alwaysOnDetails) { //reload element hack
               $timeout(function(){vm.showDetails=false; },0);
               $timeout(function(){vm.showDetails = true;},100);
             }
           }
-          
         };
-        vm.deleteSelected = function(id){
-          var node=id||network.getSelectedNodes()[0];
-          if(!node) return false; 
-          var nodeData={
-            nodes:[node],
-            edges:network.getConnectedEdges(node)
-          }
-          vm.removeOrphan(nodeData);
-        }
-        
-        vm.goToSelected = function(){
-          var nodes=network.getSelectedNodes();
-          var edges=network.getSelectedEdges();
-          var id,label;
-          
-          if(nodes.length===1) {
-             //then it is a risk element
-            id=nodes[0].substring(nodes[0].lastIndexOf("/")+1);
-            label=vm.nodes._data[nodes[0]].label;
-          
-          } else if (edges.length===1){
-              var edge=vm.edges._data[edges[0]];
-              id=edges[0].substring(edges[0].lastIndexOf("/")+1);
-              label=vm.nodes._data[edge.from].label+" "+edge.label+" "+vm.nodes._data[edge.to].label;
-              
-          } else return false;
-          content.goTo(id,label);
-        }
-        
-        vm.removeOrphan = function(data){
-          data.nodes.forEach(function(node){vm.nodes.remove(node);});
-          data.edges.forEach(function(edge){ vm.edges.remove(edge);});
-          var nodes=Object.keys(vm.nodes._data);
-          nodes.forEach(function(node){
-            var edges=network.getConnectedEdges(node);
-            if(edges.length<=0) {
-              vm.nodes.remove(node);
-            }
-          });
-        };
-        
-        
 
         //main graph render function
         vm.renderSankey = function() {
@@ -310,65 +313,30 @@ angular.module('CarreEntrySystem')
             node.on('mousedown',clickNode);
             link.on('mousedown',clickLink);
             
+            node.on('dblclick',vm.addNodeRelations);
+            link.on('dblclick',vm.goToSelected);
+            
+            node.on('contextmenu',vm.deleteSelected);
+            
         };
             
-        //register events
+        //register events==============================>
         function clickNode(obj,i){ 
           console.log(obj,i,this);
           clearSelection();
           d3.select(this).select("rect").classed("selected", !d3.select(this).classed("selected"));
-          vm.selectElement(obj.id);
+          vm.selectElement(obj,'node');
         }
         function clickLink(obj,i){ 
           console.log(obj,i,this);
           clearSelection();
           d3.select(this).classed("selected", !d3.select(this).classed("selected"));
-          vm.selectElement(obj.id);
+          vm.selectElement(obj,'link');
         }
-        
         function clearSelection(){
           d3.select("#"+vm.containerId+" svg").selectAll(".link").classed("selected", false);
           d3.select("#"+vm.containerId+" svg").selectAll(".node").select("rect").classed("selected", false);
-          
         }
-        /* Events */
-        
-        // network.on("doubleClick", function (params) {
-        //     if(params.nodes.length===1) vm.addNodeRelations(params.nodes[0]);
-        //     else if(params.edges.length===1) {
-              
-        //       // vm.addRiskEvidences(vm.edges._data[params.edges[0]]);
-              
-        //       // do something with the edge
-        //       var edge=vm.edges._data[params.edges[0]];
-        //       var rf_id=params.edges[0].substring(params.edges[0].lastIndexOf("/")+1);
-        //       var rf_label=vm.nodes._data[edge.from].label+" "+edge.label+" "+vm.nodes._data[edge.to].label;
-        //       content.goTo(rf_id,rf_label);
-        //     }
-        // });
-        // //left click
-        // network.on("click", function (params) {
-        //   if(params.nodes.length===1) {
-        //     vm.selectElement(params.nodes[0]);
-        //   } else if(params.edges.length===1) {
-        //     vm.selectElement(params.edges[0]);
-        //   } else {
-        //     vm.selectElement();
-        //   }
-        // });
-        // //right click
-        // network.on("oncontext", function (params) {
-        //   var nodeId=network.getNodeAt(params.pointer.DOM);
-        //   if(nodeId) {
-        //     params.event.preventDefault();
-        //     vm.deleteSelected(nodeId);
-        //   }
-        // });
-        
-        // //after render
-        // network.on("afterDrawing", function (params) {
-        //   if(vm.loading && vm.loading.promise && vm.loading.promise.$$state.status===0) $timeout(function(){vm.loading.resolve();},50);
-        // });
 
         //help functions
         function chartCss(attr){

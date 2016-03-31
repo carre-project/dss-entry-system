@@ -1,6 +1,28 @@
 <div class="carre-graph-controls">
+  <!--element contrtols-->
+  <div class="col-xs-6 col-sm-7 col-md-5">
+    <div  ng-show="selectedId" class="panel panel-xs panel-default" style="margin:0;position:absolute;z-index:4">
+      <div class="panel-heading" style="padding-top:0;padding-bottom:0;padding-left:0;">
+        <button ng-show="!showDetails" style="background:none" ng-click="showDetails=!showDetails" class="btn btn-sm ">
+          <i class="fa fa-caret-square-o-down"></i> Show details
+        </button>
+        <button ng-show="showDetails" ng-click="showDetails=!showDetails" class="btn btn-sm">
+          <i class="fa fa-caret-square-o-up"></i> Hide details
+        </button>
+        <span class="hidden-xs"><strong>{{controls.getType(controls.selectedId).label}}</strong></span>
+        <button ng-click="controls.navigate({})" class="btn btn-xs btn-primary" title="Navigate"><i class="fa fa-link"></i></button>
+        <button ng-show="controls.selectedId && controls.selectedId.indexOf('RL')>=0 " title="Expand" 
+          ng-click="controls.expand({id:controls.selectedId})" class="btn btn-xs btn-info"><i class="fa fa-share-alt"></i></button>
+        <button ng-show="controls.selectedId && controls.selectedId.indexOf('RL')>=0 " title="Remove from graph" 
+          ng-click="controls.clear({})" class="btn btn-xs btn-danger"> <i class="fa fa-remove"></i></button>
+      </div>
+      <div class="panel-body" ng-if="showDetails&&controls.selectedId">
+        <carre-element elem-id="{{controls.selectedId}}" mode="view" not-fields="has_author,has_reviewer"></carre-element>
+      </div>
+    </div>
+  </div>
   <!--graph controls-->
-  <div class="col-sm-6 pull-right text-right">
+  <div class="col-xs-6 col-sm-5 col-md-5 col-md-offset-2 text-right">
     <div class="btn-group" uib-dropdown is-open="status.isopen">
       <button type="button" class="btn btn-sm btn-default" uib-dropdown-toggle>
         Options <span class="caret"></span>
@@ -13,28 +35,6 @@
     <button ng-click="controls.removeSize({})" class="btn btn-sm btn-default"><i class="fa fa-minus"></i></button>
     <button ng-click="controls.addSize({})" class="btn btn-sm btn-default"><i class="fa fa-plus"></i></button>
     <button ng-click="controls.refresh({})" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></button>
-    <slider ng-if="controls.slider>=0" floor="0" step="20" ceiling="360" ng-model="controls.slider"></slider>
-  </div>
-  <!--element contrtols-->
-  <div ng-show="selectedId" class="col-sm-6">
-    <div class="panel panel-xs panel-default" style="margin:0;position:absolute;z-index:4">
-      <div class="panel-heading" style="padding-top:0;padding-bottom:0;padding-left:0;">
-        <button ng-show="!showDetails" style="background:none" ng-click="showDetails=!showDetails" class="btn btn-sm ">
-          <i class="fa fa-caret-square-o-down"></i> Show details
-        </button>
-        <button ng-show="showDetails" ng-click="showDetails=!showDetails" class="btn btn-sm">
-          <i class="fa fa-caret-square-o-up"></i> Hide details
-        </button>
-        <strong>{{controls.getType(controls.selectedId).label}}</strong>
-        <button ng-click="controls.navigate({})" class="btn btn-xs btn-default">Navigate</button>
-        <div class="btn-group">
-          <button ng-show="controls.selectedId && controls.selectedId.indexOf('RL')>=0 " ng-click="controls.expand({id:controls.selectedId})" class="btn btn-xs btn-info">Expand</button>
-          <button ng-show="controls.selectedId && controls.selectedId.indexOf('RL')>=0 " ng-click="controls.clear({})" class="btn btn-xs btn-danger">Clear <i class="fa fa-remove"></i></button>
-        </div>
-      </div>
-      <div class="panel-body" ng-if="showDetails&&controls.selectedId">
-        <carre-element elem-id="{{controls.selectedId}}" mode="view" not-fields="has_author,has_reviewer"></carre-element>
-      </div>
-    </div>
+    <div><slider ng-if="controls.slider>=0" floor="0" step="20" ceiling="360" ng-model="controls.slider"></slider></div>
   </div>
 </div>
