@@ -111,6 +111,7 @@ angular.module('CarreEntrySystem')
         
         /* Graph manipulations */
         vm.addNodeRelations = function (id) {
+          var id = id || vm.selectedId;
           vm.loading=GRAPH.network(id,!vm.showRiskEvidences?'risk_factor':null).then(function(data){
             var limit=vm.limitNewConnections;
             var nodes={};
