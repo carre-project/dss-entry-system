@@ -58,10 +58,10 @@
             
             <div class="row">
                 <div class="col-xs-12">
-                    <carre-graph-sankey-risk limit-new-connections="4" ng-if="explore.graph_type==='sankey' && explore.ready" riskid="explore.id"></carre-graph-sankey-risk>
-                    <carre-graph-chord-risk limit-new-connections="4" ng-if="explore.graph_type==='chord' && explore.ready" riskid="explore.id"></carre-graph-chord-risk>
-                    <carre-graph-risk limit-new-connections="4" ng-if="explore.graph_type==='network' && explore.ready" riskid="explore.id"></carre-graph-risk>
-                    <carre-graph-network limit-new-connections="4" ng-if="explore.graph_type==='network-d3' && explore.ready" riskid="explore.id"></carre-graph-network>
+                    <carre-graph-sankey-risk ng-if="explore.graph_type==='sankey' && explore.ready" riskid="explore.id"></carre-graph-sankey-risk>
+                    <carre-graph-chord-risk ng-if="explore.graph_type==='chord' && explore.ready" riskid="explore.id"></carre-graph-chord-risk>
+                    <carre-graph-risk ng-if="explore.graph_type==='network' && explore.ready" riskid="explore.id"></carre-graph-risk>
+                    <carre-graph-network-d3 ng-if="explore.graph_type==='network-d3' && explore.ready" riskid="explore.id"></carre-graph-network-d3>
                 </div>
             </div>
         </div>

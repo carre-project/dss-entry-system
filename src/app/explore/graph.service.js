@@ -5,8 +5,9 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
   };
   
   
-  window.FindIndex=function(arr,val,prop){
+  window.FindIndex=function(arr,val,prop,propVal){
     prop = prop || 'id';
+    if(propVal) val=val[propVal];
     for (var i=0;i<arr.length;i++){
       if(val===arr[i][prop]) return i;
     }

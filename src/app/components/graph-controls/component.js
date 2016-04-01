@@ -9,7 +9,8 @@ angular.module('CarreEntrySystem')
             bindToController: {
                 'selectedId': '=',
                 'disableOptions':'=',
-                'slider': '=',
+                'enableRotation': '@',
+                'rotation': '=',
                 'onlyPath':'=',
                 'showRiskEvidences':'=',
                 

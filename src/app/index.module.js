@@ -30,7 +30,6 @@
       'chart.js',
       'oitozero.ngSweetAlert',
       'permission',
-      'ui.slider'
     ]);
 
 })();

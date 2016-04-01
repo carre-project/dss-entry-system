@@ -1,6 +1,17 @@
-
+.group {
+  cursor: pointer;
+}
+.group:hover,.group.selected {
+  font-size: large;
+  font-weight: 900;
+}
 .chord path {
-  fill-opacity: .87;
+  cursor: pointer;
+  fill-opacity: .8;
+}
+
+.chord path:hover,.chord path.selected  {
+  fill-opacity: 1;
 }
 
 path {

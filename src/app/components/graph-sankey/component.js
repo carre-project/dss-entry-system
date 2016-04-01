@@ -17,7 +17,7 @@ angular.module('CarreEntrySystem')
         vm.containerId = "sankey";
         
           //graph init configuration
-        vm.limitNewConnections = $scope.limitNewConnections || 6;
+        vm.limitNewConnections = $scope.limitNewConnections || 10;
         vm.minConnections = 6;
         vm.height = vm.height || 600;
         vm.customHeight=0;
@@ -32,7 +32,6 @@ angular.module('CarreEntrySystem')
           if(vm.customHeight>=800) return false;
           vm.customHeight+=100;
           $timeout(function() {
-            angular.element('#'+vm.containerId+' svg').remove();
             vm.renderSankey();
           });
         };
@@ -40,7 +39,6 @@ angular.module('CarreEntrySystem')
           if(vm.customHeight<=-300) return false;
           vm.customHeight-=100;
           $timeout(function() {
-            angular.element('#'+vm.containerId+' svg').remove();
             vm.renderSankey();
           });
         };
@@ -120,8 +118,8 @@ angular.module('CarreEntrySystem')
           
         };
         vm.deleteSelected = function(){
+          if(!vm.selectedItem || vm.selectedItem.type!=='node') return false; 
           var elem = vm.selectedItem.obj||{};
-          if(vm.selectedItem.type!=='node') return false; 
           //remove connected edges
           elem.sourceLinks.forEach(function(link){ vm.edgesArr.splice(FindIndex(vm.edgesArr,link.id), 1); });
           elem.targetLinks.forEach(function(link){ vm.edgesArr.splice(FindIndex(vm.edgesArr,link.id), 1); });

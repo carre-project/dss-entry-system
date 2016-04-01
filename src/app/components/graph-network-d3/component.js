@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CarreEntrySystem')
-  .directive('carreGraphNetwork', function() {
+  .directive('carreGraphNetworkD3', function() {
     return {
       templateUrl: 'app/components/graph-network-d3/template.html',
       restrict: 'E',
