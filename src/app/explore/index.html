@@ -47,7 +47,7 @@
                 
                 <div class="col-sm-3">
                     <label for="visualization_type">Visualization type</label>
-                    <select id="visualization_type" class="form-control" ng-model="explore.graph_type" ng-change="setGraph(explore.graph_type)">
+                    <select id="visualization_type" class="form-control" ng-model="explore.graph_type">
                         <option value="network">Network graph</option>
                         <option ng-if="main.config.ENV==='DEV'" value="network-d3">Network graph d3</option>
                         <option value="sankey">Sankey graph</option>

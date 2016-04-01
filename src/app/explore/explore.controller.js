@@ -83,11 +83,6 @@
       $timeout(function(){ vm.setNewId(); },exampleItems.length*timeInterval);
     }
     
-    
-    vm.setGraph=function(type){
-      console.log('Graph changed to:',type);
-    }
-    
     //get risk elements
     Risk_elements.get().then(function(res) {
       vm.risk_elements = res.data.map(function(rl) {
