@@ -17,7 +17,7 @@ angular.module('CarreEntrySystem')
         vm.containerId = "sankey";
         
           //graph init configuration
-        vm.limitNewConnections = $scope.limitNewConnections || 4;
+        vm.limitNewConnections = $scope.limitNewConnections || 6;
         vm.minConnections = 6;
         vm.height = vm.height || 600;
         vm.customHeight=0;
@@ -122,45 +122,15 @@ angular.module('CarreEntrySystem')
         vm.deleteSelected = function(){
           var elem = vm.selectedItem.obj||{};
           if(vm.selectedItem.type!=='node') return false; 
-          
-          //remove node
-          vm.nodesArr.splice(FindIndex(vm.nodesArr,elem.id), 1);
-          
           //remove connected edges
-          elem.sourceLinks.forEach(function(link){
-            vm.edgesArr.splice(FindIndex(vm.edgesArr,link.id), 1);
+          elem.sourceLinks.forEach(function(link){ vm.edgesArr.splice(FindIndex(vm.edgesArr,link.id), 1); });
+          elem.targetLinks.forEach(function(link){ vm.edgesArr.splice(FindIndex(vm.edgesArr,link.id), 1); });
+          //remove related nodes
+          vm.nodesArr=vm.nodesArr.filter(function(node){ 
+            return FindIndex(vm.edgesArr,node.id,'from')+FindIndex(vm.edgesArr,node.id,'to')>=-1;
           });
-          elem.targetLinks.forEach(function(link){
-            vm.edgesArr.splice(FindIndex(vm.edgesArr,link.id), 1);
-          });
-          
-          //remove orphan nodes
-          vm.nodesArr.forEach(function(node){
-            if(node.sourceLinks.length+node.targetLinks.length===0) {
-              vm.nodesArr.splice(FindIndex(vm.nodesArr,node.id), 1);
-            }
-          });
-          
           //re-render graph
           $timeout(function() {vm.renderSankey();}, 0);
-        };
-        
-        
-        
-        vm.selectElement = function(obj,type){
-          var id = obj.id;
-          if(!id) $timeout(function(){vm.selectedId = false; },0);
-          else {
-            if(id.indexOf('/')!==-1) id = id.substr(id.lastIndexOf('/')+1);
-            $timeout(function(){
-              vm.selectedId = id; 
-              vm.selectedItem={type:type,obj:obj};
-            },0);
-            if(vm.showDetails && vm.alwaysOnDetails) { //reload element hack
-              $timeout(function(){vm.showDetails=false; },0);
-              $timeout(function(){vm.showDetails = true;},100);
-            }
-          }
         };
 
         //main graph render function
@@ -183,6 +153,8 @@ angular.module('CarreEntrySystem')
               return obj;
             })
           };
+          
+          console.log("Sankey graph data",graph);
           
           var calculated_height = vm.customHeight+Math.log(graph.links.length)*250;
           
@@ -309,7 +281,6 @@ angular.module('CarreEntrySystem')
             }
             
             //assign events
-            
             node.on('mousedown',clickNode);
             link.on('mousedown',clickLink);
             
@@ -321,24 +292,44 @@ angular.module('CarreEntrySystem')
         };
             
         //register events==============================>
+        
         function clickNode(obj,i){ 
-          console.log(obj,i,this);
           clearSelection();
           d3.select(this).select("rect").classed("selected", !d3.select(this).classed("selected"));
-          vm.selectElement(obj,'node');
+          selectElement(obj,'node');
+          d3.event.stopPropagation(); //events hack
         }
         function clickLink(obj,i){ 
-          console.log(obj,i,this);
           clearSelection();
           d3.select(this).classed("selected", !d3.select(this).classed("selected"));
-          vm.selectElement(obj,'link');
+          selectElement(obj,'link');
+          d3.event.stopPropagation(); //events hack
         }
+
+        //clear selection event
+        angular.element("#"+vm.containerId).on('mousedown',clearSelection);
+        
+        //help functions
         function clearSelection(){
+          $timeout(function(){vm.selectedId = null; },0);
           d3.select("#"+vm.containerId+" svg").selectAll(".link").classed("selected", false);
           d3.select("#"+vm.containerId+" svg").selectAll(".node").select("rect").classed("selected", false);
         }
-
-        //help functions
+        function selectElement(obj,type){
+          var id = obj?obj.id:null;
+          if(!id) return;
+          else {
+            if(id.indexOf('/')!==-1) id = id.substr(id.lastIndexOf('/')+1);
+            $timeout(function(){
+              vm.selectedId = id; 
+              vm.selectedItem={type:type,obj:obj};
+            },0);
+            if(vm.showDetails && vm.alwaysOnDetails) { //reload element hack
+              $timeout(function(){vm.showDetails=false; },0);
+              $timeout(function(){vm.showDetails = true;},100);
+            }
+          }
+        }
         function chartCss(attr){
           var elem=document.getElementById(vm.containerId);
           if(elem) return Number(getComputedStyle(elem, null).getPropertyValue(attr).replace('px',''));
