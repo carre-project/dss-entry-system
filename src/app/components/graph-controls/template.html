@@ -32,14 +32,15 @@
         Options <span class="caret"></span>
       </button>
       <ul uib-dropdown-menu role="menu">
-        <li ng-hide="controls.disableOptions.showRiskEvidences" role="menuitem">
-          <label class="carre-dropdown-checkbox">Show Risk evidences
+        <li ng-hide="controls.disableOptions.showRiskEvidences" role="menuitem" style="width:180px">
+          <span class="carre-dropdown-checkbox">Show Risk evidences
             <input type="checkbox" ng-change="applyRefresh()" ng-model="controls.showRiskEvidences">
-          </label>
+          </span>
         </li>
-        <li ng-hide="controls.disableOptions.onlyPath" role="menuitem">
-          <label class="carre-dropdown-checkbox">Show only path
-            <input type="checkbox" ng-change="applyRefresh()" ng-model="controls.onlyPath"> </label>
+        <li ng-hide="controls.disableOptions.onlyPath" role="menuitem" style="width:180px">
+          <span class="carre-dropdown-checkbox">Show only path
+            <input type="checkbox" ng-change="applyRefresh()" ng-model="controls.onlyPath"> 
+          </span>
         </li>
       </ul>
     </div>

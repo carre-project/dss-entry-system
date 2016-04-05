@@ -117,7 +117,7 @@ angular.module('CarreEntrySystem')
           });
           
         };
-        vm.deleteSelected = function(){
+        vm.deleteSelected = function(d){
           if(!vm.selectedItem || vm.selectedItem.type!=='node') return false; 
           var elem = vm.selectedItem.obj||{};
           //remove connected edges
@@ -127,6 +127,7 @@ angular.module('CarreEntrySystem')
           vm.nodesArr=vm.nodesArr.filter(function(node){ 
             return FindIndex(vm.edgesArr,node.id,'from')+FindIndex(vm.edgesArr,node.id,'to')>=-1;
           });
+          if(d) d3.event.preventDefault();
           //re-render graph
           $timeout(function() {vm.renderSankey();}, 0);
         };

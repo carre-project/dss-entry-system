@@ -120,7 +120,7 @@ return {
           });
           
         };
-        vm.deleteSelected = function(){
+        vm.deleteSelected = function(d){
           if(!vm.selectedItem || vm.selectedItem.type!=='node') return false; 
           var elem = vm.selectedItem.obj||{};
           //remove connected edges
@@ -130,6 +130,11 @@ return {
           vm.nodesArr=vm.nodesArr.filter(function(node){ 
             return FindIndex(vm.edgesArr,node.id,'from')+FindIndex(vm.edgesArr,node.id,'to')>=-1;
           });
+          if(d) {
+            
+            console.debug("Context Menu",d3.event,this,d);
+            d3.event.preventDefault();
+          }
           //re-render graph
           $timeout(function() {vm.renderChord();}, 0);
         };
@@ -279,7 +284,7 @@ return {
                 .on("mouseout", fade(1))
                 .on('click',clickNode)
                 .on('dblclick',vm.addNodeRelations)
-                .on('contextmenu',vm.deleteSelected);
+                // .on('contextmenu',vm.deleteSelected);
                 
             link.on('click',clickLink)
                 .on('dblclick',vm.goToSelected);
@@ -289,11 +294,11 @@ return {
         //register events==============================>
         
         function clickNode(obj,i){ 
-          // console.debug("Node",this,obj,i);
+          console.debug("Click",d3.event,this,obj,i);
           clearSelection();
           d3.select(this).classed("selected", !d3.select(this).classed("selected"));
           selectElement(vm.nodesArr[i],'node');
-          d3.event.stopPropagation(); //events hack
+          if(d3.event.type==="click") d3.event.stopPropagation(); //events hack
         }
         function clickLink(obj,i){
           // console.debug("Link",this,obj,i);
