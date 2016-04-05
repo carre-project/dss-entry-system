@@ -271,7 +271,7 @@ angular.module('CarreEntrySystem')
               .attr("text-anchor", "start");
 
             // the function for moving the nodes
-            function dragmove(d) {
+          function dragmove(d) {
               d3.select(this).attr("transform",
                 "translate(" + d.x + "," + (
                   d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
