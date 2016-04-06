@@ -17,7 +17,8 @@
       "has_label",
       "has_datatype",
       "has_author",
-      "has_reviewer"
+      "has_reviewer",
+      "has_external_unit"
     ];
     
 

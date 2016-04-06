@@ -17,6 +17,7 @@
       "has_observable_acronym",
       "has_observable_type",
       "has_observable_measurement_type",
+      "has_external_type",
       "has_author",
       "has_reviewer"
     ];

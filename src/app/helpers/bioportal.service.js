@@ -4,16 +4,16 @@ angular.module('CarreEntrySystem').service('Bioportal', function($http, CONFIG) 
   var apiurl = CONFIG.BIOPORTAL_API_URL;
 
   //pass the Bioportal supported options to override the default 
-  var fetch = function(term, options) {
+  var fetch = function(term, options,nocui) {
     return search(term, options).then(function(res) {
       var cuis = [];
       var results = [];
       res.data.collection.forEach(function(obj) {
-        if ((obj.cui?obj.cui.length>0:false) && cuis.indexOf(obj.cui[0]) === -1) {
-          cuis.push(obj.cui[0]);
+        if (nocui||((obj.cui?obj.cui.length>0:false) && cuis.indexOf(obj.cui[0]) === -1)) {
+          if(!nocui) cuis.push(obj.cui[0]);
           results.push({
             label: obj.prefLabel,
-            value: obj.cui[0],
+            value: nocui?obj['@id']:obj.cui[0],
             link:obj.links.ui
           });
         }

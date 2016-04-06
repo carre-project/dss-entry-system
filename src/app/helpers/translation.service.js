@@ -25,6 +25,7 @@ angular.module('CarreEntrySystem').filter('translateMapping', function(CarreTran
     "has_observable_name":"Name",
     "has_observable_acronym":"Acronym",
     "has_observable_type":"Type",
+    "has_external_type":"External Vocabulary",
     "has_observable_measurement_type":"Measurement type",
     
     'observable_type_personal':'personal',
@@ -85,7 +86,8 @@ angular.module('CarreEntrySystem').filter('translateMapping', function(CarreTran
     "has_measurement_type_name":"Name",
     "has_datatype":"Datatype",
     "has_label":"Unit",
-    "has_enumeration_values":"Values"
+    "has_enumeration_values":"Values",
+    "has_external_unit":"External Vocabulary"
     
     
     

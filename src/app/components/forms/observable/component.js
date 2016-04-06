@@ -23,6 +23,23 @@ angular.module('CarreEntrySystem')
             };
           });
       });
+      
+      //Bioportal stuff
+      $scope.bioportalAutocompleteResults = [];
+      $scope.bioportalAutocomplete = function(term) {
+        if (term.length < 2) return false;
+        $scope.loadingElementIdentifier = true;
+        var options={
+          ontologies:"CMO"
+        };
+        Bioportal.fetch(term,options,"no cui").then(function(res) {
+          $scope.bioportalAutocompleteResults = res;
+          $scope.loadingElementIdentifier = false;
+        });
+      };
+      $scope.addExternalType=function(item){
+        return { value:"http://carre.kmi.open.ac.uk/external_observable_type/CMO_"+item.replace(" ","_").toUpperCase(), label:item }
+      }
 
       //Observable types
       $scope.types = [{
@@ -42,10 +59,8 @@ angular.module('CarreEntrySystem')
         Observables.save($scope.model,$scope.observable).then(function(res){
           //success
           console.log('Observable saved',res);
-          
           $scope.$emit('observable:save');
           toastr.success('<b>'+$scope.observable.name+'</b>'+($scope.model.id?' has been updated':' has been created'),'<h4>Observable saved</h4>');
-
         });
       };
       //Return back
@@ -64,8 +79,13 @@ angular.module('CarreEntrySystem')
         $scope.observable = {
           name: $scope.model.has_observable_name[0],
           type: $scope.model.has_observable_type[0],
-          measurement_type: $scope.model.has_observable_measurement_type[0]
+          measurement_type: $scope.model.has_observable_measurement_type[0],
+          identifier: $scope.model.has_external_type?$scope.model.has_external_type[0]:{}
         };
+        
+        //init Bioportal Fetch
+        $scope.bioportalAutocomplete($scope.observable.identifier);
+
 
       }
       else {
@@ -77,7 +97,8 @@ angular.module('CarreEntrySystem')
         $scope.observable = {
           name: "",
           type: "",
-          measurement_type: ""
+          measurement_type: "",
+          identifier:""
         };
 
 

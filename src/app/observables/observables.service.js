@@ -16,6 +16,11 @@ angular.module('CarreEntrySystem').service('Observables', function($http, CARRE,
     if(newElem.name.length>0) newObj.has_observable_name = {pre:'risk',value:newElem.name.toString(),type:"string"};
     if(newElem.type.length>0) newObj.has_observable_type = {pre:'risk',value:newElem.type.toString(),type:"node"};
     if(newElem.measurement_type.length>0) newObj.has_observable_measurement_type = {pre:'risk',value:newElem.measurement_type.toString(),type:"node"};
+    if (newElem.identifier.length > 0) newObj.has_external_type = {
+      pre: 'risk',
+      value: newElem.identifier.toString(),
+      type: "node"
+    };
     
     console.log('Old: ',oldElem);
     console.log('New: ',newElem);

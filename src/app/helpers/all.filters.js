@@ -6,6 +6,7 @@
         .module('CarreEntrySystem')
         .filter('trustAsResourceUrl', trustResourceFilter)
         .filter('hideSelected', hideSelected)
+        .filter('sliceLast', sliceLast)
         .filter('propsFilter', propsFilter)
         .filter('exclude', excludeItems);
 
@@ -27,7 +28,14 @@
             return false;
         };
     }
-
+    
+    /** @ngInject */
+    function sliceLast() {
+        return function(item, char) {
+            if(!item||item.length<=0||!char||char.length<=0) return ''; 
+            return item.substring(item.lastIndexOf(char)+1);
+        };
+    }
 
     /** @ngInject */
     function excludeItems() {

@@ -10,14 +10,31 @@ angular.module('CarreEntrySystem')
     scope: {
       'model': '='
     },
-    controller: function($scope, Measurement_types, toastr) {
+    controller: function($scope, Measurement_types, toastr, Bioportal) {
 
 
       $scope.model = $scope.model || {};
 
       //risk element types
       $scope.datatypes = ["float","enum","integer","boolean"];
-
+      
+      
+      //Bioportal stuff
+      $scope.bioportalAutocompleteResults = [];
+      $scope.bioportalAutocomplete = function(term) {
+        if (term.length < 2) return false;
+        $scope.loadingElementIdentifier = true;
+        var options={
+          ontologies:"UO"
+        };
+        Bioportal.fetch(term,options,"no cui").then(function(res) {
+          $scope.bioportalAutocompleteResults = res;
+          $scope.loadingElementIdentifier = false;
+        });
+      };
+      $scope.addExternalType=function(item){
+        return { value:"http://carre.kmi.open.ac.uk/external_measurement_unit/UO_"+item.replace(" ","_").toUpperCase(), label:item }
+      }
       
       //Save to RDF method
       $scope.saveModel=function(){
@@ -39,6 +56,7 @@ angular.module('CarreEntrySystem')
 
         });
       };
+      
       //Return back
       $scope.cancelForm=function(){
         $scope.$emit('measurement_type:cancel');
@@ -54,7 +72,8 @@ angular.module('CarreEntrySystem')
         $scope.measurement_type = {
           name: $scope.model.has_measurement_type_name_label,
           unit: $scope.model.has_label_label||"",
-          datatype: $scope.model.has_datatype_label
+          datatype: $scope.model.has_datatype_label,
+          identifier: $scope.model.has_external_unit?$scope.model.has_external_unit[0]:{}
         };
 
         if($scope.model.has_datatype_label==='enum'||$scope.model.has_datatype_label==='boolean') {
@@ -72,7 +91,8 @@ angular.module('CarreEntrySystem')
           name: "",
           unit: "",
           datatype: "",
-          values: []
+          values: [],
+          identifier:{}
         };
 
 
