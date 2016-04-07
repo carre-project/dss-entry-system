@@ -33,7 +33,8 @@ angular.module('CarreEntrySystem')
         });
       };
       $scope.addExternalType=function(item){
-        return { value:"http://carre.kmi.open.ac.uk/external_measurement_unit/UO_"+item.replace(" ","_").toUpperCase(), label:item }
+        var formatted = item.replace(/ /g, "_").replace(/[^\w\s]/gi, "").toUpperCase();
+        return { value:"http://carre.kmi.open.ac.uk/external_measurement_unit/UO_"+formatted, label:item }
       }
       
       //Save to RDF method

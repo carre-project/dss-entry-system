@@ -38,7 +38,8 @@ angular.module('CarreEntrySystem')
         });
       };
       $scope.addExternalType=function(item){
-        return { value:"http://carre.kmi.open.ac.uk/external_observable_type/CMO_"+item.replace(" ","_").toUpperCase(), label:item }
+        var formatted = item.replace(/ /g, "_").replace(/[^\w\s]/gi, "").toUpperCase();
+        return { value:"http://carre.kmi.open.ac.uk/external_observable_type/CMO_"+formatted, label:item }
       }
 
       //Observable types
