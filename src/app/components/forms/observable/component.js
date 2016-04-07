@@ -37,9 +37,9 @@ angular.module('CarreEntrySystem')
           $scope.loadingElementIdentifier = false;
         });
       };
-      $scope.addExternalType=function(item){
-        var formatted = item.replace(/ /g, "_").replace(/[^\w\s]/gi, "").toUpperCase();
-        return { value:"http://carre.kmi.open.ac.uk/external_observable_type/CMO_"+formatted, label:item }
+      $scope.transformItem=function(str){
+        var formatted = str.replace(/ /g, "_").replace(/[^\w\s]/gi, "").toUpperCase();
+        $scope.observable.identifier = "http://carre.kmi.open.ac.uk/external_observable_type/CMO_"+formatted;
       }
 
       //Observable types
@@ -81,7 +81,7 @@ angular.module('CarreEntrySystem')
           name: $scope.model.has_observable_name[0],
           type: $scope.model.has_observable_type[0],
           measurement_type: $scope.model.has_observable_measurement_type[0],
-          identifier: $scope.model.has_external_type?$scope.model.has_external_type[0]:{}
+          identifier: $scope.model.has_external_type?$scope.model.has_external_type[0]:""
         };
         
         //init Bioportal Fetch

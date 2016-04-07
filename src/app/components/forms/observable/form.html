@@ -43,25 +43,30 @@
       </div>
 
     </div>
-    
-    
-
-
+  
+  
     <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
       <label>Semantic annotation for "{{observable.name||'e.g age'}}"</label>
-      <div ng-show="loadingElementIdentifier" class="loadingSelect"></div>
-      <ui-select tagging="addExternalType" tagging-label="false" ng-model="observable.identifier" theme="bootstrap">
-        <ui-select-match placeholder="Search...">{{$select.selected.label}} - {{$select.selected.value | sliceLast:'/' }}</ui-select-match>
-        <ui-select-choices repeat="elem.value as elem in bioportalAutocompleteResults |  propsFilter: {label: $select.search}" 
-          refresh="bioportalAutocomplete($select.search)" refresh-delay="500">
-          <div ng-bind-html="elem.label | highlight: $select.search"></div>
-          <small>{{elem.value}}</small>
-        </ui-select-choices>
-      </ui-select>
-      <pre ng-show="observable.identifier.length>1" ng-bind="observable.identifier"></pre>
+      <div class="alert alert-warning" style="margin-bottom: 0">  {{observable.identifier}} </div>
+      <uib-accordion close-others="true">
+        <uib-accordion-group>
+          <uib-accordion-heading><span uib-popover="Clinical Measurement Ontology by Bioportal" popover-trigger="mouseenter">CMO ontology</span> <div ng-show="loadingElementIdentifier" class="loadingSelect"></div></uib-accordion-heading>
+          <ui-select ng-model="observable.identifier" theme="bootstrap">
+            <ui-select-match allow-clear="true" placeholder="Search...">{{$select.selected.label}} - {{$select.selected.value | sliceLast:'/' }}</ui-select-match>
+            <ui-select-choices repeat="elem.value as elem in bioportalAutocompleteResults |  propsFilter: {label: $select.search}" 
+              refresh="bioportalAutocomplete($select.search)" refresh-delay="500">
+              <div ng-bind-html="elem.label | highlight: $select.search"></div>
+              <small>{{elem.value}}</small>
+            </ui-select-choices>
+          </ui-select>
+        </uib-accordion-group>
+        <uib-accordion-group heading="Custom">
+            <input type="text" name="name" placeholder="e.g {{observable.name}}" class="form-control" ng-change="transformItem(customIdentifier)" ng-model="customIdentifier">
+        </uib-accordion-group>
+      </uib-accordion>
     </div>
-
-
+    
+    
     <div class="form-group">
       <button type="button" ng-click="cancelForm()" class="btn btn-danger">Cancel</button>
       <button type="submit" class="btn btn-primary">Submit</button>

@@ -32,9 +32,10 @@ angular.module('CarreEntrySystem')
           $scope.loadingElementIdentifier = false;
         });
       };
-      $scope.addExternalType=function(item){
-        var formatted = item.replace(/ /g, "_").replace(/[^\w\s]/gi, "").toUpperCase();
-        return { value:"http://carre.kmi.open.ac.uk/external_measurement_unit/UO_"+formatted, label:item }
+      
+      $scope.transformItem=function(str){
+        var formatted = str.replace(/ /g, "_").replace(/[^\w\s]/gi, "").toUpperCase();
+        $scope.observable.identifier = "http://carre.kmi.open.ac.uk/external_measurement_unit/UO_"+formatted;
       }
       
       //Save to RDF method
@@ -74,12 +75,16 @@ angular.module('CarreEntrySystem')
           name: $scope.model.has_measurement_type_name_label,
           unit: $scope.model.has_label_label||"",
           datatype: $scope.model.has_datatype_label,
-          identifier: $scope.model.has_external_unit?$scope.model.has_external_unit[0]:{}
+          identifier: $scope.model.has_external_unit?$scope.model.has_external_unit[0]:""
         };
 
         if($scope.model.has_datatype_label==='enum'||$scope.model.has_datatype_label==='boolean') {
           $scope.measurement_type.values=$scope.model.has_enumeration_values_label.split(';');
         }
+        
+        //init Bioportal Fetch
+        $scope.bioportalAutocomplete($scope.measurement_type.identifier);
+
 
       }
       else {
@@ -93,7 +98,7 @@ angular.module('CarreEntrySystem')
           unit: "",
           datatype: "",
           values: [],
-          identifier:{}
+          identifier:""
         };
 
 

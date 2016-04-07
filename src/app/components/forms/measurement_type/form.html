@@ -61,18 +61,26 @@
       </div>
     </div>
     
+  
     <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
-      <label>Semantic annotation for "{{measurement_type.unit||measurement_type.name||'e.g mmol/L'}}"</label>
-      <div ng-show="loadingElementIdentifier" class="loadingSelect"></div>
-      <ui-select tagging="addExternalType" tagging-label="false" ng-model="measurement_type.identifier" theme="bootstrap">
-        <ui-select-match placeholder="Search...">{{$select.selected.label}} - {{$select.selected.value | sliceLast:'/' }}</ui-select-match>
-        <ui-select-choices repeat="elem.value as elem in bioportalAutocompleteResults |  propsFilter: {label: $select.search}" 
-          refresh="bioportalAutocomplete($select.search)" refresh-delay="500">
-          <div ng-bind-html="elem.label | highlight: $select.search"></div>
-          <small>{{elem.value}}</small>
-        </ui-select-choices>
-      </ui-select>
-      <pre ng-show="measurement_type.identifier.length>1" ng-bind="measurement_type.identifier"></pre>
+      <label>Semantic annotation for "{{measurement_type.name||'e.g age'}}"</label>
+      <div class="alert alert-warning" style="margin-bottom: 0">  {{measurement_type.identifier}} </div>
+      <uib-accordion close-others="true">
+        <uib-accordion-group>
+          <uib-accordion-heading><span uib-popover="Units of Measurement Ontology by Bioportal" popover-trigger="mouseenter">CMO ontology</span> <div ng-show="loadingElementIdentifier" class="loadingSelect"></div></uib-accordion-heading>
+          <ui-select ng-model="measurement_type.identifier" theme="bootstrap">
+            <ui-select-match allow-clear="true" placeholder="Search...">{{$select.selected.label}} - {{$select.selected.value | sliceLast:'/' }}</ui-select-match>
+            <ui-select-choices repeat="elem.value as elem in bioportalAutocompleteResults |  propsFilter: {label: $select.search}" 
+              refresh="bioportalAutocomplete($select.search)" refresh-delay="500">
+              <div ng-bind-html="elem.label | highlight: $select.search"></div>
+              <small>{{elem.value}}</small>
+            </ui-select-choices>
+          </ui-select>
+        </uib-accordion-group>
+        <uib-accordion-group heading="Custom">
+            <input type="text" name="name" placeholder="e.g {{measurement_type.name}}" class="form-control" ng-change="transformItem(customIdentifier)" ng-model="customIdentifier">
+        </uib-accordion-group>
+      </uib-accordion>
     </div>
 
 
@@ -82,8 +90,5 @@
     </div>
 
   </form>
-
-  <!--<pre>form.name.$error = {{ form.name.$error | json }}</pre>-->
-  <!--<pre>{{ measurement_type | json }}</pre>-->
 
 </div>
