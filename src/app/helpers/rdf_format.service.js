@@ -55,7 +55,11 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG,Carre
         }
       }
     }
-
+    
+    // dont make labels for external annotations
+    if(rel === 'has_external_type' || rel === 'has_external_unit') {
+      val_label = val;
+    }
 
 
     if (settings.fields.indexOf(rel) === -1) settings.fields.push(rel);
