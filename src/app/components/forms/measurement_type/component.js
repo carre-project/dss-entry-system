@@ -35,7 +35,7 @@ angular.module('CarreEntrySystem')
       
       $scope.transformItem=function(str){
         var formatted = str.replace(/ /g, "_").replace(/[^\w\s]/gi, "").toUpperCase();
-        $scope.observable.identifier = "http://carre.kmi.open.ac.uk/external_measurement_unit/UO_"+formatted;
+        $scope.measurement_type.identifier = "http://carre.kmi.open.ac.uk/external_measurement_unit/UO_"+formatted;
       }
       
       //Save to RDF method
