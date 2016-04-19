@@ -7,7 +7,7 @@
  * # adminPosHeader
  */
 angular.module('CarreEntrySystem')
-	.directive('notifications',function(){
+	.directive('carreNotifications',function(){
 		return {
         templateUrl:'app/components/notifications/notifications.html',
         restrict: 'E',
