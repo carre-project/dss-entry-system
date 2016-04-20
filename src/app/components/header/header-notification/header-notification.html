@@ -3,26 +3,14 @@
     <!--user -->
     <li ng-show="main.user.username" class="dropdown" uib-dropdown>
         <a href uib-dropdown-toggle>
-           Pending reviews <span class="badge">3</span> <i class="fa fa-caret-down"></i> 
+           Pending reviews <span class="badge">{{main.user.pendingReviews}}</span> <i class="fa fa-caret-down"></i> 
         </a>
-        <ul class="uib-dropdown-menu">
+        <ul class="uib-dropdown-menu review-notifications">
             
-            <li>
+            <li ng-repeat="review in main.user.pendingReviews">
                 <a href="#">
                     <div> <strong>Risk evidence</strong> <span class="pull-right text-muted"> <em>19/03/2016</em> </span> </div>
                     <div>Chronic kidney disease after acute kidney injury: a systematic review and meta-analysis.</div>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div> <strong>Risk factor</strong> <span class="pull-right text-muted"> <em>19/03/2016</em> </span> </div>
-                    <div>acute kidney disease [is an issue in] chronic kidney disease</div>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div> <strong>Risk element</strong> <span class="pull-right text-muted"> <em>19/03/2016</em> </span> </div>
-                    <div>Chronic kidney disease</div>
                 </a>
             </li>
             

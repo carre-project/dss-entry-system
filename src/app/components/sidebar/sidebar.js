@@ -14,9 +14,7 @@ angular.module('CarreEntrySystem')
       templateUrl:'app/components/sidebar/sidebar.html',
       restrict: 'E',
       replace: true,
-      scope: {
-        collapsed:'='
-      },
+      scope: {},
       controller:function($scope){
              
         $scope.slideWidth=(window.innerWidth>730)?window.innerWidth*0.4:window.innerWidth*0.9;
@@ -24,6 +22,7 @@ angular.module('CarreEntrySystem')
         $(window).resize(function(){
             if($scope.showAbout) { 
               // console.log('Width changed', window.innerWidth);
+              $scope.slideWidth=(window.innerWidth>730)?window.innerWidth*0.4:window.innerWidth*0.9;
               $scope.slideWidth=(window.innerWidth>730)?window.innerWidth*0.4:window.innerWidth*0.9;
               $scope.$apply(function(){ $scope.showAbout=false;  });
               $scope.$apply(function(){ $scope.showAbout=true;  });
