@@ -1,0 +1,32 @@
+<div uib-collapse="!main.DEBUG" class="row">
+  <div class="col-xs-12">
+    Current risk_factor<pre>{{risk_factor | json}}</pre>
+  </div>
+</div>
+<!--debug vars-->
+
+<div class="col-xs-12">
+  <div class="col-sm-4">
+    <a ng-show="main.user.username" class="btn btn-xs btn-default" ui-sref="main.risk_factors.edit({id:risk_factor.id})"><i class="fa fa-pencil"></i> Edit</a>    
+    <div ng-show="main.user.username && main.config.ENV==='DEV'"> 
+      ID: <b>{{risk_factor.id}}</b>
+      <a class="btn btn-xs btn-danger" href="" ng-click="risk_factor.deleteCurrent()"><i class="fa fa-trash-o"></i> Delete</a>
+    </div>
+    <ul class="list-group">
+      <li ng-repeat="field in risk_factor.fields" ng-if="risk_factor.current[field.value]" class="list-group-item">
+        {{field.label}}:
+        <carre-linker model="risk_factor.current" property="{{field.value}}"></carre-linker>
+      </li>
+    </ul>
+  </div>
+  <div class="col-sm-8">
+    <carre-graph-risk height="250" riskid="risk_factor.id"></carre-graph-risk>
+  </div>
+
+</div>
+
+<div class="col-xs-12">
+  <h4 class="page-header">Related risk evidences</h4>
+  <div cg-busy="risk_factor.gridLoading" id="grid1" ui-grid="risk_factor.mygrid" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-exporter ui-grid-auto-resize class="grid"></div>
+
+</div>

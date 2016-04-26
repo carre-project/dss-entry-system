@@ -3,10 +3,10 @@
 
   angular
     .module('CarreEntrySystem')
-    .controller('risk_reviewsSingleController', risk_reviewsSingleController);
+    .controller('risk_factorsSingleController', risk_factorsSingleController);
 
   /** @ngInject */
-  function risk_reviewsSingleController(toastr, content, Risk_factors, CARRE, SweetAlert, $stateParams, uiGridGroupingConstants, $scope, $timeout, Pubmed, uiGridConstants, $state) {
+  function risk_factorsSingleController(toastr, content, Risk_factors, CARRE, SweetAlert, $stateParams, uiGridGroupingConstants, $scope, $timeout, Pubmed, uiGridConstants, $state) {
     var vm = this;
 
 
