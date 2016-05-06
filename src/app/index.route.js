@@ -400,6 +400,55 @@
         url: '/:id'
       })
       
+      /*  Reviews  */
+      .state('main.risk_reviews', {
+        'abstract':true,
+        templateUrl: 'app/risk_reviews/main.html',
+        url: '/risk_reviews'
+      })
+      .state('main.risk_reviews.list', {
+        controller: 'risk_reviewsController',
+        controllerAs: 'risk_reviews',
+        templateUrl: 'app/risk_reviews/list.html',
+        url: ''
+      })
+      .state('main.risk_reviews.create', {
+        templateUrl: 'app/risk_reviews/single/edit.create.html',
+        controller: 'risk_reviewsSingleController',
+        controllerAs: 'risk_review',
+        url: '/create',
+        data: {
+          permissions: {
+            only: ['authenticated_user'],
+            redirectTo: function(rejectedPromise) {
+              getGuestState();
+            }        
+            
+          }
+        }
+      })
+      .state('main.risk_reviews.edit', {
+        templateUrl: 'app/risk_reviews/single/edit.create.html',
+        controller: 'risk_reviewsSingleController',
+        controllerAs: 'risk_review',
+        url: '/:id/edit',
+        data: {
+          permissions: {
+            only: ['authenticated_user'],
+            redirectTo: function(rejectedPromise) {
+              getGuestState();
+            }        
+            
+          }
+        }
+        
+      })
+      .state('main.risk_reviews.view', {
+        controller: 'risk_reviewsSingleController',
+        templateUrl: 'app/risk_reviews/single/view.html',
+        controllerAs: 'risk_review',
+        url: '/:id'
+      })
       /*Error routes*/
       .state('404_error', {
         templateUrl: '404.html',

@@ -61,9 +61,18 @@
           </ui-select>
         </uib-accordion-group>
         <uib-accordion-group heading="Custom">
-            <input type="text" name="name" placeholder="e.g {{observable.name}}" class="form-control" ng-change="transformItem(customIdentifier)" ng-model="customIdentifier">
+            <input type="text" name="name" placeholder="e.g {{observable.name}}" class="form-control" ng-change="transformIdentifier(customIdentifier)" ng-model="customIdentifier">
         </uib-accordion-group>
       </uib-accordion>
+    </div>
+    
+    
+  
+    <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+      <label>Sensor annotation for "{{observable.name||'e.g age'}}"</label>
+      <div class="alert alert-warning" style="margin-bottom: 0">  {{observable.predicate}} </div>            
+      <input type="text" name="name" placeholder="e.g {{observable.name}} or {{observable.acronym}}" class="form-control" ng-change="transformPredicate(customPredicate)" ng-model="customPredicate">
+
     </div>
     
     

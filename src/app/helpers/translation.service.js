@@ -26,6 +26,7 @@ angular.module('CarreEntrySystem').filter('translateMapping', function(CarreTran
     "has_observable_acronym":"Acronym",
     "has_observable_type":"Type",
     "has_external_type":"External Vocabulary",
+    "has_external_predicate":"Sensors",
     "has_observable_measurement_type":"Measurement type",
     
     'observable_type_personal':'personal',

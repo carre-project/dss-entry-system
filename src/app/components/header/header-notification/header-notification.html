@@ -3,21 +3,27 @@
     <!--user -->
     <li ng-show="main.user.username" class="dropdown" uib-dropdown>
         <a href uib-dropdown-toggle>
-           Pending reviews <span class="badge">{{main.user.pendingReviews}}</span> <i class="fa fa-caret-down"></i> 
+           Reviews <span class="badge">4</span> <i class="fa fa-caret-down"></i> 
         </a>
         <ul class="uib-dropdown-menu review-notifications">
             
-            <li ng-repeat="review in main.user.pendingReviews">
+            <li ng-repeat="review in [0,1]">
                 <a href="#">
-                    <div> <strong>Risk evidence</strong> <span class="pull-right text-muted"> <em>19/03/2016</em> </span> </div>
+                    <div> <strong>Risk evidence</strong> <div class="label label-warning">Incoming</div> <span class="pull-right text-muted"> <em>19/03/2016</em> </span> </div>
                     <div>Chronic kidney disease after acute kidney injury: a systematic review and meta-analysis.</div>
                 </a>
             </li>
-            
+            <li ng-repeat="review in [0,1]">
+                <a href="#">
+                    <div> <strong>Risk evidence</strong> <div class="label label-success">Pending</div> <span class="pull-right text-muted"> <em>19/03/2016</em> </span> </div>
+                    <div>Chronic kidney disease after acute kidney injury: a systematic review and meta-analysis.</div>
+                </a>
+            </li>
             <li class="divider"></li>
             <li>
-                <a class="text-center" href="#"> <strong>See all pending reviews</strong> <i class="fa fa-angle-right"></i> </a>
+                <a class="text-center" href="#"> <strong>See all reviews</strong> <i class="fa fa-angle-right"></i> </a>
             </li>
+            
         </ul>
     </li>
     

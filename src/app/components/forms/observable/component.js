@@ -37,10 +37,14 @@ angular.module('CarreEntrySystem')
           $scope.loadingElementIdentifier = false;
         });
       };
-      $scope.transformItem=function(str){
+      $scope.transformIndentifier=function(str){
         var formatted = str.replace(/ /g, "_").replace(/[^\w\s]/gi, "").toUpperCase();
         $scope.observable.identifier = "http://carre.kmi.open.ac.uk/external_observable_type/CMO_"+formatted;
-      }
+      };
+      $scope.transformPredicate=function(str){
+        var formatted = str.toLowerCase();
+        $scope.observable.predicate = "http://carre.kmi.open.ac.uk/ontology/sensors.owl#has_"+formatted;
+      };
 
       //Observable types
       $scope.types = [{
@@ -81,9 +85,11 @@ angular.module('CarreEntrySystem')
           name: $scope.model.has_observable_name[0],
           type: $scope.model.has_observable_type[0],
           measurement_type: $scope.model.has_observable_measurement_type[0],
-          identifier: $scope.model.has_external_type?$scope.model.has_external_type[0]:""
+          identifier: $scope.model.has_external_type?$scope.model.has_external_type[0]:"",
+          predicate: $scope.model.has_external_predicate?$scope.model.has_external_predicate[0]:""
         };
         
+        $scope.customPredicate = $scope.model.has_external_predicate_label.split('has_')[1];
         //init Bioportal Fetch
         $scope.bioportalAutocomplete($scope.observable.identifier);
 
@@ -99,7 +105,8 @@ angular.module('CarreEntrySystem')
           name: "",
           type: "",
           measurement_type: "",
-          identifier:""
+          identifier:"",
+          predicate:""
         };
 
 

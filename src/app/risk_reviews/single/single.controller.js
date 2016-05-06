@@ -3,19 +3,19 @@
 
   angular
     .module('CarreEntrySystem')
-    .controller('risk_factorsSingleController', risk_factorsSingleController);
+    .controller('risk_reviewsSingleController', risk_reviewsSingleController);
 
   /** @ngInject */
-  function risk_factorsSingleController(toastr, content, Risk_factors, CARRE, SweetAlert, $stateParams, uiGridGroupingConstants, $scope, $timeout, Pubmed, uiGridConstants, $state) {
+  function risk_reviewsSingleController(toastr, content, Risk_factors, CARRE, SweetAlert, $stateParams, uiGridGroupingConstants, $scope, $timeout, Pubmed, uiGridConstants, $state) {
     var vm = this;
 
 
     var visibleFields = [
       // "type",      
       // "id",
-      "has_risk_factor_source",
-      "has_risk_factor_target",
-      "has_risk_factor_association_type",
+      "has_risk_review_source",
+      "has_risk_review_target",
+      "has_risk_review_association_type",
       "has_author",
       "has_reviewer"
     ];
@@ -31,29 +31,29 @@
     }
 
     //Handle events
-    $scope.$on('risk_factor:save', function() {
+    $scope.$on('risk_review:save', function() {
       if (vm.current.id) {
-        $state.go('main.risk_factors.view', {
+        $state.go('main.risk_reviews.view', {
           id: vm.id
         });
       }
-      else $state.go('main.risk_factors.list');
+      else $state.go('main.risk_reviews.list');
     });
-    $scope.$on('risk_factor:cancel', function() {
+    $scope.$on('risk_review:cancel', function() {
       if (vm.current.id) {
-        $state.go('main.risk_factors.view', {
+        $state.go('main.risk_reviews.view', {
           id: vm.id
         });
       }
-      else $state.go('main.risk_factors.list');
+      else $state.go('main.risk_reviews.list');
     });
 
 
-    if ($state.is("main.risk_factors.create")) {
+    if ($state.is("main.risk_reviews.create")) {
       vm.create = true;
       vm.current = {};
     }
-    else if ($state.is("main.risk_factors.edit")) {}
+    else if ($state.is("main.risk_reviews.edit")) {}
     else {}
     
 
@@ -70,10 +70,10 @@
             };
           });
         }
-        else $state.go('main.risk_factors.list');
+        else $state.go('main.risk_reviews.list');
       }, function(err) {
         console.error(err);
-        $state.go('main.risk_factors.list');
+        $state.go('main.risk_reviews.list');
       });
     }
 
@@ -89,7 +89,7 @@
           closeOnCancel: true
         },
         function(isConfirm) {
-          if (isConfirm) { CARRE.delete(vm.current.id).then(function() { $state.go('main.risk_factors.list'); }); }
+          if (isConfirm) { CARRE.delete(vm.current.id).then(function() { $state.go('main.risk_reviews.list'); }); }
         });
     };
 
@@ -97,7 +97,7 @@
     /************** List Template **************/
 
     var visibleGridColumns = [
-      'has_risk_factor',
+      'has_risk_review',
       'has_observable_condition_text',
       // 'has_risk_evidence_source',
       // 'has_risk_evidence_ratio_type',

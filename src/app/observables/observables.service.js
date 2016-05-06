@@ -21,6 +21,11 @@ angular.module('CarreEntrySystem').service('Observables', function($http, CARRE,
       value: newElem.identifier.toString(),
       type: "node"
     };
+    if (newElem.predicate.length > 0) newObj.has_external_predicate = {
+      pre: 'risk',
+      value: newElem.predicate.toString(),
+      type: "node"
+    };
     
     console.log('Old: ',oldElem);
     console.log('New: ',newElem);

@@ -18,6 +18,7 @@
       "has_observable_type",
       "has_observable_measurement_type",
       "has_external_type",
+      "has_external_predicate",
       "has_author",
       "has_reviewer"
     ];
