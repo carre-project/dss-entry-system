@@ -45,7 +45,7 @@
     </div>
   
   
-    <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+    <div class="form-group">
       <label>Semantic annotation for "{{observable.name||'e.g age'}}"</label>
       <div class="alert alert-warning" style="margin-bottom: 0">  {{observable.identifier}} </div>
       <uib-accordion close-others="true">
@@ -70,9 +70,21 @@
   
     <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
       <label>Sensor annotation for "{{observable.name||'e.g age'}}"</label>
-      <div class="alert alert-warning" style="margin-bottom: 0">  {{observable.predicate}} </div>            
-      <input type="text" name="name" placeholder="e.g {{observable.name}} or {{observable.acronym}}" class="form-control" ng-change="transformPredicate(customPredicate)" ng-model="customPredicate">
-
+      <div class="alert alert-warning" style="margin-bottom: 0">  {{observable.predicate}} </div>  
+      <uib-accordion close-others="true">
+        <uib-accordion-group>
+          <uib-accordion-heading><span uib-popover="CARRE Sensors ontology" popover-trigger="mouseenter">CARRE Sensors ontology</span> <div ng-show="loadingElementIdentifier" class="loadingSelect"></div></uib-accordion-heading>
+          <ui-select on-select="transformPredicate(customPredicate)" ng-model="customPredicate" theme="bootstrap">
+            <ui-select-match allow-clear="true" placeholder="Select from sensors ontology..">{{$select.selected }}</ui-select-match>
+            <ui-select-choices repeat="elem in SensorPredicates |  filter : $select.search">
+              <div ng-bind-html="elem | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>  
+        </uib-accordion-group>
+        <uib-accordion-group heading="Custom">
+          <input type="text" name="name" placeholder="Or type a custom name" class="form-control" ng-change="transformPredicate(customPredicate)" ng-model="customPredicate">
+        </uib-accordion-group>
+      </uib-accordion>         
     </div>
     
     

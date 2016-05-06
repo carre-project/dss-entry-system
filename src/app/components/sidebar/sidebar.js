@@ -15,6 +15,7 @@ angular.module('CarreEntrySystem')
       restrict: 'E',
       replace: true,
       scope: {},
+      controllerAs:'sidebar',
       controller:function($scope){
              
         $scope.slideWidth=(window.innerWidth>730)?window.innerWidth*0.4:window.innerWidth*0.9;

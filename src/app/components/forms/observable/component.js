@@ -10,7 +10,7 @@ angular.module('CarreEntrySystem')
     scope: {
       'model': '='
     },
-    controller: function($scope, Observables, Bioportal, Measurement_types,Auth,toastr) {
+    controller: function($scope, Observables, Bioportal, Measurement_types,Auth,toastr,CONFIG) {
       
       $scope.model = $scope.model || {};
 
@@ -58,6 +58,8 @@ angular.module('CarreEntrySystem')
         value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#observable_type_other"
       }];
 
+      // Sensor Predicates
+      $scope.SensorPredicates = CONFIG.SENSOR_PREDICATES;
       
       //Save to RDF method
       $scope.saveModel=function(){
@@ -89,7 +91,8 @@ angular.module('CarreEntrySystem')
           predicate: $scope.model.has_external_predicate?$scope.model.has_external_predicate[0]:""
         };
         
-        $scope.customPredicate = $scope.model.has_external_predicate_label.split('has_')[1];
+        $scope.customPredicate = $scope.model.has_external_predicate?$scope.model.has_external_predicate_label.split('has_')[1]:"";
+        
         //init Bioportal Fetch
         $scope.bioportalAutocomplete($scope.observable.identifier);
 
