@@ -1,4 +1,15 @@
-<!--risk_factors list template-->
+<!--risk_reviews list template-->
 <div class="col-xs-12">
-  <div cg-busy="risk_factors.gridLoading" id="grid1" ui-grid="risk_factors.mygrid" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-exporter ui-grid-auto-resize class="grid"></div>
+    <b>Filters: </b>
+    <span class="carre-dropdown-checkbox">Assigned
+    <input type="checkbox" ng-change="applyRefresh()" ng-model="risk_reviews.Assigned">
+    </span>
+    <span class="carre-dropdown-checkbox">Incoming
+    <input type="checkbox" ng-change="applyRefresh()" ng-model="risk_reviews.Incoming">
+    </span>
+    <span class="carre-dropdown-checkbox">Finished
+    <input type="checkbox" ng-change="applyRefresh()" ng-model="risk_reviews.Finished">
+    </span>
+    <hr>
+  <div cg-busy="risk_reviews.gridLoading" id="grid1" ui-grid="risk_reviews.mygrid" ui-grid-pagination ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-exporter ui-grid-auto-resize class="grid"></div>
 </div>

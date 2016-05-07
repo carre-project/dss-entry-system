@@ -404,7 +404,7 @@
       .state('main.risk_reviews', {
         'abstract':true,
         templateUrl: 'app/risk_reviews/main.html',
-        url: '/risk_reviews'
+        url: '/reviews'
       })
       .state('main.risk_reviews.list', {
         controller: 'risk_reviewsController',

@@ -8,20 +8,20 @@
         <ul class="uib-dropdown-menu review-notifications">
             
             <li ng-repeat="review in [0,1]">
-                <a href="#">
+                <a ui-sref="main.risk_reviews.edit({id:'RW_2'})">
                     <div> <strong>Risk evidence</strong> <div class="label label-warning">Incoming</div> <span class="pull-right text-muted"> <em>19/03/2016</em> </span> </div>
                     <div>Chronic kidney disease after acute kidney injury: a systematic review and meta-analysis.</div>
                 </a>
             </li>
             <li ng-repeat="review in [0,1]">
-                <a href="#">
+                <a ui-sref="main.risk_reviews.edit({id:'RW_2'})">
                     <div> <strong>Risk evidence</strong> <div class="label label-success">Pending</div> <span class="pull-right text-muted"> <em>19/03/2016</em> </span> </div>
                     <div>Chronic kidney disease after acute kidney injury: a systematic review and meta-analysis.</div>
                 </a>
             </li>
             <li class="divider"></li>
             <li>
-                <a class="text-center" href="#"> <strong>See all reviews</strong> <i class="fa fa-angle-right"></i> </a>
+                <a class="text-center" ui-sref="main.risk_reviews.list"> <strong>See all reviews</strong> <i class="fa fa-angle-right"></i> </a>
             </li>
             
         </ul>

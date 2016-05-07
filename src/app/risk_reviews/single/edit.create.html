@@ -1,10 +1,9 @@
 <div uib-collapse="!main.DEBUG" class="row">
   <div class="col-xs-12">
-    Current risk_factor<pre>{{risk_factor | json}}</pre>
+    Current review<pre>{{risk_review | json}}</pre>
   </div>
 </div>
 <!--debug vars-->
 
 <div class="col-xs-12">
-    <risk-factor-form ng-if="risk_factor.current.id||risk_factor.create" model="risk_factor.current"></risk-factor-form>
 </div>

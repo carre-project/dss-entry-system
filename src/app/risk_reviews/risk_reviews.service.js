@@ -1,16 +1,12 @@
-angular.module('CarreEntrySystem').service('Risk_reviews', function($http, CARRE, CONFIG, QUERY) {
+angular.module('CarreEntrySystem').service('Risk_reviews', function($http, CARRE, CONFIG, QUERY,$timeout) {
 
   this.exports={
-    'get': getRisk_factors,
-    'save': saveRisk_factor,
-    'risk_evidences': getRisk_evidencesFromRisk_Factor
+    'get': getRisk_reviews,
+    'save': saveRisk_review
   };
   
-  function getRisk_factors(ArrayOfIDs,raw) {
-    return CARRE.instances('risk_factor',ArrayOfIDs);
-  }
   
-  function saveRisk_factor(oldElem, newElem, user) {
+  function saveRisk_review(oldElem, newElem, user) {
     user = user || CONFIG.currentUser.graphName;
     var updateQuery = "",insertQuery = "";
     var newObj = {};
@@ -44,8 +40,16 @@ angular.module('CarreEntrySystem').service('Risk_reviews', function($http, CARRE
   }
   
 
-  function getRisk_evidencesFromRisk_Factor(ArrayOfIDs) {
-    console.log("getRisk_evidencesFromRisk_Factor",ArrayOfIDs);
+  function getRisk_reviews(ArrayOfIDs) {
+    return $timeout(function(){
+      return [{
+        id:'RF_20',
+        assignee:'MD_21',
+        notes:''
+      }
+      ]
+    },500);
+    console.log("getRisk_evidencesFromRisk_review",ArrayOfIDs);
     
     ArrayOfIDs = ArrayOfIDs ? (ArrayOfIDs instanceof Array ? ArrayOfIDs : [ArrayOfIDs]) : [];
     
