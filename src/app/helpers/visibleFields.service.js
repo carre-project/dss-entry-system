@@ -65,6 +65,23 @@ angular.module('CarreEntrySystem').service('VisibleFields', function() {
               'has_risk_factor_association_type'
             ]
     },
+    "review": {
+      "single": [
+                "is_for_element",
+                "is_assigned_to",
+                "has_review_notes",
+                "has_review_json",
+                "review_date",
+                "assign_date",
+                "review_status"
+              ],
+      "list": [
+              "is_for_element",
+              "is_assigned_to",
+              "has_review_notes",
+              "review_status"
+            ]
+    },
     "observable": {
       "single": [],
       "list": []

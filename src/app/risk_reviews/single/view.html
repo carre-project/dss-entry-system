@@ -1,27 +1,22 @@
 <div uib-collapse="!main.DEBUG" class="row">
   <div class="col-xs-12">
-    Current risk_factor<pre>{{risk_factor | json}}</pre>
+    Review <pre>{{review.current | json}}</pre>
   </div>
 </div>
 <!--debug vars-->
 
-<div class="col-xs-12">
-      <div class="jumbotron">Comming soon</div>
+<div class="col-sm-6">
+  
+  <ul class="list-group">
+    <li ng-repeat="field in review.fields" ng-if="review.current[field.value]" class="list-group-item">
+      {{field.label}}:
+      <carre-linker model="review.current" property="{{field.value}}"></carre-linker>
+    </li>
+  </ul>
 
-  <!--<div class="col-sm-4">-->
-  <!--  <a ng-show="main.user.username" class="btn btn-xs btn-default" ui-sref="main.risk_factors.edit({id:risk_factor.id})"><i class="fa fa-pencil"></i> Edit</a>    -->
-  <!--  <div ng-show="main.user.username && main.config.ENV==='DEV'"> -->
-  <!--    ID: <b>{{risk_factor.id}}</b>-->
-  <!--    <a class="btn btn-xs btn-danger" href="" ng-click="risk_factor.deleteCurrent()"><i class="fa fa-trash-o"></i> Delete</a>-->
-  <!--  </div>-->
-  <!--  <ul class="list-group">-->
-  <!--    <li ng-repeat="field in risk_factor.fields" ng-if="risk_factor.current[field.value]" class="list-group-item">-->
-  <!--      {{field.label}}:-->
-  <!--      <carre-linker model="risk_factor.current" property="{{field.value}}"></carre-linker>-->
-  <!--    </li>-->
-  <!--  </ul>-->
-  <!--</div>-->
-  <!--<div class="col-sm-8">-->
-  <!--</div>-->
-
+</div>
+<div class="col-sm-6">
+  
+  <carre-element elem-id="{{review.current.is_for_element}}" mode="edit"></carre-element>
+    
 </div>

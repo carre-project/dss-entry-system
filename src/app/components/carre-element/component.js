@@ -11,6 +11,7 @@ angular.module('CarreEntrySystem')
         'type': '@',
         'mode': '@',
         'elemId': '@',
+        'elem': '=',
         'notFields': '@'
       },
       scope: true,
@@ -30,7 +31,11 @@ angular.module('CarreEntrySystem')
             function(newId,oldId){ if(newId && newId.length>=2 && newId !== oldId) { renderElement(vm.type,newId);  }
           });
           
-        } 
+        } else if(vm.type&&vm.elem) {
+          
+          renderTempElement(vm.type,vm.elem);
+          
+        }
         
         // =========MAIN function==============
         
@@ -64,6 +69,22 @@ angular.module('CarreEntrySystem')
             default:
               // code
           }
+        }
+        
+        
+        
+        
+        // =========== Fetching functions for each element ==========
+        
+        function renderTempElement(type,data) {
+          var visibleFields=VisibleFields(type,'single',vm.notFields.split(','));
+            vm.current = data;
+            vm.fields = visibleFields.map(function(field) {
+              return {
+                value: field,
+                label: content.labelOf(field)
+              };
+            });
         }
         
         
