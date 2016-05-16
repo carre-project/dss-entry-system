@@ -30,7 +30,7 @@
     };
     
     // Language
-    CONFIG.LANG = "en";
+    CONFIG.LANG = "en"; //el,lt
     
     // Sensor predicates 
     //
