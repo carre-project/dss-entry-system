@@ -29,6 +29,12 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
         
         deferred.resolve(CONFIG.currentUser);
         console.log('User authentication completed',CONFIG.currentUser);
+        
+        // Set the user ID using signed-in user_id.
+        // for GOOGLE Analytics
+        // ga('set', 'userId', CONFIG.currentUser.username);
+        // ga('set', 'dimension3', CONFIG.currentUser.username);
+        
       }).catch(function(err) {
         CONFIG.currentUser = {};
         deferred.reject(err);

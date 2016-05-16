@@ -29,6 +29,9 @@
       usePrefix:true
     };
     
+    // Language
+    CONFIG.LANG = "en";
+    
     // Sensor predicates 
     //
     CONFIG.SENSOR_PREDICATES = [

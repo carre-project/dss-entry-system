@@ -24,6 +24,12 @@
 
       // Enable log
       $compileProvider.debugInfoEnabled(true);
+      
+      
+      //load the google analytics only in production
+
+      
+      
     });
 
 })();

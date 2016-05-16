@@ -50,11 +50,7 @@
         templateUrl: 'app/main/main.html',
         resolve:{
           'currentUser':function(Auth){
-            return Auth.getUser().then(function(res){
-              // Set the user ID using signed-in user_id.
-              // for GOOGLE Analytics
-              ga('set', 'userId', res.username);
-            });
+            return Auth.getUser();
           }
         }
       })
