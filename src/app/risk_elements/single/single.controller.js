@@ -6,7 +6,7 @@
     .controller('risk_elementsSingleController', risk_elementsSingleController);
 
   /** @ngInject */
-  function risk_elementsSingleController(toastr,content ,CONFIG ,$scope, CARRE, Observables, SweetAlert, $stateParams, uiGridGroupingConstants, $timeout, uiGridConstants, $state ) {
+  function risk_elementsSingleController($scope, $state ) {
     var vm = $scope;
     
     vm.id=$state.params.id;
@@ -28,7 +28,7 @@
     $scope.$on('risk_element:cancel', returnBack);
     
     function returnBack() {
-      console.log('called',vm.id)
+      console.log('called',vm.id);
       if (vm.id) {
         $state.go('^.view', {
           id: vm.id

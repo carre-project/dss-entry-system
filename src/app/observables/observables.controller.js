@@ -6,17 +6,12 @@
     .controller('observablesController', observablesController);
 
   /** @ngInject */
-  function observablesController(toastr,currentUser, Observables,CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function observablesController(toastr,currentUser, Observables,CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content,VisibleFields) {
     var vm = this; //controller as vm
     
     
-    var visibleGridColumns=[
-      'has_observable_name',
-      'has_observable_type',
-      'has_observable_measurement_type'
-      ];
-    
     /************** List Template **************/
+    var visibleGridColumns=VisibleFields('observable','list');
     
     var observables = [];
     vm.gridLoading=Observables.get().then(function(res) {

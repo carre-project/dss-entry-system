@@ -6,16 +6,12 @@
     .controller('measurement_typesController', measurement_typesController);
 
   /** @ngInject */
-  function measurement_typesController(toastr, currentUser, Measurement_types, CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function measurement_typesController(toastr, currentUser, Measurement_types, CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content,VisibleFields) {
     var vm = this; //controller as vm
     
     
-    var visibleGridColumns=[
-      'has_measurement_type_name',
-      'has_datatype',
-      'has_label',
-      'has_enumeration_values'
-      ];
+    var visibleGridColumns=VisibleFields('measurement_type','list');
+    
     
     /************** List Template **************/
     

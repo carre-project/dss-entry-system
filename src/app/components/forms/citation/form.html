@@ -1,6 +1,5 @@
 <div>
-
-  <div ng-class="{'col-sm-6':!hideviewer}">
+  <div ng-class="{'col-sm-6':showPubmed}">
     
     <form name="form" ng-submit="saveModel()">
 
@@ -86,7 +85,7 @@
 
   </div>
 
-  <div ng-if="!hideviewer" class="col-sm-6">
+  <div ng-if="showPubmed" class="col-sm-6">
     <label>Pubmed Id</label>
     <input type="text" name="name" placeholder="Enter pubmed Id" class="form-control" ng-change="loadPubmed()" ng-model="citation.pubmedId" required>
     <carre-view-pubmed ng-if="showPubmed" id="{{citation.pubmedId}}"></carre-view-pubmed>

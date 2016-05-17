@@ -65,34 +65,78 @@ angular.module('CarreEntrySystem').service('VisibleFields', function() {
               'has_risk_factor_association_type'
             ]
     },
-    "review": {
+    "risk_review": {
       "single": [
-                "is_for_element",
-                "is_assigned_to",
-                "has_review_notes",
-                "has_review_json",
-                "review_date",
-                "assign_date",
-                "review_status"
-              ],
+        "is_for_element",
+        "is_assigned_to",
+        "has_review_notes",
+        "has_review_json",
+        "review_date",
+        "assign_date",
+        "review_status"
+      ],
       "list": [
-              "is_for_element",
-              "is_assigned_to",
-              "has_review_notes",
-              "review_status"
-            ]
+        "is_for_element",
+        "is_assigned_to",
+        "has_review_notes",
+        "review_status"
+      ]
     },
     "observable": {
-      "single": [],
-      "list": []
+      "single": [
+        // "type",      
+        // "id",
+        "has_observable_name",
+        "has_observable_acronym",
+        "has_observable_type",
+        "has_observable_measurement_type",
+        "has_external_type",
+        "has_external_predicate",
+        "has_author",
+        "has_reviewer"
+      ],
+      "list": [
+        'has_observable_name',
+        'has_observable_type',
+        'has_observable_measurement_type'
+      ]
     },
     "citation": {
-      "single": [],
-      "list": []
+      "single": [
+        // "type",      
+        // "id",
+        "has_citation_pubmed_identifier",
+        "has_citation_summary",
+        "has_citation_source_type",
+        "has_citation_source_level",
+        "has_author",
+        "has_reviewer"
+      ],
+      "list": [
+        'has_citation_pubmed_identifier',
+        'has_citation_summary',
+        'has_citation_source_type',
+        'has_citation_source_level'
+      ]
     },
     "measurement_type": {
-      "single": [],
-      "list": []
+      "single": [
+        // "type",      
+        // "id",
+        "has_measurement_type_name",
+        "has_enumeration_values",
+        "has_label",
+        "has_datatype",
+        "has_author",
+        "has_reviewer",
+        "has_external_unit"
+      ],
+      "list": [
+        'has_measurement_type_name',
+        'has_datatype',
+        'has_label',
+        'has_enumeration_values'
+      ]
     },
     "medical_expert": {
       "single": [],

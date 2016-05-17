@@ -6,20 +6,21 @@
     .controller('risk_reviewsController', risk_reviewsController);
 
   /** @ngInject */
-  function risk_reviewsController(toastr, Risk_factors,currentUser, CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function risk_reviewsController(toastr, Risk_reviews, currentUser, CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
     
     
     var visibleGridColumns=[
-      'has_risk_factor_source',
-      'has_risk_factor_target',
-      'has_risk_factor_association_type'
+      'is_assigned_to',
+      'is_for_element',
+      'has_review_notes',
+      'review_status'
     ];
     
     /************** List Template **************/
     
     var risk_factors = [];
-    vm.gridLoading=Risk_factors.get().then(function(res) {
+    vm.gridLoading=Risk_reviews.get().then(function(res) {
       risk_factors = res.data;
       vm.mygrid.data = risk_factors;
       
@@ -66,31 +67,6 @@
 
     /* GRID Default options */
     vm.mygrid = content.default;
-
-
-    /*Pubmed browser*/
-    vm.setPubmed = function(grid, row, useApi) {
-
-      vm.pubmedApi = useApi;
-      var id = row ? row.entity.id : null;
-
-      if (!id) {
-        vm.selectedRisk_factor = '';
-        vm.pubmedArticle = '';
-      }
-      else if (vm.selectedRisk_factor !== id) {
-        vm.selectedRisk_factor = id;
-        vm.loading = Pubmed.fetch(id).then(function(res) {
-
-          vm.pubmedArticle = res.data;
-
-        });
-      }
-      else {
-        vm.selectedRisk_factor = '';
-        vm.pubmedArticle = '';
-      }
-    };
     
 
   }

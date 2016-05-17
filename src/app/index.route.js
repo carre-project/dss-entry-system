@@ -80,7 +80,7 @@
         url: ''
       })
       .state('main.citations.create', {
-        templateUrl: 'app/citations/single/edit.create.html',
+        templateUrl: 'app/citations/single/single.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
         url: '/create',
@@ -95,7 +95,7 @@
         }
       })
       .state('main.citations.createWithId', {
-        templateUrl: 'app/citations/single/edit.create.html',
+        templateUrl: 'app/citations/single/single.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
         url: '/create/:pubmedId',
@@ -110,7 +110,7 @@
         }
       })
       .state('main.citations.edit', {
-        templateUrl: 'app/citations/single/edit.create.html',
+        templateUrl: 'app/citations/single/single.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
         url: '/:id/edit',
@@ -126,7 +126,7 @@
       })
       .state('main.citations.view', {
         controller: 'citationsSingleController',
-        templateUrl: 'app/citations/single/view.html',
+        templateUrl: 'app/citations/single/single.html',
         controllerAs: 'citation',
         url: '/:id'
       })
@@ -143,8 +143,14 @@
         templateUrl: 'app/observables/list.html',
         url: ''
       })
+      .state('main.observables.view', {
+        controller: 'observablesSingleController',
+        templateUrl: 'app/observables/single/single.html',
+        controllerAs: 'observable',
+        url: '/:id'
+      })
       .state('main.observables.create', {
-        templateUrl: 'app/observables/single/edit.create.html',
+        templateUrl: 'app/observables/single/single.html',
         controller: 'observablesSingleController',
         controllerAs: 'observable',
         url: '/create',
@@ -159,7 +165,7 @@
         }
       })
       .state('main.observables.edit', {
-        templateUrl: 'app/observables/single/edit.create.html',
+        templateUrl: 'app/observables/single/single.html',
         controller: 'observablesSingleController',
         controllerAs: 'observable',
         url: '/:id/edit',
@@ -173,12 +179,6 @@
           }
         }
         
-      })
-      .state('main.observables.view', {
-        controller: 'observablesSingleController',
-        templateUrl: 'app/observables/single/view.html',
-        controllerAs: 'observable',
-        url: '/:id'
       })
       
       /*  Risk Elements  */
@@ -245,7 +245,7 @@
         url: ''
       })
       .state('main.risk_evidences.create', {
-        templateUrl: 'app/risk_evidences/single/edit.create.html',
+        templateUrl: 'app/risk_evidences/single/single.html',
         controller: 'risk_evidencesSingleController',
         controllerAs: 'risk_evidence',
         url: '/create',
@@ -260,7 +260,7 @@
         }
       })
       .state('main.risk_evidences.edit', {
-        templateUrl: 'app/risk_evidences/single/edit.create.html',
+        templateUrl: 'app/risk_evidences/single/single.html',
         controller: 'risk_evidencesSingleController',
         controllerAs: 'risk_evidence',
         url: '/:id/edit',
@@ -276,7 +276,7 @@
       })
       .state('main.risk_evidences.view', {
         controller: 'risk_evidencesSingleController',
-        templateUrl: 'app/risk_evidences/single/view.html',
+        templateUrl: 'app/risk_evidences/single/single.html',
         controllerAs: 'risk_evidence',
         url: '/:id'
       })
@@ -294,7 +294,7 @@
         url: ''
       })
       .state('main.risk_factors.create', {
-        templateUrl: 'app/risk_factors/single/edit.create.html',
+        templateUrl: 'app/risk_factors/single/single.html',
         controller: 'risk_factorsSingleController',
         controllerAs: 'risk_factor',
         url: '/create',
@@ -309,7 +309,7 @@
         }
       })
       .state('main.risk_factors.edit', {
-        templateUrl: 'app/risk_factors/single/edit.create.html',
+        templateUrl: 'app/risk_factors/single/single.html',
         controller: 'risk_factorsSingleController',
         controllerAs: 'risk_factor',
         url: '/:id/edit',
@@ -326,7 +326,7 @@
       })
       .state('main.risk_factors.view', {
         controller: 'risk_factorsSingleController',
-        templateUrl: 'app/risk_factors/single/view.html',
+        templateUrl: 'app/risk_factors/single/single.html',
         controllerAs: 'risk_factor',
         url: '/:id'
       })
@@ -344,7 +344,7 @@
         url: ''
       })
       .state('main.measurement_types.create', {
-        templateUrl: 'app/measurement_types/single/edit.create.html',
+        templateUrl: 'app/measurement_types/single/single.html',
         controller: 'measurement_typesSingleController',
         controllerAs: 'measurement_type',
         url: '/create',
@@ -359,7 +359,7 @@
         }
       })
       .state('main.measurement_types.edit', {
-        templateUrl: 'app/measurement_types/single/edit.create.html',
+        templateUrl: 'app/measurement_types/single/single.html',
         controller: 'measurement_typesSingleController',
         controllerAs: 'measurement_type',
         url: '/:id/edit',
@@ -376,7 +376,7 @@
       })
       .state('main.measurement_types.view', {
         controller: 'measurement_typesSingleController',
-        templateUrl: 'app/measurement_types/single/view.html',
+        templateUrl: 'app/measurement_types/single/single.html',
         controllerAs: 'measurement_type',
         url: '/:id'
       })
@@ -413,7 +413,7 @@
         url: ''
       })
       .state('main.risk_reviews.create', {
-        templateUrl: 'app/risk_reviews/single/edit.create.html',
+        templateUrl: 'app/risk_reviews/single/single.html',
         controller: 'risk_reviewsSingleController',
         controllerAs: 'risk_review',
         url: '/create',
@@ -428,7 +428,7 @@
         }
       })
       .state('main.risk_reviews.edit', {
-        templateUrl: 'app/risk_reviews/single/edit.create.html',
+        templateUrl: 'app/risk_reviews/single/single.html',
         controller: 'risk_reviewsSingleController',
         controllerAs: 'risk_review',
         url: '/:id/edit',
@@ -445,7 +445,7 @@
       })
       .state('main.risk_reviews.view', {
         controller: 'risk_reviewsSingleController',
-        templateUrl: 'app/risk_reviews/single/view.html',
+        templateUrl: 'app/risk_reviews/single/single.html',
         controllerAs: 'risk_review',
         url: '/:id'
       })

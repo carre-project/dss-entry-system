@@ -81,6 +81,7 @@ angular.module('CarreEntrySystem').service('content', function(CarreTranslate,Sw
     if(str==='RL') return {state:'risk_elements',raw:'risk_element',label:'Risk element'};
     if(str==='RF') return {state:'risk_factors',raw:'risk_factor',label:'Risk factor'};
     if(str==='RV') return {state:'risk_evidences',raw:'risk_evidence',label:'Risk evidence'};
+    if(str==='RW') return {state:'risk_reviews',raw:'risk_review',label:'Review'};
     else console.log(str,id);
   }
         

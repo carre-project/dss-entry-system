@@ -6,7 +6,7 @@
     .controller('risk_reviewsSingleController', risk_reviewsSingleController);
 
   /** @ngInject */
-  function risk_reviewsSingleController(toastr, content, Risk_reviews, CARRE, SweetAlert, $stateParams, uiGridGroupingConstants, $scope, $timeout, Pubmed, uiGridConstants, $state) {
+  function risk_reviewsSingleController(toastr, visibleFields, content, Risk_reviews, CARRE, SweetAlert, $stateParams, uiGridGroupingConstants, $scope, $timeout, Pubmed, uiGridConstants, $state) {
     var vm = this;
 
 

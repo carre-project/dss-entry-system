@@ -6,18 +6,12 @@
     .controller('citationsController', citationsController);
 
   /** @ngInject */
-  function citationsController(toastr, Citations,currentUser, $stateParams, CONFIG, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function citationsController(toastr, Citations,currentUser, $stateParams, CONFIG, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content, VisibleFields) {
     var vm = this; //controller as vm
     
     
-    var visibleGridColumns=[
-      'has_citation_pubmed_identifier',
-      'has_citation_summary',
-      'has_citation_source_type',
-      'has_citation_source_level'
-    ];
-    
     /************** List Template **************/
+    var visibleGridColumns=VisibleFields('citation','list');
     
     var citations = [];
     vm.gridLoading=Citations.get().then(function(res) {
@@ -73,31 +67,6 @@
     /* GRID Default options */
     vm.mygrid = content.default;
 
-
-
-
-
-    /*Pubmed browser*/
-    vm.setPubmed = function(id) {
-      console.log(id);
-      if (!id) {
-        vm.selectedCitation = '';
-        vm.pubmedArticle = '';
-      }
-      else if (vm.selectedCitation !== id) {
-        vm.selectedCitation = id;
-        vm.loading = Pubmed.fetch(id).then(function(res) {
-
-          vm.pubmedArticle = res.data;
-
-        });
-      }
-      else {
-        vm.selectedCitation = '';
-        vm.pubmedArticle = '';
-      }
-    };
-    
 
   }
 })();

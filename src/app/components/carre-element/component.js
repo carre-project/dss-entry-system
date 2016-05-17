@@ -6,19 +6,18 @@ angular.module('CarreEntrySystem')
       templateUrl: 'app/components/carre-element/template.html',
       restrict: 'E',
       replace: true,
-      controllerAs:'element',
-      bindToController: {
+      scope:{
         'type': '@',
         'mode': '@',
         'elemId': '@',
         'elem': '=',
         'notFields': '@'
       },
-      scope: true,
-      controller: function($rootScope, $scope, $state, $stateParams, content, CONFIG, VisibleFields, Observables, Risk_elements, Risk_factors, Measurement_types, Citations, Medical_experts, Risk_evidences) {
+      controller: function($rootScope, $scope, $timeout, content, CONFIG, VisibleFields, Observables, Risk_reviews, Risk_elements, Risk_factors, Measurement_types, Citations, Medical_experts, Risk_evidences) {
         
-        var vm = this;
-        vm.current = {};
+        var vm = $scope;
+        vm.current = vm.elem || {};
+          
         vm.notFields = vm.notFields || '';
         if(vm.elemId) {
           //init
@@ -27,14 +26,12 @@ angular.module('CarreEntrySystem')
           //setup watcher
           // WATCHER delete before restart;
           if($rootScope.elementViewerWatcher) $rootScope.elementViewerWatcher();
-          $rootScope.elementViewerWatcher=$scope.$watch(angular.bind(this, function () { return this.elemId; }),
+          $rootScope.elementViewerWatcher=$scope.$watch('elemId',
             function(newId,oldId){ if(newId && newId.length>=2 && newId !== oldId) { renderElement(vm.type,newId);  }
           });
           
         } else if(vm.type&&vm.elem) {
-          
-          renderTempElement(vm.type,vm.elem);
-          
+            renderTempElement(vm.type,vm.elem);
         }
         
         // =========MAIN function==============
@@ -54,13 +51,16 @@ angular.module('CarreEntrySystem')
               getRisk_evidence(id);
               break;
             case 'observable':
-              // code
+              getObservable(id);
               break;
             case 'citation':
-              // code
+              getCitation(id);
               break;
             case 'measurement_type':
-              // code
+              getMeasurement_type(id);
+              break;
+            case 'risk_review':
+              getReview(id);
               break;
             case 'medical_expert':
               // code
@@ -70,8 +70,6 @@ angular.module('CarreEntrySystem')
               // code
           }
         }
-        
-        
         
         
         // =========== Fetching functions for each element ==========
@@ -89,6 +87,7 @@ angular.module('CarreEntrySystem')
         
         
         // =========== Fetching functions for each element ==========
+        
         function getRisk_element(id) {
           var visibleFields=VisibleFields('risk_element','single',vm.notFields.split(','));
           vm.loading=Risk_elements.get([id]).then(function(res) {
@@ -120,6 +119,64 @@ angular.module('CarreEntrySystem')
         function getRisk_evidence(id) {
           var visibleFields=VisibleFields('risk_evidence','single',vm.notFields.split(','));
           vm.loading=Risk_evidences.get([id]).then(function(res) {
+            if (res.data) {
+              vm.current = res.data[0];
+              vm.current.pubmedId = res.data[0].has_risk_evidence_source_label;
+              vm.fields = visibleFields.map(function(field) {
+                return {
+                  value: field,
+                  label: content.labelOf(field)
+                };
+              });
+            }
+          });
+        }
+        function getCitation(id) {
+          var visibleFields=VisibleFields('citation','single',vm.notFields.split(','));
+          vm.loading=Citations.get([id]).then(function(res) {
+            if (res.data) {
+              vm.current = res.data[0];
+              vm.current.pubmedId = res.data[0].has_citation_pubmed_identifier_label;
+              vm.fields = visibleFields.map(function(field) {
+                return {
+                  value: field,
+                  label: content.labelOf(field)
+                };
+              });
+            }
+          });
+        }
+        function getObservable(id) {
+          var visibleFields=VisibleFields('observable','single',vm.notFields.split(','));
+          vm.loading=Observables.get([id]).then(function(res) {
+            if (res.data) {
+              vm.current = res.data[0];
+              vm.fields = visibleFields.map(function(field) {
+                return {
+                  value: field,
+                  label: content.labelOf(field)
+                };
+              });
+            }
+          });
+        }
+        function getReview(id) {
+          var visibleFields=VisibleFields('risk_review','single',vm.notFields.split(','));
+          vm.loading=Risk_reviews.get([id]).then(function(res) {
+            if (res.data) {
+              vm.current = res.data[0];
+              vm.fields = visibleFields.map(function(field) {
+                return {
+                  value: field,
+                  label: content.labelOf(field)
+                };
+              });
+            }
+          });
+        }
+        function getMeasurement_type(id) {
+          var visibleFields=VisibleFields('measurement_type','single',vm.notFields.split(','));
+          vm.loading=Measurement_types.get([id]).then(function(res) {
             if (res.data) {
               vm.current = res.data[0];
               vm.fields = visibleFields.map(function(field) {

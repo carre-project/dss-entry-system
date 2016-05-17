@@ -1,6 +1,6 @@
 <div>
 
-  <div ng-class="{'col-sm-6':!hideviewer}">
+  <div ng-class="{'col-sm-6':showPubmed}">
 
     <form name="form" novalidate ng-submit="saveModel()">
 
@@ -118,15 +118,11 @@
 
   </div>
 
-  <div ng-if="!hideviewer" class="col-sm-6">
-    
-    <div class="form-group">
-      <label>Pubmed Id</label>
-      <input type="text" name="name" placeholder="Enter pubmed Id" class="form-control" ng-change="loadPubmed()" ng-model="risk_evidence.pubmedId" required>
-    </div>
+  <div ng-if="showPubmed" class="col-sm-6">
+    <label>Pubmed Id</label>
+    <input type="text" name="name" placeholder="Enter pubmed Id" class="form-control" ng-change="loadPubmed()" ng-model="risk_evidence.pubmedId" required>
     <carre-view-pubmed ng-if="showPubmed" id="{{risk_evidence.pubmedId}}"></carre-view-pubmed>
   </div>
-
   <!--<pre>form.name.$error = {{ form.name.$error | json }}</pre>-->
   <!--<pre>{{ risk_evidence | json }}</pre>-->
 

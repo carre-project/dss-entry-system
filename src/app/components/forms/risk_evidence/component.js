@@ -8,12 +8,10 @@ angular.module('CarreEntrySystem')
     restrict: 'E',
     replace: true,
     scope: {
-      'model': '=',
-      'hideviewer': '='
+      'model': '='
     },
     controller: function($scope, Citations, Observables, Bioportal, Risk_factors, Risk_evidences, toastr,$timeout,Measurement_types,$q) {
       
-      $scope.hideviewer = $scope.hideviewer || false;
       $scope.copyModel={};
       angular.copy($scope.model,$scope.copyModel);
       

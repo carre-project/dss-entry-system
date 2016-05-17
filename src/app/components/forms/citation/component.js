@@ -9,11 +9,10 @@ angular.module('CarreEntrySystem')
     replace: true,
     scope: {
       'model': '=',
-      'hideviewer': '='
     },
     controller: function($scope, Citations, Pubmed, toastr,$timeout, CONFIG) {
       
-      $scope.hideviewer = $scope.hideviewer || false;
+      // $scope.pubmedId = $scope.pubmedId || null;
       $scope.model = $scope.model || {};
       $scope.pubmedAutocompleteResults = [];
 
@@ -152,7 +151,7 @@ angular.module('CarreEntrySystem')
           pubmedId: $scope.model.pubmedId||""
         };
         
-        if($scope.model.pubmedId){
+        if($scope.citation.pubmedId){
           //run pubmed search
           $scope.searchPubmed($scope.citation.pubmedId);
         }

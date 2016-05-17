@@ -6,93 +6,38 @@
     .controller('risk_factorsSingleController', risk_factorsSingleController);
 
   /** @ngInject */
-  function risk_factorsSingleController(toastr, content, Risk_factors, CARRE, SweetAlert, $stateParams, uiGridGroupingConstants, $scope, $timeout, Pubmed, uiGridConstants, $state) {
-    var vm = this;
+  function risk_factorsSingleController(content, Risk_factors, uiGridGroupingConstants, $scope, uiGridConstants, $state) {
 
-
-    var visibleFields = [
-      // "type",      
-      // "id",
-      "has_risk_factor_source",
-      "has_risk_factor_target",
-      "has_risk_factor_association_type",
-      "has_author",
-      "has_factorer"
-    ];
-
-
-    /* View Risk_factor */
-    vm.id = $stateParams.id;
-    vm.current = {};
-    vm.edit = $stateParams.edit;
-    if (vm.id) {
-      getRisk_factor(vm.id);
-      loadRiskEvidences(vm.id);
-    }
-
-    //Handle events
-    $scope.$on('risk_factor:save', function() {
-      if (vm.current.id) {
-        $state.go('main.risk_factors.view', {
-          id: vm.id
-        });
-      }
-      else $state.go('main.risk_factors.list');
-    });
-    $scope.$on('risk_factor:cancel', function() {
-      if (vm.current.id) {
-        $state.go('main.risk_factors.view', {
-          id: vm.id
-        });
-      }
-      else $state.go('main.risk_factors.list');
-    });
-
-
-    if ($state.is("main.risk_factors.create")) {
-      vm.create = true;
-      vm.current = {};
-    }
-    else if ($state.is("main.risk_factors.edit")) {}
-    else {}
+    var vm = $scope;
     
-
-    /* Helper functions */
-
-    function getRisk_factor(id) {
-      Risk_factors.get([id]).then(function(res) {
-        if (res.data) {
-          vm.current = res.data[0];
-          vm.fields = visibleFields.map(function(field) {
-            return {
-              value: field,
-              label: content.labelOf(field)
-            };
-          });
-        }
-        else $state.go('main.risk_factors.list');
-      }, function(err) {
-        console.error(err);
-        $state.go('main.risk_factors.list');
-      });
+    vm.id=$state.params.id;
+    // init process 
+    if ($state.includes("**.create")) {
+      vm.mode = 'create';
+    } else if (vm.id) {
+      if($state.includes("**.view")){
+        vm.mode='view';
+        loadRiskEvidences(vm.id);
+      } else if($state.includes("**.edit")){
+        vm.mode='edit';
+      } else {
+        $state.go('404_error');
+        return;
+      }
     }
-
-    vm.deleteCurrent = function() {
-      SweetAlert.swal({
-          title: "Are you sure?",
-          text: "Your will not be able to recover this element!",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Yes, delete it!",
-          closeOnConfirm: true,
-          closeOnCancel: true
-        },
-        function(isConfirm) {
-          if (isConfirm) { CARRE.delete(vm.current.id).then(function() { $state.go('main.risk_factors.list'); }); }
+    
+    $scope.$on('risk_factor:save', returnBack);
+    $scope.$on('risk_factor:cancel', returnBack);
+    
+    function returnBack() {
+      console.log('called',vm.id);
+      if (vm.id) {
+        $state.go('^.view', {
+          id: vm.id
         });
-    };
-
+      }
+      else $state.go('^.list');
+    }
 
     /************** List Template **************/
 

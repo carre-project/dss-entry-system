@@ -6,21 +6,12 @@
     .controller('risk_evidencesController', risk_evidencesController);
 
   /** @ngInject */
-  function risk_evidencesController(toastr, currentUser, Risk_evidences,CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function risk_evidencesController(toastr, currentUser, VisibleFields, Risk_evidences,CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
     
-
-    var visibleGridColumns = [
-      'has_risk_factor',
-      'has_observable_condition_text',
-      // 'has_risk_evidence_source',
-      // 'has_risk_evidence_ratio_type',
-      'has_risk_evidence_ratio_value',
-      // 'has_confidence_interval_min',
-      // 'has_confidence_interval_max'
-    ];
-
+    
     /************** List Template **************/
+    var visibleGridColumns=VisibleFields('risk_evidence','list');
 
     var risk_evidences = [];
     vm.gridLoading = Risk_evidences.get().then(function(res) {
@@ -71,28 +62,7 @@
 
     /* GRID Default options */
     vm.mygrid = content.default;
-
-
-    /*Pubmed browser*/
-    vm.setPubmed = function(grid, row, useApi) {
-      vm.pubmedApi = useApi;
-      var id = row ? row.entity.id : null;
-      if (!id) {
-        vm.selectedRisk_evidence = '';
-        vm.pubmedArticle = '';
-      }
-      else if (vm.selectedRisk_evidence !== id) {
-        vm.selectedRisk_evidence = id;
-        vm.loading = Pubmed.fetch(id).then(function(res) {
-          vm.pubmedArticle = res.data;
-        });
-      }
-      else {
-        vm.selectedRisk_evidence = '';
-        vm.pubmedArticle = '';
-      }
-    };
-
+    
 
   }
 })();

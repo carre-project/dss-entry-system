@@ -6,17 +6,13 @@
     .controller('risk_factorsController', risk_factorsController);
 
   /** @ngInject */
-  function risk_factorsController(toastr, Risk_factors,currentUser, CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
+  function risk_factorsController(toastr, VisibleFields, Risk_factors,currentUser, CONFIG, $stateParams, uiGridGroupingConstants, $timeout, Pubmed, uiGridConstants, $state, content) {
     var vm = this; //controller as vm
     
     
-    var visibleGridColumns=[
-      'has_risk_factor_source',
-      'has_risk_factor_target',
-      'has_risk_factor_association_type'
-    ];
-    
     /************** List Template **************/
+    
+    var visibleGridColumns=VisibleFields('risk_factor','list');
     
     var risk_factors = [];
     vm.gridLoading=Risk_factors.get().then(function(res) {
@@ -66,31 +62,6 @@
 
     /* GRID Default options */
     vm.mygrid = content.default;
-
-
-    /*Pubmed browser*/
-    vm.setPubmed = function(grid, row, useApi) {
-
-      vm.pubmedApi = useApi;
-      var id = row ? row.entity.id : null;
-
-      if (!id) {
-        vm.selectedRisk_factor = '';
-        vm.pubmedArticle = '';
-      }
-      else if (vm.selectedRisk_factor !== id) {
-        vm.selectedRisk_factor = id;
-        vm.loading = Pubmed.fetch(id).then(function(res) {
-
-          vm.pubmedArticle = res.data;
-
-        });
-      }
-      else {
-        vm.selectedRisk_factor = '';
-        vm.pubmedArticle = '';
-      }
-    };
     
 
   }
