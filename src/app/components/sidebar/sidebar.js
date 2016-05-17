@@ -16,8 +16,17 @@ angular.module('CarreEntrySystem')
       replace: true,
       scope: {},
       controllerAs:'sidebar',
-      controller:function($scope){
-             
+      controller:function($scope,$state){
+        
+        //collapse sidebar submenus
+        $scope.carreElements = 
+          $state.includes("main.measurement_types.*")||
+          $state.includes("main.citations.*")||
+          $state.includes("main.risk_factors.*")||
+          $state.includes("main.risk_evidences.*")||
+          $state.includes("main.observables.*")||
+          $state.includes("main.risk_elements.*");
+        
         $scope.slideWidth=(window.innerWidth>730)?window.innerWidth*0.4:window.innerWidth*0.9;
         
         $(window).resize(function(){
