@@ -11,7 +11,8 @@ angular.module('CarreEntrySystem')
         'mode': '@',
         'elemId': '@',
         'elem': '=',
-        'notFields': '@'
+        'notFields': '@',
+        'hidePubmed': '@'
       },
       controller: function($rootScope, $scope, $timeout, content, CONFIG, VisibleFields, Observables, Risk_reviews, Risk_elements, Risk_factors, Measurement_types, Citations, Medical_experts, Risk_evidences) {
         
@@ -121,7 +122,7 @@ angular.module('CarreEntrySystem')
           vm.loading=Risk_evidences.get([id]).then(function(res) {
             if (res.data) {
               vm.current = res.data[0];
-              vm.current.pubmedId = res.data[0].has_risk_evidence_source_label;
+              vm.current.pubmedId = $scope.hidePubmed?false:res.data[0].has_risk_evidence_source_label;
               vm.fields = visibleFields.map(function(field) {
                 return {
                   value: field,
@@ -136,7 +137,7 @@ angular.module('CarreEntrySystem')
           vm.loading=Citations.get([id]).then(function(res) {
             if (res.data) {
               vm.current = res.data[0];
-              vm.current.pubmedId = res.data[0].has_citation_pubmed_identifier_label;
+              vm.current.pubmedId = $scope.hidePubmed?false:res.data[0].has_citation_pubmed_identifier_label;
               vm.fields = visibleFields.map(function(field) {
                 return {
                   value: field,

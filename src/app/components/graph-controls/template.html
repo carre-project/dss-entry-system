@@ -16,7 +16,7 @@
         <button ng-show="controls.selectedId && controls.selectedId.indexOf('RL')>=0 " title="Remove from graph" ng-click="controls.clear({})" class="btn btn-xs btn-danger"> <i class="fa fa-remove"></i></button>
       </div>
       <div class="panel-body" ng-if="showDetails&&controls.selectedId">
-        <carre-element elem-id="{{controls.selectedId}}" mode="view" not-fields="has_author,has_reviewer"></carre-element>
+        <carre-element elem-id="{{controls.selectedId}}" mode="view" not-fields="has_author,has_reviewer" hide-pubmed="true"></carre-element>
       </div>
     </div>
   </div>
