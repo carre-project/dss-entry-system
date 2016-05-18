@@ -10,11 +10,11 @@
   function routerConfig($stateProvider) {
     
     $stateProvider
-      .state('main.explore', {
-        controller: 'ExploreController',
-        controllerAs: 'explore',
-        url: '/explore',
-        templateUrl: 'app/explore/index.html'
+      .state('main.dashboard', {
+        controller: 'DashboardController',
+        controllerAs: 'dashboard',
+        url: '/',
+        templateUrl: 'app/pages/dashboard/index.html'
       });
   }
 

@@ -16,18 +16,18 @@
       /*  Medical Experts  */
       .state('main.medical_experts', {
         'abstract':true,
-        templateUrl: 'app/medical_experts/main.html',
+        templateUrl: 'app/pages/medical_experts/main.html',
         url: '/medical_experts'
       })
       .state('main.medical_experts.list', {
         controller: 'medical_expertsController',
         controllerAs: 'medical_experts',
-        templateUrl: 'app/medical_experts/list.html',
+        templateUrl: 'app/pages/medical_experts/list.html',
         url: ''
       })
       .state('main.medical_experts.view', {
         controller: 'medical_expertsSingleController',
-        templateUrl: 'app/medical_experts/single/view.html',
+        templateUrl: 'app/pages/medical_experts/single/view.html',
         controllerAs: 'medical_expert',
         url: '/:id'
       });

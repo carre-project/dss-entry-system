@@ -14,17 +14,17 @@
       /*  risk_factors  */
       .state('main.risk_factors', {
         'abstract':true,
-        templateUrl: 'app/risk_factors/main.html',
+        templateUrl: 'app/pages/risk_factors/main.html',
         url: '/risk_factors'
       })
       .state('main.risk_factors.list', {
         controller: 'risk_factorsController',
         controllerAs: 'risk_factors',
-        templateUrl: 'app/risk_factors/list.html',
+        templateUrl: 'app/pages/risk_factors/list.html',
         url: ''
       })
       .state('main.risk_factors.create', {
-        templateUrl: 'app/risk_factors/single/single.html',
+        templateUrl: 'app/pages/risk_factors/single/single.html',
         controller: 'risk_factorsSingleController',
         controllerAs: 'risk_factor',
         url: '/create',
@@ -39,7 +39,7 @@
         }
       })
       .state('main.risk_factors.edit', {
-        templateUrl: 'app/risk_factors/single/single.html',
+        templateUrl: 'app/pages/risk_factors/single/single.html',
         controller: 'risk_factorsSingleController',
         controllerAs: 'risk_factor',
         url: '/:id/edit',
@@ -56,7 +56,7 @@
       })
       .state('main.risk_factors.view', {
         controller: 'risk_factorsSingleController',
-        templateUrl: 'app/risk_factors/single/single.html',
+        templateUrl: 'app/pages/risk_factors/single/single.html',
         controllerAs: 'risk_factor',
         url: '/:id'
       });

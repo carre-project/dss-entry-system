@@ -8,25 +8,31 @@
 
   /** @ngInject */
   function routerConfig($stateProvider) {
-    
+  
     $stateProvider
-      
-      /*  Reviews  */
-      .state('main.risk_reviews', {
+
+      /*  Observables  */
+      .state('main.observables', {
         'abstract':true,
-        templateUrl: 'app/risk_reviews/main.html',
-        url: '/reviews'
+        templateUrl: 'app/pages/observables/main.html',
+        url: '/observables'
       })
-      .state('main.risk_reviews.list', {
-        controller: 'risk_reviewsController',
-        controllerAs: 'risk_reviews',
-        templateUrl: 'app/risk_reviews/list.html',
+      .state('main.observables.list', {
+        controller: 'observablesController',
+        controllerAs: 'observables',
+        templateUrl: 'app/pages/observables/list.html',
         url: ''
       })
-      .state('main.risk_reviews.create', {
-        templateUrl: 'app/risk_reviews/single/single.html',
-        controller: 'risk_reviewsSingleController',
-        controllerAs: 'risk_review',
+      .state('main.observables.view', {
+        controller: 'observablesSingleController',
+        templateUrl: 'app/pages/observables/single/single.html',
+        controllerAs: 'observable',
+        url: '/:id'
+      })
+      .state('main.observables.create', {
+        templateUrl: 'app/pages/observables/single/single.html',
+        controller: 'observablesSingleController',
+        controllerAs: 'observable',
         url: '/create',
         data: {
           permissions: {
@@ -38,10 +44,10 @@
           }
         }
       })
-      .state('main.risk_reviews.edit', {
-        templateUrl: 'app/risk_reviews/single/single.html',
-        controller: 'risk_reviewsSingleController',
-        controllerAs: 'risk_review',
+      .state('main.observables.edit', {
+        templateUrl: 'app/pages/observables/single/single.html',
+        controller: 'observablesSingleController',
+        controllerAs: 'observable',
         url: '/:id/edit',
         data: {
           permissions: {
@@ -53,12 +59,6 @@
           }
         }
         
-      })
-      .state('main.risk_reviews.view', {
-        controller: 'risk_reviewsSingleController',
-        templateUrl: 'app/risk_reviews/single/single.html',
-        controllerAs: 'risk_review',
-        url: '/:id'
       });
   }
 

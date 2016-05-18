@@ -4,7 +4,7 @@ angular.module('CarreEntrySystem')
 
 .directive('citationForm', function() {
   return {
-    templateUrl: 'app/citations/form_component/form.html',
+    templateUrl: 'app/pages/citations/form_component/form.html',
     restrict: 'E',
     replace: true,
     scope: {

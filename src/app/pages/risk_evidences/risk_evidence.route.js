@@ -15,17 +15,17 @@
       /*  risk_evidences  */
       .state('main.risk_evidences', {
         'abstract':true,
-        templateUrl: 'app/risk_evidences/main.html',
+        templateUrl: 'app/pages/risk_evidences/main.html',
         url: '/risk_evidences'
       })
       .state('main.risk_evidences.list', {
         controller: 'risk_evidencesController',
         controllerAs: 'risk_evidences',
-        templateUrl: 'app/risk_evidences/list.html',
+        templateUrl: 'app/pages/risk_evidences/list.html',
         url: ''
       })
       .state('main.risk_evidences.create', {
-        templateUrl: 'app/risk_evidences/single/single.html',
+        templateUrl: 'app/pages/risk_evidences/single/single.html',
         controller: 'risk_evidencesSingleController',
         controllerAs: 'risk_evidence',
         url: '/create',
@@ -40,7 +40,7 @@
         }
       })
       .state('main.risk_evidences.edit', {
-        templateUrl: 'app/risk_evidences/single/single.html',
+        templateUrl: 'app/pages/risk_evidences/single/single.html',
         controller: 'risk_evidencesSingleController',
         controllerAs: 'risk_evidence',
         url: '/:id/edit',
@@ -56,7 +56,7 @@
       })
       .state('main.risk_evidences.view', {
         controller: 'risk_evidencesSingleController',
-        templateUrl: 'app/risk_evidences/single/single.html',
+        templateUrl: 'app/pages/risk_evidences/single/single.html',
         controllerAs: 'risk_evidence',
         url: '/:id'
       });

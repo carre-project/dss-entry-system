@@ -4,7 +4,7 @@ angular.module('CarreEntrySystem')
 
 .directive('riskElementForm', function() {
   return {
-    templateUrl: 'app/risk_elements/form_component/form.html',
+    templateUrl: 'app/pages/risk_elements/form_component/form.html',
     restrict: 'E',
     replace: true,
     scope: {

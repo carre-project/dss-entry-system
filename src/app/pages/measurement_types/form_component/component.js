@@ -4,7 +4,7 @@ angular.module('CarreEntrySystem')
 
 .directive('measurementTypeForm', function() {
   return {
-    templateUrl: 'app/measurement_types/form_component/form.html',
+    templateUrl: 'app/pages/measurement_types/form_component/form.html',
     restrict: 'E',
     replace: true,
     scope: {

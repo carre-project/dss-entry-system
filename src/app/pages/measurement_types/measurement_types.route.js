@@ -14,17 +14,17 @@
       /*  Measurement Types  */
       .state('main.measurement_types', {
         'abstract':true,
-        templateUrl: 'app/measurement_types/main.html',
+        templateUrl: 'app/pages/measurement_types/main.html',
         url: '/measurement_types'
       })
       .state('main.measurement_types.list', {
         controller: 'measurement_typesController',
         controllerAs: 'measurement_types',
-        templateUrl: 'app/measurement_types/list.html',
+        templateUrl: 'app/pages/measurement_types/list.html',
         url: ''
       })
       .state('main.measurement_types.create', {
-        templateUrl: 'app/measurement_types/single/single.html',
+        templateUrl: 'app/pages/measurement_types/single/single.html',
         controller: 'measurement_typesSingleController',
         controllerAs: 'measurement_type',
         url: '/create',
@@ -39,7 +39,7 @@
         }
       })
       .state('main.measurement_types.edit', {
-        templateUrl: 'app/measurement_types/single/single.html',
+        templateUrl: 'app/pages/measurement_types/single/single.html',
         controller: 'measurement_typesSingleController',
         controllerAs: 'measurement_type',
         url: '/:id/edit',
@@ -56,7 +56,7 @@
       })
       .state('main.measurement_types.view', {
         controller: 'measurement_typesSingleController',
-        templateUrl: 'app/measurement_types/single/single.html',
+        templateUrl: 'app/pages/measurement_types/single/single.html',
         controllerAs: 'measurement_type',
         url: '/:id'
       });

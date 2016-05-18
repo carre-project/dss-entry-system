@@ -4,7 +4,7 @@ angular.module('CarreEntrySystem')
 
 .directive('observableForm', function() {
   return {
-    templateUrl: 'app/observables/form_component/form.html',
+    templateUrl: 'app/pages/observables/form_component/form.html',
     restrict: 'E',
     replace: true,
     scope: {
