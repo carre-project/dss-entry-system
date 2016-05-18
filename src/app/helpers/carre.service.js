@@ -160,22 +160,23 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
   /* Easy select query to transform triples to javascript objects */
   function selectQuery(sparqlQuery, raw,cache_id) {
+    var props=[
+      'subject',
+      'predicate',
+      'object',
+      'has_observable_name',
+      'has_risk_element_name',
+      'has_measurement_type_name',
+      'has_risk_factor_association_type',
+      'has_risk_factor_source',
+      'has_risk_factor_target',
+      'has_source_risk_element_name',
+      'has_target_risk_element_name',
+      'has_citation_pubmed_identifier'
+      ];
     if( cache_id ) { 
+      // USE CACHE
       return cacheQuery(sparqlQuery,null,cache_id).then(function(res) {
-        var props=[
-          'subject',
-          'predicate',
-          'object',
-          'has_observable_name',
-          'has_risk_element_name',
-          'has_measurement_type_name',
-          'has_risk_factor_association_type',
-          'has_risk_factor_source',
-          'has_risk_factor_target',
-          'has_source_risk_element_name',
-          'has_target_risk_element_name',
-          'has_citation_pubmed_identifier'
-          ];
         if (raw) return res;
         // console.log(res.data);
         var results = RdfFormatter.groupByProp(res.data, props, null, 'value');
@@ -184,22 +185,8 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
       });
     } else {
       return apiQuery(sparqlQuery).then(function(res) {
-        var props=[
-          'subject',
-          'predicate',
-          'object',
-          'has_observable_name',
-          'has_risk_element_name',
-          'has_measurement_type_name',
-          'has_risk_factor_association_type',
-          'has_risk_factor_source',
-          'has_risk_factor_target',
-          'has_source_risk_element_name',
-          'has_target_risk_element_name',
-          'has_citation_pubmed_identifier'
-          ];
           
-        console.log("============================");
+        console.log("=========NO CACHE===================");
         
         console.log("Sparql Query: ",sparqlQuery);
         console.log("Raw: ",res.data[0]);
@@ -213,7 +200,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
         } else return [];
         
         
-        console.log("============================");
+        console.log("===========NO CACHE===============");
         
       });
     } 

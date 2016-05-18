@@ -6,7 +6,7 @@
     .controller('observablesSingleController', observablesSingleController);
 
   /** @ngInject */
-  function observablesSingleController(toastr,content ,$scope, CARRE, Observables, SweetAlert, $stateParams, uiGridGroupingConstants, $timeout, uiGridConstants, $state ) {
+  function observablesSingleController($scope, $state ) {
     
     var vm = $scope;
     
