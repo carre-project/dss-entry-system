@@ -11,18 +11,17 @@ angular.module('CarreEntrySystem').service('Risk_reviews', function($http, CARRE
     var updateQuery = "",insertQuery = "";
     var newObj = {};
     
-    if(newElem.source.length>0) newObj.has_risk_factor_source = {pre:'risk',value:newElem.source,type:"node"};
-    if(newElem.target.length>0) newObj.has_risk_factor_target = {pre:'risk',value:newElem.target.toString(),type:"node"};
-    if(newElem.type.length>0) newObj.has_risk_factor_association_type = {pre:'risk',value:newElem.type.toString(),type:"node"};
+    if(newElem.elemId.length>0) newObj.is_for_element = {pre:'risk',value:newElem.elemId,type:"node"};
+    if(newElem.assigned_to.length>0) newObj.is_assigned_to = {pre:'risk',value:newElem.assigned_to.toString(),type:"node"};
+    if(newElem.notes.length>0) newObj.has_review_notes = {pre:'risk',value:newElem.notes.toString(),type:"string"};
+    // if(newElem.json.length>0) newObj.has_review_json = {pre:'risk',value:newElem.notes.toString(),type:"string"};
+    if(newElem.review_date.length>0) newObj.review_date = {pre:'risk',value:newElem.review_date.toString(),type:"date"};
+    if(newElem.assign_date.length>0) newObj.assign_date = {pre:'risk',value:newElem.assign_date.toString(),type:"date"};
+    if(newElem.review_status.length>0) newObj.review_status = {pre:'risk',value:newElem.review_status.toString(),type:"string"};
     
     console.log('Old: ',oldElem);
     console.log('New: ',newElem);
     console.log('Mapped: ',newObj);
-    
-    /* invalidate Risk factors and Risk evidences */
-    CARRE.invalidateCache('risk_factor_all');
-    CARRE.invalidateCache('risk_evidence_all');
-    CARRE.invalidateCache('count_all');
 
     if (oldElem.id) {
       /*Update query*/

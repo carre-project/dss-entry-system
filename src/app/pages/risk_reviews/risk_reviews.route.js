@@ -23,31 +23,31 @@
         templateUrl: 'app/pages/risk_reviews/list.html',
         url: ''
       })
-      .state('main.risk_reviews.create', {
-        templateUrl: 'app/pages/risk_reviews/single/single.html',
+      .state('main.risk_reviews.assign', {
+        templateUrl: 'app/pages/risk_reviews/single/assign.html',
         controller: 'risk_reviewsSingleController',
         controllerAs: 'risk_review',
-        url: '/create',
+        url: '/assign',
         data: {
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              window.location.replace(window.location.href.replace('/edit','').replace('/create',''));
+              window.location.replace(window.location.href.replace('/edit','').replace('/assign',''));
             }        
             
           }
         }
       })
-      .state('main.risk_reviews.edit', {
-        templateUrl: 'app/pages/risk_reviews/single/single.html',
+      .state('main.risk_reviews.review', {
+        templateUrl: 'app/pages/risk_reviews/single/review.html',
         controller: 'risk_reviewsSingleController',
         controllerAs: 'risk_review',
-        url: '/:id/edit',
+        url: '/:id/review',
         data: {
           permissions: {
             only: ['authenticated_user'],
             redirectTo: function(rejectedPromise) {
-              window.location.replace(window.location.href.replace('/edit','').replace('/create',''));
+              window.location.replace(window.location.href.replace('/review','').replace('',''));
             }        
             
           }
@@ -56,7 +56,7 @@
       })
       .state('main.risk_reviews.view', {
         controller: 'risk_reviewsSingleController',
-        templateUrl: 'app/pages/risk_reviews/single/single.html',
+        templateUrl: 'app/pages/risk_reviews/single/view.html',
         controllerAs: 'risk_review',
         url: '/:id'
       });

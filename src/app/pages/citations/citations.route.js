@@ -14,17 +14,17 @@
       /*  Citations  */
       .state('main.citations', {
         'abstract':true,
-        templateUrl: 'app/citations/main.html',
+        templateUrl: 'app/pages/citations/main.html',
         url: '/citations'
       })
       .state('main.citations.list', {
         controller: 'citationsController',
         controllerAs: 'citations',
-        templateUrl: 'app/citations/list.html',
+        templateUrl: 'app/pages/citations/list.html',
         url: ''
       })
       .state('main.citations.create', {
-        templateUrl: 'app/citations/single/single.html',
+        templateUrl: 'app/pages/citations/single/single.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
         url: '/create',
@@ -39,7 +39,7 @@
         }
       })
       .state('main.citations.createWithId', {
-        templateUrl: 'app/citations/single/single.html',
+        templateUrl: 'app/pages/citations/single/single.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
         url: '/create/:pubmedId',
@@ -54,7 +54,7 @@
         }
       })
       .state('main.citations.edit', {
-        templateUrl: 'app/citations/single/single.html',
+        templateUrl: 'app/pages/citations/single/single.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
         url: '/:id/edit',
@@ -70,7 +70,7 @@
       })
       .state('main.citations.view', {
         controller: 'citationsSingleController',
-        templateUrl: 'app/citations/single/single.html',
+        templateUrl: 'app/pages/citations/single/single.html',
         controllerAs: 'citation',
         url: '/:id'
       });
