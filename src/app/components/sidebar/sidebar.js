@@ -16,16 +16,22 @@ angular.module('CarreEntrySystem')
       replace: true,
       scope: {},
       controllerAs:'sidebar',
-      controller:function($scope,$state){
+      controller:function($rootScope, $scope,$state){
         
+        var carreElementsMenu=[];
+        angular.forEach(angular.element('#carreElements > ul.nav.nav-second-level > li > a'), function( el ){
+          carreElementsMenu.push(angular.element(el).attr('ui-sref-active-if'))
+        })
+        function show_carreElementsMenu(state){ return carreElementsMenu.indexOf(state.substring(0,state.lastIndexOf('.')))>=0; }
+        
+        //handle ui-router errors
+        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams, error) {
+            $scope.carreElements =  show_carreElementsMenu(toState.name);
+        });
         //collapse sidebar submenus
-        $scope.carreElements = 
-          $state.includes("main.measurement_types.*")||
-          $state.includes("main.citations.*")||
-          $state.includes("main.risk_factors.*")||
-          $state.includes("main.risk_evidences.*")||
-          $state.includes("main.observables.*")||
-          $state.includes("main.risk_elements.*");
+        $scope.carreElements = show_carreElementsMenu($state.current.name);
+        
+        
         
         $scope.slideWidth=(window.innerWidth>730)?window.innerWidth*0.4:window.innerWidth*0.9;
         
