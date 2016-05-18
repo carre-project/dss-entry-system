@@ -1,6 +1,6 @@
 <div>
 
-  <div ng-class="{'col-sm-6':showPubmed}">
+  <div class="col-sm-6">
 
     <form name="form" novalidate ng-submit="saveModel()">
 
@@ -119,7 +119,7 @@
 
   </div>
 
-  <div ng-if="showPubmed" class="col-sm-6">
+  <div class="col-sm-6">
     <label>Pubmed Id</label>
     <input type="text" name="name" placeholder="Enter pubmed Id" class="form-control" ng-change="loadPubmed()" ng-model="risk_evidence.pubmedId" required>
     <carre-view-pubmed ng-if="showPubmed" id="{{risk_evidence.pubmedId}}"></carre-view-pubmed>

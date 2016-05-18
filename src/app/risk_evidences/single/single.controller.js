@@ -26,8 +26,8 @@
       }
     }
     
-    $scope.$on('citation:save', returnBack);
-    $scope.$on('citation:cancel', returnBack);
+    $scope.$on('risk_evidence:save', returnBack);
+    $scope.$on('risk_evidence:cancel', returnBack);
     
     function returnBack() {
       console.log('called',vm.id);

@@ -6,7 +6,7 @@
     .controller('measurement_typesSingleController', measurement_typesSingleController);
 
   /** @ngInject */
-  function measurement_typesSingleController(toastr,content, CARRE, SweetAlert, Measurement_types, $stateParams, uiGridGroupingConstants, $timeout, uiGridConstants, $state, $scope ) {
+  function measurement_typesSingleController($state, $scope ) {
     
     var vm = $scope;
     
