@@ -95,14 +95,17 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
               OPTIONAL {    \n\
                ?object a risk:observable. \n\
                ?object risk:has_observable_name ?has_observable_name  \n\
+               FILTER(lang(?has_observable_name)!='el'&& lang(?has_observable_name)!='lt') \n\
               } \n\
               OPTIONAL {    \n\
                ?object a risk:risk_element. \n\
                ?object risk:has_risk_element_name ?has_risk_element_name  \n\
+               FILTER(lang(?has_risk_element_name)!='el'&& lang(?has_risk_element_name)!='lt') \n\
               } \n\
               OPTIONAL {    \n\
                ?object a risk:measurement_type. \n\
                ?object risk:has_measurement_type_name ?has_measurement_type_name  \n\
+               FILTER(lang(?has_measurement_type_name)!='el'&& lang(?has_measurement_type_name)!='lt') \n\
               } \n\
               OPTIONAL {    \n\
                ?object a risk:risk_factor.  \n\
@@ -111,6 +114,8 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
                ?object risk:has_risk_factor_target ?has_risk_factor_target. \n\
                ?has_risk_factor_source risk:has_risk_element_name ?has_source_risk_element_name.  \n\
                ?has_risk_factor_target risk:has_risk_element_name ?has_target_risk_element_name.  \n\
+               FILTER(lang(?has_source_risk_element_name)!='el'&& lang(?has_source_risk_element_name)!='lt') \n\
+               FILTER(lang(?has_target_risk_element_name)!='el'&& lang(?has_target_risk_element_name)!='lt') \n\
               } \n";
               
     // add language filter
