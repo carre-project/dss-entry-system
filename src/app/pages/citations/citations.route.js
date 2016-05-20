@@ -23,11 +23,11 @@
         templateUrl: 'app/pages/citations/list.html',
         url: ''
       })
-      .state('main.citations.create', {
+      .state('main.citations.createWithId', {
         templateUrl: 'app/pages/citations/single/single.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
-        url: '/create',
+        url: '/create/:pubmedId',
         data: {
           permissions: {
             only: ['authenticated_user'],
@@ -38,11 +38,11 @@
           }
         }
       })
-      .state('main.citations.createWithId', {
+      .state('main.citations.create', {
         templateUrl: 'app/pages/citations/single/single.html',
         controller: 'citationsSingleController',
         controllerAs: 'citation',
-        url: '/create/:pubmedId',
+        url: '/create',
         data: {
           permissions: {
             only: ['authenticated_user'],
