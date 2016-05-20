@@ -6,7 +6,7 @@
     .controller('risk_reviewsSingleController', risk_reviewsSingleController);
 
   /** @ngInject */
-  function risk_reviewsSingleController($scope, Medical_experts, Bioportal, Risk_reviews,toastr) {
+  function risk_reviewsSingleController($scope, Medical_experts, Bioportal, Risk_reviews,toastr,Auth) {
       
       $scope.model = $scope.model || {};
       $scope.bioportalAutocompleteResults = [];
@@ -93,18 +93,19 @@
 
       if ($scope.model.id) {
 
-        /************** Edit Mode **************/
-        console.info('---Edit---');
-
+        /************** Review or Accept/Reject Mode **************/
+        console.info('---Review or Accept/Reject Mode---');
+        // Auth.getUser().then(function(res){
+          
+        //   if($scope.model.is_assigned_to[0] === res.data.userGraph)
+        // })
 
         //Init Form object
         $scope.risk_review = {
-          observables: [],
-          risk_reviews: [],
-          type: $scope.model.has_risk_review_type[0],
-          name: $scope.model.has_risk_review_name_label,
-          identifier: $scope.model.has_risk_review_identifier_label,
-          modifiable_status: $scope.model.has_risk_review_modifiable_status_label
+          status: $scope.model.review_status[0],
+          notes: $scope.model.has_review_notes[0],
+          json: $scope.model.has_review_json[0],
+          review_date: $scope.model
         };
 
 
@@ -115,17 +116,15 @@
       }
       else {
 
-        /************** Create Mode **************/
-        console.info('---Create---');
+        /************** Assign Mode **************/
+        console.info('---Assign Mode---');
 
         //Init Form object
         $scope.risk_review = {
-          observables: [],
-          risk_reviews: [],
-          type: "",
-          name: "",
-          identifier: "",
-          modifiable_status: ""
+          is_for_element: "",
+          is_assigned_to: "",
+          status:"pending",
+          assign_date: new Date()
         };
 
 

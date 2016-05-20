@@ -31,6 +31,9 @@
     
     // Language
     CONFIG.LANG = "en"; //el,lt
+    CONFIG.LANGPredicates = [
+      "risk:has_risk_element_name","risk:has_observable_name","risk:has_measurement_type_name","risk:has_enumeration_values","risk:has_label"
+    ];
     
     // Sensor predicates 
     //
