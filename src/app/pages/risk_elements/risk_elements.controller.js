@@ -42,15 +42,6 @@
           cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" class="btn btn-xs btn-primary" ui-sref="main.risk_elements.edit({id:row.entity.id_label})"><i class="fa fa-edit"></i></button></div>',
           width: 60
         });
-        
-        vm.mygrid.columnDefs.push({
-          field: 'Review',
-          enableFiltering: false,
-          enableColumnMenu: false,
-          cellTemplate: '<div class="ui-grid-cell-contents"><assign-review-button label="none" elem-id="row.entity.id_label"></assign-review-button></div>',
-          width: 60
-        });
-        
       }
       
       //dynamic creation of the grid columns

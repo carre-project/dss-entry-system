@@ -2,7 +2,8 @@ angular.module('CarreEntrySystem').service('QUERY', function(CONFIG) {
 
   this.exports = {
     'insert': buildInsertQuery,
-    'update': buildUpdateQuery
+    'update': buildUpdateQuery,
+    'prefix': getPrefix
   };
 
   /* The prefixes for CARRE*/
@@ -17,11 +18,19 @@ angular.module('CarreEntrySystem').service('QUERY', function(CONFIG) {
     'RV': 'http://carre.kmi.open.ac.uk/risk_evidences/',
     'RF': 'http://carre.kmi.open.ac.uk/risk_factors/',
     'MD': 'http://carre.kmi.open.ac.uk/medical_experts/',
-    'CI': 'http://carre.kmi.open.ac.uk/citations/'
+    'CI': 'http://carre.kmi.open.ac.uk/citations/',
+    'RW': 'http://carre.kmi.open.ac.uk/reviews/'
   };
   var PREFIXSTR = '';
   var PREFIXARR = [];
-
+  
+  function getPrefix(id){
+    if(id.indexOf("http")>=0) return id;
+    var type = id.split('_')[0];
+    return PREFIXES.hasOwnProperty(type)?PREFIXES[type]+id:id;
+  }
+  
+  
   function addPrefix(prefix) {
     if (prefix) {
       if (PREFIXES.hasOwnProperty(prefix)&&PREFIXARR.indexOf(prefix)===-1) {

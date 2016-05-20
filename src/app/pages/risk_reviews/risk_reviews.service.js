@@ -11,13 +11,13 @@ angular.module('CarreEntrySystem').service('Risk_reviews', function($http, CARRE
     var updateQuery = "",insertQuery = "";
     var newObj = {};
     
-    if(newElem.elemId.length>0) newObj.is_for_element = {pre:'risk',value:newElem.elemId,type:"node"};
-    if(newElem.assigned_to.length>0) newObj.is_assigned_to = {pre:'risk',value:newElem.assigned_to.toString(),type:"node"};
-    if(newElem.notes.length>0) newObj.has_review_notes = {pre:'risk',value:newElem.notes.toString(),type:"string"};
+    if(newElem.is_for_element&&newElem.is_for_element.length>0) newObj.is_for_element = {pre:'risk',value:QUERY.prefix(newElem.is_for_element),type:"node"};
+    if(newElem.is_assigned_to&&newElem.is_assigned_to.length>0) newObj.is_assigned_to = {pre:'risk',value:newElem.is_assigned_to.toString(),type:"node"};
+    if(newElem.notes&&newElem.notes.length>0) newObj.has_review_notes = {pre:'risk',value:newElem.notes.toString(),type:"string"};
     // if(newElem.json.length>0) newObj.has_review_json = {pre:'risk',value:newElem.notes.toString(),type:"string"};
-    if(newElem.review_date.length>0) newObj.review_date = {pre:'risk',value:newElem.review_date.toString(),type:"date"};
-    if(newElem.assign_date.length>0) newObj.assign_date = {pre:'risk',value:newElem.assign_date.toString(),type:"date"};
-    if(newElem.review_status.length>0) newObj.review_status = {pre:'risk',value:newElem.review_status.toString(),type:"string"};
+    if(newElem.review_date&&newElem.review_date.length>0) newObj.review_date = {pre:'risk',value:newElem.review_date.toString(),type:"date"};
+    if(newElem.assign_date&&newElem.assign_date.length>0) newObj.assign_date = {pre:'risk',value:newElem.assign_date.toString(),type:"date"};
+    if(newElem.review_status&&newElem.review_status.length>0) newObj.review_status = {pre:'risk',value:newElem.review_status.toString(),type:"string"};
     
     console.log('Old: ',oldElem);
     console.log('New: ',newElem);
@@ -26,13 +26,13 @@ angular.module('CarreEntrySystem').service('Risk_reviews', function($http, CARRE
     if (oldElem.id) {
       /*Update query*/
       updateQuery = QUERY.update(oldElem,newObj);
-      console.log('----Update Query----');
+      console.log('----Update Query----',updateQuery);
       return CARRE.query(updateQuery,'no prefix');
     }
     else {
       /*Insert query*/
-      insertQuery = QUERY.insert(newObj,"risk_factor","RF",user);
-      console.info('-----insertQuery------');
+      insertQuery = QUERY.insert(newObj,"risk_review","RW",user);
+      console.info('-----insertQuery------',insertQuery);
       return CARRE.query(insertQuery,'no prefix');
     }
 

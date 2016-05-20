@@ -10,7 +10,7 @@ angular.module('CarreEntrySystem')
     scope: {
       'elemId': '='
     },
-    controller: function($scope, Medical_experts, Risk_reviews,Auth,toastr) {
+    controller: function($scope, Medical_experts, Risk_reviews,Auth,toastr,Risk_elements,Risk_factors,Risk_evidences) {
       
       $scope.model = {};
 

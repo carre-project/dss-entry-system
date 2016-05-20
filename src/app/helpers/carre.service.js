@@ -28,6 +28,7 @@ PREFIX OB: <http://carre.kmi.open.ac.uk/observables/> \n\
 PREFIX RL: <http://carre.kmi.open.ac.uk/risk_elements/> \n\
 PREFIX RV: <http://carre.kmi.open.ac.uk/risk_evidences/> \n\
 PREFIX RF: <http://carre.kmi.open.ac.uk/risk_factors/> \n\
+PREFIX RW: <http://carre.kmi.open.ac.uk/risk_reviews/> \n\
 PREFIX MD: <http://carre.kmi.open.ac.uk/medical_experts/> \n\
 PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
