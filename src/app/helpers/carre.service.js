@@ -84,6 +84,11 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
   }
   
+  function langFilter(variable_predicate){
+    var lang = CONFIG.LANG;
+    return "FILTER(lang("+variable_predicate+")=='"+lang+"') \n";
+  }
+  
   function queryInstances(type, ArrayOfIDs) {
 
     var listQuery = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
