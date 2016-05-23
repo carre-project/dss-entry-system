@@ -88,16 +88,18 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     var lang = CONFIG.LANG;
     return "FILTER(lang("+variable_predicate+")=='"+lang+"') \n";
   }
+  /*
+      OPTIONAL {    \n\
+    #Language filter \n\
+     VALUES ?predicate {"+CONFIG.LANGPredicates.join(" ")+" }. \n\
+     "+langFilter('?predicate')+" \
+    } \n\
+  */
   
   function queryInstances(type, ArrayOfIDs) {
 
     var listQuery = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
              ?subject a risk:" + type + "; ?predicate ?object. \n\
-              OPTIONAL {    \n\
-              #Language filter \n\
-               VALUES ?predicate {"+CONFIG.LANGPredicates.join(" ")+" }. \n\
-               "+langFilter('?predicate')+" \
-              } \n\
               OPTIONAL {    \n\
                ?object a risk:citation. \n\
                ?object risk:has_citation_pubmed_identifier ?has_citation_pubmed_identifier  \n\
