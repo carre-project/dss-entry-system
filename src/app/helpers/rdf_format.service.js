@@ -42,16 +42,8 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG,Carre
     if (rel === 'has_educational_material') return settings;
     
     /*  Filter other languages  */
-    if (CONFIG.LANG === 'en') {
-      if(obj[settings.triplesFormat[2]].hasOwnProperty('xml:lang')) {
-        console.debug(obj[settings.triplesFormat[2]]['xml:lang'],obj[settings.triplesFormat[2]]);
-    
-        return settings;
-      }
-    } else {
-      if(obj[settings.triplesFormat[2]].hasOwnProperty('xml:lang') && obj[settings.triplesFormat[2]]['xml:lang']!==CONFIG.LANG){
-        return settings;
-      }
+    if(obj[settings.triplesFormat[2]].hasOwnProperty('xml:lang') && obj[settings.triplesFormat[2]]['xml:lang']!==CONFIG.LANG){
+      return settings;
     }
     
     //make labels only for literals (not for nodes or relations)

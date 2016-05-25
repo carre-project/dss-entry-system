@@ -86,7 +86,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
   
   function langFilter(variable_predicate){
     var lang = CONFIG.LANG;
-    return "FILTER(lang("+variable_predicate+")=='"+lang+"') \n";
+    return "FILTER(lang("+variable_predicate+")='"+lang+"') ";
   }
   /*
       OPTIONAL {    \n\
@@ -107,17 +107,17 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
               OPTIONAL {    \n\
                ?object a risk:observable. \n\
                ?object risk:has_observable_name ?has_observable_name  \n\
-               FILTER(lang(?has_observable_name)!='el'&& lang(?has_observable_name)!='lt') \n\
+              "+langFilter('?has_observable_name')+" \n\
               } \n\
               OPTIONAL {    \n\
                ?object a risk:risk_element. \n\
                ?object risk:has_risk_element_name ?has_risk_element_name  \n\
-               FILTER(lang(?has_risk_element_name)!='el'&& lang(?has_risk_element_name)!='lt') \n\
+              "+langFilter('?has_risk_element_name')+" \n\
               } \n\
               OPTIONAL {    \n\
                ?object a risk:measurement_type. \n\
                ?object risk:has_measurement_type_name ?has_measurement_type_name  \n\
-               FILTER(lang(?has_measurement_type_name)!='el'&& lang(?has_measurement_type_name)!='lt') \n\
+              "+langFilter('?has_measurement_type_name')+" \n\
               } \n\
               OPTIONAL {    \n\
                ?object a risk:risk_factor.  \n\
@@ -126,22 +126,10 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
                ?object risk:has_risk_factor_target ?has_risk_factor_target. \n\
                ?has_risk_factor_source risk:has_risk_element_name ?has_source_risk_element_name.  \n\
                ?has_risk_factor_target risk:has_risk_element_name ?has_target_risk_element_name.  \n\
-               FILTER(lang(?has_source_risk_element_name)!='el'&& lang(?has_source_risk_element_name)!='lt') \n\
-               FILTER(lang(?has_target_risk_element_name)!='el'&& lang(?has_target_risk_element_name)!='lt') \n\
+              "+langFilter('?has_source_risk_element_name')+" \n\
               } \n";
-              
-    // add language filter
-    // if(CONFIG.LANG!=='en') {
-    //   listQuery += "FILTER ( " + TranslatedPredicates.map(function(predicate) {
-    //     return "?lang(?" + predicate + ") = '"+CONFIG.LANG+"'";
-    //   }).join("&& ") + "  )\n }";
-    //     return selectQuery(listQuery);
-    //   }
-    //   else {
-    //     listQuery += "}";
-    //     return selectQuery(listQuery,null,(CONFIG.USECACHE?type+'_all':null));
-    //   }
-    // }
+
+
 
     //add filter to query if a single observable is requested
     if (ArrayOfIDs) {
@@ -218,7 +206,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
           
         console.log("=========NO CACHE===================");
         
-        console.log("Sparql Query: ",sparqlQuery);
+        // console.log("Sparql Query: ",sparqlQuery);
         console.log("Raw: ",res.data[0]);
         if (raw) return res;
         var results = RdfFormatter.groupByProp(res.data, props, null, 'value');
@@ -244,6 +232,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     var params = {};
     //add prefixes
     params.sparql = (noprefix?"":PREFIXSTR) + sparqlQuery;
+    console.info('API query: ', params.sparql);
     // use token
     if (Auth.cookie) params.token = Auth.cookie;
     return $http.post(CONFIG.CARRE_API_URL + 'query', params).then(function(res){
@@ -263,7 +252,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
   /* CACHE methods */
   function cacheQuery(sparqlQuery,noprefix,req_url_id) {
     
-    console.info('Final query: ', (noprefix?"":PREFIXSTR) + sparqlQuery);
+    console.info('CACHE query: ', (noprefix?"":PREFIXSTR) + sparqlQuery);
     
     var graphName=CONFIG.CARRE_DEFAULT_GRAPH.substring(CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf("/")+1,CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf(">"));
     var url=CONFIG.CARRE_CACHE_URL + 'carreapi/'
