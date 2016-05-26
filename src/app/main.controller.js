@@ -13,6 +13,11 @@
     vm.config = CONFIG;
     vm.user = vm.config.currentUser || {};
     
+    // allow language change hack
+    if($location.search().lang) {
+      CONFIG.LANG = $location.search().lang;
+    }
+    
     //clean up the browser url
     $location.url($location.path());
 
