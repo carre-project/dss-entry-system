@@ -127,6 +127,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
                ?has_risk_factor_source risk:has_risk_element_name ?has_source_risk_element_name.  \n\
                ?has_risk_factor_target risk:has_risk_element_name ?has_target_risk_element_name.  \n\
               "+langFilter('?has_source_risk_element_name')+" \n\
+              "+langFilter('?has_target_risk_element_name')+" \n\
               } \n";
 
 

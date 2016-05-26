@@ -118,6 +118,7 @@ angular.module('CarreEntrySystem').service('Risk_elements', function($http, CARR
             OPTIONAL {    \n\
              ?object a risk:risk_element. \n\
              ?object risk:has_risk_element_name ?has_risk_element_name  \n\
+               FILTER(lang(?has_risk_element_name)='"+CONFIG.LANG+"') \n\
             } "+ FilterString+" }";
             
     return CARRE.selectQuery(query,null,(CONFIG.USECACHE?cache_key:null)).then(function(res) {

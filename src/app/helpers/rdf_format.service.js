@@ -31,7 +31,7 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG,Carre
     
     
     
-    var type,id, rel, val, val_label,val_translate = '';
+    var type,id, rel, val, val_label;
     
     id = obj[settings.groupProp][settings.valueProp];
     rel = makeLabel(obj[settings.triplesFormat[1]][settings.valueProp]);
@@ -150,10 +150,10 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG,Carre
     if(str.indexOf('#') >= 0) {
       str=str.split('#')[1];
       return str;
-    } else if(str.indexOf('/') >= 0) {
+    } else if(str.indexOf('http') >= 0) {
       return str.substring(str.lastIndexOf('/') + 1);
     } else return str;
   }
-  
+
   return this.exports;
 });

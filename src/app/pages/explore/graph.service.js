@@ -72,6 +72,10 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
             risk:has_observable_condition_text ?has_observable_condition_text; \n\
             risk:has_risk_evidence_observable ?has_risk_evidence_observable. \n\
             ?has_risk_evidence_observable risk:has_observable_name ?has_risk_evidence_observable_name. \n\
+            # language filters \n\
+            FILTER(lang(?has_risk_source_element_name)='"+CONFIG.LANG+"') \n\
+            FILTER(lang(?has_risk_target_element_name)='"+CONFIG.LANG+"') \n\
+            FILTER(lang(?has_risk_evidence_observable_name)='"+CONFIG.LANG+"') \n\
             "+ FilterString+" }";
             
     return CARRE.selectQuery(query,'raw',(CONFIG.USECACHE?cache_key:null)).then(function(res) {
