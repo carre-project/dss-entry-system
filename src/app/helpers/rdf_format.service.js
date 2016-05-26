@@ -154,10 +154,6 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG,Carre
       return str.substring(str.lastIndexOf('/') + 1);
     } else return str;
   }
-
-  function prettyLabel(label) {
-    return translate(label);
-  }
-
+  
   return this.exports;
 });
