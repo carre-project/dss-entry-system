@@ -257,7 +257,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     
     var graphName=CONFIG.CARRE_DEFAULT_GRAPH.substring(CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf("/")+1,CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf(">"));
     var url=CONFIG.CARRE_CACHE_URL + 'carreapi/'
-            +CONFIG.LANG+'_'+graphName+'_'+req_url_id+'/'
+            +graphName+'_'+CONFIG.LANG+'_'+req_url_id+'/'
             +encodeURIComponent(CONFIG.CARRE_API_URL+'query')+'/'
             +encodeURIComponent((noprefix?"":PREFIXSTR) + sparqlQuery)
             +(Auth.cookie?'/'+Auth.cookie:'');
@@ -284,7 +284,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
   
   function invalidateCache(req_url_id){
     var graphName=CONFIG.CARRE_DEFAULT_GRAPH.substring(CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf("/")+1,CONFIG.CARRE_DEFAULT_GRAPH.lastIndexOf(">"));
-    var url=CONFIG.CARRE_CACHE_URL + 'refresh_cache/'+graphName+'_'+req_url_id;
+    var url=CONFIG.CARRE_CACHE_URL + 'refresh_cache/'+graphName+'_'+CONFIG.LANG+'_'+req_url_id
     
     // remove cached url
     // var cached_url=CONFIG.CACHED_QUERIES[graphName+'_'+req_url_id];

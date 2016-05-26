@@ -51,6 +51,10 @@ angular.module('CarreEntrySystem')
             $scope.label=$scope.label.replace(new RegExp(id, 'g'), atag);
           });
           
+        }  else //handle external annotations
+            if ($scope.property === 'has_external_type' || $scope.property === 'has_external_unit'|| $scope.property === 'has_external_predicate')  {
+                $scope.show='external_link';
+                $scope.external_link = "<a target='_blank' href='"+$scope.model[$scope.property]+"'>"+$scope.model[$scope.property+'_label']+"</a>";
         }
         else {
           // handle links
