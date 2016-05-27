@@ -208,7 +208,7 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
         console.log("=========NO CACHE===================");
         
         // console.log("Sparql Query: ",sparqlQuery);
-        console.log("Raw: ",res.data[0]);
+        console.log("Raw: ",res.data);
         if (raw) return res;
         var results = RdfFormatter.groupByProp(res.data, props, null, 'value');
         console.log("groupByProp: ",results);

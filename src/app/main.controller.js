@@ -18,8 +18,14 @@
       CONFIG.LANG = $location.search().lang;
     }
     
+    // check if it is embeded
+    console.debug($location.search().embed);
+    if($location.search().embed) {
+      vm.isEmbedded = true;
+    }
+    
     //clean up the browser url
-    $location.url($location.path());
+    // $location.url($location.path());
 
     //set up the urls 
     vm.loginUrl = CONFIG.CARRE_DEVICES + 'login?next=';
