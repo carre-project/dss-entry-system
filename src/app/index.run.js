@@ -16,7 +16,18 @@
     }
 
     /** @ngInject */
-    function runBlock($rootScope,$state) {
+    function runBlock($rootScope,$state,$location,CONFIG) {
+            
+
+        // allow language change hack
+        if($location.search().lang) {
+          CONFIG.LANG = $location.search().lang;
+        }
+        
+        // check if it is embeded
+        if($location.search().embed) {
+          $rootScope.isEmbedded = true;
+        }
 
         //handle ui-router errors
         $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {

@@ -13,16 +13,6 @@
     vm.config = CONFIG;
     vm.user = vm.config.currentUser || {};
     
-    // allow language change hack
-    if($location.search().lang) {
-      CONFIG.LANG = $location.search().lang;
-    }
-    
-    // check if it is embeded
-    console.debug($location.search().embed);
-    if($location.search().embed) {
-      vm.isEmbedded = true;
-    }
     
     //clean up the browser url
     // $location.url($location.path());

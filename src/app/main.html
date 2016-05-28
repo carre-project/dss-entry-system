@@ -1,9 +1,11 @@
 <div id="wrapper">
 
     <!-- Navigation Component -->
-    <carre-header ></carre-header>
+    <carre-header ng-hide="isEmbedded"></carre-header>
     <!-- /.navbar-top-links -->
 
+    <!--sidebar-->
+    <sidebar></sidebar>
 
     <!-- /.navbar-static-side -->
 
@@ -25,6 +27,6 @@
     </div>
     
     <!-- Footer Component -->
-    <carre-footer ng-hide="main.isEmbedded"></carre-footer>
+    <carre-footer ng-hide="isEmbedded"></carre-footer>
     
 </div>
