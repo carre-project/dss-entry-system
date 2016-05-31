@@ -32,9 +32,9 @@ angular.module('CarreEntrySystem')
         $scope.risk_evidence = {
           observables: [],
           ratio_type:$scope.model.has_risk_evidence_ratio_type?$scope.model.has_risk_evidence_ratio_type[0]:"",
-          ratio_value:$scope.model.has_risk_evidence_ratio_value?Number($scope.model.has_risk_evidence_ratio_value[0]):0,
-          confidence_interval_min:$scope.model.has_confidence_interval_min?Number($scope.model.has_confidence_interval_min[0]):0,
-          confidence_interval_max:$scope.model.has_confidence_interval_max?Number($scope.model.has_confidence_interval_max[0]):0,
+          ratio_value:$scope.model.has_risk_evidence_ratio_value?parseFloat($scope.model.has_risk_evidence_ratio_value[0]):0,
+          confidence_interval_min:$scope.model.has_confidence_interval_min?parseFloat($scope.model.has_confidence_interval_min[0]):0,
+          confidence_interval_max:$scope.model.has_confidence_interval_max?parseFloat($scope.model.has_confidence_interval_max[0]):0,
           risk_factor:$scope.model.has_risk_factor,
           pubmedId:$scope.model.has_risk_evidence_source_label,
           evidence_source:$scope.model.has_risk_evidence_source[0],
