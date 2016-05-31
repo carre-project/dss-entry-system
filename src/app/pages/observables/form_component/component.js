@@ -39,11 +39,11 @@ angular.module('CarreEntrySystem')
       };
       $scope.transformIndentifier=function(str){
         var formatted = str.replace(/ /g, "_").replace(/[^\w\s]/gi, "").toUpperCase();
-        $scope.observable.identifier = "http://carre.kmi.open.ac.uk/external_observable_type/CMO_"+formatted;
+        $scope.observable.identifier = formatted.length>0?"http://carre.kmi.open.ac.uk/external_observable_type/CMO_"+formatted:"_:blankNode";
       };
       $scope.transformPredicate=function(str){
         var formatted = str.toLowerCase();
-        $scope.observable.predicate = "http://carre.kmi.open.ac.uk/ontology/sensors.owl#has_"+formatted;
+        $scope.observable.predicate = formatted.length>0?"http://carre.kmi.open.ac.uk/ontology/sensors.owl#has_"+formatted:"_:blankNode";
       };
 
       //Observable types

@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$q,toastr,$state,$cacheFactory) {
+angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$q,toastr,$state,$cacheFactory, QUERY) {
 
   this.exports = {
     // 'count': countInstance,
@@ -34,7 +34,8 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
 
   function deleteInstance(id){
-    var query = "WITH " + CONFIG.CARRE_ARCHIVE_GRAPH + " DELETE { ?id ?s ?p .  }  WHERE { ?id ?s ?p . FILTER (?id=<"+id+">) }";
+    console.log(QUERY.prefix(id));
+    var query = "WITH " + CONFIG.CARRE_ARCHIVE_GRAPH + " DELETE { <"+QUERY.prefix(id)+"> ?s ?p .  }  WHERE { <"+QUERY.prefix(id)+"> ?s ?p .}";
     return apiQuery(query);
   /*               
       OPTIONAL {    \n\
@@ -42,7 +43,21 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
                  ?includes_risk_element risk:has_risk_element_name ?includes_risk_element_name. \n\
                 } \n\
                 */
+                
+                /*
+                Another delete query
+                
+                
+                PREFIX risk: <http://carre.kmi.open.ac.uk/ontology/risk.owl#>
+PREFIX OB: <http://carre.kmi.open.ac.uk/observables/>
+#select ?ob ?predicate FROM <http://carre.kmi.open.ac.uk/riskdata> WHERE { ?ob a risk:observable; risk:has_external_predicate ?predicate. FILTER (?ob=OB:OB_5 || ?ob=OB:OB_6) }
+
+WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 risk:has_external_predicate ?p .  }  WHERE { OB:OB_5 risk:has_external_predicate ?p .}
+
+                */
   }
+  
+  
   
 
   function searchInstances(type, term) {
