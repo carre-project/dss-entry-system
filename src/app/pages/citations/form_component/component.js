@@ -129,7 +129,7 @@ angular.module('CarreEntrySystem')
         //Init Form object
         $scope.citation = {
           type: $scope.model.has_citation_source_type_label || "",
-          level: Number($scope.model.has_citation_source_level_label) || 1,
+          level: parseInt($scope.model.has_citation_source_level_label) || 1,
           summary: $scope.model.has_citation_summary_label || "",
           pubmedId: $scope.model.has_citation_pubmed_identifier_label || ""
         };

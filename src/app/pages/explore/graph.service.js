@@ -183,7 +183,7 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
           } else { //risk evidences
           
           relation.evidences.forEach(function(rv){
-            var ratio=Number(rv.rv_ratio_value)||1;
+            var ratio=parseFloat(rv.rv_ratio_value)||1;
             //add the edges
             graphData.edges.push({
               risk_factor:relation.id,

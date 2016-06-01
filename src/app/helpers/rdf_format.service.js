@@ -40,6 +40,15 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG,Carre
 
     /*  Filter educational objects  */
     if (rel === 'has_educational_material') return settings;
+
+    /*  Filter educational objects  */
+    if (rel === 'has_risk_evidence_ratio_value' && val==="NAN") {
+      console.log("BUG-Virtuoso: ",id+': ',val);
+      // var bugQuery="SELECT"
+      // xhttp.open("POST", CONFIG.API_URL=bugQuery+"&token="+CONFIG.currentUser.oauth_token, false);
+      // xhttp.send();
+      
+    }
     
     /*  Filter other languages  */
     if(obj[settings.triplesFormat[2]].hasOwnProperty('xml:lang') && obj[settings.triplesFormat[2]]['xml:lang']!==CONFIG.LANG){

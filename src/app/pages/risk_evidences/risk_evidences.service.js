@@ -36,9 +36,9 @@ angular.module('CarreEntrySystem').service('Risk_evidences', function($http, CAR
     
     if(newElem.observables.length>0) newObj.has_risk_evidence_observable = {pre:'risk',value:newElem.observables,type:"node"};
     if(newElem.ratio_type.length>0) newObj.has_risk_evidence_ratio_type = {pre:'risk',value:newElem.ratio_type.toString(),type:"node"};
-    if(newElem.ratio_value.length>0) newObj.has_risk_evidence_ratio_value = {pre:'risk',value:newElem.ratio_value.toString(),type:"float"};
-    if(newElem.confidence_interval_min.length>0) newObj.has_confidence_interval_min = {pre:'risk',value:newElem.confidence_interval_min.toString(),type:"float"};
-    if(newElem.confidence_interval_max.length>0) newObj.has_confidence_interval_max = {pre:'risk',value:newElem.confidence_interval_max.toString(),type:"float"};
+    if(newElem.ratio_value) newObj.has_risk_evidence_ratio_value = {pre:'risk',value:newElem.ratio_value,type:"decimal"};
+    if(newElem.confidence_interval_min) newObj.has_confidence_interval_min = {pre:'risk',value:newElem.confidence_interval_min,type:"decimal"};
+    if(newElem.confidence_interval_max) newObj.has_confidence_interval_max = {pre:'risk',value:newElem.confidence_interval_max,type:"decimal"};
     if(newElem.risk_factor.length>0) newObj.has_risk_factor = {pre:'risk',value:newElem.risk_factor,type:"node"};
     if(newElem.evidence_source.length>0) newObj.has_risk_evidence_source = {pre:'risk',value:newElem.evidence_source.toString(),type:"node"};
     if(newElem.adjusted_for.length>0) newObj.is_adjusted_for = {pre:'risk',value:newElem.adjusted_for.join(","),type:"string"};
