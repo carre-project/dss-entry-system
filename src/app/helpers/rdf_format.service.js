@@ -44,7 +44,7 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG, Carr
     /*  Filter educational objects  */
     if (rel === 'has_risk_evidence_ratio_value' && val==="NAN") {
       console.log("BUG-Virtuoso: ",id+': ',val);
-      if(settings.data.length===1) Email.bug({
+      Email.bug({
         "title": "Risk evidence ratio value "+(settings.data.length>1?"List view":"Single view"),
         "element": id,
         "predicate": "has_risk_evidence_ratio_value",

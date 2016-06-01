@@ -550,3 +550,9 @@ table.dataTable thead .sorting:after {
     -webkit-border-radius: 2px 2px 2px 2px;
     border: 1px solid #cccccc;
 }
+
+
+/* Tour styling */
+.tour-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
