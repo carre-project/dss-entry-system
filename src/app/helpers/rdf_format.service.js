@@ -41,7 +41,7 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG, Carr
     /*  Filter educational objects  */
     if (rel === 'has_educational_material') return settings;
 
-    /*  Filter educational objects  */
+    /*  Filter BUG-Virtuoso  */
     if (rel === 'has_risk_evidence_ratio_value' && val==="NAN") {
       console.log("BUG-Virtuoso: ",id+': ',val);
       Email.bug({
@@ -50,10 +50,6 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG, Carr
         "predicate": "has_risk_evidence_ratio_value",
         "value": val
       });
-      // var bugQuery="SELECT"
-      // xhttp.open("POST", CONFIG.API_URL=bugQuery+"&token="+CONFIG.currentUser.oauth_token, false);
-      // xhttp.send();
-      
     }
     
     /*  Filter other languages  */
