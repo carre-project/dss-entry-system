@@ -6,7 +6,7 @@
     .controller('ExploreController', ExploreController);
 
   /** @ngInject */
-  function ExploreController($rootScope, $timeout, toastr, CARRE, $location, CONFIG, $scope, Risk_elements,$state,$http,GRAPH, Risk_factors) {
+  function ExploreController($rootScope, $timeout, toastr, CARRE, $location, CONFIG, $scope, Email, Risk_elements,$state,$http,GRAPH, Risk_factors) {
     var vm = this;
     vm.minConnections=0;
     vm.ready=true;
@@ -43,20 +43,7 @@
         label:label,
         data:vm.risk_elements_selected
       }
-      sendEmail(data);
-    }
-    
-    function sendEmail(data){
-      var user=$rootScope.user?$rootScope.user.username:'guest';
-      $http.post(CONFIG.CARRE_CACHE_URL+'sendemail',{
-        action:'recommend_examples',
-        user:user,
-        reqdata:JSON.stringify(data)
-      }).then(function(data){
-        toastr.success('<b>Message sent!</b>', '<h4>Thank you!</h4>');
-      },function(err){
-        toastr.error('<b>Message not sent</b>' + err, '<h4>Message error</h4>');
-      });
+      Email.example(data);
     }
     
     //play with colors

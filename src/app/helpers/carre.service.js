@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$q,toastr,$state,$cacheFactory, QUERY) {
+angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$q,toastr,$state,$cacheFactory, QUERY, Email) {
 
   this.exports = {
     // 'count': countInstance,
@@ -259,6 +259,7 @@ WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 risk:has_external_pre
       }  else return res;
     }).catch(function(err){
         console.log(err);
+        Email.bug(err);
         $state.go('500_API_ERROR');
     });
 
@@ -292,6 +293,7 @@ WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 risk:has_external_pre
       }
     }).catch(function(err){
         console.log(err);
+        Email.bug(err);
         $state.go('500_API_ERROR');
     });
 
@@ -309,6 +311,7 @@ WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 risk:has_external_pre
       console.log(res);
     }).catch(function(err){
         console.log(err);
+        Email.bug(err);
         $state.go('500_API_ERROR');
     });
   }

@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG,CarreTranslate) {
+angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG, CarreTranslate, Email) {
 
   this.exports = {
     'groupByProp': groupByProp,
@@ -44,6 +44,7 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG,Carre
     /*  Filter educational objects  */
     if (rel === 'has_risk_evidence_ratio_value' && val==="NAN") {
       console.log("BUG-Virtuoso: ",id+': ',val);
+      Email.bug({element:id,predicate:"has_risk_evidence_ratio_value","value":val});
       // var bugQuery="SELECT"
       // xhttp.open("POST", CONFIG.API_URL=bugQuery+"&token="+CONFIG.currentUser.oauth_token, false);
       // xhttp.send();

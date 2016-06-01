@@ -14,7 +14,7 @@ angular.module('CarreEntrySystem')
         'notFields': '@',
         'hidePubmed': '@'
       },
-      controller: function($rootScope, $scope, $timeout, content, CONFIG, VisibleFields, Observables, Risk_reviews, Risk_elements, Risk_factors, Measurement_types, Citations, Medical_experts, Risk_evidences) {
+      controller: function($rootScope, $scope, $timeout, content, CONFIG, VisibleFields, Observables, Risk_elements, Risk_factors, Measurement_types, Citations, Medical_experts, Risk_evidences) {
         
         var vm = $scope;
         vm.current = vm.elem || {};
@@ -59,9 +59,6 @@ angular.module('CarreEntrySystem')
               break;
             case 'measurement_type':
               getMeasurement_type(id);
-              break;
-            case 'risk_review':
-              getReview(id);
               break;
             case 'medical_expert':
               // code
@@ -161,20 +158,7 @@ angular.module('CarreEntrySystem')
             }
           });
         }
-        function getReview(id) {
-          var visibleFields=VisibleFields('risk_review','single',vm.notFields.split(','));
-          vm.loading=Risk_reviews.get([id]).then(function(res) {
-            if (res.data) {
-              vm.current = res.data[0];
-              vm.fields = visibleFields.map(function(field) {
-                return {
-                  value: field,
-                  label: content.labelOf(field)
-                };
-              });
-            }
-          });
-        }
+        
         function getMeasurement_type(id) {
           var visibleFields=VisibleFields('measurement_type','single',vm.notFields.split(','));
           vm.loading=Measurement_types.get([id]).then(function(res) {

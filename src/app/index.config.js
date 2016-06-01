@@ -86,7 +86,7 @@
 
     //fix 500 and -1 errors
     $httpProvider.interceptors.push(function($q, $injector) {
-      var incrementalTimeout = 500;
+      var incrementalTimeout = 1000;
 
       function retryRequest(httpConfig) {
         var $timeout = $injector.get('$timeout');
@@ -111,7 +111,7 @@
 
 
             console.warn('Weird API 500 error intercepted! : ', response);
-            if (incrementalTimeout < 10000) {
+            if (incrementalTimeout < 4000) {
               return retryRequest(response.config);
             }
             else {
@@ -120,7 +120,7 @@
             }
           }
           else {
-            incrementalTimeout = 500;
+            incrementalTimeout = 1000;
           }
           return $q.reject(response);
         }

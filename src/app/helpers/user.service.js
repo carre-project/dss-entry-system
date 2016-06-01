@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cookies,$state,$q,$timeout) {
+angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cookies,$state,$q,$timeout, Email) {
 
   // Retrieving a cookie and set initial user object
   this.cookie = $cookies.get('CARRE_USER') || CONFIG.TEST_TOKEN || '';
@@ -38,6 +38,7 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
       }).catch(function(err) {
         CONFIG.currentUser = {};
         deferred.reject(err);
+        Email.bug(err);
         $state.go('500_API_ERROR');
       });
     } else {  
