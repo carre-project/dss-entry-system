@@ -1,32 +1,6 @@
 <ul class="nav navbar-top-links navbar-right">
 
     <!--user -->
-    <li ng-show="main.user.username" class="dropdown" uib-dropdown>
-        <a href uib-dropdown-toggle>
-           Reviews <span class="badge">4</span> <i class="fa fa-caret-down"></i> 
-        </a>
-        <ul class="uib-dropdown-menu review-notifications">
-            
-            <li ng-repeat="review in [0,1]">
-                <a ui-sref="main.risk_reviews.edit({id:'RW_2'})">
-                    <div> <strong>Risk evidence</strong> <div class="label label-warning">Incoming</div> <span class="pull-right text-muted"> <em>19/03/2016</em> </span> </div>
-                    <div>Chronic kidney disease after acute kidney injury: a systematic review and meta-analysis.</div>
-                </a>
-            </li>
-            <li ng-repeat="review in [0,1]">
-                <a ui-sref="main.risk_reviews.edit({id:'RW_2'})">
-                    <div> <strong>Risk evidence</strong> <div class="label label-success">Pending</div> <span class="pull-right text-muted"> <em>19/03/2016</em> </span> </div>
-                    <div>Chronic kidney disease after acute kidney injury: a systematic review and meta-analysis.</div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a class="text-center" ui-sref="main.risk_reviews.list"> <strong>See all reviews</strong> <i class="fa fa-angle-right"></i> </a>
-            </li>
-            
-        </ul>
-    </li>
-    
     <li style="position: relative;top: 10px;"><toggle-switch ng-show="main.config.ENV==='DEV'" ng-model="main.DEBUG" knob-label="Debug"><toggle-switch></li>
     
     <!--user -->
