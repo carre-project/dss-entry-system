@@ -102,6 +102,49 @@
     vm.counterdonut_options={};
     
     });
+    $timeout(function(){
+      if(!CONFIG.currentUser.username) $scope.startIntro();
+    },4000)
+    $scope.IntroOptions = {
+steps:[
+  {
+      element: '#intro-risk-model',
+      intro: "Here you can see the CARRE risk model overview",      
+      position: 'right'
+  }
+  ,{
+      element: '#intro-stats',
+      intro: "This chart represents all the current CARRE elements in the database",
+      position: 'left'
+  }  ,{
+      element: '#intro-box-risk-factors',
+      intro: "This box is a counter for all the CARRE risk factors",
+      position: 'top'
+  },{
+      element: '#intro-box-risk-evidences',
+      intro: "This box is a counter for all the CARRE risk evidences",
+      position: 'top'
+  }
+  // ,{
+  //     element: '#intro-menu',
+  //     intro: "This is the menu......",
+  //     position: 'right'
+  // }
+  // ,{
+  //     element: '#intro-login',
+  //     intro: "Login to start editing the data",
+  //     position: 'bottom'
+  // }
+  ],        
+    showStepNumbers: false,
+        showBullets: false,
+        exitOnOverlayClick: true,
+        exitOnEsc:true,
+        nextLabel: '<strong>Next</strong>',
+        prevLabel: '<strong>Previous</strong>',
+        skipLabel: 'Exit',
+        doneLabel: 'OK that\'s enough!'
+}
     
   }
 })();

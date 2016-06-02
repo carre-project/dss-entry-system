@@ -30,7 +30,7 @@
       'chart.js',
       'oitozero.ngSweetAlert',
       'permission',
-      'bm.uiTour'
+      'angular-intro'
     ]);
 
 })();
