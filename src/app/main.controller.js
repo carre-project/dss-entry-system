@@ -13,17 +13,12 @@
     vm.config = CONFIG;
     vm.user = vm.config.currentUser || {};
     
-    
-    //clean up the browser url
-    // $location.url($location.path());
-
     //set up the urls 
     vm.loginUrl = CONFIG.CARRE_DEVICES + 'login?next=';
     vm.logoutUrl = CONFIG.CARRE_DEVICES + 'logout?next=';
     vm.settingsUrl = CONFIG.CARRE_DEVICES + 'settings';
     vm.passwordUrl = CONFIG.CARRE_DEVICES + 'recover?next=';
 
-    
     //show message for the user
     if(vm.user.username){
       toastr.success('Have fun with the risk factors!','<h4>Hi '+vm.user.username+'!</h4>');
@@ -39,8 +34,6 @@
       }
     }
     
-    
-
     vm.deleteCurrent = function(id) {
       if(!id) return;
       SweetAlert.swal({

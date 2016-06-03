@@ -103,8 +103,8 @@
     
     });
     $timeout(function(){
-      if(!CONFIG.currentUser.username) $scope.startIntro();
-    },4000)
+      if(!CONFIG.currentUser.username && CONFIG.ENV==='DEV') $scope.startIntro();
+    },1000)
     $scope.IntroOptions = {
 steps:[
   {
