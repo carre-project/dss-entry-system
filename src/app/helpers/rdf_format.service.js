@@ -42,15 +42,15 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG, Carr
     if (rel === 'has_educational_material') return settings;
 
     /*  Filter BUG-Virtuoso  */
-    if (rel === 'has_risk_evidence_ratio_value' && val==="NAN") {
-      console.log("BUG-Virtuoso: ",id+': ',val);
-      Email.bug({
-        "title": "Risk evidence ratio value "+(settings.data.length>1?"List view":"Single view"),
-        "element": id,
-        "predicate": "has_risk_evidence_ratio_value",
-        "value": val
-      });
-    }
+    // if (rel === 'has_risk_evidence_ratio_value' && val==="NAN") {
+    //   console.log("BUG-Virtuoso: ",id+': ',val);
+    //   Email.bug({
+    //     "title": "Risk evidence ratio value "+(settings.data.length>1?"List view":"Single view"),
+    //     "element": id,
+    //     "predicate": "has_risk_evidence_ratio_value",
+    //     "value": val
+    //   });
+    // }
     
     /*  Filter other languages  */
     if(obj[settings.triplesFormat[2]].hasOwnProperty('xml:lang') && obj[settings.triplesFormat[2]]['xml:lang']!==CONFIG.LANG){

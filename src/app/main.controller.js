@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, toastr, $location, CONFIG,CARRE,$state,SweetAlert) {
+  function MainController($timeout, toastr, $location, CONFIG,CARRE,$state,SweetAlert, Tutorial,$scope) {
     var vm = this;
     
     CONFIG.ROOT_URL=rootUrl();
@@ -57,6 +57,14 @@
           }
         });
     };
+    
+    $scope.IntroOptions = Tutorial.options();
+    
+  
+    $timeout(function(){
+      if(!CONFIG.currentUser.username && CONFIG.ENV==='DEV' &&  $state.includes("main.dashboard") ) Tutorial.startGuest($scope.startIntro);
+    },1000)
+    
 
   }
 })();

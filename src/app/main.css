@@ -553,6 +553,6 @@ table.dataTable thead .sorting:after {
 
 
 /* Tour styling */
-.tour-backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
+.introjs-overlay {
+    opacity: 0.95;
 }

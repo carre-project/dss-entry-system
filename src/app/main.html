@@ -1,4 +1,8 @@
-<div id="wrapper">
+<div id="wrapper"
+    ng-intro-options="IntroOptions" ng-intro-method="startIntro"
+    ng-intro-oncomplete="CompletedEvent" ng-intro-onexit="ExitEvent"
+    ng-intro-onchange="ChangeEvent" ng-intro-onbeforechange="BeforeChangeEvent"
+    ng-intro-autostart="false">
 
     <!-- Navigation Component -->
     <carre-header ng-hide="isEmbedded"></carre-header>
