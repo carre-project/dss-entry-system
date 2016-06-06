@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, toastr, $location, CONFIG,CARRE,$state,SweetAlert, Tutorial,$scope) {
+  function MainController($timeout, toastr, $location, CONFIG,CARRE,$state,SweetAlert, Tutorial,$scope,$rootScope) {
     var vm = this;
     
     CONFIG.ROOT_URL=rootUrl();
@@ -20,10 +20,12 @@
     vm.passwordUrl = CONFIG.CARRE_DEVICES + 'recover?next=';
 
     //show message for the user
-    if(vm.user.username){
-      toastr.success('Have fun with the risk factors!','<h4>Hi '+vm.user.username+'!</h4>');
-    } else {
-      toastr.info('Please login if you want to add/edit data.','<h4>Hello Guest!</h4>');
+    if( !$rootScope.isEmbedded ) {
+      if(vm.user.username){
+        toastr.success('Have fun with the risk factors!','<h4>Hi '+vm.user.username+'!</h4>');
+      } else {
+        toastr.info('Please login if you want to add/edit data.','<h4>Hello Guest!</h4>');
+      }
     }
     
     function rootUrl(){

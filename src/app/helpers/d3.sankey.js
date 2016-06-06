@@ -127,7 +127,7 @@ d3.sankey = function() {
 
     //
     moveSinksRight(x);
-    width = width || document.width;
+    width = width || window.width;
     scaleNodeBreadths((width - nodeWidth) / (x - 1));
   }
 

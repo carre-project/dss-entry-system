@@ -26,7 +26,11 @@
         
         // check if it is embeded
         if($location.search().embed) {
+            
           $rootScope.isEmbedded = true;
+          if($location.search().hidemenu) $rootScope.hideMenu = true;
+          if($location.search().showonlygraph) $rootScope.showOnlyGraph = true;
+          
         }
 
         //handle ui-router errors

@@ -21,7 +21,7 @@ angular.module('CarreEntrySystem')
         vm.customHeight=0;
         
         vm.alwaysOnDetails=true;
-        vm.showRiskEvidences=false;
+        vm.showRiskEvidences=$location.search().elementstype==='risk_evidences'?true:false||false;
         vm.onlyCore= false;
         
         var network;
@@ -56,12 +56,21 @@ angular.module('CarreEntrySystem')
             //set initial nodes and edges
             vm.nodesArr=id
               ?
-              data.nodes.map(function(obj){
-                var obj_pos=-1;
+              data.nodes.map(function(obj,index){
+                var obj_pos = -1;
                 //handle colors
-                if(id instanceof Array) obj_pos=id.indexOf(obj.id);
-                else obj_pos=id.substring(id.lastIndexOf("/")+1)===obj.id.substring(obj.id.lastIndexOf("/")+1)?0:-1;
-                if(obj_pos>=0) obj.color=CONFIG.COLORS[obj_pos];
+                if (id instanceof Array ) {
+                  if(id[0].indexOf("RL_")>=0) obj_pos = id.indexOf(obj.id); else {
+                    //if this is not a risk element array
+                    obj_pos = index;
+                  }
+                } else {
+                  if(id[0].indexOf("RL_")>=0) id.substring(id.lastIndexOf("/") + 1) === obj.id.substring(obj.id.lastIndexOf("/") + 1) ? 0 : -1; else {
+                    //if this is not a risk element
+                    obj_pos = index;
+                  }
+                }                         
+                if (obj_pos >= 0) obj.color = CONFIG.COLORS[obj_pos];
                 return obj;
               })
               :
@@ -83,7 +92,7 @@ angular.module('CarreEntrySystem')
               var pos=(id instanceof Array)?id.indexOf(edge.from):null;
               edge.color = pos>=0?CONFIG.COLORS[pos]:"#aaaaaa";
               return edge;
-            });
+            }).filter(vm.filterEdges);
             
             $timeout(function(){
               if(vm.onlyCore && vm.riskid instanceof Array && vm.riskid.length>1) {
@@ -298,6 +307,8 @@ angular.module('CarreEntrySystem')
             //after render
             network.on("afterDrawing", function (params) {
               if(vm.loading && vm.loading.promise && vm.loading.promise.$$state.status===0) $timeout(function(){vm.loading.resolve();},50);
+              
+        
             });
         };
         //end of controller

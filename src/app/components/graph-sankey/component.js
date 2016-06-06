@@ -8,7 +8,8 @@ angular.module('CarreEntrySystem')
       scope: {
         'limitNewConnections': '@',
         'height': '@',
-        'riskid': '='
+        'riskid': '=',
+        'ratioFilter': '@'
       },
       controller: function($scope, $timeout, toastr, CARRE, $location, CONFIG, GRAPH, content,$q) {
 
@@ -26,6 +27,7 @@ angular.module('CarreEntrySystem')
         vm.showRiskEvidences=true;
         vm.onlyCore= false;
         
+        vm.ratioFilter = vm.ratioFilter ||1.32;
         //resize events
         $(window).resize(function(){ vm.renderSankey(); });
         vm.addSize=function(){
@@ -50,18 +52,32 @@ angular.module('CarreEntrySystem')
           vm.loading = GRAPH.network(id,!vm.showRiskEvidences?'risk_factor':null).then(function(data) {
 
             //set initial nodes and edges
-            vm.nodesArr = id ? data.nodes.map(function(obj) {
+            vm.nodesArr = id ? data.nodes.map(function(obj,index) {
               var obj_pos = -1;
               //handle colors
-              if (id instanceof Array) obj_pos = id.indexOf(obj.id);
-              else obj_pos = id.substring(id.lastIndexOf("/") + 1) === obj.id.substring(obj.id.lastIndexOf("/") + 1) ? 0 : -1;
+              if (id instanceof Array ) {
+                if(id[0].indexOf("RL_")>=0) obj_pos = id.indexOf(obj.id); else {
+                  //if this is not a risk element array
+                  obj_pos = index;
+                }
+              } else {
+                if(id[0].indexOf("RL_")>=0) id.substring(id.lastIndexOf("/") + 1) === obj.id.substring(obj.id.lastIndexOf("/") + 1) ? 0 : -1; else {
+                  //if this is not a risk element
+                  obj_pos = index;
+                }
+              }                         
               if (obj_pos >= 0) obj.color = CONFIG.COLORS[obj_pos];
-
               return obj;
-            }) : data.nodes.filter(function(obj) {
+            })
+            .filter(function(node){
+              if(vm.onlyCore) {
+                return node.color?true:false;
+              } else return true;
+            }) 
+            :data.nodes.filter(function(obj) {
               return obj.connections > vm.minConnections;
-            });
-
+            });            
+            
             //filter edges
             vm.edgesArr = data.edges.filter(function(edge) {
               var from = false;
@@ -136,24 +152,39 @@ angular.module('CarreEntrySystem')
         vm.renderSankey = function() {
           // Some setup stuff.
           var node_index = {};
-          var graph = {
-            nodes: vm.nodesArr.map(function(obj, index) {
+          var filteredNodes = [];
+          var graph = {};
+          
+          graph.nodes = vm.nodesArr
+            .map(function(obj, index) {
               node_index[obj.id] = {
                 index: index,
                 // value: obj.value
               };
               obj.name = obj.label;
               return obj;
-            }),
-            links: vm.edgesArr.map(function(obj) {
+            });
+            
+          graph.links = vm.edgesArr
+            .map(function(obj) {
               obj.value = Number(obj.ratio)||1;
               obj.source = node_index[obj.from].index;
               obj.target = node_index[obj.to].index;
               return obj;
             })
-          };
+            .filter(function(l){
+            if(l.value>=vm.ratioFilter) {
+              if(filteredNodes.indexOf(l.source)===-1) filteredNodes.push(l.source);
+              if(filteredNodes.indexOf(l.target)===-1) filteredNodes.push(l.target);
+              return true;
+            } else return false;
+            });
+            
+            // graph.nodes = graph.nodes.filter(function(n,index){
+            //   return true; //filteredNodes.indexOf(index)>=0;
+            // });
           
-          console.log("Sankey graph data",graph);
+          console.log("Sankey graph data",graph,filteredNodes);
           
           var calculated_height = vm.customHeight+Math.log(graph.links.length)*250;
           

@@ -11,7 +11,8 @@
     vm.minConnections=0;
     vm.ready=true;
     vm.risk_elements_selected=[];
-    vm.graph_type="sankey";
+    vm.graph_type=$location.search().graphtype||"sankey";
+    console.log("Explore state params:",$state.params)
     vm.setNewId=function(){
       vm.ready=false;
       $timeout(function(){
@@ -81,6 +82,14 @@
       });
     });
     
+    
+    // set elements by url
+    if($location.search().elements&&$location.search().elementstype){
+      vm.risk_elements_selected = $location.search().elements.split(',').map(function(elem){
+        return "http://carre.kmi.open.ac.uk/"+$location.search().elementstype+"/"+elem;
+      })
+      vm.setNewId();
+    }
     
   }
 })();

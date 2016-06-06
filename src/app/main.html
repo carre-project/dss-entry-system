@@ -9,11 +9,11 @@
     <!-- /.navbar-top-links -->
 
     <!--sidebar-->
-    <sidebar></sidebar>
+    <sidebar ng-if="!hideMenu"></sidebar>
 
     <!-- /.navbar-static-side -->
 
-    <div id="page-wrapper" style="min-height: 561px;">
+    <div id="page-wrapper" style="min-height: 561px;" ng-style="hideMenu?{'margin':'0 0 0 0'}:{}">
 
         <!-- /.row -->
         <!--Debug-->
