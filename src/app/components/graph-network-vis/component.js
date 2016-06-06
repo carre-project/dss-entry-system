@@ -92,7 +92,7 @@ angular.module('CarreEntrySystem')
               var pos=(id instanceof Array)?id.indexOf(edge.from):null;
               edge.color = pos>=0?CONFIG.COLORS[pos]:"#aaaaaa";
               return edge;
-            }).filter(vm.filterEdges);
+            })
             
             $timeout(function(){
               if(vm.onlyCore && vm.riskid instanceof Array && vm.riskid.length>1) {

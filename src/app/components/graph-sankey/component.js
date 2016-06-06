@@ -69,11 +69,11 @@ angular.module('CarreEntrySystem')
               if (obj_pos >= 0) obj.color = CONFIG.COLORS[obj_pos];
               return obj;
             })
-            .filter(function(node){
-              if(vm.onlyCore) {
-                return node.color?true:false;
-              } else return true;
-            }) 
+            // .filter(function(node){
+            //   if(vm.onlyCore) {
+            //     return node.color?true:false;
+            //   } else return true;
+            // }) 
             :data.nodes.filter(function(obj) {
               return obj.connections > vm.minConnections;
             });            
@@ -172,13 +172,13 @@ angular.module('CarreEntrySystem')
               obj.target = node_index[obj.to].index;
               return obj;
             })
-            .filter(function(l){
-            if(l.value>=vm.ratioFilter) {
-              if(filteredNodes.indexOf(l.source)===-1) filteredNodes.push(l.source);
-              if(filteredNodes.indexOf(l.target)===-1) filteredNodes.push(l.target);
-              return true;
-            } else return false;
-            });
+            // .filter(function(l){
+            // if(l.value>=vm.ratioFilter) {
+            //   if(filteredNodes.indexOf(l.source)===-1) filteredNodes.push(l.source);
+            //   if(filteredNodes.indexOf(l.target)===-1) filteredNodes.push(l.target);
+            //   return true;
+            // } else return false;
+            // });
             
             // graph.nodes = graph.nodes.filter(function(n,index){
             //   return true; //filteredNodes.indexOf(index)>=0;
