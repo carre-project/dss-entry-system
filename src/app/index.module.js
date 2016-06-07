@@ -30,7 +30,8 @@
       'chart.js',
       'oitozero.ngSweetAlert',
       'permission',
-      'angular-intro'
+      'angular-intro',
+      'rzModule'
     ]);
 
 })();

@@ -17,7 +17,7 @@
 .link {
   fill: none;
   stroke: #aaaaaa;
-  stroke-opacity: .6;
+  stroke-opacity: .7;
 }
 .link:hover,.link.selected {
   stroke-opacity: 1;

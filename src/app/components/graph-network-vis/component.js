@@ -75,7 +75,7 @@ angular.module('CarreEntrySystem')
               })
               :
               data.nodes.filter(function(obj){ return obj.connections>vm.minConnections;}).map(function(obj,i){
-                obj.color = d3colors(i);
+                obj.color = CONFIG.COLORS[i]; //d3colors(i);
                 return obj;
               });
               

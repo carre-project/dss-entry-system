@@ -227,7 +227,7 @@ angular.module('CarreEntrySystem')
               .attr("class", "link")
               .attr("d", path)
               .style("stroke", function(d, i) {
-                return vm.riskid?(d.source.color||'#aaaaaa'):d3colors(node_index[d.source.id].index);
+                return vm.riskid?(d.source.color||'#aaaaaa'):CONFIG.COLORS[node_index[d.source.id].index];
               })
               .style("stroke-width", function(d) {
                 return Math.max(2, d.dy)-1; //add white seperator
@@ -270,10 +270,10 @@ angular.module('CarreEntrySystem')
               })
               .attr("width", sankey.nodeWidth())
               .style("stroke", function(d, i) {
-                return vm.riskid?(d.color||'#aaaaaa'):d3colors(i) // = color(i);
+                return vm.riskid?(d.color||'#aaaaaa'):CONFIG.COLORS[i]; // = color(i);
               })
               .style("fill", function(d, i) {
-                return vm.riskid?(d.color||'#aaaaaa'):d3colors(i) // = color(i);
+                return vm.riskid?(d.color||'#aaaaaa'):CONFIG.COLORS[i]; // = color(i);
               })
               // .style("stroke", function(d) {
               //   return d3.rgb('#aaaaaa');
