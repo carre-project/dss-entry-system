@@ -7,6 +7,7 @@
       "currentUser":{},
       "USECACHE":true,
       "AllowDelete":true,
+      "useOfflineMode":true,
       "ENV": "DEV",
       "CARRE_API_URL": "http://devices.carre-project.eu/ws/",
       "CARRE_CACHE_URL": "https://cache.carre-project.eu/"
