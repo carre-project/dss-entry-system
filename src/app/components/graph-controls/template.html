@@ -37,6 +37,11 @@
             <input type="checkbox" ng-change="applyRefresh()" ng-model="controls.showRiskEvidences">
           </label>
         </li>
+        <li ng-show="controls.showRiskEvidences" role="menuitem" style="width:180px">
+          <label style="width: 100%;" class="carre-dropdown-checkbox">Ratio greater than
+            <rzslider rz-slider-model="controls.ratioFilter" rz-slider-options="controls.slider_toggle.options"></rzslider>
+          </label>
+        </li>
         <li ng-hide="controls.disableOptions.onlyPath" role="menuitem" style="width:180px">
           <label class="carre-dropdown-checkbox">Show only path
             <input type="checkbox" ng-change="applyRefresh()" ng-model="controls.onlyPath"> 

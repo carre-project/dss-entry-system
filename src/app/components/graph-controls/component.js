@@ -13,6 +13,7 @@ angular.module('CarreEntrySystem')
                 'rotation': '=',
                 'onlyPath':'=',
                 'showRiskEvidences':'=',
+                'ratioFilter':'=',
                 
                 //functions
                 'refresh':'&',
@@ -41,6 +42,24 @@ angular.module('CarreEntrySystem')
                 
                 vm.user = CONFIG.currentUser.username;
                 vm.getType=content.typeFromId;
+                
+                var maxLimit = 5;
+                var step = 0.2;
+                var stepsArray = [];
+                
+                for(var i=0; i<=maxLimit; i=i+step){
+                    stepsArray.push({value:i});
+                }
+                // vm.ratioFilter = 0;
+                vm.slider_toggle = {
+                    options: {
+                        stepsArray:stepsArray,
+                        floor: 0,    
+                        translate: function(value) {
+                            return ' ' + Number(value).toFixed(2);
+                        }
+                    }
+                 };
             }
     	}
 	});

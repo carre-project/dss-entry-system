@@ -23,6 +23,12 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
     else if (this.cookie.length > 0) {
       $http.get(CONFIG.CARRE_API_URL + 'userProfile?token=' + this.cookie,{cache:true,timeout:5000}).then(function(res) {
         
+        //check if virtuoso is down
+        if (res.data.username.indexOf("(")===0) {
+          Email.bug({data:res.data,title:"RDF server is down"});
+          CONFIG.currentUser = {'guest':true};
+        } else {
+        
         CONFIG.currentUser=res.data;
         //Show different graph on logged in users
         CONFIG.CARRE_DEFAULT_GRAPH=CONFIG.CARRE_ARCHIVE_GRAPH;
@@ -34,6 +40,9 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
         // for GOOGLE Analytics
         // ga('set', 'userId', CONFIG.currentUser.username);
         // ga('set', 'dimension3', CONFIG.currentUser.username);
+        
+          
+        }
         
       }).catch(function(err) {
         CONFIG.currentUser = {};

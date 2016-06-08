@@ -8,8 +8,7 @@ angular.module('CarreEntrySystem')
       scope: {
         'limitNewConnections': '@',
         'height': '@',
-        'riskid': '=',
-        'ratioFilter': '@'
+        'riskid': '='
       },
       controller: function($scope, $timeout, toastr, CARRE, $location, CONFIG, GRAPH, content,$q) {
 
@@ -27,7 +26,12 @@ angular.module('CarreEntrySystem')
         vm.showRiskEvidences=true;
         vm.onlyCore= false;
         
-        vm.ratioFilter = vm.ratioFilter ||1.32;
+        vm.ratioFilter = 0.8;
+        $scope.$watch('ratioFilter',function(n,o){
+          console.debug(n);
+          vm.renderSankey();
+        })
+        
         //resize events
         $(window).resize(function(){ vm.renderSankey(); });
         vm.addSize=function(){
@@ -172,17 +176,17 @@ angular.module('CarreEntrySystem')
               obj.target = node_index[obj.to].index;
               return obj;
             })
-            // .filter(function(l){
-            // if(l.value>=vm.ratioFilter) {
-            //   if(filteredNodes.indexOf(l.source)===-1) filteredNodes.push(l.source);
-            //   if(filteredNodes.indexOf(l.target)===-1) filteredNodes.push(l.target);
-            //   return true;
-            // } else return false;
-            // });
+            .filter(function(l){
+            if(l.value>=vm.ratioFilter) {
+              if(filteredNodes.indexOf(l.source)===-1) filteredNodes.push(l.source);
+              if(filteredNodes.indexOf(l.target)===-1) filteredNodes.push(l.target);
+              return true;
+            } else return false;
+            });
             
-            // graph.nodes = graph.nodes.filter(function(n,index){
-            //   return true; //filteredNodes.indexOf(index)>=0;
-            // });
+            graph.nodes = graph.nodes.filter(function(n,index){
+              return filteredNodes.indexOf(index)>=0;
+            });
           
           console.log("Sankey graph data",graph,filteredNodes);
           
