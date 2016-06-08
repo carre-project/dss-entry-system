@@ -29,20 +29,18 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
           CONFIG.currentUser = {'guest':true};
         } else {
         
-        CONFIG.currentUser=res.data;
-        //Show different graph on logged in users
-        CONFIG.CARRE_DEFAULT_GRAPH=CONFIG.CARRE_ARCHIVE_GRAPH;
-        
+          CONFIG.currentUser=res.data;
+          //Show different graph on logged in users
+          CONFIG.CARRE_DEFAULT_GRAPH=CONFIG.CARRE_ARCHIVE_GRAPH;
+          console.log('User authentication completed',CONFIG.currentUser);
+          
+        }
         deferred.resolve(CONFIG.currentUser);
-        console.log('User authentication completed',CONFIG.currentUser);
-        
         // Set the user ID using signed-in user_id.
         // for GOOGLE Analytics
         // ga('set', 'userId', CONFIG.currentUser.username);
         // ga('set', 'dimension3', CONFIG.currentUser.username);
         
-          
-        }
         
       }).catch(function(err) {
         CONFIG.currentUser = {};

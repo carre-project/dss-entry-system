@@ -5,11 +5,11 @@
     .module('CarreEntrySystem')
     .constant("CONFIG", {
       "currentUser":{},
-      "USECACHE":false,
+      "USECACHE":true,
       "AllowDelete":true,
       "ENV": "DEV",
       "CARRE_API_URL": "http://devices.carre-project.eu/ws/",
-      "CARRE_CACHE_URL": "http://beta.carre-project.eu:3002/"
+      "CARRE_CACHE_URL": "https://cache.carre-project.eu/"
     })
     .config(function($locationProvider, $compileProvider, $urlRouterProvider) {
 
