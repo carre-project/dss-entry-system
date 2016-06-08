@@ -7,6 +7,7 @@
       "currentUser":{},
       "USECACHE":true,
       "ENV": "PROD",
+      "useOfflineMode":true,
       "CARRE_API_URL": "https://carre.kmi.open.ac.uk/ws/",
       "CARRE_CACHE_URL": "https://cache.carre-project.eu/"
     }).config(function($locationProvider, $compileProvider, $urlRouterProvider) {
