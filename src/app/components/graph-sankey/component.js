@@ -18,7 +18,7 @@ angular.module('CarreEntrySystem')
         
           //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections || 10;
-        vm.minConnections = 6;
+        vm.minConnections = 1;
         vm.height = vm.height || 600;
         vm.customHeight=0;
         
@@ -26,10 +26,20 @@ angular.module('CarreEntrySystem')
         vm.showRiskEvidences=true;
         vm.onlyCore= false;
         
-        vm.ratioFilter = 0.8;
-        $scope.$watch('ratioFilter',function(n,o){
-          console.debug(n);
-          vm.renderSankey();
+        
+        // ratio filter
+        vm.ratioFilter = {
+          min:0.80,
+          max:50.0
+        };
+          
+        function ratioFilterFn (a) {
+          return a.ratio>=vm.ratioFilter.min;
+          // return a.ratio>=vm.ratioFilter.min&&a.ratio<=vm.ratioFilter.max;
+        }
+        $scope.$watch('ratioFilter.min',function(n,o){
+          // console.debug(n);
+          if(n&&o&&n!==o) vm.renderSankey();
         })
         
         //resize events
@@ -156,14 +166,12 @@ angular.module('CarreEntrySystem')
         vm.renderSankey = function() {
           // Some setup stuff.
           var node_index = {};
-          var filteredNodes = [];
           var graph = {};
           
-          graph.nodes = vm.nodesArr
-            .map(function(obj, index) {
+          graph.nodes = vm.nodesArr.map(function(obj, index) {
               node_index[obj.id] = {
                 index: index,
-                // value: obj.value
+                value: obj.value
               };
               obj.name = obj.label;
               return obj;
@@ -175,20 +183,9 @@ angular.module('CarreEntrySystem')
               obj.source = node_index[obj.from].index;
               obj.target = node_index[obj.to].index;
               return obj;
-            })
-            .filter(function(l){
-            if(l.value>=vm.ratioFilter) {
-              if(filteredNodes.indexOf(l.source)===-1) filteredNodes.push(l.source);
-              if(filteredNodes.indexOf(l.target)===-1) filteredNodes.push(l.target);
-              return true;
-            } else return false;
-            });
-            
-            graph.nodes = graph.nodes.filter(function(n,index){
-              return filteredNodes.indexOf(index)>=0;
             });
           
-          console.log("Sankey graph data",graph,filteredNodes);
+          console.log("Sankey graph data",graph);
           
           var calculated_height = vm.customHeight+Math.log(graph.links.length)*250;
           
@@ -226,7 +223,7 @@ angular.module('CarreEntrySystem')
 
             // add in the links
             var link = svg.append("g").selectAll(".link")
-              .data(graph.links)
+              .data(graph.links.filter(ratioFilterFn))
               .enter().append("path")
               .attr("class", "link")
               .attr("d", path)

@@ -8,34 +8,6 @@
 
   /** @ngInject */
   function routerConfig($stateProvider) {
-    
-    
-    //Perform route permission check without angular-permission module
-    // function _skipIfAuthenticated($q, $state, $auth) {
-    //   var defer = $q.defer();
-    //   if ($auth.authenticate()) {
-    //     defer.reject(); /* (1) */
-    //   }
-    //   else {
-    //     defer.resolve(); /* (2) */
-    //   }
-    //   return defer.promise;
-    // }
-
-    // function _redirectIfNotAuthenticated($q, $state, $auth) {
-    //   var defer = $q.defer();
-    //   if ($auth.authenticate()) {
-    //     defer.resolve(); /* (3) */
-    //   }
-    //   else {
-    //     $timeout(function() {
-    //       $state.go(‘login’); /* (4) */
-    //     });
-    //     defer.reject();
-    //   }
-    //   return defer.promise;
-    // }
-    
 
     $stateProvider
       .state('main', {

@@ -37,9 +37,9 @@
             <input type="checkbox" ng-change="applyRefresh()" ng-model="controls.showRiskEvidences">
           </label>
         </li>
-        <li ng-show="controls.showRiskEvidences" role="menuitem" style="width:180px">
-          <label style="width: 100%;" class="carre-dropdown-checkbox">Ratio greater than
-            <rzslider rz-slider-model="controls.ratioFilter" rz-slider-options="controls.slider_toggle.options"></rzslider>
+        <li ng-show="controls.showSlider" role="menuitem" style="width:180px">
+          <label style="width: 100%;" class="carre-dropdown-checkbox">Ratio filter
+            <rzslider rz-slider-model="controls.ratioFilter.min" rz-slider-options="controls.slider_toggle.options"></rzslider>
           </label>
         </li>
         <li ng-hide="controls.disableOptions.onlyPath" role="menuitem" style="width:180px">
@@ -54,3 +54,5 @@
     <button ng-click="controls.refresh({})" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i></button>
   </div>
 </div>
+
+            <!--rz-slider-high="controls.ratioFilter.max"  -->

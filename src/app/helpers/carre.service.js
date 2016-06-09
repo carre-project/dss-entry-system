@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$q,toastr,$state,$cacheFactory, QUERY, Email) {
+angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth, RdfFormatter,$q,toastr,$state,$cacheFactory, QUERY, Email,$rootScope) {
 
   this.exports = {
     // 'count': countInstance,
@@ -244,7 +244,12 @@ WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 risk:has_external_pre
 
   /* CORE query method*/
   function apiQuery(sparqlQuery,noprefix) {
-
+    
+    if($rootScope.isOffline) {
+      $state.go('500_API_ERROR');
+      return $q.reject({});
+    }
+    
     var params = {};
     //add prefixes
     params.sparql = (noprefix?"":PREFIXSTR) + sparqlQuery;

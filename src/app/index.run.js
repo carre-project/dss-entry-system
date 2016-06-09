@@ -32,19 +32,15 @@
           if($location.search().showonlygraph) $rootScope.showOnlyGraph = true;
           
         }
-        // handle ui-router error redirect
         
+        // handle ui-router error redirect
         if(CONFIG.useOfflineMode) {
             $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams, options){
-                    
-                    console.debug('State error',toState) 
-                    if(toState.name==='500_API_ERROR') { 
-                        event.preventDefault(); 
-                        $rootScope.showOfflineBar = true; 
-                        
-                    }
-                    
-                })
+                if(toState.name==='500_API_ERROR') { 
+                    event.preventDefault(); 
+                    $rootScope.isOffline = true; 
+                }
+            });
         }
 
         //handle ui-router errors

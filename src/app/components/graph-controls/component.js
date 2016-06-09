@@ -7,6 +7,8 @@ angular.module('CarreEntrySystem')
             restrict: 'E',
             replace: false,
             bindToController: {
+                
+                // variables
                 'selectedId': '=',
                 'disableOptions':'=',
                 'enableRotation': '@',
@@ -37,21 +39,31 @@ angular.module('CarreEntrySystem')
                 }.bind(this));
                 
                 $scope.applyRefresh = function (){
-                    $timeout(function() { vm.refresh({}); },0);
+                    $timeout(function() { 
+                        vm.refresh({}); 
+                        
+                        // show slider only when risk evidences exist
+                        if(vm.showRiskEvidences)  {
+                            $scope.$broadcast('rzSliderForceRender'); 
+                            vm.showSlider = true;
+                        } else vm.showSlider = false;
+                    },0);
                 }
                 
                 vm.user = CONFIG.currentUser.username;
                 vm.getType=content.typeFromId;
                 
-                var maxLimit = 5;
+                
+                // Slider configuration
+                vm.showSlider = vm.showRiskEvidences ? true : false;
+                var maxLimit = 10;
                 var step = 0.2;
                 var stepsArray = [];
-                
-                for(var i=0; i<=maxLimit; i=i+step){
-                    stepsArray.push({value:i});
-                }
+                for(var i=0; i<=maxLimit; i=i+step){ stepsArray.push({value:i});}
                 // vm.ratioFilter = 0;
                 vm.slider_toggle = {
+                    minValue:0.8,
+                    maxValue:50,
                     options: {
                         stepsArray:stepsArray,
                         floor: 0,    
