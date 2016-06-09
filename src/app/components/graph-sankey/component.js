@@ -34,6 +34,7 @@ angular.module('CarreEntrySystem')
         };
           
         function ratioFilterFn (a) {
+          if(!vm.showRiskEvidences) return true;
           return a.ratio>=vm.ratioFilter.min;
           // return a.ratio>=vm.ratioFilter.min&&a.ratio<=vm.ratioFilter.max;
         }
