@@ -29,17 +29,21 @@ angular.module('CarreEntrySystem')
         
         // ratio filter
         vm.ratioFilter = {
-          min:0,
-          max:50
+          "min":0,
+          "max":50
         };
-          
         function ratioFilterFn (a) {
           if(!vm.showRiskEvidences) return true;
-          // return a.ratio>=vm.ratioFilter.min;
-          return a.ratio>=vm.ratioFilter.min&&a.ratio<=vm.ratioFilter.max;
+          if(a.ratio>=vm.ratioFilter.min&&a.ratio<=vm.ratioFilter.max) return true;
+          else {
+            console.debug(a.id+':'+vm.ratioFilter.min+'<'+a.ratio+'<'+vm.ratioFilter.max);
+            return false;
+          }
         }
         $scope.$watch('ratioFilter.min',function(n,o){
-          // console.debug(n);
+          if(n&&o&&n!==o) vm.renderSankey();
+        })
+        $scope.$watch('ratioFilter.max',function(n,o){
           if(n&&o&&n!==o) vm.renderSankey();
         })
         

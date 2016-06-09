@@ -10,12 +10,12 @@ angular.module('CarreEntrySystem')
                 
                 // variables
                 'selectedId': '=',
-                'disableOptions':'=',
+                'disableOptions':'=?',
                 'enableRotation': '@',
-                'rotation': '=',
-                'onlyPath':'=',
-                'showRiskEvidences':'=',
-                'ratioFilter':'=',
+                'rotation': '=?',
+                'onlyPath':'=?',
+                'showRiskEvidences':'=?',
+                'ratioFilter':'=?',
                 
                 //functions
                 'refresh':'&',
@@ -41,7 +41,6 @@ angular.module('CarreEntrySystem')
                 $scope.applyRefresh = function (){
                     $timeout(function() { 
                         vm.refresh({}); 
-                        
                         // show slider only when risk evidences exist
                         if(vm.showRiskEvidences)  {
                             $scope.$broadcast('rzSliderForceRender'); 
@@ -53,23 +52,20 @@ angular.module('CarreEntrySystem')
                 vm.user = CONFIG.currentUser.username;
                 vm.getType=content.typeFromId;
                 
-                vm.showSlider = vm.showRiskEvidences?true:false;
-                
                 // Slider configuration
-                var maxLimit = 80.2;
-                var step = 0.2;
+                vm.showSlider = vm.showRiskEvidences?true:false;
+                var maxLimit = 50.5;
+                var step = 0.5;
                 var stepsArray = [];
                 for(var i=0; i<maxLimit; i=i+step){ stepsArray.push( Number(Math.round(i+'e2')+'e-2') );}
-                
-                // vm.ratioFilter = 0;
                 vm.slider_toggle = {
                     options: {
                         stepsArray:stepsArray
                     }
                 };
-                console.log(vm.ratioFilter);
+                
             }
-    	}
+    	};
 	});
 
 
