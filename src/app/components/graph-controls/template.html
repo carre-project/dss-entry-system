@@ -39,8 +39,9 @@
         </li>
         <li ng-show="controls.showSlider" role="menuitem" style="width:180px">
           <label style="width: 100%;" class="carre-dropdown-checkbox">Ratio filter
-            <rzslider rz-slider-model="controls.ratioFilter.min" rz-slider-options="controls.slider_toggle.options"></rzslider>
+            <rzslider rz-slider-model="controls.ratioFilter.min" rz-slider-high="controls.ratioFilter.max" rz-slider-options="controls.slider_toggle.options"></rzslider>
           </label>
+          <!--ratioFilter-->
         </li>
         <li ng-hide="controls.disableOptions.onlyPath" role="menuitem" style="width:180px">
           <label class="carre-dropdown-checkbox">Show only path

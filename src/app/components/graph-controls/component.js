@@ -48,30 +48,26 @@ angular.module('CarreEntrySystem')
                             vm.showSlider = true;
                         } else vm.showSlider = false;
                     },0);
-                }
+                };
                 
                 vm.user = CONFIG.currentUser.username;
                 vm.getType=content.typeFromId;
                 
+                vm.showSlider = vm.showRiskEvidences?true:false;
                 
                 // Slider configuration
-                vm.showSlider = vm.showRiskEvidences ? true : false;
-                var maxLimit = 10;
+                var maxLimit = 80.2;
                 var step = 0.2;
                 var stepsArray = [];
-                for(var i=0; i<=maxLimit; i=i+step){ stepsArray.push({value:i});}
+                for(var i=0; i<maxLimit; i=i+step){ stepsArray.push( Number(Math.round(i+'e2')+'e-2') );}
+                
                 // vm.ratioFilter = 0;
                 vm.slider_toggle = {
-                    minValue:0.8,
-                    maxValue:50,
                     options: {
-                        stepsArray:stepsArray,
-                        floor: 0,    
-                        translate: function(value) {
-                            return ' ' + Number(value).toFixed(2);
-                        }
+                        stepsArray:stepsArray
                     }
-                 };
+                };
+                console.log(vm.ratioFilter);
             }
     	}
 	});

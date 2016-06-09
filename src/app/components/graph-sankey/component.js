@@ -18,7 +18,7 @@ angular.module('CarreEntrySystem')
         
           //graph init configuration
         vm.limitNewConnections = $scope.limitNewConnections || 10;
-        vm.minConnections = 1;
+        vm.minConnections = 6;
         vm.height = vm.height || 600;
         vm.customHeight=0;
         
@@ -29,14 +29,14 @@ angular.module('CarreEntrySystem')
         
         // ratio filter
         vm.ratioFilter = {
-          min:0.80,
-          max:50.0
+          min:0,
+          max:50
         };
           
         function ratioFilterFn (a) {
           if(!vm.showRiskEvidences) return true;
-          return a.ratio>=vm.ratioFilter.min;
-          // return a.ratio>=vm.ratioFilter.min&&a.ratio<=vm.ratioFilter.max;
+          // return a.ratio>=vm.ratioFilter.min;
+          return a.ratio>=vm.ratioFilter.min&&a.ratio<=vm.ratioFilter.max;
         }
         $scope.$watch('ratioFilter.min',function(n,o){
           // console.debug(n);
@@ -244,6 +244,18 @@ angular.module('CarreEntrySystem')
                 return d.source.name +" "
                 + d.label +" "+ d.target.name + (vm.showRiskEvidences?" with risk ratio "+d.ratio:"");
               });
+              
+              
+              // link.append("text")
+              // .attr("x", -6)
+              // .attr("y", function (d) {
+              //     return d.dy / 2;
+              // }).append("textPath")
+              //           .attr("stroke","white")
+              //           .attr("fill","white")
+              //           .attr("xlink:href","#path" + i)
+              //           .text(d.ratio);
+              
               
             // add in the nodes
             var node = svg.append("g").selectAll(".node")
