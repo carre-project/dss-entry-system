@@ -6,7 +6,7 @@
     .controller('DashboardController', DashboardController);
 
   /** @ngInject */
-  function DashboardController($rootScope, $timeout, toastr, CARRE, $location, CONFIG, $scope) {
+  function DashboardController($rootScope, $timeout, toastr, CARRE, $location, CONFIG, $scope,Email) {
     var vm = this;
 
     //graph init
@@ -28,17 +28,26 @@
     vm.counterchart_data[0] = [0,0,0,0,0];
     
     //event on create method
-    // $scope.$on('create', function (event, chart) {
-    //   // set colors for each bar
-    //   console.log(chart);
-    //   if(chart.datasets){
-    //     chart.datasets[0].bars.map(function(obj,index){
-    //       obj.fillColor=vm.colors[index];
-    //       obj.strokeColor="#FFF";
-    //       return obj;
-    //     });
-    //   }
-    // });
+    $scope.$on('create', function (event, chart) {
+      // set colors for each bar
+      if(chart && chart.datasets && chart.datasets[0] && chart.datasets[0].bars.length>0){
+        chart.datasets[0].bars.map(function(obj,index){
+          obj.fillColor=vm.colors[index];
+          obj.strokeColor="#FFF";
+          return obj;
+        });
+      } else {
+        Email.bug({title:'chart datasets not exist',data:chart.datasets[0]});
+        console.log('chart datasets not exist');
+        $timeout(function(){
+        chart.datasets[0].bars.map(function(obj,index){
+          obj.fillColor=vm.colors[index];
+          obj.strokeColor="#FFF";
+          return obj;
+        });
+      },200);
+      }
+    });
 
     //get total and unreviewed elements 
     

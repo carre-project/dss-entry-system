@@ -17,7 +17,7 @@ angular.module('CarreEntrySystem')
         vm.containerId = "sankey";
         
           //graph init configuration
-        vm.limitNewConnections = $scope.limitNewConnections || 10;
+        vm.limitNewConnections = $scope.limitNewConnections || 30;
         vm.minConnections = 6;
         vm.height = vm.height || 600;
         vm.customHeight=0;
@@ -230,6 +230,7 @@ angular.module('CarreEntrySystem')
             var link = svg.append("g").selectAll(".link")
               .data(graph.links.filter(ratioFilterFn))
               .enter().append("path")
+              .attr("id", function(d,i){return d.id})
               .attr("class", "link")
               .attr("d", path)
               .style("stroke", function(d, i) {
@@ -248,18 +249,6 @@ angular.module('CarreEntrySystem')
                 return d.source.name +" "
                 + d.label +" "+ d.target.name + (vm.showRiskEvidences?" with risk ratio "+d.ratio:"");
               });
-              
-              
-              // link.append("text")
-              // .attr("x", -6)
-              // .attr("y", function (d) {
-              //     return d.dy / 2;
-              // }).append("textPath")
-              //           .attr("stroke","white")
-              //           .attr("fill","white")
-              //           .attr("xlink:href","#path" + i)
-              //           .text(d.ratio);
-              
               
             // add in the nodes
             var node = svg.append("g").selectAll(".node")
