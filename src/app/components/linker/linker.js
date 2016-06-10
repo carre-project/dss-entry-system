@@ -48,7 +48,8 @@ angular.module('CarreEntrySystem')
             //construct <a> tag
             var atag="<a href="+link+">"+label+"</a>";
             //replace all OB_* in the expression
-            $scope.label=$scope.label.replace(new RegExp(id, 'g'), atag);
+            $scope.label=$scope.label.replace(new RegExp(id, 'g'), atag)
+            .replace(new RegExp(">=", 'g'), '&ge;').replace(new RegExp("<=", 'g'), '&le;'); //replace greater than and lower than symbols
           });
           
         }  else //handle external annotations

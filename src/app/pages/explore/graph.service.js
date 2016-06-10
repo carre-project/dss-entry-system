@@ -4,7 +4,7 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
     'network': getNetworkData
   };
   
-  
+  // global functions --- not a good practice
   window.FindIndex=function(arr,val,prop,propVal){
     prop = prop || 'id';
     if(propVal) val=val[propVal];
@@ -12,7 +12,17 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
       if(val===arr[i][prop]) return i;
     }
     return -1;
-  }
+  };
+  
+  window.ratioMinMax=function(evidences){
+    if(!evidences || evidences.length===0) return '';
+    var arr=evidences.map(function(rv){return isNaN(rv.rv_ratio_value)?1:parseFloat(rv.rv_ratio_value); }).sort();
+    return ": "+ (arr.length===1?arr[0]:arr[0]+"..."+arr[arr.length-1]);
+  };
+  
+  window.ratioType=function(val){
+    return val.substring(val.lastIndexOf("risk_evidence_ratio_type_")+25).replace("_"," "); 
+  };
   
   //Returns a Tree ( RF: {RL_source,RL_target,RV:{OB:[],.. })
   function getNetworkData(idFilter,edgeType){
@@ -69,6 +79,7 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
             ?has_risk_evidence a risk:risk_evidence; \n\
             risk:has_risk_factor ?risk_factor; \n\
             risk:has_risk_evidence_ratio_value ?has_risk_evidence_ratio_value; \n\
+            risk:has_risk_evidence_ratio_type ?has_risk_evidence_ratio_type; \n\
             risk:has_observable_condition_text ?has_observable_condition_text; \n\
             risk:has_risk_evidence_observable ?has_risk_evidence_observable. \n\
             ?has_risk_evidence_observable risk:has_observable_name ?has_risk_evidence_observable_name. \n\
@@ -98,6 +109,7 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
           rv_id:cur.has_risk_evidence[val],
           rv_observable_condition:cur.has_observable_condition_text[val],
           rv_ratio_value:cur.has_risk_evidence_ratio_value[val],
+          rv_ratio_type:cur.has_risk_evidence_ratio_type[val],
           rv_observables:[]
         };
         var ob={
@@ -194,6 +206,7 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
               label:relation.label, 
               to:target.id, 
               ratio:ratio,
+              ratio_type:rv.rv_ratio_type,
               observables:rv.rv_observables
             });
             

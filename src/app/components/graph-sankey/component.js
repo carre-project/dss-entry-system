@@ -36,7 +36,7 @@ angular.module('CarreEntrySystem')
           if(!vm.showRiskEvidences) return true;
           if(a.ratio>=vm.ratioFilter.min&&a.ratio<=vm.ratioFilter.max) return true;
           else {
-            console.debug(a.id+':'+vm.ratioFilter.min+'<'+a.ratio+'<'+vm.ratioFilter.max);
+            // console.debug(a.id+':'+vm.ratioFilter.min+'<'+a.ratio+'<'+vm.ratioFilter.max);
             return false;
           }
         }
@@ -184,6 +184,7 @@ angular.module('CarreEntrySystem')
             
           graph.links = vm.edgesArr
             .map(function(obj) {
+              if(vm.showRiskEvidences) obj.ratio_type = ratioType(obj.ratio_type);
               obj.value = Number(obj.ratio)||1;
               obj.source = node_index[obj.from].index;
               obj.target = node_index[obj.to].index;
@@ -207,6 +208,8 @@ angular.module('CarreEntrySystem')
             // append the svg canvas to the page
             angular.element("#"+vm.containerId+" svg").remove();
             var svg = d3.select("#"+vm.containerId).append("svg")
+              .attr("xmlns","http://www.w3.org/2000/svg")
+              .attr("xmlns:xlink","http://www.w3.org/1999/xlink")
                 .attr("width", "100%")
                 .attr("height", "100%")
                 .attr("viewBox",viewBox)
@@ -230,7 +233,7 @@ angular.module('CarreEntrySystem')
             var link = svg.append("g").selectAll(".link")
               .data(graph.links.filter(ratioFilterFn))
               .enter().append("path")
-              .attr("id", function(d,i){return d.id})
+              .attr("id", function(d,i){return idLabel(d.id)})
               .attr("class", "link")
               .attr("d", path)
               .style("stroke", function(d, i) {
@@ -244,11 +247,32 @@ angular.module('CarreEntrySystem')
               });
               
               link.append("title")
-              .append("title")
                 .text(function(d) {
-                return d.source.name +" "
-                + d.label +" "+ d.target.name + (vm.showRiskEvidences?" with risk ratio "+d.ratio:"");
+                return d.source.name +" --> "+ d.target.name + (vm.showRiskEvidences
+                ?", "+d.ratio_type+" = "+d.ratio
+                :", "+d.evidences.length+" evidence(s) "+ratioMinMax(d.evidences));
               });
+              
+              // var linkText = svg.append("g")
+              // .selectAll(".link")
+              // .data(graph.links.filter(ratioFilterFn))
+              // .enter().append("text").attr("class","linkText")
+              // .attr("id", function(d,i){return idLabel(d.id)+"-text"})
+              // .append("textPath").attr("class", "textpath")
+              // .attr("xlink:href",function(d,i){return "#"+idLabel(d.id)})
+              // .text(function(d) {
+              //   return d.source.name +" --> "+ d.target.name + (vm.showRiskEvidences?", risk ratio = "+d.ratio:"");
+              // })
+              
+              
+              // svg.append("g")
+              // .selectAll(".link")
+              // .data(graph.links.filter(ratioFilterFn))
+              // .enter().append("use")
+              // .attr("id", function(d,i){return idLabel(d.id)+"-line"})
+              // .attr("xlink:href",function(d,i){return "#"+idLabel(d.id)})
+              
+              
               
             // add in the nodes
             var node = svg.append("g").selectAll(".node")
@@ -366,6 +390,9 @@ angular.module('CarreEntrySystem')
               $timeout(function(){vm.showDetails = true;},100);
             }
           }
+        }
+        function idLabel(id){
+          return id.substr(id.lastIndexOf("/")+1);
         }
         function chartCss(attr){
           var elem=document.getElementById(vm.containerId);

@@ -112,6 +112,7 @@ angular.module('CarreEntrySystem')
         
         
         $scope.output=removeOuterParenthesis(computed($scope.filter.group));
+        
         //measurement types
         $scope.metypes=res[1].data;
         $scope.showLeEditor=true;
@@ -235,15 +236,30 @@ angular.module('CarreEntrySystem')
               i > 0 && (str += " <b>" + group.operator + "</b> ");
               str += group.rules[i].group ?
                   computed(group.rules[i].group) :
-                  getObservableName(group.rules[i].field) + " " + htmlEntities(group.rules[i].condition) + " " + group.rules[i].data;
+                  getObservableName(group.rules[i].field) + " " + group.rules[i].condition + " " + group.rules[i].data;
           }
-  
+          return str +")";
+      }
+      
+      function computedRaw(group) {
+          if(!$scope.observables) return ""
+          if (!group) return "";
+          
+          var str="(";
+          for (var i = 0; i < group.rules.length; i++) {
+              i > 0 && (str += " " + group.operator + " ");
+              str += group.rules[i].group ?
+                  computed(group.rules[i].group) :
+                  group.rules[i].field + " " + group.rules[i].condition + " " + group.rules[i].data;
+          }
           return str +")";
       }
 
       $scope.$watch('filter', function(newValue) {
         $scope.risk_evidence.condition_json = newValue;
         $scope.output = removeOuterParenthesis(computed(newValue.group, 0, {}));
+        //calculate raw condition
+        $scope.risk_evidence.condition = removeOuterParenthesis(computedRaw(newValue.group, 0, {}));
       }, true);
 
       

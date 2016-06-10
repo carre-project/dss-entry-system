@@ -33,7 +33,7 @@
           </a>
         </label>
         <div>
-          <div class="alert alert-warning" ng-bind-html="output"></div>
+          <div class="alert alert-warning" ng-bind-html="output | prettySigns"></div>
         </div>
         <div uib-collapse="!leEditEnabled">
           <le-editor ng-if="showLeEditor" observables="observables" metypes="metypes" group="filter.group"></le-editor>

@@ -7,6 +7,7 @@
         .filter('trustAsResourceUrl', trustResourceFilter)
         .filter('hideSelected', hideSelected)
         .filter('sliceLast', sliceLast)
+        .filter('prettySigns', prettySigns)
         .filter('propsFilter', propsFilter)
         .filter('exclude', excludeItems);
 
@@ -34,6 +35,14 @@
         return function(item, char) {
             if(!item||item.length<=0||!char||char.length<=0) return ''; 
             return item.substring(item.lastIndexOf(char)+1);
+        };
+    }
+    /** @ngInject */
+    function prettySigns() {
+        return function(val) {
+            console.debug(val);
+            if(!val||val.length<=0) return ''; 
+            else return val.replace(new RegExp(">=", 'g'), '≥').replace(new RegExp("<=", 'g'), '≤')
         };
     }
 

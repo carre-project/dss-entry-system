@@ -5,7 +5,7 @@
     .module('CarreEntrySystem')
     .constant("CONFIG", {
       "currentUser":{},
-      "USECACHE":true,
+      "USECACHE":false,
       "AllowDelete":true,
       "useOfflineMode":true,
       "ENV": "DEV",

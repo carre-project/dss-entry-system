@@ -40,7 +40,10 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG, Carr
 
     /*  Filter educational objects  */
     if (rel === 'has_educational_material') return settings;
-
+    
+    //replace greater than and lower than symbols
+    if (rel === 'has_observable_condition_text') val = val.replace(new RegExp(">=", 'g'), '≥').replace(new RegExp("<=", 'g'), '≤'); 
+    
     /*  Filter BUG-Virtuoso  */
     // if (rel === 'has_risk_evidence_ratio_value' && val==="NAN") {
     //   console.log("BUG-Virtuoso: ",id+': ',val);
