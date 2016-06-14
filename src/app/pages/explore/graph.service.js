@@ -1,11 +1,14 @@
 angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFormatter) {
     
   this.exports = {
-    'network': getNetworkData
+    'network': getNetworkData,
+    'FindIndex':FindIndex,
+    'ratioMinMax':ratioMinMax,
+    'ratioType':ratioType,
   };
   
   // global functions --- not a good practice
-  window.FindIndex=function(arr,val,prop,propVal){
+  function FindIndex(arr,val,prop,propVal){
     prop = prop || 'id';
     if(propVal) val=val[propVal];
     for (var i=0;i<arr.length;i++){
@@ -14,13 +17,13 @@ angular.module('CarreEntrySystem').service('GRAPH', function(CONFIG,CARRE,RdfFor
     return -1;
   };
   
-  window.ratioMinMax=function(evidences){
+  function ratioMinMax(evidences){
     if(!evidences || evidences.length===0) return '';
     var arr=evidences.map(function(rv){return isNaN(rv.rv_ratio_value)?1:parseFloat(rv.rv_ratio_value); }).sort();
     return ": "+ (arr.length===1?arr[0]:arr[0]+"..."+arr[arr.length-1]);
   };
   
-  window.ratioType=function(val){
+  function ratioType(val){
     return val.substring(val.lastIndexOf("risk_evidence_ratio_type_")+25).replace("_"," "); 
   };
   

@@ -140,9 +140,9 @@ angular.module('CarreEntrySystem')
               nodes[node.id]=node;
             });
             data.edges.forEach(function(edge){
-              if(FindIndex(vm.edgesArr,edge.id)===-1&&limit>0) {
-                if(FindIndex(vm.nodesArr,edge.from)===-1) vm.nodesArr.push(nodes[edge.from]);
-                if(FindIndex(vm.nodesArr,edge.to)===-1) vm.nodesArr.push(nodes[edge.to]);
+              if(GRAPH.FindIndex(vm.edgesArr,edge.id)===-1&&limit>0) {
+                if(GRAPH.FindIndex(vm.nodesArr,edge.from)===-1) vm.nodesArr.push(nodes[edge.from]);
+                if(GRAPH.FindIndex(vm.nodesArr,edge.to)===-1) vm.nodesArr.push(nodes[edge.to]);
                 vm.edgesArr.push(edge);
                 limit--;
               }
@@ -156,11 +156,11 @@ angular.module('CarreEntrySystem')
           if(!vm.selectedItem || vm.selectedItem.type!=='node') return false; 
           var elem = vm.selectedItem.obj||{};
           //remove connected edges
-          elem.sourceLinks.forEach(function(link){ vm.edgesArr.splice(FindIndex(vm.edgesArr,link.id), 1); });
-          elem.targetLinks.forEach(function(link){ vm.edgesArr.splice(FindIndex(vm.edgesArr,link.id), 1); });
+          elem.sourceLinks.forEach(function(link){ vm.edgesArr.splice(GRAPH.FindIndex(vm.edgesArr,link.id), 1); });
+          elem.targetLinks.forEach(function(link){ vm.edgesArr.splice(GRAPH.FindIndex(vm.edgesArr,link.id), 1); });
           //remove related nodes
           vm.nodesArr=vm.nodesArr.filter(function(node){ 
-            return FindIndex(vm.edgesArr,node.id,'from')+FindIndex(vm.edgesArr,node.id,'to')>=-1;
+            return GRAPH.FindIndex(vm.edgesArr,node.id,'from')+GRAPH.FindIndex(vm.edgesArr,node.id,'to')>=-1;
           });
           if(d) d3.event.preventDefault();
           //re-render graph
@@ -184,7 +184,7 @@ angular.module('CarreEntrySystem')
             
           graph.links = vm.edgesArr
             .map(function(obj) {
-              if(vm.showRiskEvidences) obj.ratio_type = ratioType(obj.ratio_type);
+              if(vm.showRiskEvidences) obj.ratio_type = GRAPH.ratioType(obj.ratio_type);
               obj.value = Number(obj.ratio)||1;
               obj.source = node_index[obj.from].index;
               obj.target = node_index[obj.to].index;
@@ -250,7 +250,7 @@ angular.module('CarreEntrySystem')
                 .text(function(d) {
                 return d.source.name +" --> "+ d.target.name + (vm.showRiskEvidences
                 ?", "+d.ratio_type+" = "+d.ratio
-                :", "+d.evidences.length+" evidence(s) "+ratioMinMax(d.evidences));
+                :", "+d.evidences.length+" evidence(s) "+GRAPH.ratioMinMax(d.evidences));
               });
               
               // var linkText = svg.append("g")

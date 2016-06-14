@@ -92,9 +92,9 @@ return {
               type = vm.selectedItem.type;
           if(type==='node') label=elem.label;
           else if (type==='link'){
-              label=vm.nodesArr[FindIndex(vm.nodesArr,elem.from)].label
+              label=vm.nodesArr[GRAPH.FindIndex(vm.nodesArr,elem.from)].label
               +" "+elem.label+" "+
-              vm.nodesArr[FindIndex(vm.nodesArr,elem.to)].label;
+              vm.nodesArr[GRAPH.FindIndex(vm.nodesArr,elem.to)].label;
           } else return false;
           content.goTo(id,label);
         };
@@ -108,9 +108,9 @@ return {
               nodes[node.id]=node;
             });
             data.edges.forEach(function(edge){
-              if(FindIndex(vm.edgesArr,edge.id)===-1&&limit>0) {
-                if(FindIndex(vm.nodesArr,edge.from)===-1) vm.nodesArr.push(nodes[edge.from]);
-                if(FindIndex(vm.nodesArr,edge.to)===-1) vm.nodesArr.push(nodes[edge.to]);
+              if(GRAPH.FindIndex(vm.edgesArr,edge.id)===-1&&limit>0) {
+                if(GRAPH.FindIndex(vm.nodesArr,edge.from)===-1) vm.nodesArr.push(nodes[edge.from]);
+                if(GRAPH.FindIndex(vm.nodesArr,edge.to)===-1) vm.nodesArr.push(nodes[edge.to]);
                 vm.edgesArr.push(edge);
                 limit--;
               }
@@ -128,7 +128,7 @@ return {
             return !(link.from===elem.id||link.to===elem.id);
           });          
           vm.nodesArr=vm.nodesArr.filter(function(node){ 
-            return FindIndex(vm.edgesArr,node.id,'from')+FindIndex(vm.edgesArr,node.id,'to')>=-1;
+            return GRAPH.FindIndex(vm.edgesArr,node.id,'from')+GRAPH.FindIndex(vm.edgesArr,node.id,'to')>=-1;
           });
           if(d) {
             
