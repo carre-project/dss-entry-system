@@ -10,6 +10,17 @@ var $ = require('gulp-load-plugins')();
 var wiredep = require('wiredep').stream;
 var _ = require('lodash');
 
+gulp.task('replaceConfig', function() {
+  // Do an in-place replace on file.txt
+  return gulp.src(path.join(conf.paths.dist, '/index.html'))
+    .pipe(replace('CARRE_ENTRY_SYSTEM_LANGUAGE', process.env.CARRE_ENTRY_SYSTEM_LANGUAGE))
+    .pipe(replace('CARRE_ENTRY_SYSTEM_API_URL', process.env.CARRE_ENTRY_SYSTEM_API_URL))
+    .pipe(replace('CARRE_ENTRY_SYSTEM_GRAPH_URL', process.env.CARRE_ENTRY_SYSTEM_GRAPH_URL))
+    .pipe(replace('CARRE_ENTRY_SYSTEM_AUTH_URL', process.env.CARRE_ENTRY_SYSTEM_AUTH_URL))
+    .pipe(gulp.dest(conf.paths.dist));
+});
+
+
 gulp.task('inject', ['scripts'], function () {
   var injectStyles = gulp.src([
     path.join(conf.paths.src, '/app/**/*.css')
