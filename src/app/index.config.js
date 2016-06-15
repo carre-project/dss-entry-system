@@ -9,10 +9,9 @@
   function config(toastrConfig, $httpProvider, cfpLoadingBarProvider,CONFIG) {
     
     //DEFAULT CONFIGURATION
-    CONFIG.CARRE_DEFAULT_GRAPH="<http://carre.kmi.open.ac.uk/public>";
-    CONFIG.CARRE_ARCHIVE_GRAPH="<http://carre.kmi.open.ac.uk/riskdata>";
-    CONFIG.CARRE_DEVICES="https://devices.carre-project.eu/devices/accounts/";
-    // CONFIG.TEST_TOKEN="0213be219dc1821eb2f7b0bbc7c8a6cbe3c3559b";
+    CONFIG.CARRE_DEFAULT_GRAPH="<"+window.CARRE_ENTRY_SYSTEM_CONFIGURATION.graph_url+"public>";
+    CONFIG.CARRE_ARCHIVE_GRAPH="<"+window.CARRE_ENTRY_SYSTEM_CONFIGURATION.graph_url+"riskdata>";
+    CONFIG.CARRE_DEVICES=window.CARRE_ENTRY_SYSTEM_CONFIGURATION.authentication_url;
     
     //EXTERNAL API'S
     CONFIG.BIOPORTAL_API_URL="https://data.bioontology.org/";
@@ -30,7 +29,7 @@
     };
     
     // Language
-    CONFIG.LANG = "en"; //el,lt
+    CONFIG.LANG =window.CARRE_ENTRY_SYSTEM_CONFIGURATION.language || "en"; //el,lt
     CONFIG.LANGPredicates = [
       "risk:has_risk_element_name","risk:has_observable_name","risk:has_measurement_type_name","risk:has_enumeration_values","risk:has_label"
     ];

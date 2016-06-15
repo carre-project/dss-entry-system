@@ -3,6 +3,7 @@
 var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
+var replace = require('gulp-replace');
 
 var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
@@ -58,6 +59,12 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.useref())
     .pipe($.revReplace())
     .pipe(htmlFilter)
+    
+    .pipe(replace('CARRE_ENTRY_SYSTEM_LANGUAGE', process.env.CARRE_ENTRY_SYSTEM_LANGUAGE))
+    .pipe(replace('CARRE_ENTRY_SYSTEM_API_URL', process.env.CARRE_ENTRY_SYSTEM_API_URL))
+    .pipe(replace('CARRE_ENTRY_SYSTEM_GRAPH_URL', process.env.CARRE_ENTRY_SYSTEM_GRAPH_URL))
+    .pipe(replace('CARRE_ENTRY_SYSTEM_AUTH_URL', process.env.CARRE_ENTRY_SYSTEM_AUTH_URL))
+    
     .pipe($.minifyHtml({
       empty: true,
       spare: true,
@@ -95,5 +102,6 @@ gulp.task('other', function () {
 gulp.task('clean', function () {
   return $.del([path.join(conf.paths.dist, '/'), path.join(conf.paths.tmp, '/')]);
 });
+
 
 gulp.task('build', ['html', 'fonts', 'other']);
