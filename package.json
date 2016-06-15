@@ -15,7 +15,8 @@
     "request": "^2.71.1"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "start": "node server/index.js"
   },
   "devDependencies": {
     "browser-sync": "~2.9.11",
