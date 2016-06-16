@@ -23,7 +23,7 @@ app.use(compression());
     
     
 /* CONFIG */
-var SERVER_PORT = process.env.PORT||80;
+var SERVER_PORT = process.env.PORT||3000;
 var PASSWORD = process.env.PASSWORD||'demo1234';
 
 
@@ -96,7 +96,7 @@ app.get('/config.js',(req,res)=> {
 
 
 // redirect all the other routes to index.html
-var root = __dirname + '/..';
+var root = __dirname;
 app.use(express.static(root));
 app.use(fallback('index.html', { root: root }));
 

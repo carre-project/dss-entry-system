@@ -98,10 +98,10 @@ gulp.task('serverstuff', function () {
   });
 
   return gulp.src([
-    path.join(conf.paths.src, '/server/*.js')
+    path.join(conf.paths.src, '/server.js')
   ])
     .pipe(fileFilter)
-    .pipe(gulp.dest(path.join(conf.paths.dist, '/server/')));
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/')));
 });
 
 gulp.task('clean', function () {
