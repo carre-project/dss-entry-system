@@ -1,6 +1,5 @@
 #!/bin/bash
 echo "Update docker image"
-# NODE_ENV=production gulp
 cd dist
 npm install
 git init
