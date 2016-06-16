@@ -24,7 +24,7 @@ app.use(compression());
     
 /* CONFIG */
 var SERVER_PORT = process.env.PORT||3000;
-var PASSWORD = process.env.PASSWORD||'demo1234';
+var PASSWORD = process.env.CLEAR_PASSWORD||'demo1234';
 
 
 
@@ -38,7 +38,6 @@ app.get('/api/refresh_cache/:req_url_id?/:delete?', refreshCache);
 
 //email route
 app.post('/api/sendemail', sendEmail);
-
 
 
 /* Simple secondary routes */
@@ -76,7 +75,6 @@ app.get('/api/clear_cache/:password', (req, res) => {
 
 app.get('/config.js',(req,res)=> {
     res.set('Content-Type', 'text/javascript');
-
     res.status(200).send(
         'window.CARRE_ENTRY_SYSTEM_CONFIGURATION = {' +
         'language:"' + (process.env.CARRE_ENTRY_SYSTEM_LANGUAGE || 'el') + '",' +
@@ -84,15 +82,7 @@ app.get('/config.js',(req,res)=> {
         'authentication_url:"' + (process.env.CARRE_ENTRY_SYSTEM_AUTH_URL || 'https://devices.carre-project.eu/devices/accounts/') + '",' +
         'graph_url:"' + (process.env.CARRE_ENTRY_SYSTEM_GRAPH_URL || 'http://carre.kmi.open.ac.uk/') +
         '"};');
-      
 });
-
-// export NODE_ENV=production
-// export CARRE_ENTRY_SYSTEM_LANGUAGE=en
-// export CARRE_ENTRY_SYSTEM_API_URL=https://carre.kmi.open.ac.uk/ws/
-// export CARRE_ENTRY_SYSTEM_AUTH_URL=https://devices.carre-project.eu/devices/accounts/
-// export CARRE_ENTRY_SYSTEM_GRAPH_URL=http://carre.kmi.open.ac.uk/
-
 
 
 // redirect all the other routes to index.html
@@ -163,7 +153,6 @@ function sendEmail(req, res) {
             console.log('Message sent');
        }
     });
-
     res.status(200).json({msg:'ok'});
 }
 
@@ -183,7 +172,6 @@ function refreshCache(req,res) {
                     if(req.params.delete) db.delete(prop);
                     
                     //push into refreshing cue
-                    
                     results.push('http://localhost'+cacheRequests[prop].req);
                 }
             }
@@ -237,51 +225,3 @@ function handleCarreApiCache(req, res) {
         }
     });
 }
-
-// /* Extra test functions */    
-// setInterval(function(){
-    
-
-// var TestQuery="http://carre.kmi.open.ac.uk:8890/sparql?default-graph-uri=http%3A%2F%2Fcarre.kmi.open.ac.uk%2Friskdata&query=select+*+where+%7B%3Chttp%3A%2F%2Fcarre.kmi.open.ac.uk%2Frisk_evidences%2FRV_16%3E+%3Chttp%3A%2F%2Fcarre.kmi.open.ac.uk%2Fontology%2Frisk.owl%23has_risk_evidence_ratio_value%3E+%3Fratio+%7D+LIMIT+100&should-sponge=&format=application%2Fsparql-results%2Bjson&timeout=0&debug=on";
-
-// request({ url: TestQuery, method: 'GET'}, function(error, response, body) {
-//         if (error) {
-//             console.log(error);
-//         }
-//         else if (body.status == 500) {
-//             console.log(body);
-//         }
-//         else {
-//             var result = JSON.parse(body).results.bindings[0].ratio.value;
-//             console.log("Result:",result);
-                
-//             var sendgrid=nodemailer.createTransport(sgTransport({
-//                 auth: {
-//                     api_key: process.env.SENDGRID_API_KEY||'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'
-//                 }
-//             }));
-            
-//             if(result == "NAN") {
-                
-//                 // send mail
-//                 sendgrid.sendMail({
-//                     from: process.env.EMAIL_FROM || 'entry.system@nporto.com',
-//                     to: process.env.EMAIL_TO || 'portokallidis@gmail.com',
-//                     subject: 'NaN test for RV_16: '+result,
-//                     text: 'NaN test for RV_16: '+result
-//                 }, function(error, response) {
-//                   if (error) {
-//                         console.log(error);
-//                   } else {
-//                         console.log('Message sent');
-//                   }
-//                 });
-//             }
-    
-//         }
-//     });
-
-    
-    
-    
-// },60000);
