@@ -43,10 +43,10 @@ gulp.task('inject', ['scripts'], function () {
   return gulp.src(path.join(conf.paths.src, '/*.html'))
     
     
-    .pipe(replace('CARRE_ENTRY_SYSTEM_LANGUAGE', process.env.CARRE_ENTRY_SYSTEM_LANGUAGE))
-    .pipe(replace('CARRE_ENTRY_SYSTEM_API_URL', process.env.CARRE_ENTRY_SYSTEM_API_URL))
-    .pipe(replace('CARRE_ENTRY_SYSTEM_GRAPH_URL', process.env.CARRE_ENTRY_SYSTEM_GRAPH_URL))
-    .pipe(replace('CARRE_ENTRY_SYSTEM_AUTH_URL', process.env.CARRE_ENTRY_SYSTEM_AUTH_URL))
+    // .pipe(replace('CARRE_ENTRY_SYSTEM_LANGUAGE', process.env.CARRE_ENTRY_SYSTEM_LANGUAGE))
+    // .pipe(replace('CARRE_ENTRY_SYSTEM_API_URL', process.env.CARRE_ENTRY_SYSTEM_API_URL))
+    // .pipe(replace('CARRE_ENTRY_SYSTEM_GRAPH_URL', process.env.CARRE_ENTRY_SYSTEM_GRAPH_URL))
+    // .pipe(replace('CARRE_ENTRY_SYSTEM_AUTH_URL', process.env.CARRE_ENTRY_SYSTEM_AUTH_URL))
     
     .pipe($.inject(injectStyles, injectOptions))
     .pipe($.inject(injectScripts, injectOptions))

@@ -1,6 +1,14 @@
 (function() {
   'use strict';
 
+  window.CARRE_ENTRY_SYSTEM_CONFIGURATION = {
+    language:'en',
+    api_url:'https://carre.kmi.open.ac.uk/ws/',
+    authentication_url:'https://devices.carre-project.eu/devices/accounts/',
+    graph_url:'http://carre.kmi.open.ac.uk/'
+  };
+  
+  
   angular
     .module('CarreEntrySystem')
     .constant("CONFIG", {
