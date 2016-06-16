@@ -76,25 +76,27 @@ app.get('/api/clear_cache/:password', (req, res) => {
 
 app.get('/config.js',(req,res)=> {
     res.set('Content-Type', 'text/javascript');
-      if(process.env.NODE_ENV!=='production') {
-        console.log('NOT sending file',process.env.NODE_ENV)
-          res.status(200).send("");
-      } else {
-        console.log('sending config.js',process.env.NODE_ENV)
-      res.status(200).send(`
-    window.CARRE_ENTRY_SYSTEM_CONFIGURATION = {
-        language:'en',
-        api_url:'https://carre.kmi.open.ac.uk/ws/',
-        authentication_url:'https://devices.carre-project.eu/devices/accounts/',
-        graph_url:'http://carre.kmi.open.ac.uk/'
-      };
-      `);
-      }
+
+    res.status(200).send(
+        'window.CARRE_ENTRY_SYSTEM_CONFIGURATION = {' +
+        'language:"' + (process.env.CARRE_ENTRY_SYSTEM_LANGUAGE || 'el') + '",' +
+        'api_url:"' + (process.env.CARRE_ENTRY_SYSTEM_API_URL || 'https://carre.kmi.open.ac.uk/ws/') + '",' +
+        'authentication_url:"' + (process.env.CARRE_ENTRY_SYSTEM_AUTH_URL || 'https://devices.carre-project.eu/devices/accounts/') + '",' +
+        'graph_url:"' + (process.env.CARRE_ENTRY_SYSTEM_GRAPH_URL || 'http://carre.kmi.open.ac.uk/') +
+        '"};');
+      
 });
+
+// export NODE_ENV=production
+// export CARRE_ENTRY_SYSTEM_LANGUAGE=en
+// export CARRE_ENTRY_SYSTEM_API_URL=https://carre.kmi.open.ac.uk/ws/
+// export CARRE_ENTRY_SYSTEM_AUTH_URL=https://devices.carre-project.eu/devices/accounts/
+// export CARRE_ENTRY_SYSTEM_GRAPH_URL=http://carre.kmi.open.ac.uk/
+
 
 
 // redirect all the other routes to index.html
-var root = __dirname + '/../dist';
+var root = __dirname + '/..';
 app.use(express.static(root));
 app.use(fallback('index.html', { root: root }));
 

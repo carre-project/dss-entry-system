@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "Update docker image"
+# NODE_ENV=production gulp
+cd dist
+git init
+git remote add docker git@github.com:carre-project/carre-entry-system-docker.git
+git add .
+git commit -am"docker image update"
+git push -f docker master
+cd ..
