@@ -1,10 +1,13 @@
 #!/bin/bash
-echo "Deploy to Docker PRODUCTION server..."
+echo "deploy changes"
 cd dist
 npm install
 git init
+git remote add docker git@github.com:carre-project/carre-entry-system-docker.git
 git remote add deploy dokku@athina.med.duth.gr:carre-entry-system
 git add .
-git commit -am"deploy"
+git commit -am"deploy to production server"
 git push -f deploy master
+git commit -am"docker image update"
+git push -f docker master
 cd ..
