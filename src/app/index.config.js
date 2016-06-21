@@ -8,10 +8,22 @@
   /** @ngInject */
   function config(toastrConfig, $httpProvider, cfpLoadingBarProvider,CONFIG) {
     
-    //DEFAULT CONFIGURATION
+    
+    // SYSTEM_CONFIGURATION
+    var defaults = {
+      language:'en',
+      api_url:'https://carre.kmi.open.ac.uk/ws/',
+      cache_url:'https://carre.kmi.open.ac.uk/ws/',
+      authentication_url:'https://devices.carre-project.eu/devices/accounts/',
+      graph_url:'http://carre.kmi.open.ac.uk/'
+    };
+    window.CARRE_ENTRY_SYSTEM_CONFIGURATION = angular.isObject(window.CARRE_ENTRY_SYSTEM_CONFIGURATION)?angular.extend(defaults, window.CARRE_ENTRY_SYSTEM_CONFIGURATION):defaults;
+    
     CONFIG.CARRE_DEFAULT_GRAPH="<"+window.CARRE_ENTRY_SYSTEM_CONFIGURATION.graph_url+"public>";
     CONFIG.CARRE_ARCHIVE_GRAPH="<"+window.CARRE_ENTRY_SYSTEM_CONFIGURATION.graph_url+"riskdata>";
     CONFIG.CARRE_DEVICES=window.CARRE_ENTRY_SYSTEM_CONFIGURATION.authentication_url;
+    CONFIG.CARRE_API_URL=window.CARRE_ENTRY_SYSTEM_CONFIGURATION.api_url;
+    CONFIG.CARRE_CACHE_URL=window.CARRE_ENTRY_SYSTEM_CONFIGURATION.cache_url;
     
     //EXTERNAL API'S
     CONFIG.BIOPORTAL_API_URL="https://data.bioontology.org/";

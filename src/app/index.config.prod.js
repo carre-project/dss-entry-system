@@ -7,9 +7,7 @@
       "currentUser":{},
       "USECACHE":true,
       "ENV": "PROD",
-      "useOfflineMode":true,
-      "CARRE_API_URL": window.CARRE_ENTRY_SYSTEM_CONFIGURATION.api_url,
-      "CARRE_CACHE_URL": window.CARRE_ENTRY_SYSTEM_CONFIGURATION.cache_url
+      "useOfflineMode":true
     }).config(function($locationProvider, $compileProvider, $urlRouterProvider) {
       
       //show error
