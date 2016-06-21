@@ -1,11 +1,11 @@
 #!/bin/bash
 
-LANG=${LANGUAGE:=en} 
-API=${API_URL:=https://devices.carre-project.eu/ws/} 
-CACHE=${CACHE_URL:=https://cache.carre-project.eu/} 
-AUTH=${AUTH_URL:=https://devices.carre-project.eu/devices/accounts/} 
-GRAPH=${GRAPH_URL:=http://carre.kmi.open.ac.uk/} 
+LANG=${LANGUAGE:-en} 
+API=${API_URL:-https://devices.carre-project.eu/ws/} 
+CACHE=${CACHE_URL:-https://cache.carre-project.eu/} 
+AUTH=${AUTH_URL:-https://devices.carre-project.eu/devices/accounts/} 
+GRAPH=${GRAPH_URL:-http://carre.kmi.open.ac.uk/} 
 
-REPLACE_OBJECT="{language:\"$LANGUAGE\",api:\"$API\",cache:\"$CACHE\",authentication:\"$AUTH\",graph:\"$GRAPH\"}"
+REPLACE_OBJECT="{language:\"$LANG\",api_url:\"$API\",cache_url:\"$CACHE\",authentication_url:\"$AUTH\",graph_url:\"$GRAPH\"}"
 sed "s|CARRE_ENTRY_SYSTEM_CONFIGURATION_REPLACE_OBJECT|$REPLACE_OBJECT|" index.html >new.html
 mv new.html index.html

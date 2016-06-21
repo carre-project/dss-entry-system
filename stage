@@ -1,0 +1,10 @@
+#!/bin/bash
+cd dist
+git init
+git config --global user.email "portokallidis@gmail.com"
+git config --global user.name "Nick Portokallidis"
+git remote add deploy dokku@athina.med.duth.gr:carre-entry-system-beta
+git add .
+git commit -am"update distribution"
+git push -f deploy master
+cd ..

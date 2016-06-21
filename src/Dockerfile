@@ -1,10 +1,11 @@
 FROM nginx
 
-COPY . /usr/share/nginx/html
+WORKDIR /usr/share/nginx/html
+COPY . ./
+
 
 ENV PORT 80
 
-RUN rm /etc/nginx/conf.d/default.conf && mv /usr/share/nginx/html/nginx.conf.default /etc/nginx/nginx.conf && cd /usr/share/nginx/html && ./env && rm env
-
+RUN rm /etc/nginx/conf.d/*.conf && mv /usr/share/nginx/html/nginx.conf.default /etc/nginx/conf.d/nginx.conf && ./env && rm env && nginx -t && nginx
 
 EXPOSE 80

@@ -1,7 +1,6 @@
 #!/bin/bash
 echo "deploy changes"
 cd dist
-./env
 git init
 git remote add docker git@github.com:carre-project/carre-entry-system-docker.git
 git remote add deploy dokku@athina.med.duth.gr:carre-entry-system
