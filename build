@@ -1,5 +1,5 @@
 #!/bin/bash
-
+rm -r dist
 export NODE_ENV=production
 gulp build
 export NODE_ENV=development

@@ -18,7 +18,7 @@
       "useOfflineMode":true,
       "ENV": "DEV",
       "CARRE_API_URL": window.CARRE_ENTRY_SYSTEM_CONFIGURATION.api_url,
-      "CARRE_CACHE_URL": "/api/"
+      "CARRE_CACHE_URL": window.CARRE_ENTRY_SYSTEM_CONFIGURATION.cache_url
     })
     .config(function($locationProvider, $compileProvider, $urlRouterProvider) {
 

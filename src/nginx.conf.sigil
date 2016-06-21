@@ -15,7 +15,7 @@ server {
 
   access_log  /var/log/nginx/{{ .APP }}-access.log;
   error_log   /var/log/nginx/{{ .APP }}-error.log;
-
+  
   ssl_certificate     {{ .APP_SSL_PATH }}/server.crt;
   ssl_certificate_key {{ .APP_SSL_PATH }}/server.key;
 

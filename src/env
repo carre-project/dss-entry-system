@@ -1,0 +1,4 @@
+#!/bin/bash
+REPLACE_OBJECT="{language:\"$LANGUAGE\",api_url:\"$API_URL\",cache_url:\"$CACHE_URL\",authentication_url:\"$AUTH_URL\",graph_url:\"$GRAPH_URL\"}"
+sed "s|CARRE_ENTRY_SYSTEM_CONFIGURATION_REPLACE_OBJECT|$REPLACE_OBJECT|" index.html >new.html
+mv new.html index.html
