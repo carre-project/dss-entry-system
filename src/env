@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LANG=${LANGUAGE:=en} 
-API=${API_URL:=https://carre.kmi.open.ac.uk/ws/} 
+API=${API_URL:=https://devices.carre-project.eu/ws/} 
 CACHE=${CACHE_URL:=https://cache.carre-project.eu/} 
 AUTH=${AUTH_URL:=https://devices.carre-project.eu/devices/accounts/} 
 GRAPH=${GRAPH_URL:=http://carre.kmi.open.ac.uk/} 
