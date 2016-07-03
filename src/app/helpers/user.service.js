@@ -13,7 +13,7 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
         },200);
       });
     return deferred.promise;
-  }
+  };
   this.getUser=function(){
     console.log('User authentication called');
     var deferred = $q.defer();
