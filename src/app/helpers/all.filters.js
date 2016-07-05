@@ -40,7 +40,6 @@
     /** @ngInject */
     function prettySigns() {
         return function(val) {
-            console.debug(val);
             if(!val||val.length<=0) return ''; 
             else return val.replace(new RegExp(">=", 'g'), '≥').replace(new RegExp("<=", 'g'), '≤')
         };

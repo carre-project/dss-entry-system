@@ -110,13 +110,10 @@ angular.module('CarreEntrySystem')
       //Save to RDF method
       $scope.saveModel=function(){
         
-        console.debug("Citation type:", $scope.citation.type);
         $scope.citation.type = $scope.citation.studyType[0];
         delete $scope.citation.studyType;
         
         Citations.save($scope.model,$scope.citation).then(function(res){
-          //success
-          console.debug('Citation saved',res,$scope.citation);
           if(!res) return;
           $scope.$emit('citation:save');
           toastr.success('<b>Citation with PMID:'+$scope.citation.pubmedId+'</b>'+($scope.model.id?' has been updated':' has been created'),'<h4>Citations saved</h4>');

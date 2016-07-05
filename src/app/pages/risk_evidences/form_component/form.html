@@ -71,14 +71,7 @@
       </div>
 
       <div class="form-group" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
-        <label>Evidence source
-          <!--<a href="" -->
-          <!--  popover-is-open="showNewCitation" -->
-          <!--  uib-popover-template="'newStudyTypeTemplate.html'" -->
-          <!--  popover-title="New Citation" -->
-          <!--  class="btn btn-xs btn-default" -->
-          <!--  ng-click="newCitation()">New <i class="fa fa-plus"></i></a>-->
-        </label>
+        <label>Evidence source</label>
         <ui-select on-select="viewPubmed($item,$model)" class="ui-select-big-text" ng-model="risk_evidence.evidence_source" theme="bootstrap">
           <ui-select-match placeholder="Select evidence source">
             <div>{{$select.selected.title}}</div>
@@ -120,13 +113,13 @@
   </div>
 
   <script type="text/ng-template" id="newCitationTemplate.html">
-    <carre-element ng-if="showAddCitation" type="citation" mode="create" elem="currentCitation"></carre-element>
+    <carre-element ng-if="showAddCitation" type="citation" mode="create" elem="{pubmedId:risk_evidence.pubmedId,noPubmed:true}"></carre-element>
   </script>
   <div class="col-sm-6">
     <label>Pubmed Id 
     
     <a href="" 
-      ng-if="!risk_evidence.evidence_source"
+      ng-show="!risk_evidence.evidence_source"
       popover-is-open="showAddCitation" 
       popover-placement="bottom"
       uib-popover-template="'newCitationTemplate.html'" 

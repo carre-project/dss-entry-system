@@ -21,8 +21,6 @@ angular.module('CarreEntrySystem')
       $scope.bioportalAutocompleteResults = [];
       
       $scope.$on('citation:save',function(res){
-        
-        console.debug("Event Fired",res);
         $scope.showAddCitation=false;
         
         // get citations
@@ -30,23 +28,15 @@ angular.module('CarreEntrySystem')
           $scope.citations = res.data.map(function(obj) {
             var label=[];
             if(obj.has_citation_summary_label) label=obj.has_citation_summary_label.split('.');
-              return {
-                value: obj.id||"",
-                pubmed:obj.has_citation_pubmed_identifier[0]||"",
-                title: label[1]||"",
-                authors: label[0]||"",
-                date: label[2]||""
-              };
-            });
-          
-          $scope.risk_evidence.evidence_source = $scope.citations
-          .filter(function(ci){
-            return ci.pubmed === $scope.risk_evidence.pubmedId;
-          })
-          .map(function(ci){
-            return ci.value;
-          })[0];  
-          
+            return {
+              value: obj.id||"",
+              pubmed:obj.has_citation_pubmed_identifier[0]||"",
+              title: label[1]||"",
+              authors: label[0]||"",
+              date: label[2]||""
+            };
+          });
+           updateSelectedCitation();
         });
         
         // $state.go($state.current, $stateParams, {reload: true, inherit: false});
@@ -65,7 +55,7 @@ angular.module('CarreEntrySystem')
           ratio_value:$scope.model.has_risk_evidence_ratio_value?parseFloat($scope.model.has_risk_evidence_ratio_value[0]):0,
           confidence_interval_min:$scope.model.has_confidence_interval_min?parseFloat($scope.model.has_confidence_interval_min[0]):0,
           confidence_interval_max:$scope.model.has_confidence_interval_max?parseFloat($scope.model.has_confidence_interval_max[0]):0,
-          risk_factor:$scope.model.has_risk_factor,
+          risk_factor:$scope.model.has_risk_factor[0],
           pubmedId:$scope.model.has_risk_evidence_source_label,
           evidence_source:$scope.model.has_risk_evidence_source[0],
           condition: $scope.model.has_observable_condition,
@@ -109,11 +99,6 @@ angular.module('CarreEntrySystem')
         };
 
 
-      }
-      
-      $scope.currentCitation = {
-        pubmedId:$scope.risk_evidence.pubmedId,
-        noPubmed:true
       }
       
       $scope.adjusted_for=[];
@@ -191,6 +176,7 @@ angular.module('CarreEntrySystem')
                 date: label[2]||""
               };
             });
+            updateSelectedCitation();
         });
         
       // }
@@ -250,6 +236,7 @@ angular.module('CarreEntrySystem')
         $scope.showPubmed=false;
         $timeout(function(){
           $scope.showPubmed=true;
+          updateSelectedCitation();
         },200);
       }
       
@@ -257,14 +244,25 @@ angular.module('CarreEntrySystem')
         //init Pubmed Fetch
         $scope.risk_evidence.pubmedId=item.pubmed;
         loadPubmed();
+      };
+      
+      function updateSelectedCitation(){
+        $timeout(function() {
+          $scope.risk_evidence.evidence_source = $scope.CIbyPMID($scope.citations,$scope.risk_evidence.pubmedId);
+        }, 0);
       }
+      
+      $scope.CIbyPMID=function(citations,pmid){
+        if(!citations||!pmid) return null;
+        else return citations.filter(function(ci){ return ci.pubmed === pmid; }).map(function(ci){ return ci.value;  })[0];  
+      };
 
-      function htmlEntities(str) {
-        return String(str).replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      }
+      // function htmlEntities(str) {
+      //   return String(str).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      // }
 
       function computed(group) {
-          if(!$scope.observables) return ""
+          if(!$scope.observables) return "";
           if (!group) return "";
           
           var str="(";
@@ -278,7 +276,7 @@ angular.module('CarreEntrySystem')
       }
       
       function computedRaw(group) {
-          if(!$scope.observables) return ""
+          if(!$scope.observables) return "";
           if (!group) return "";
           
           var str="(";
@@ -328,7 +326,7 @@ angular.module('CarreEntrySystem')
           if(obj.group.rules) {
             obj.group.rules.forEach(function(condition){
               cleanseCondition(condition);
-            })
+            });
           }
         }
       }
