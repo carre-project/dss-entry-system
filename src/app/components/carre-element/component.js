@@ -14,7 +14,7 @@ angular.module('CarreEntrySystem')
         'notFields': '@',
         'hidePubmed': '@'
       },
-      controller: function($rootScope, $scope, $timeout, content, CONFIG, VisibleFields, Observables, Risk_elements, Risk_factors, Measurement_types, Citations, Medical_experts, Risk_evidences) {
+      controller: function($rootScope, $state, $scope, $timeout, content, CONFIG, VisibleFields, Observables, Risk_elements, Risk_factors, Measurement_types, Citations, Medical_experts, Risk_evidences) {
         
         var vm = $scope;
         vm.current = vm.elem || {};
@@ -40,32 +40,42 @@ angular.module('CarreEntrySystem')
         function renderElement(type,id) {
           type = type || content.typeFromId(id).raw;
           vm.type=type;
+          console.log("Element ID: ",id);
+          console.log("Element sub: ", id.substring(0,2));
+          
           //setup type
           switch (type) {
             case 'risk_element':
-              getRisk_element(id);
+              if(id.substring(0,2)!=="RL") $state.go("404_error");
+              else getRisk_element(id);
               break;
             case 'risk_factor':
-              getRisk_factor(id);
+              if(id.substring(0,2)!=="RF") $state.go("404_error");
+              else getRisk_factor(id);
               break;
             case 'risk_evidence':
-              getRisk_evidence(id);
+              if(id.substring(0,2)!=="RV") $state.go("404_error");
+              else getRisk_evidence(id);
               break;
             case 'observable':
-              getObservable(id);
+              if(id.substring(0,2)!=="OB") $state.go("404_error");
+              else getObservable(id);
               break;
             case 'citation':
-              getCitation(id);
+              if(id.substring(0,2)!=="CI") $state.go("404_error");
+              else getCitation(id);
               break;
             case 'measurement_type':
-              getMeasurement_type(id);
+              if(id.substring(0,2)!=="ME") $state.go("404_error");
+              else getMeasurement_type(id);
               break;
             case 'medical_expert':
               // code
               break;
             
             default:
-              // code
+            console.log("Type not found :", type);
+            $state.go("404_error");
           }
         }
         
@@ -126,6 +136,8 @@ angular.module('CarreEntrySystem')
                   label: content.labelOf(field)
                 };
               });
+            } else {
+             console.log("No risk_evidence with id:",id); 
             }
           });
         }

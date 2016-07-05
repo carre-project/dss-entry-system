@@ -10,7 +10,7 @@ angular.module('CarreEntrySystem')
     scope: {
       'model': '='
     },
-    controller: function($scope, Citations, Observables, Bioportal, Risk_factors, Risk_evidences, toastr,$timeout,Measurement_types,$q) {
+    controller: function($rootScope, $scope, $state, $stateParams, Citations, Observables, Bioportal, Risk_factors, Risk_evidences, toastr,$timeout,Measurement_types,$q) {
       
       $scope.copyModel={};
       angular.copy($scope.model,$scope.copyModel);
@@ -20,7 +20,37 @@ angular.module('CarreEntrySystem')
       $scope.model = $scope.model || {};
       $scope.bioportalAutocompleteResults = [];
       
-      
+      $scope.$on('citation:save',function(res){
+        
+        console.debug("Event Fired",res);
+        $scope.showAddCitation=false;
+        
+        // get citations
+        Citations.get().then(function(res) {
+          $scope.citations = res.data.map(function(obj) {
+            var label=[];
+            if(obj.has_citation_summary_label) label=obj.has_citation_summary_label.split('.');
+              return {
+                value: obj.id||"",
+                pubmed:obj.has_citation_pubmed_identifier[0]||"",
+                title: label[1]||"",
+                authors: label[0]||"",
+                date: label[2]||""
+              };
+            });
+          
+          $scope.risk_evidence.evidence_source = $scope.citations
+          .filter(function(ci){
+            return ci.pubmed === $scope.risk_evidence.pubmedId;
+          })
+          .map(function(ci){
+            return ci.value;
+          })[0];  
+          
+        });
+        
+        // $state.go($state.current, $stateParams, {reload: true, inherit: false});
+      })
 
       if ($scope.model.id) {
 
@@ -52,9 +82,6 @@ angular.module('CarreEntrySystem')
           }
         };
 
-        //init Pubmed Fetch
-        loadPubmed();
-
 
       }
       else {
@@ -74,7 +101,8 @@ angular.module('CarreEntrySystem')
         //Init Form object
         $scope.risk_evidence = {
           observables:[],
-          pubmedId:'',
+          pubmedId:$scope.model.pubmedId||'',
+          evidence_source: $scope.model.citation||'',
           risk_factor:'',
           condition_text: "",
           adjusted_for:[]
@@ -83,81 +111,89 @@ angular.module('CarreEntrySystem')
 
       }
       
-      
-      
-      //Get combined requests done in an async way!
-      $q.all([Observables.get(),Measurement_types.get()]).then(function(res){
-        console.log('Promises',res);      
-        
-        //observables
-        //auto select initial
-        var selected=[];
-        $scope.observables = res[0].data.map(function(obj) {
-            
-            var result= {
-              value: obj.id_label,
-              id: obj.id,
-              label: obj.has_observable_name_label,
-              metype_label: obj.has_observable_measurement_type_label,
-              metype_id: obj.has_observable_measurement_type[0]
-            };
-            
-            if($scope.model.id) {
-              if($scope.model.has_risk_evidence_observable.indexOf(obj.id)>=0) selected.push(obj.id);
-            }
-            
-            return result;
-          });
-        $scope.risk_evidence.observables=selected;
-        
-        
-        $scope.output=removeOuterParenthesis(computed($scope.filter.group));
-        
-        //measurement types
-        $scope.metypes=res[1].data;
-        $scope.showLeEditor=true;
-      })
-      
-      //get risk evidence adjusted for
+      $scope.currentCitation = {
+        pubmedId:$scope.risk_evidence.pubmedId,
+        noPubmed:true
+      }
       
       $scope.adjusted_for=[];
-      Risk_evidences.adjusted_for().then(function(res){
-        console.log('adjusted_for',res);
-        $scope.adjusted_for=res;
+    
+      
+      // function loadExternalData() {
+      
+        //Get combined requests done in an async way!
+        $q.all([Observables.get(),Measurement_types.get()]).then(function(res){
+          console.log('Promises',res);      
+          
+          //observables
+          //auto select initial
+          var selected=[];
+          $scope.observables = res[0].data.map(function(obj) {
+              
+              var result= {
+                value: obj.id_label,
+                id: obj.id,
+                label: obj.has_observable_name_label,
+                metype_label: obj.has_observable_measurement_type_label,
+                metype_id: obj.has_observable_measurement_type[0]
+              };
+              
+              if($scope.model.id) {
+                if($scope.model.has_risk_evidence_observable.indexOf(obj.id)>=0) selected.push(obj.id);
+              }
+              
+              return result;
+            });
+          $scope.risk_evidence.observables=selected;
+          
+          
+          $scope.output=removeOuterParenthesis(computed($scope.filter.group));
+          
+          //measurement types
+          $scope.metypes=res[1].data;
+          $scope.showLeEditor=true;
+        })
         
-        //initial selection
-        if($scope.model.is_adjusted_for instanceof Array) {
-          $scope.risk_evidence.adjusted_for=$scope.model.is_adjusted_for[0].split(',').map(function(str){
-            return str.trim().toLocaleLowerCase();
-          });
-        }
-      });
-      
-      
-      //get risk factors
-      Risk_factors.get().then(function(res) {
-        $scope.risk_factors = res.data.map(function(obj) {
-            return {
-              value: obj.id,
-              label: obj.has_risk_factor_source_label+' ['+obj.has_risk_factor_association_type_label+'] '+obj.has_risk_factor_target_label
-            };
-          });
-      });
-      
-      //get citations
-      Citations.get().then(function(res) {
-        $scope.citations = res.data.map(function(obj) {
-          var label=[];
-          if(obj.has_citation_summary_label) label=obj.has_citation_summary_label.split('.');
-            return {
-              value: obj.id,
-              pubmed:obj.has_citation_pubmed_identifier[0],
-              title: label[1],
-              authors: label[0],
-              date: label[2]
-            };
-          });
-      });
+        //get risk evidence adjusted for
+        Risk_evidences.adjusted_for().then(function(res){
+          console.log('adjusted_for',res);
+          $scope.adjusted_for=res;
+          
+          //initial selection
+          if($scope.model.is_adjusted_for instanceof Array) {
+            $scope.risk_evidence.adjusted_for=$scope.model.is_adjusted_for[0].split(',').map(function(str){
+              return str.trim().toLocaleLowerCase();
+            });
+          }
+        });
+        
+        
+        //get risk factors
+        Risk_factors.get().then(function(res) {
+          $scope.risk_factors = res.data.map(function(obj) {
+              return {
+                value: obj.id,
+                label: obj.has_risk_factor_source_label+' ['+obj.has_risk_factor_association_type_label+'] '+obj.has_risk_factor_target_label
+              };
+            });
+        });
+        
+        //get citations
+        Citations.get().then(function(res) {
+          $scope.citations = res.data.map(function(obj) {
+            var label=[];
+            if(obj.has_citation_summary_label) label=obj.has_citation_summary_label.split('.');
+              return {
+                value: obj.id||"",
+                pubmed:obj.has_citation_pubmed_identifier[0]||"",
+                title: label[1]||"",
+                authors: label[0]||"",
+                date: label[2]||""
+              };
+            });
+        });
+        
+      // }
 
       //ratio types
       $scope.ratiotypes = [{
@@ -299,7 +335,10 @@ angular.module('CarreEntrySystem')
       
       console.info('Model: ', $scope.model);
       console.info('Form params: ', $scope.risk_evidence);
-
+      
+      //init Pubmed Fetch
+      loadPubmed();
+      // loadExternalData();
     }
   };
 });

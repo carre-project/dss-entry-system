@@ -13,7 +13,7 @@
     var defaults = {
       language:'en',
       api_url:'https://carre.kmi.open.ac.uk/ws/',
-      cache_url:'https://carre.kmi.open.ac.uk/ws/',
+      cache_url:'https://cache.carre-project.eu/',
       authentication_url:'https://devices.carre-project.eu/devices/accounts/',
       graph_url:'http://carre.kmi.open.ac.uk/'
     };
@@ -128,6 +128,8 @@
             else {
               // document.location.href = '/500_API_ERROR';
               console.log('The remote server seems to be busy at the moment. Please try again in 5 minutes');
+              
+              return $q.reject(response);
             }
           }
           else {

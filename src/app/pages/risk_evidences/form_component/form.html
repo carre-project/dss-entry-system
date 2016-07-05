@@ -119,8 +119,22 @@
 
   </div>
 
+  <script type="text/ng-template" id="newCitationTemplate.html">
+    <carre-element ng-if="showAddCitation" type="citation" mode="create" elem="currentCitation"></carre-element>
+  </script>
   <div class="col-sm-6">
-    <label>Pubmed Id</label>
+    <label>Pubmed Id 
+    
+    <a href="" 
+      ng-if="!risk_evidence.evidence_source"
+      popover-is-open="showAddCitation" 
+      popover-placement="bottom"
+      uib-popover-template="'newCitationTemplate.html'" 
+      popover-title="Create a new citation and add it to the collection" 
+      class="btn btn-xs btn-default" 
+      ng-click="">Add to Citations <i class="fa fa-plus"></i></a>
+      
+    </label>
     <input type="text" name="name" placeholder="Enter pubmed Id" class="form-control" ng-change="loadPubmed()" ng-model="risk_evidence.pubmedId" required>
     <carre-view-pubmed ng-if="showPubmed" id="{{risk_evidence.pubmedId}}"></carre-view-pubmed>
   </div>

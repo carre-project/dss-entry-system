@@ -15,16 +15,20 @@ angular.module('CarreEntrySystem')
       // $scope.pubmedId = $scope.pubmedId || null;
       $scope.model = $scope.model || {};
       $scope.pubmedAutocompleteResults = [];
+      
+      $scope.noPubmed = $scope.model.noPubmed;
 
       //citation study types
       $scope.types=[];
-      $scope.addStudyType=function(item,model){
-        console.log(item,model);
-        if($scope.types.indexOf(item)===-1 && item) {
-          $scope.types.push(item);
-          $scope.showNewType=false;
-        }
-      };
+      // $scope.addStudyType=function(item,model){
+      //   console.log("Add study type");
+      //   console.log(item,model);
+      //   return item;
+      //   // if($scope.types.indexOf(item)===-1 && item) {
+      //   //   $scope.types.push(item);
+      //   //   $scope.showNewType=false;
+      //   // }
+      // };
 
       Citations.types().then(function(res){
         console.log('Citation types',res);
@@ -38,10 +42,10 @@ angular.module('CarreEntrySystem')
         if(item.title) summary=item.authorString+"; "+item.title+" "+
                 item.journalTitle+" "+item.pubYear+";"+
                 item.journalVolume+"("+item.issue+"):"+item.pageInfo+"."+
-                " doi:"+item.doi;
+                " doi:"+item.doi||"0000";
                 
-        $scope.citation.pubmedId=item.pmid||$scope.citation.pubmedId;
-        $scope.citation.summary=summary || $scope.citation.summary;
+        $scope.citation.pubmedId=item.pmid || $scope.citation.pubmedId;
+        $scope.citation.summary=JSON.stringify(summary || $scope.citation.summary).slice(1, -1);
         $scope.loadPubmed();
       };
       
@@ -105,13 +109,20 @@ angular.module('CarreEntrySystem')
       
       //Save to RDF method
       $scope.saveModel=function(){
+        
+        console.debug("Citation type:", $scope.citation.type);
+        $scope.citation.type = $scope.citation.studyType[0];
+        delete $scope.citation.studyType;
+        
         Citations.save($scope.model,$scope.citation).then(function(res){
           //success
-          console.log('Citation saved',res);
-          
+          console.debug('Citation saved',res,$scope.citation);
+          if(!res) return;
           $scope.$emit('citation:save');
           toastr.success('<b>Citation with PMID:'+$scope.citation.pubmedId+'</b>'+($scope.model.id?' has been updated':' has been created'),'<h4>Citations saved</h4>');
 
+        },function(err){
+          console.error("Error saving citation",$scope.citation)
         });
       };
       //Return back
@@ -136,6 +147,8 @@ angular.module('CarreEntrySystem')
         
         //run pubmed search
         $scope.searchPubmed($scope.citation.pubmedId);
+        
+        $scope.citation.studyType=[$scope.citation.type]
 
       }
       else {

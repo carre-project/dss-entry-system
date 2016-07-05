@@ -24,6 +24,21 @@
         templateUrl: 'app/pages/risk_evidences/list.html',
         url: ''
       })
+      .state('main.risk_evidences.createWithId', {
+        templateUrl: 'app/pages/risk_evidences/single/single.html',
+        controller: 'risk_evidencesSingleController',
+        controllerAs: 'risk_evidence',
+        url: '/create/:pubmedId',
+        data: {
+          permissions: {
+            only: ['authenticated_user'],
+            redirectTo: function(rejectedPromise) {
+              window.location.replace(window.location.href.replace('/edit','').replace('/create',''));
+            }        
+            
+          }
+        }
+      })
       .state('main.risk_evidences.create', {
         templateUrl: 'app/pages/risk_evidences/single/single.html',
         controller: 'risk_evidencesSingleController',

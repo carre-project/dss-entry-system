@@ -257,7 +257,7 @@ WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 risk:has_external_pre
     // use token
     if (Auth.cookie) params.token = Auth.cookie;
     return $http.post(CONFIG.CARRE_API_URL + 'query', params).then(function(res){
-      if(res.data==='No JSON object could be decoded') {
+      if(res.data==='No JSON object could be decoded'||res.status===500||res.status===404||res.status===401) {
         console.error(res);
         toastr.error('<p>'+res.data+'</p>','<h4>Oh Error</h4>');
         return $q.reject(res);
