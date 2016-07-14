@@ -15,12 +15,12 @@
       api_url:'https://carre.kmi.open.ac.uk/ws/',
       cache_url:'https://cache.carre-project.eu/',
       authentication_url:'https://devices.carre-project.eu/devices/accounts/',
-      graph_url:'http://carre.kmi.open.ac.uk/'
+      graph_url:'carre.kmi.open.ac.uk'
     };
     window.CARRE_ENTRY_SYSTEM_CONFIGURATION = angular.isObject(window.CARRE_ENTRY_SYSTEM_CONFIGURATION)?angular.extend(defaults, window.CARRE_ENTRY_SYSTEM_CONFIGURATION):defaults;
     
-    CONFIG.CARRE_DEFAULT_GRAPH="<"+window.CARRE_ENTRY_SYSTEM_CONFIGURATION.graph_url+"public>";
-    CONFIG.CARRE_ARCHIVE_GRAPH="<"+window.CARRE_ENTRY_SYSTEM_CONFIGURATION.graph_url+"riskdata>";
+    CONFIG.CARRE_DEFAULT_GRAPH="<http://"+window.CARRE_ENTRY_SYSTEM_CONFIGURATION.graph_url+"/public>";
+    CONFIG.CARRE_ARCHIVE_GRAPH="<http://"+window.CARRE_ENTRY_SYSTEM_CONFIGURATION.graph_url+"/riskdata>";
     CONFIG.CARRE_DEVICES=window.CARRE_ENTRY_SYSTEM_CONFIGURATION.authentication_url;
     CONFIG.CARRE_API_URL=window.CARRE_ENTRY_SYSTEM_CONFIGURATION.api_url;
     CONFIG.CARRE_CACHE_URL=window.CARRE_ENTRY_SYSTEM_CONFIGURATION.cache_url;
@@ -41,7 +41,7 @@
     };
     
     // Language
-    CONFIG.LANG =window.CARRE_ENTRY_SYSTEM_CONFIGURATION.language || "en"; //el,lt
+    CONFIG.LANG = window.CARRE_ENTRY_SYSTEM_CONFIGURATION.language || "en"; //el,lt
     CONFIG.LANGPredicates = [
       "risk:has_risk_element_name","risk:has_observable_name","risk:has_measurement_type_name","risk:has_enumeration_values","risk:has_label"
     ];

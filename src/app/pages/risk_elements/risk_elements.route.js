@@ -25,12 +25,6 @@
         controllerAs: 'risk_elements',
         url: ''
       })
-      .state('main.risk_elements.view', {
-        templateUrl: 'app/pages/risk_elements/single/single.html',
-        controller: 'risk_elementsSingleController',
-        controllerAs: 'risk_element',
-        url: '/:id'
-      })
       .state('main.risk_elements.create', {
         templateUrl: 'app/pages/risk_elements/single/single.html',
         controller: 'risk_elementsSingleController',
@@ -45,6 +39,12 @@
             
           }
         }
+      })
+      .state('main.risk_elements.view', {
+        templateUrl: 'app/pages/risk_elements/single/single.html',
+        controller: 'risk_elementsSingleController',
+        controllerAs: 'risk_element',
+        url: '/:id'
       })
       .state('main.risk_elements.edit', {
         templateUrl: 'app/pages/risk_elements/single/single.html',

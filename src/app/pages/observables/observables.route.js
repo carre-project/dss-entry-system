@@ -23,12 +23,6 @@
         templateUrl: 'app/pages/observables/list.html',
         url: ''
       })
-      .state('main.observables.view', {
-        controller: 'observablesSingleController',
-        templateUrl: 'app/pages/observables/single/single.html',
-        controllerAs: 'observable',
-        url: '/:id'
-      })
       .state('main.observables.create', {
         templateUrl: 'app/pages/observables/single/single.html',
         controller: 'observablesSingleController',
@@ -59,6 +53,12 @@
           }
         }
         
+      })
+      .state('main.observables.view', {
+        controller: 'observablesSingleController',
+        templateUrl: 'app/pages/observables/single/single.html',
+        controllerAs: 'observable',
+        url: '/:id'
       });
   }
 
