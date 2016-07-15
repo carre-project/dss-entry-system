@@ -8,5 +8,6 @@ GRAPH=${GRAPH_URL:-carre.kmi.open.ac.uk}
 
 REPLACE_OBJECT="{language:\"$LANG\",api_url:\"$API\",cache_url:\"$CACHE\",authentication_url:\"$AUTH\",graph_url:\"$GRAPH\"}"
 sed "s|'CARRE_ENTRY_SYSTEM_CONFIGURATION_REPLACE_OBJECT'|$REPLACE_OBJECT|" index.html >new.html
+echo "Loaded configuration: "$REPLACE_OBJECT
 mv new.html index.html
 nginx -g 'daemon off;'

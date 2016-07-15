@@ -8,6 +8,57 @@ angular.module('CarreEntrySystem').filter('translateMapping', function(CarreTran
     
     "en": {
         //global
+        "loading_please_wait":"Please wait...",
+        "create_btn":"Create new",
+        "cancel_btn":"Cancel",
+        "submit_btn":"Submit",
+        "back_btn":"Back",
+        "view_btn":"View",
+        "edit_btn":"Edit",
+        
+        "uigrid_total_items":"Total items",
+        "uigrid_showing_items":"Showing items",
+        "uigrid_items_per_page":"items per page",
+        "uigrid_items":"items",
+        "uigrid_menu_clear_filters":"Clear all filters",
+        "uigrid_menu_columns":"Columns",
+        "uigrid_menu_export_all":"Export all data as",
+        "uigrid_menu_export_visual":"Export visible data as",
+        
+        "carre_risk_elements":"Risk elements",
+        "carre_risk_factors":"Risk factors",
+        "carre_risk_evidences":"Risk evidences",
+        "carre_risk_observables":"Observables",
+        "carre_risk_measurement_types":"Risk elements",
+        "carre_risk_citations":"Citations",
+        
+        "header_greeting":"Hello",
+        "header_login":"Login",
+        "header_logout":"Logout",
+        "header_settings":"Settings",
+        "header_guest":"guest",
+        "header_change_password":"Change password",
+        
+        "sidebar_about":"About",
+        "sidebar_dashboard":"Dashboard",
+        "sidebar_explore":"Explore",
+        "sidebar_carre_elements":"CARRE elements",
+        "sidebar_medical_experts":"Medical Experts",
+        
+        "pages_dashboard_box_unreviewed":"unreviewed!",
+        
+        "pages_explore_graph_search":"Graph search by risk elements",
+        "pages_explore_visualization_type":"Visualization Type",
+        "pages_explore_sankey_graph":"Sankey graph",
+        "pages_explore_network_graph":"Network graph",
+        "pages_explore_chord_graph":"Chord graph",
+        "pages_explore_reset_btn":"Reset",
+        "pages_explore_search_btn":"Search",
+        "pages_explore_examples_btn":"Examples",
+        "pages_explore_recommend_btn":"Recommend",
+        "pages_explore_options_btn":"Options",
+        "pages_explore_show_details_btn":"Show details",
+        "pages_explore_hide_details_btn":"Hide details",
         
         "has_author":"Entered by",
         "has_reviewer":"Reviewed by",
@@ -276,4 +327,9 @@ angular.module('CarreEntrySystem').filter('translateMapping', function(CarreTran
     else return (showOnlyIfExists?"--Not-Available-Translation--":str);
   };
   
-}]);
+}])
+  .filter('translate',function(Translate){
+    return function(input){
+      return Translate(input);
+    }
+  });
