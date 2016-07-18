@@ -201,7 +201,7 @@ angular.module('CarreEntrySystem')
         }
         
         function rdfSource(id){
-          return CONFIG.CARRE_API_URL.substring(CONFIG.CARRE_API_URL.indexOf("://")+3,CONFIG.CARRE_API_URL.indexOf("/ws"))+":8890/sparql?query=DESCRIBE <"+id+">&format=text/plain";
+          return "http://"+CONFIG.CARRE_API_URL.substring(CONFIG.CARRE_API_URL.indexOf("://")+3,CONFIG.CARRE_API_URL.indexOf("/ws"))+":8890/sparql?query=DESCRIBE <"+id+">&format=text/plain";
         }
         
       }
