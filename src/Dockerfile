@@ -1,5 +1,7 @@
 FROM nginx
 
+MAINTAINER Nick Portokallidis <portokallidis@gmail.com>
+
 WORKDIR /usr/share/nginx/html
 COPY . ./
 
