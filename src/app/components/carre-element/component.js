@@ -23,7 +23,6 @@ angular.module('CarreEntrySystem')
         if(vm.elemId) {
           //init
           renderElement(vm.type,vm.elemId);
-          
           //setup watcher
           // WATCHER delete before restart;
           if($rootScope.elementViewerWatcher) $rootScope.elementViewerWatcher();
@@ -91,6 +90,8 @@ angular.module('CarreEntrySystem')
                 label: content.labelOf(field)
               };
             });
+            vm.rdf_source = rdfSource(vm.current.id);
+          
         }
         
         
@@ -107,6 +108,8 @@ angular.module('CarreEntrySystem')
                   label: content.labelOf(field)
                 };
               });
+              vm.rdf_source = rdfSource(vm.current.id);
+          
             }
           });
         }
@@ -121,6 +124,8 @@ angular.module('CarreEntrySystem')
                   label: content.labelOf(field)
                 };
               });
+              vm.rdf_source = rdfSource(vm.current.id);
+          
             }
           });
         }
@@ -136,6 +141,8 @@ angular.module('CarreEntrySystem')
                   label: content.labelOf(field)
                 };
               });
+              vm.rdf_source = rdfSource(vm.current.id);
+          
             } else {
              console.log("No risk_evidence with id:",id); 
             }
@@ -153,6 +160,8 @@ angular.module('CarreEntrySystem')
                   label: content.labelOf(field)
                 };
               });
+              vm.rdf_source = rdfSource(vm.current.id);
+          
             }
           });
         }
@@ -167,6 +176,8 @@ angular.module('CarreEntrySystem')
                   label: content.labelOf(field)
                 };
               });
+              vm.rdf_source = rdfSource(vm.current.id);
+          
             }
           });
         }
@@ -182,8 +193,15 @@ angular.module('CarreEntrySystem')
                   label: content.labelOf(field)
                 };
               });
+              
+              vm.rdf_source = rdfSource(vm.current.id);
+          
             }
           });
+        }
+        
+        function rdfSource(id){
+          return CONFIG.CARRE_API_URL.substring(CONFIG.CARRE_API_URL.indexOf("://")+1,CONFIG.CARRE_API_URL.indexOf("/ws"))+":8890/sparql?query=DESCRIBE <"+id+">&format=text/plain";
         }
         
       }
