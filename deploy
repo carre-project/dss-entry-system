@@ -6,6 +6,8 @@ git remote add docker git@github.com:carre-project/carre-entry-system-docker.git
 git remote add deploy dokku@athina.med.duth.gr:carre-entry-system
 git add .
 git commit -am"update distribution"
+git tag -a 0.2 -m "0.2 version"
 git push -f deploy master
 git push -f docker master
+git push --tags docker master
 cd ..
