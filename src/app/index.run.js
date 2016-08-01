@@ -16,7 +16,7 @@
     }
 
     /** @ngInject */
-    function runBlock($rootScope,$state,$location,CONFIG) {
+    function runBlock($rootScope,$state,$location,CONFIG,$http) {
             
 
         // allow language change hack
@@ -65,6 +65,14 @@
         //         b: parseInt(result[3], 16)
         //     } : null;
         // }
+        
+        // load language file
+        
+        window.CARRE_TRANSLATIONS = {'el':{},'lt':{},'en':{}};
+        $http.get('/translation.'+CONFIG.LANG+'.json',{cache:true}).then(function(res){
+            console.debug(res);
+            window.CARRE_TRANSLATIONS[CONFIG.LANG] = res.data;
+        });
 
     }
 
