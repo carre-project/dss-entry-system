@@ -1,0 +1,145 @@
+{
+    "__global":"__",
+    
+    "loading_please_wait": "Please wait...",
+    "create_btn": "Create new",
+    "cancel_btn": "Cancel",
+    "submit_btn": "Submit",
+    "back_btn": "Back",
+    "view_btn": "View",
+    "edit_btn": "Edit",
+
+    "uigrid_total_items": "Total items",
+    "uigrid_showing_items": "Showing items",
+    "uigrid_items_per_page": "items per page",
+    "uigrid_items": "items",
+    "uigrid_menu_clear_filters": "Clear all filters",
+    "uigrid_menu_columns": "Columns",
+    "uigrid_menu_export_all": "Export all data as",
+    "uigrid_menu_export_visual": "Export visible data as",
+
+    "carre_risk_elements": "Risk elements",
+    "carre_risk_factors": "Risk factors",
+    "carre_risk_evidences": "Risk evidences",
+    "carre_risk_observables": "Observables",
+    "carre_risk_measurement_types": "Risk elements",
+    "carre_risk_citations": "Citations",
+
+    "header_greeting": "Hello",
+    "header_login": "Login",
+    "header_logout": "Logout",
+    "header_settings": "Settings",
+    "header_guest": "guest",
+    "header_change_password": "Change password",
+
+    "sidebar_about": "About",
+    "sidebar_dashboard": "Dashboard",
+    "sidebar_explore": "Explore",
+    "sidebar_carre_elements": "CARRE elements",
+    "sidebar_medical_experts": "Medical Experts",
+
+    "pages_dashboard_box_unreviewed": "unreviewed!",
+
+    "pages_explore_graph_search": "Graph search by risk elements",
+    "pages_explore_visualization_type": "Visualization Type",
+    "pages_explore_sankey_graph": "Sankey graph",
+    "pages_explore_network_graph": "Network graph",
+    "pages_explore_chord_graph": "Chord graph",
+    "pages_explore_reset_btn": "Reset",
+    "pages_explore_search_btn": "Search",
+    "pages_explore_examples_btn": "Examples",
+    "pages_explore_recommend_btn": "Recommend",
+    "pages_explore_options_btn": "Options",
+    "pages_explore_show_details_btn": "Show details",
+    "pages_explore_hide_details_btn": "Hide details",
+
+    "has_author": "Entered by",
+    "has_reviewer": "Reviewed by",
+
+    "__medical_expert":"__",
+    
+
+    "has_firstname": "First name",
+    "has_lastname": "Last name",
+    "has_medical_specialty": "Medical specialty",
+    "has_medical_position": "Medical position",
+    "has_short_cv": "Short CV",
+    "has_personal_page_url": "Personal website",
+    "has_user_graph": "User graph",
+
+    "__observable":"__",
+    
+
+    "has_observable_name": "Name",
+    "has_observable_acronym": "Acronym",
+    "has_observable_type": "Type",
+    "has_external_type": "External Vocabulary",
+    "has_external_predicate": "Sensors",
+    "has_observable_measurement_type": "Measurement type",
+
+    "observable_type_personal": "personal",
+    "observable_type_clinical": "clinical",
+    "observable_type_other": "other",
+
+    "__risk element":"__",
+    
+
+    "has_risk_element_name": "Name",
+    "has_risk_element_identifier": "UMLS Identifier",
+    "has_risk_element_type": "Type",
+    "has_risk_element_modifiable_status": "Modifiable status",
+    "has_risk_element_observable": "Observable",
+    "has_risk_element_observable_condition": "Observable condition",
+    "includes_risk_element": "Includes",
+
+    "risk_element_type_biomedical": "biomedical",
+    "risk_element_type_demographic": "demographic",
+    "risk_element_type_behavioural": "behavioural",
+    "risk_element_type_intervention": "intervention",
+    "risk_element_type_genetic": "genetic",
+    "risk_element_type_environmental": "environmental",
+
+    "__risk factor":"__",
+    
+
+    "has_risk_factor_source": "Source",
+    "has_risk_factor_target": "Target",
+    "has_risk_factor_association_type": "Association type",
+    "risk_factor_association_type_is_an_issue_in": "is an issue in",
+    "risk_factor_association_type_causes": "causes",
+    "risk_factor_association_type_reduces": "reduces",
+    "risk_factor_association_type_elevates": "elevates",
+
+    "__risk evidence":"__",
+    
+
+    "has_risk_factor": "Risk factor",
+    "has_risk_evidence_observable": "Observable",
+    "has_observable_condition": "Observable condition",
+    "has_observable_condition_text": "Observable condition",
+    "has_risk_evidence_ratio_type": "Ratio type",
+    "has_risk_evidence_ratio_value": "Ratio value",
+    "has_confidence_interval_min": "Confidence Interval min",
+    "has_confidence_interval_max": "Confidence Interval max",
+    "is_adjusted_for": "Is adjusted for",
+    "has_risk_evidence_source": "Source",
+    "risk_evidence_ratio_type_hazard_ratio": "hazard ratio",
+    "risk_evidence_ratio_type_odds_ratio": "odds ratio",
+    "risk_evidence_ratio_type_relative_risk": "relative risk",
+    "risk_evidence_ratio_type_risk_ratio": "risk ratio",
+
+    "__citation":"__",
+    
+    "has_citation_pubmed_identifier": "Pubmed Identifier",
+    "has_citation_summary": "Summary",
+    "has_citation_source_type": "Study type",
+    "has_citation_source_level": "Study level",
+
+    "__measurement types":"__",
+    
+    "has_measurement_type_name": "Name",
+    "has_datatype": "Datatype",
+    "has_label": "Unit",
+    "has_enumeration_values": "Values",
+    "has_external_unit": "External Vocabulary"
+}
