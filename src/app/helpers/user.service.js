@@ -27,6 +27,9 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
         if (res.data.username.indexOf("(")===0) {
           Email.bug({data:res.data,title:"RDF server is down"});
           CONFIG.currentUser = {'guest':true};
+        } else if(res.error) {
+          CONFIG.currentUser = {'guest':true};
+          
         } else {
         
           CONFIG.currentUser=res.data;
