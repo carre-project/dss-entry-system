@@ -16,10 +16,11 @@
     }
 
     /** @ngInject */
-    function runBlock($rootScope,$state,$location,CONFIG,$http) {
+    function runBlock($rootScope,$state,$location,CONFIG,$http,$cookies) {
             
 
         // allow language change hack
+        CONFIG.LANG = $cookies.get('CARRE_LANG');
         if($location.search().lang) {
           CONFIG.LANG = $location.search().lang;
         }

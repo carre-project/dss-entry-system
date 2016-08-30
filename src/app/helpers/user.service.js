@@ -24,12 +24,12 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
       $http.get(CONFIG.CARRE_API_URL + 'userProfile?token=' + this.cookie,{cache:true,timeout:5000}).then(function(res) {
         
         //check if virtuoso is down
-        if (res.data.username.indexOf("(")===0) {
-          Email.bug({data:res.data,title:"RDF server is down"});
+        if (res.data.error) {
           CONFIG.currentUser = {'guest':true};
-        } else if(res.error) {
-          CONFIG.currentUser = {'guest':true};
-          
+          console.log(res.data.error);
+        } else if (res.data.username.indexOf("(")===0) {
+            Email.bug({data:res.data,title:"RDF server is down"});
+            CONFIG.currentUser = {'guest':true};
         } else {
         
           CONFIG.currentUser=res.data;
