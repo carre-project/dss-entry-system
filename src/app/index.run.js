@@ -20,7 +20,7 @@
             
 
         // allow language change hack
-        CONFIG.LANG = $cookies.get('CARRE_LANG');
+        CONFIG.LANG = $cookies.get('CARRE_LANG')||"en";
         if($location.search().lang) {
           CONFIG.LANG = $location.search().lang;
         }
