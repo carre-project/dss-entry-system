@@ -5,7 +5,7 @@
     .module('CarreEntrySystem')
     .constant("CONFIG", {    
       "currentUser":{},
-      "USECACHE":true,
+      "USECACHE":false,
       "ENV": "PROD",
       "useOfflineMode":true
     }).config(function($locationProvider, $compileProvider, $urlRouterProvider) {

@@ -19,12 +19,6 @@
     function runBlock($rootScope,$state,$location,CONFIG,$http,$cookies) {
             
 
-        // allow language change hack
-        CONFIG.LANG = $cookies.get('CARRE_LANG')||"en";
-        if($location.search().lang) {
-          CONFIG.LANG = $location.search().lang;
-        }
-        
         // check if it is embeded
         if($location.search().embed) {
             
@@ -67,8 +61,15 @@
         //     } : null;
         // }
         
-        // load language file
         
+        // allow language change hack
+        var lang_cookie = $cookies.get('CARRE_LANG')
+        CONFIG.LANG = lang_cookie&&lang_cookie.length===2?lang_cookie:"en";
+        if($location.search().lang) {
+          CONFIG.LANG = $location.search().lang;
+        }
+        
+        // load language file
         window.CARRE_TRANSLATIONS = {'el':{},'lt':{},'en':{}};
         $http.get('/translation.'+CONFIG.LANG+'.json',{cache:true}).then(function(res){
             console.debug(res);

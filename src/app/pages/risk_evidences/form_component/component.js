@@ -191,9 +191,6 @@ angular.module('CarreEntrySystem')
       }, {
         label: "Relative risk",
         value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_evidence_ratio_type_relative_risk"
-      }, {
-        label: "Risk ratio",
-        value: "http://carre.kmi.open.ac.uk/ontology/risk.owl#risk_evidence_ratio_type_risk_ratio"
       }];
       
       

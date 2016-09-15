@@ -1,5 +1,4 @@
 {
-    //global
     "loading_please_wait": "Please wait...",
     "create_btn": "Create new",
     "cancel_btn": "Cancel",
@@ -55,7 +54,6 @@
     "has_author": "Entered by",
     "has_reviewer": "Reviewed by",
 
-    //medical_expert
 
     "has_firstname": "First name",
     "has_lastname": "Last name",
@@ -65,7 +63,6 @@
     "has_personal_page_url": "Personal website",
     "has_user_graph": "User graph",
 
-    //observable
 
     "has_observable_name": "Name",
     "has_observable_acronym": "Acronym",
@@ -78,7 +75,6 @@
     "observable_type_clinical": "clinical",
     "observable_type_other": "other",
 
-    //risk element
 
     "has_risk_element_name": "Name",
     "has_risk_element_identifier": "UMLS Identifier",
@@ -95,7 +91,6 @@
     "risk_element_type_genetic": "genetic",
     "risk_element_type_environmental": "environmental",
 
-    //risk factor
 
     "has_risk_factor_source": "Source",
     "has_risk_factor_target": "Target",
@@ -105,7 +100,6 @@
     "risk_factor_association_type_reduces": "reduces",
     "risk_factor_association_type_elevates": "elevates",
 
-    //risk evidence
 
     "has_risk_factor": "Risk factor",
     "has_risk_evidence_observable": "Observable",
@@ -122,13 +116,11 @@
     "risk_evidence_ratio_type_relative_risk": "relative risk",
     "risk_evidence_ratio_type_risk_ratio": "risk ratio",
 
-    //citation
     "has_citation_pubmed_identifier": "Pubmed Identifier",
     "has_citation_summary": "Summary",
     "has_citation_source_type": "Study type",
     "has_citation_source_level": "Study level",
 
-    //measurement types
     "has_measurement_type_name": "Name",
     "has_datatype": "Datatype",
     "has_label": "Unit",

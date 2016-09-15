@@ -1,4 +1,4 @@
-angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cookies,$state,$q,$timeout, Email) {
+angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cookies,$state,$q,$timeout, Email, $location, $window) {
 
   // Retrieving a cookie and set initial user object
   this.cookie = $cookies.get('CARRE_USER') || CONFIG.TEST_TOKEN || '';
@@ -25,6 +25,8 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
         
         //check if virtuoso is down
         if (res.data.error) {
+          Email.bug({data:CONFIG.CARRE_DEVICES+'logout?next='+$location.absUrl(),title:"Invalid Token, Redirect url"});
+          $window.location.href=CONFIG.CARRE_DEVICES+'logout?next='+$location.absUrl();
           CONFIG.currentUser = {'guest':true};
           console.log(res.data.error);
         } else if (res.data.username.indexOf("(")===0) {
