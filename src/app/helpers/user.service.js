@@ -4,11 +4,11 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
   this.cookie = $cookies.get('CARRE_USER') || CONFIG.TEST_TOKEN || '';
   this.isLoggedIn=function(){
     var deferred = $q.defer();
-    if(CONFIG.currentUser.username) deferred.resolve(CONFIG.currentUser); 
+    if(CONFIG.currentUser.role) deferred.resolve(CONFIG.currentUser); 
     else if(CONFIG.currentUser.guest) deferred.reject('Guest users not allowed to do this!'); 
     else this.getUser().then(function(){
         $timeout(function(){
-          if(CONFIG.currentUser.username) deferred.resolve(CONFIG.currentUser); 
+          if(CONFIG.currentUser.role) deferred.resolve(CONFIG.currentUser); 
           else if(CONFIG.currentUser.guest) deferred.reject('Guest users not allowed to do this!'); 
         },200);
       });
@@ -18,7 +18,7 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
     console.log('User authentication called');
     var deferred = $q.defer();
     
-    if(CONFIG.currentUser.username||CONFIG.currentUser.guest) deferred.resolve(CONFIG.currentUser);
+    if(CONFIG.currentUser.role||CONFIG.currentUser.guest) deferred.resolve(CONFIG.currentUser);
     //validate cookie token with userProfile api function and get username userGraph
     else if (this.cookie.length > 0) {
       $http.get(CONFIG.CARRE_API_URL + 'userProfile?token=' + this.cookie,{cache:true,timeout:5000}).then(function(res) {
@@ -31,6 +31,10 @@ angular.module('CarreEntrySystem').service('Auth', function($http, CONFIG, $cook
           console.log(res.data.error);
         } else if (res.data.username.indexOf("(")===0) {
             Email.bug({data:res.data,title:"RDF server is down"});
+            CONFIG.currentUser = {'guest':true};
+        } else if (!res.data.role) {
+            Email.bug({data:res.data,title:"User is not a doctor"});
+            console.warn("User is not a doctor",res);
             CONFIG.currentUser = {'guest':true};
         } else {
         

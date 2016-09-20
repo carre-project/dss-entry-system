@@ -46,7 +46,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.sourcemaps.init())
     .pipe($.ngAnnotate())        
     .pipe($.stripDebug())
-    .pipe($.uglify()).on('error', conf.errorHandler('Uglify'))
+    .pipe($.uglify({mangle:false})).on('error', conf.errorHandler('Uglify'))
     .pipe($.sourcemaps.write('maps'))
     .pipe(jsFilter.restore)
     .pipe(cssFilter)
