@@ -3,7 +3,7 @@
         <ul class="nav in" id="side-menu">
             <!--<sidebar-search></sidebar-search>-->
             <li>
-                <a href=""  style="border:none; text-align:left;" class="btn btn-default" ng-click="showAbout=!showAbout"><i class="fa fa-info"></i> About</a>
+                <a href=""  style="border:none; text-align:left;" class="btn btn-default" ng-click="showAbout=!showAbout"><i class="fa fa-question-circle"></i> Help</a>
             </li>
             <li>
                 <a ui-sref="main.dashboard" ui-sref-active-if="main.dashboard"> Dashboard</a>
@@ -50,7 +50,6 @@
             <a href="" ng-click="showAbout=!showAbout" class="btn btn-primary pull-left"><i class="fa fa-times fa-lg"></i></a>
         </div>
         <div class="row" style="padding:50px; margin-top:0; padding-top:0; overflow: auto; height: 90%;">            
-            <h2 class="header"> About</h2>
             <div autoscroll ng-include src="'app/about/about.html'"></div>
         </div>
     </div>
