@@ -12,7 +12,7 @@
     // SYSTEM_CONFIGURATION
     var defaults = {
       language:'en',
-      api_url:'https://carre.kmi.open.ac.uk/ws/',
+      api_url:'https://devices.duth.carre-project.eu/ws/',
       cache_url:'https://cache.carre-project.eu/',
       authentication_url:'https://devices.carre-project.eu/devices/accounts/',
       graph_url:'carre.kmi.open.ac.uk'

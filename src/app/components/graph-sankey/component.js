@@ -23,7 +23,7 @@ angular.module('CarreEntrySystem')
         vm.customHeight=0;
         
         vm.alwaysOnDetails=true;
-        vm.showRiskEvidences=true;
+        vm.showRiskEvidences=false;
         vm.onlyCore= false;
         
         
@@ -299,7 +299,9 @@ angular.module('CarreEntrySystem')
               .attr("height", function(d) {
                 return d.dy;
               })
-              .attr("width", sankey.nodeWidth())
+              .attr("width", 
+                sankey.nodeWidth()
+              )
               .style("stroke", function(d, i) {
                 return vm.riskid?(d.color||'#aaaaaa'):CONFIG.COLORS[i]; // = color(i);
               })
@@ -320,7 +322,7 @@ angular.module('CarreEntrySystem')
               .attr("y", function(d) {
                 return d.dy / 2;
               })
-              .attr("dy", "0.36em")
+              .attr("dy", "0.50em")
               .attr("text-anchor", "end")
               .attr("transform", null)
               .text(function(d) {
@@ -331,7 +333,8 @@ angular.module('CarreEntrySystem')
               })
               .attr("x", 6 + sankey.nodeWidth())
               .attr("text-anchor", "start");
-
+              
+              
             // the function for moving the nodes
           function dragmove(d) {
               d3.select(this).attr("transform",
