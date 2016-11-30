@@ -1,8 +1,17 @@
 {
   "name": "CarreEntrySystem",
   "version": "0.0.2",
-  "dependencies": {},
+  "dependencies": {
+    "bluebird": "^3.3.3",
+    "body-parser": "^1.15.0",
+    "compression": "^1.6.1",
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "express-history-api-fallback": "^2.0.0",
+    "request": "^2.71.1"
+  },
   "scripts": {
+    "start": "node dist/server.js",
     "test": "gulp test"
   },
   "devDependencies": {
