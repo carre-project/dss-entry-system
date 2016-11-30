@@ -1,0 +1,8 @@
+{
+    apps: [{
+        name: "dss-entry-system-production",
+        script: "server.js",
+        args: ". -p 3002",
+        cwd: process.env.HOME + "/carre-dss-entry/live",
+    }]
+}

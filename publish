@@ -1,0 +1,8 @@
+#!/bin/bash
+rm -rf dist
+export NODE_ENV=production
+gulp build
+export NODE_ENV=development
+rm -rf live
+mv dist live
+pm2 restart ecosystem.json
