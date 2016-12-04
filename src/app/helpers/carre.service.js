@@ -105,13 +105,16 @@ WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 dss:has_external_pred
     var listQuery = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
              ?subject a dss:" + type + "; ?predicate ?object. \n\
               OPTIONAL {    \n\
+               ?object a dss:risk_alert. \n\
+               ?object dss:has_risk_alert_name ?has_risk_alert_name  \n\
+              } \n\
+              OPTIONAL {    \n\
                ?object a dss:dss_message. \n\
                ?object dss:has_message_name ?has_message_name  \n\
               } \n\
               OPTIONAL {    \n\
                ?object a dss:calculated_observable. \n\
-               ?object dss:has_calculated_observable_name ?has_calculated_observable_name  \n\
-              "+langFilter('?has_calculated_observable_name')+" \n\
+               ?object dss:has_calculated_observable_name ?has_calculated_observable_name \n\
               } \n\
               ";
 
@@ -157,7 +160,8 @@ WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 dss:has_external_pred
       'predicate',
       'object',
       'has_message_name',
-      'has_calculated_observable_name'
+      'has_calculated_observable_name',
+      'has_risk_alert_name'
       ];
     if( cache_id ) { 
       // USE CACHE

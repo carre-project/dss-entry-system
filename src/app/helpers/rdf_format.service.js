@@ -113,7 +113,7 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG, Carr
     settings.data=settings.data.map(function(obj) {
       var cat = '';
       for (var prop in obj) {
-        if ( prop.indexOf('_label_arr') > 0 && prop.indexOf('has_risk_alert_condition')===-1) {
+        if ( prop.indexOf('_label_arr') > 0 && prop.indexOf('risk_alert_condition')===-1) {
           //select only props : has_....._label
           obj[prop]=obj[prop].map(function(term) {
             if (settings.mappings.hasOwnProperty(term)) {
@@ -122,12 +122,12 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG, Carr
                 // case 'CI':
                 //   // make label for observables
                 //   return settings.mappings[term].has_citation_pubmed_identifier;
-                // case 'OB':
-                //   // make label for observables
-                //   return settings.mappings[term].has_observable_name;
-                // case 'ME':
-                //   // make label for measurent types
-                //   return settings.mappings[term].has_measurement_type_name;
+                case 'OB':
+                  // make label for observables
+                  return settings.mappings[term].has_observable_name;
+                case 'ME':
+                  // make label for measurent types
+                  return settings.mappings[term].has_measurement_type_name;
                 // case 'RF':
                 //   // make label for risk factor    
                 //   return settings.mappings[term].has_source_risk_element_name +

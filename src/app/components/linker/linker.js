@@ -21,22 +21,22 @@ angular.module('CarreEntrySystem')
         
         //handle medical experts
         if ($scope.property === 'has_author' || $scope.property === 'has_reviewer') {
-            Medical_experts.get().then(function(res) {
-              var USERS={}
-              res.data.forEach(function(user){
-                USERS[user.has_graph_uri_label]=user;
-              });
+            // Medical_experts.get().then(function(res) {
+            //   var USERS={}
+            //   res.data.forEach(function(user){
+            //     USERS[user.has_graph_uri_label]=user;
+            //   });
               
-              label_arr = $scope.model[$scope.property + '_label_arr'];
-              $scope.show = 'links';
-              label_arr.forEach(function(username){
-                var user = USERS[username];
-                  $scope.items.push({
-                    link: (CONFIG.ENV === 'PROD' ? '' : '#/') + "medical_experts/" + user.id_label,
-                    label: user.has_firstname_label+' '+user.has_lastname_label
-                  });
-              })
-            });
+            //   label_arr = $scope.model[$scope.property + '_label_arr'];
+            //   $scope.show = 'links';
+            //   label_arr.forEach(function(username){
+            //     var user = USERS[username];
+            //       $scope.items.push({
+            //         link: (CONFIG.ENV === 'PROD' ? '' : '#/') + "medical_experts/" + user.id_label,
+            //         label: user.has_firstname_label+' '+user.has_lastname_label
+            //       });
+            //   })
+            // });
         } else //handle condition
             if ($scope.property === 'has_risk_alert_condition') {
           $scope.show='condition';
@@ -72,7 +72,7 @@ angular.module('CarreEntrySystem')
                   // make label for observables
                   type = 'calculated_observables/';
                   break;
-                case 'M.':
+                case 'DM':
                   // make label for risk element
                   type = 'dss_messages/';
                   break;

@@ -14,7 +14,7 @@ angular.module('CarreEntrySystem')
         'notFields': '@',
         'hidePubmed': '@'
       },
-      controller: function($rootScope, $state, $scope, $timeout, content, CONFIG, VisibleFields, Calculated_observables, Risk_alerts, DSS_messages,Risk_elements, Risk_factors, Measurement_types, Citations, Medical_experts, Risk_evidences) {
+      controller: function($rootScope, $state, $scope, $timeout, content, CONFIG, VisibleFields, Calculated_observables, Risk_alerts, DSS_messages,Measurement_types) {
         
         var vm = $scope;
         vm.current = vm.elem || {};
@@ -56,33 +56,13 @@ angular.module('CarreEntrySystem')
               if(id.substring(0,2)!=="CO") $state.go("404_error");
               else getCalculated_observable(id);
               break;
-            // case 'risk_element':
-            //   if(id.substring(0,2)!=="RL") $state.go("404_error");
-            //   else getRisk_element(id);
-            //   break;
-            // case 'risk_factor':
-            //   if(id.substring(0,2)!=="RF") $state.go("404_error");
-            //   else getRisk_factor(id);
-            //   break;
-            // case 'risk_alert':
-            //   if(id.substring(0,2)!=="RV") $state.go("404_error");
-            //   else getRisk_evidence(id);
-            //   break;
-            // case 'observable':
-            //   if(id.substring(0,2)!=="OB") $state.go("404_error");
-            //   else getObservable(id);
-            //   break;
-            // case 'citation':
-            //   if(id.substring(0,2)!=="CI") $state.go("404_error");
-            //   else getCitation(id);
-            //   break;
-            // case 'measurement_type':
-            //   if(id.substring(0,2)!=="ME") $state.go("404_error");
-            //   else getMeasurement_type(id);
-            //   break;
-            // case 'medical_expert':
-            //   // code
-            //   break;
+            case 'measurement_type':
+              if(id.substring(0,2)!=="ME") $state.go("404_error");
+              else getMeasurement_type(id);
+              break;
+            case 'medical_expert':
+              // code
+              break;
             
             default:
             console.log("Type not found :", type);
@@ -242,23 +222,23 @@ angular.module('CarreEntrySystem')
         //   });
         // }
         
-        // function getMeasurement_type(id) {
-        //   var visibleFields=VisibleFields('measurement_type','single',vm.notFields.split(','));
-        //   vm.loading=Measurement_types.get([id]).then(function(res) {
-        //     if (res.data) {
-        //       vm.current = res.data[0];
-        //       vm.fields = visibleFields.map(function(field) {
-        //         return {
-        //           value: field,
-        //           label: content.labelOf(field)
-        //         };
-        //       });
+        function getMeasurement_type(id) {
+          var visibleFields=VisibleFields('measurement_type','single',vm.notFields.split(','));
+          vm.loading=Measurement_types.get([id]).then(function(res) {
+            if (res.data) {
+              vm.current = res.data[0];
+              vm.fields = visibleFields.map(function(field) {
+                return {
+                  value: field,
+                  label: content.labelOf(field)
+                };
+              });
               
-        //       vm.rdf_source = rdfSource(vm.current.id);
+              vm.rdf_source = rdfSource(vm.current.id);
           
-        //     }
-        //   });
-        // }
+            }
+          });
+        }
         
         function rdfSource(id){
           return "http://"+CONFIG.CARRE_API_URL.substring(CONFIG.CARRE_API_URL.indexOf("://")+3,CONFIG.CARRE_API_URL.indexOf("/ws"))+"/sparql?query=DESCRIBE <"+id+">&format=text/plain";

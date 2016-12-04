@@ -70,6 +70,27 @@ angular.module('CarreEntrySystem').service('VisibleFields', function() {
         "has_arg_how_many_max_days_before",
         "has_arg_treshold_value"
       ]
+    },
+    "measurement_type": {
+      "single": [
+        // "type",      
+        // "id",
+        "has_measurement_type_name",
+        "has_enumeration_values",
+        "has_label",
+        "has_datatype",
+        "has_external_unit"
+      ],
+      "list": [
+        'has_measurement_type_name',
+        'has_datatype',
+        'has_label',
+        'has_enumeration_values'
+      ]
+    },
+    "medical_expert": {
+      "single": [],
+      "list": []
     }
     
   };
