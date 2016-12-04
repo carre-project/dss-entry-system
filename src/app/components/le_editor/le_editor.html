@@ -10,7 +10,7 @@
         <div ng-repeat="rule in group.rules track by $index| orderBy:'index'" class="condition">
             <div ng-switch="rule.hasOwnProperty('group')">
                 <div ng-switch-when="true">
-                    <le-editor observables="observables" metypes="metypes" group="rule.group"></le-editor>
+                    <le-editor calculated_observables="calculated_observables" metypes="metypes" group="rule.group"></le-editor>
                 </div>
                 <div ng-switch-default="ng-switch-default">
                     <div class="form-inline">
@@ -18,9 +18,9 @@
                             <div class="text-center">loading <img src="assets/images/ajax-loader.gif"></div>
                         </div>
                         <div class="row" uib-collapse="rule.hiddenData">
-                            <ui-select class="le-editor observables input-sm" ng-model="rule.field" theme="bootstrap" ng-init="getMeasurementType(null, rule.field, rule)" on-select="getMeasurementType($item, $model, rule)">
-                                <ui-select-match placeholder="Select observable">{{$select.selected.label||'Select Observable'}} </ui-select-match>
-                                <ui-select-choices repeat="ob.value as ob in observables | propsFilter: {label: $select.search}">
+                            <ui-select class="le-editor calculated_observables input-sm" ng-model="rule.field" theme="bootstrap" ng-init="getMeasurementType(null, rule.field, rule)" on-select="getMeasurementType($item, $model, rule)">
+                                <ui-select-match placeholder="Select calculated observable">{{$select.selected.label||'Select calculated_observable'}} </ui-select-match>
+                                <ui-select-choices repeat="ob.value as ob in calculated_observables | propsFilter: {label: $select.search}">
                                     <div ng-bind-html="ob.label | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>

@@ -74,14 +74,9 @@ angular.module('CarreEntrySystem').service('content', function(CarreTranslate,Sw
     if(!id) return '';
     if(id.indexOf('_')===-1) return '';
     var str=id.substr(id.lastIndexOf('_')-2,2).toUpperCase();
-    if(str==='OB') return {state:'observables',raw:'risk_element',label:'Risk element'};
-    if(str==='CI') return {state:'citations',raw:'citation',label:'Citation'};
-    if(str==='MD') return {state:'medical_experts',raw:'medical_expert',label:'Medical expert'};
-    if(str==='ME') return {state:'measurement_types',raw:'measurement_type',label:'Measurement types'};
-    if(str==='RL') return {state:'risk_elements',raw:'risk_element',label:'Risk element'};
-    if(str==='RF') return {state:'risk_factors',raw:'risk_factor',label:'Risk factor'};
-    if(str==='RV') return {state:'risk_evidences',raw:'risk_evidence',label:'Risk evidence'};
-    if(str==='RW') return {state:'risk_reviews',raw:'risk_review',label:'Review'};
+    if(str==='RA') return {state:'risk_alerts',raw:'risk_alert',label:'Risk Alert'};
+    if(str==='DM') return {state:'dss_messages',raw:'dss_message',label:'DSS message'};
+    if(str==='CO') return {state:'calculated_observables',raw:'calculated_observable',label:'Calculated Observable'};
     else console.log(str,id);
   }
         

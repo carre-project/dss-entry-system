@@ -22,7 +22,7 @@
     //show message for the user
     if( !$rootScope.isEmbedded ) {
       if(vm.user.username){
-        toastr.success('Have fun with the risk factors!','<h4>Hi '+vm.user.username+'!</h4>');
+        toastr.success('Welcome to risk alerts!','<h4>Hi '+vm.user.username+'!</h4>');
       } else {
         toastr.info('Please login if you want to add/edit data.','<h4>Hello Guest!</h4>');
       }

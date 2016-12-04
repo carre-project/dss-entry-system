@@ -1,144 +1,75 @@
 angular.module('CarreEntrySystem').service('VisibleFields', function() {
   
   var visibleFields={
-    "risk_element": {
-      "single": [
-              // "type",      
-              // "id",
-              "has_risk_element_name",
-              "has_risk_element_identifier",
-              "has_risk_element_type",
-              "has_risk_element_modifiable_status",
-              "has_risk_element_observable",
-              "has_risk_element_observable_condition",
-              "includes_risk_element",
-              "has_author",
-              "has_reviewer"
-      ],
-      "list": [
-            'has_risk_element_name',
-            'has_risk_element_identifier',
-            'has_risk_element_type',
-            'has_risk_element_modifiable_status',
-            'has_risk_element_observable'
-      ]
-    },
-    "risk_evidence": {
+    "risk_alert": {
       "single": [
             // "type",
             // "id",
-            "has_risk_factor",
-            "has_risk_evidence_observable",
-            "has_observable_condition",
-            "has_risk_evidence_ratio_type",
-            "has_risk_evidence_ratio_value",
-            "has_confidence_interval_min",
-            "has_confidence_interval_max",
-            "is_adjusted_for",
-            "has_risk_evidence_source",
+            "has_risk_alert_name",
+            "has_risk_alert_calculated_observable",
+            "has_risk_alert_condition",
+            "has_counter_for_recorded",
+            "has_counter_for_missed",
+            "has_counter_for_recorded_limit",
+            "has_counter_for_missed_limit",
+            "has_output_message",
+            "has_educational_resource_url",
+            "has_output_type",
             "has_author",
             "has_reviewer"
             ],
       "list": [
-        'has_risk_factor',
-        'has_observable_condition_text',
-        // 'has_risk_evidence_source',
-        // 'has_risk_evidence_ratio_type',
-        'has_risk_evidence_ratio_value',
-        // 'has_confidence_interval_min',
-        // 'has_confidence_interval_max'
+        'has_risk_alert_name',
+        'has_risk_alert_condition_text',
+        'has_output_message'
         ]
       },
-    "risk_factor": {
+    "dss_message": {
       "single": [
                 // "type",      
                 // "id",
-                "has_risk_factor_source",
-                "has_risk_factor_target",
-                "has_risk_factor_association_type",
+                "has_message_name",
+                "has_alert_level",
+                "has_short_message",
+                "has_long_message",
                 "has_author",
                 "has_reviewer"
               ],
       "list": [
-              'has_risk_factor_source',
-              'has_risk_factor_target',
-              'has_risk_factor_association_type'
+              'has_message_name',
+              'has_alert_level',
+              'has_short_message'
             ]
     },
-    "risk_review": {
-      "single": [
-        "is_for_element",
-        "is_assigned_to",
-        "has_review_notes",
-        "has_review_json",
-        "review_date",
-        "assign_date",
-        "review_status"
-      ],
-      "list": [
-        "is_for_element",
-        "is_assigned_to",
-        "has_review_notes",
-        "review_status"
-      ]
-    },
-    "observable": {
+    "calculated_observable": {
       "single": [
         // "type",      
         // "id",
-        "has_observable_name",
-        "has_observable_acronym",
-        "has_observable_type",
-        "has_observable_measurement_type",
+        "has_calculated_observable_name",
+        // "has_calculated_observable_acronym",
+        // "has_observable_identifier_system",
+        // "has_observable_identifier_value",
+        // "has_calculated_observable_measurement_type",
+        "has_calculated_observable_function",
+        "has_primary_observable",
+        "has_arg_min_measurements",
+        "has_arg_how_many_measurements",
+        "has_arg_how_many_max_days_before",
+        "has_arg_increment_value",
+        "has_arg_average_period_days",
+        "has_arg_treshold_value",
+        "has_arg_calculated_enum",
         "has_external_type",
-        "has_external_predicate",
         "has_author",
         "has_reviewer"
       ],
       "list": [
-        'has_observable_name',
-        'has_observable_type',
-        'has_observable_measurement_type'
+        'has_calculated_observable_name',
+        "has_arg_min_measurements",
+        "has_arg_how_many_measurements",
+        "has_arg_how_many_max_days_before",
+        "has_arg_treshold_value"
       ]
-    },
-    "citation": {
-      "single": [
-        // "type",      
-        // "id",
-        "has_citation_pubmed_identifier",
-        "has_citation_summary",
-        "has_citation_source_type",
-        "has_citation_source_level",
-        "has_author",
-        "has_reviewer"
-      ],
-      "list": [
-        'has_citation_pubmed_identifier',
-        'has_citation_summary',
-        'has_citation_source_type',
-        'has_citation_source_level'
-      ]
-    },
-    "measurement_type": {
-      "single": [
-        // "type",      
-        // "id",
-        "has_measurement_type_name",
-        "has_enumeration_values",
-        "has_label",
-        "has_datatype",
-        "has_external_unit"
-      ],
-      "list": [
-        'has_measurement_type_name',
-        'has_datatype',
-        'has_label',
-        'has_enumeration_values'
-      ]
-    },
-    "medical_expert": {
-      "single": [],
-      "list": []
     }
     
   };

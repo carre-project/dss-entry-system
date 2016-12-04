@@ -42,15 +42,15 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG, Carr
     if (rel === 'has_educational_material') return settings;
     
     //replace greater than and lower than symbols
-    if (rel === 'has_observable_condition_text') val = val.replace(new RegExp(">=", 'g'), '≥').replace(new RegExp("<=", 'g'), '≤'); 
+    if (rel === 'has_risk_alert_condition_text') val = val.replace(new RegExp(">=", 'g'), '≥').replace(new RegExp("<=", 'g'), '≤'); 
     
     /*  Filter BUG-Virtuoso  */
-    // if (rel === 'has_risk_evidence_ratio_value' && val==="NAN") {
+    // if (rel === 'has_risk_alert_ratio_value' && val==="NAN") {
     //   console.log("BUG-Virtuoso: ",id+': ',val);
     //   Email.bug({
     //     "title": "Risk evidence ratio value "+(settings.data.length>1?"List view":"Single view"),
     //     "element": id,
-    //     "predicate": "has_risk_evidence_ratio_value",
+    //     "predicate": "has_risk_alert_ratio_value",
     //     "value": val
     //   });
     // }
@@ -66,7 +66,7 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG, Carr
     // console.log(type,id,rel,val_label);
     
     //get extra mappings
-    if (['CI','OB', 'RF', 'RL', 'RV','ME'].indexOf(val_label.substr(0, 2)) > -1 && val_label.indexOf("observable_condition")===-1) {
+    if (['CI','OB', 'RF', 'RL', 'RV','DM','CO','RA'].indexOf(val_label.substr(0, 2)) > -1 && val_label.indexOf("risk_alert_condition")===-1) {
       settings.mappings[val_label] = settings.mappings[val_label] || {};
       for (var prop in obj) {
         //except the 3 basic properties
@@ -113,32 +113,41 @@ angular.module('CarreEntrySystem').service('RdfFormatter', function(CONFIG, Carr
     settings.data=settings.data.map(function(obj) {
       var cat = '';
       for (var prop in obj) {
-        if ( prop.indexOf('_label_arr') > 0 && prop.indexOf('has_observable_condition')===-1) {
+        if ( prop.indexOf('_label_arr') > 0 && prop.indexOf('has_risk_alert_condition')===-1) {
           //select only props : has_....._label
           obj[prop]=obj[prop].map(function(term) {
             if (settings.mappings.hasOwnProperty(term)) {
               cat = term.substr(0, 2);
               switch (cat) {
-                case 'CI':
-                  // make label for observables
-                  return settings.mappings[term].has_citation_pubmed_identifier;
-                case 'OB':
-                  // make label for observables
-                  return settings.mappings[term].has_observable_name;
-                case 'ME':
-                  // make label for measurent types
-                  return settings.mappings[term].has_measurement_type_name;
-                case 'RF':
-                  // make label for risk factor    
-                  return settings.mappings[term].has_source_risk_element_name +
-                    ' ['+ translate(settings.mappings[term].has_risk_factor_association_type) + '] ' +
-                    settings.mappings[term].has_target_risk_element_name;
-                case 'RL':
-                  // make label for risk element
-                  return settings.mappings[term].has_risk_element_name;
-                case 'RV':
-                  // make label for risk evidence
+                // case 'CI':
+                //   // make label for observables
+                //   return settings.mappings[term].has_citation_pubmed_identifier;
+                // case 'OB':
+                //   // make label for observables
+                //   return settings.mappings[term].has_observable_name;
+                // case 'ME':
+                //   // make label for measurent types
+                //   return settings.mappings[term].has_measurement_type_name;
+                // case 'RF':
+                //   // make label for risk factor    
+                //   return settings.mappings[term].has_source_risk_element_name +
+                //     ' ['+ translate(settings.mappings[term].has_risk_factor_association_type) + '] ' +
+                //     settings.mappings[term].has_target_risk_element_name;
+                // case 'RL':
+                //   // make label for risk element
+                //   return settings.mappings[term].has_risk_element_name;
+                // case 'RV':
+                //   // make label for risk evidence
+                //   return term;
+                case 'RA':
+                  // make label for risk alert
                   return term;
+                case 'DM':
+                  // make label for dss messages
+                  return settings.mappings[term].has_message_name;
+                case 'CO':
+                  // make label for calculated observables
+                  return settings.mappings[term].has_calculated_observable_name;
 
                 default:
                   return term;

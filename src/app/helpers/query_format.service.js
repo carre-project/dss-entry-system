@@ -12,14 +12,18 @@ angular.module('CarreEntrySystem').service('QUERY', function(CONFIG) {
     'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
     'carreUsers': 'https://carre.kmi.open.ac.uk/users/',
     'risk': 'http://carre.kmi.open.ac.uk/ontology/risk.owl#',
+    'dss': 'http://carre.kmi.open.ac.uk/ontology/dss.owl#',
     'ME': 'http://carre.kmi.open.ac.uk/measurement_types/',
     'OB': 'http://carre.kmi.open.ac.uk/observables/',
     'RL': 'http://carre.kmi.open.ac.uk/risk_elements/',
-    'RV': 'http://carre.kmi.open.ac.uk/risk_evidences/',
+    'RV': 'http://carre.kmi.open.ac.uk/risk_alerts/',
     'RF': 'http://carre.kmi.open.ac.uk/risk_factors/',
     'MD': 'http://carre.kmi.open.ac.uk/medical_experts/',
     'CI': 'http://carre.kmi.open.ac.uk/citations/',
-    'RW': 'http://carre.kmi.open.ac.uk/reviews/'
+    'RW': 'http://carre.kmi.open.ac.uk/reviews/',
+    'RA': 'http://carre.kmi.open.ac.uk/risk_alerts/',
+    'DM': 'http://carre.kmi.open.ac.uk/dss_messages/',
+    'CO': 'http://carre.kmi.open.ac.uk/calculated_observables/'
   };
   var PREFIXSTR = '';
   var PREFIXARR = [];
@@ -86,7 +90,7 @@ angular.module('CarreEntrySystem').service('QUERY', function(CONFIG) {
   }
   
   function fillPrefix(test, prefixes) {
-    if(test.indexOf(":")===-1) test = "risk:"+test;
+    if(test.indexOf(":")===-1) test = "dss:"+test;
     var val = test.split(':');
     if(CONFIG.OPTIONS.usePrefix) {
       addPrefix(val[0]);
@@ -150,13 +154,13 @@ angular.module('CarreEntrySystem').service('QUERY', function(CONFIG) {
     }
     if(objEmpty) return "";
     //add author and type
-    insertTriples+= "?newid "+parse("risk:has_author")+ " " + parse(usergraph) + "; a "+parse("risk:"+type)+" .  \n";
+    insertTriples+= "?newid "+parse("dss:has_author")+ " " + parse(usergraph) + "; a "+parse("dss:"+type)+" .  \n";
     var insertQuery = "INSERT { GRAPH " + graph + " { \n" + insertTriples + " }} WHERE \n\
           { GRAPH " + graph + " \n\
           { { \n\
               SELECT ?oldindex FROM " + graph + " \n\
               WHERE { \n\
-               ?elem a "+parse("risk:"+type)+" . \n\
+               ?elem a "+parse("dss:"+type)+" . \n\
                 BIND (xsd:integer(strafter(STR(?elem),\""+idlabel+"_\")) AS ?oldindex) \n\
               } ORDER BY DESC(?oldindex) LIMIT 1 \n\
             } \n\

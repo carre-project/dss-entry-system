@@ -15,7 +15,7 @@
         <!--        </h1>-->
         <!--    </div>-->
         <!--</div>-->
-        <div class="col-lg-6 col-md-6"><p id="intro-risk-model" class="text-center"><img style="width:100%; height:100%" src="assets/images/model.jpg"></p></div>
+        <div class="col-lg-6 col-md-6"><p id="intro-risk-model" class="text-center"><img style="width:100%; height:100%" src="assets/images/model.png"></p></div>
         <div class="col-lg-6 col-md-6">
             <canvas id="intro-stats" height="210%" class="chart chart-bar chart-sm" chart-data="dashboard.counterchart_data" chart-labels="dashboard.counterchart_labels" chart-options="dashboard.counterchart_options"></canvas>
             <!--<canvas height="210%"  class="chart chart-doughnut" chart-legend="true" chart-data="dashboard.counterdonut_data" chart-options="dashboard.counterdonut_options" chart-labels="dashboard.counterdonut_labels"> </canvas> -->
@@ -25,13 +25,9 @@
         <hr>
     </div>
     <div class="row">
-        <stats id="intro-box-risk-factors" goto="main.risk_factors.list" title="Risk Factors" number="{{dashboard.risk_factors.total||0}}" comments="{{dashboard.risk_factors.noreviews||0}} unreviewed!" color="{{dashboard.colors[0]}}" type="info"></stats>
-        <stats id="intro-box-risk-evidences" goto="main.risk_evidences.list" title="Risk Evidences" number="{{dashboard.risk_evidences.total||0}}" comments="{{dashboard.risk_evidences.noreviews||0}} unreviewed!" color="{{dashboard.colors[1]}}" type="info"></stats>
-        <stats goto="main.risk_elements.list" title="Risk Elements" number="{{dashboard.risk_elements.total||0}}" comments="{{dashboard.risk_elements.noreviews||0}} unreviewed!" color="{{dashboard.colors[2]}}" type="info"></stats>
-        <stats goto="main.observables.list" title="Observables" number="{{dashboard.observables.total||0}}" comments="{{dashboard.observables.noreviews||0}} unreviewed!" color="{{dashboard.colors[3]}}" type="info"></stats>
-        <stats goto="main.citations.list" title="Citations" number="{{dashboard.citations.total||0}}" comments="" color="{{dashboard.colors[4]}}" type="info"></stats>
-        
-        <!--<stats goto="main.measurement_types.list" title="Measurement Types" number="{{dashboard.measurement_types.total||0}}" comments="" color="info" type="info"></stats>-->
+        <stats goto="main.dss_messages.list" title="DSS messages" number="{{dashboard.dss_messages.total||0}}" comments="" color="{{dashboard.colors[0]}}" type="info"></stats>
+        <stats goto="main.risk_alerts.list" title="Risk Alerts" number="{{dashboard.risk_alerts.total||0}}" comments="" color="{{dashboard.colors[1]}}" type="info"></stats>
+        <stats goto="main.calculated_observables.list" title="Calculated observables" number="{{dashboard.calculated_observables.total||0}}" comments="" color="{{dashboard.colors[2]}}" type="info"></stats>
     </div>
 </div>
 

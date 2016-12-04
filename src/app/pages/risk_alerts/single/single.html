@@ -1,0 +1,11 @@
+<div uib-collapse="!main.DEBUG" class="row">
+  <div class="col-xs-12">
+    Current risk_alert<pre>{{risk_alert | json}}</pre>
+  </div>
+</div>
+<!--debug vars-->
+
+<div class="col-xs-12">
+  <carre-element-controls carre-id="{{id}}"></carre-element-controls>
+  <carre-element ng-if="mode" type="risk_alert" elem-id="{{id}}" mode="{{mode}}" elem="current"></carre-element>
+</div>

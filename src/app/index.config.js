@@ -13,14 +13,14 @@
     var defaults = {
       language:'en',
       api_url:'https://devices.duth.carre-project.eu/ws/',
-      cache_url:'https://cache.carre-project.eu/',
-      authentication_url:'https://devices.carre-project.eu/devices/accounts/',
+      cache_url:'NO_CACHE', //'https://cache.carre-project.eu/',
+      authentication_url:'https://devices.duth.carre-project.eu/devices/accounts/',
       graph_url:'carre.kmi.open.ac.uk'
     };
     window.CARRE_ENTRY_SYSTEM_CONFIGURATION = angular.isObject(window.CARRE_ENTRY_SYSTEM_CONFIGURATION)?angular.extend(defaults, window.CARRE_ENTRY_SYSTEM_CONFIGURATION):defaults;
     
-    CONFIG.CARRE_DEFAULT_GRAPH="<http://"+window.CARRE_ENTRY_SYSTEM_CONFIGURATION.graph_url+"/public>";
-    CONFIG.CARRE_ARCHIVE_GRAPH="<http://"+window.CARRE_ENTRY_SYSTEM_CONFIGURATION.graph_url+"/riskdata>";
+    CONFIG.CARRE_DEFAULT_GRAPH="<http://"+window.CARRE_ENTRY_SYSTEM_CONFIGURATION.graph_url+"/dsstempdata>"; //dsstempdata
+    CONFIG.CARRE_ARCHIVE_GRAPH="<http://"+window.CARRE_ENTRY_SYSTEM_CONFIGURATION.graph_url+"/dsstempdata>";
     CONFIG.CARRE_DEVICES=window.CARRE_ENTRY_SYSTEM_CONFIGURATION.authentication_url;
     CONFIG.CARRE_API_URL=window.CARRE_ENTRY_SYSTEM_CONFIGURATION.api_url;
     CONFIG.CARRE_CACHE_URL=window.CARRE_ENTRY_SYSTEM_CONFIGURATION.cache_url;
@@ -45,7 +45,7 @@
     // Language
     CONFIG.LANG = window.CARRE_ENTRY_SYSTEM_CONFIGURATION.language || "en"; //el,lt
     CONFIG.LANGPredicates = [
-      "risk:has_risk_element_name","risk:has_observable_name","risk:has_measurement_type_name","risk:has_enumeration_values","risk:has_label"
+      "dss:has_calculated_observable_name","dss:has_risk_alert_name","dss:has_short_message"
     ];
     
     // Sensor predicates 

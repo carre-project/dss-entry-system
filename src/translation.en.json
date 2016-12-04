@@ -141,5 +141,40 @@
     "has_datatype": "Datatype",
     "has_label": "Unit",
     "has_enumeration_values": "Values",
-    "has_external_unit": "External Vocabulary"
+    "has_external_unit": "External Vocabulary",
+    
+    "__risk_alert":"__",
+    
+    "has_risk_alert_name":"Name",
+    "has_risk_alert_calculated_observable":"Calculated Observable",
+    "has_risk_alert_condition":"Condition",
+    "has_counter_for_recorded":"Recorded",
+    "has_counter_for_missed":"Missed",
+    "has_counter_for_recorded_limit":"Recorded limit",
+    "has_counter_for_missed_limit":"Missed limit",
+    "has_output_message":"Message",
+    "has_educational_resource_url":"",
+    "has_output_type":"Type",
+    
+    "__dss_message":"__",
+    
+    "has_message_name":"Name",
+    "has_alert_level":"Level",
+    "has_short_message":"Short",
+    "has_long_message":"Long",
+    
+    "__calculated_observable":"__",
+    
+    "has_calculated_observable_name":"Name",
+    "has_calculated_observable_measurement_type":"Measurement type",
+    "has_calculated_observable_function":"Observable function",
+    "has_primary_observable":"Primary observable",
+    "has_arg_min_measurements":"Minimum measurents",
+    "has_arg_how_many_measurements":"Quantity of measurents",
+    "has_arg_how_many_max_days_before":"Max days before",
+    "has_arg_increment_value":"Increment value",
+    "has_arg_average_period_days":"Average period",
+    "has_arg_treshold_value":"Threshold",
+    "has_arg_calculated_enum":"Enum values"
+    
 }

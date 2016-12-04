@@ -23,13 +23,17 @@ angular.module('CarreEntrySystem').service('CARRE', function($http, CONFIG, Auth
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n\
 PREFIX carreUsers: <https://carre.kmi.open.ac.uk/users/> \n\
 PREFIX risk: <http://carre.kmi.open.ac.uk/ontology/risk.owl#> \n\
+PREFIX dss: <http://carre.kmi.open.ac.uk/ontology/dss.owl#> \n\
 PREFIX ME: <http://carre.kmi.open.ac.uk/measurement_types/> \n\
 PREFIX OB: <http://carre.kmi.open.ac.uk/observables/> \n\
 PREFIX RL: <http://carre.kmi.open.ac.uk/risk_elements/> \n\
-PREFIX RV: <http://carre.kmi.open.ac.uk/risk_evidences/> \n\
+PREFIX RV: <http://carre.kmi.open.ac.uk/risk_alerts/> \n\
 PREFIX RF: <http://carre.kmi.open.ac.uk/risk_factors/> \n\
 PREFIX RW: <http://carre.kmi.open.ac.uk/risk_reviews/> \n\
 PREFIX MD: <http://carre.kmi.open.ac.uk/medical_experts/> \n\
+PREFIX RA: <http://carre.kmi.open.ac.uk/risk_alerts/> \n\
+PREFIX DM: <http://carre.kmi.open.ac.uk/dss_messages/> \n\
+PREFIX CO: <http://carre.kmi.open.ac.uk/calculated_observables/> \n\
 PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
 
 
@@ -39,8 +43,8 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
     return apiQuery(query);
   /*               
       OPTIONAL {    \n\
-                 ?object risk:includes_risk_element ?includes_risk_element. \n\
-                 ?includes_risk_element risk:has_risk_element_name ?includes_risk_element_name. \n\
+                 ?object dss:includes_risk_element ?includes_risk_element. \n\
+                 ?includes_risk_element dss:has_risk_element_name ?includes_risk_element_name. \n\
                 } \n\
                 */
                 
@@ -48,11 +52,11 @@ PREFIX CI: <http://carre.kmi.open.ac.uk/citations/> \n";
                 Another delete query
                 
                 
-                PREFIX risk: <http://carre.kmi.open.ac.uk/ontology/risk.owl#>
+                PREFIX dss: <http://carre.kmi.open.ac.uk/ontology/risk.owl#>
 PREFIX OB: <http://carre.kmi.open.ac.uk/observables/>
-#select ?ob ?predicate FROM <http://carre.kmi.open.ac.uk/riskdata> WHERE { ?ob a risk:observable; risk:has_external_predicate ?predicate. FILTER (?ob=OB:OB_5 || ?ob=OB:OB_6) }
+#select ?ob ?predicate FROM <http://carre.kmi.open.ac.uk/riskdata> WHERE { ?ob a dss:observable; dss:has_external_predicate ?predicate. FILTER (?ob=OB:OB_5 || ?ob=OB:OB_6) }
 
-WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 risk:has_external_predicate ?p .  }  WHERE { OB:OB_5 risk:has_external_predicate ?p .}
+WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 dss:has_external_predicate ?p .  }  WHERE { OB:OB_5 dss:has_external_predicate ?p .}
 
                 */
   }
@@ -65,31 +69,16 @@ WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 risk:has_external_pre
       throw "CARRE Error: Cannot search without type and term!";
     } 
     var listQuery = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
-             ?subject a risk:" + type + "; ?predicate ?object. \n\
+             ?subject a dss:" + type + "; ?predicate ?object. \n\
               OPTIONAL {    \n\
-               ?object a risk:citation. \n\
-               ?object risk:has_citation_pubmed_identifier ?has_citation_pubmed_identifier  \n\
+               ?object a dss:dss_message. \n\
+               ?object dss:has_message_name ?has_message_name  \n\
               } \n\
               OPTIONAL {    \n\
-               ?object a risk:observable. \n\
-               ?object risk:has_observable_name ?has_observable_name  \n\
+               ?object a dss:calculated_observable. \n\
+               ?object dss:has_calculated_observable_name ?has_calculated_observable_name  \n\
               } \n\
-              OPTIONAL {    \n\
-               ?object a risk:risk_element. \n\
-               ?object risk:has_risk_element_name ?has_risk_element_name  \n\
-              } \n\
-              OPTIONAL {    \n\
-               ?object a risk:measurement_type. \n\
-               ?object risk:has_measurement_type_name ?has_measurement_type_name  \n\
-              } \n\
-              OPTIONAL {    \n\
-               ?object a risk:risk_factor.  \n\
-               ?object risk:has_risk_factor_association_type ?has_risk_factor_association_type. \n\
-               ?object risk:has_risk_factor_source ?has_risk_factor_source. \n\
-               ?object risk:has_risk_factor_target ?has_risk_factor_target. \n\
-               ?has_risk_factor_source risk:has_risk_element_name ?has_source_risk_element_name.  \n\
-               ?has_risk_factor_target risk:has_risk_element_name ?has_target_risk_element_name.  \n\
-              } \n";
+              ";
 
 
     //add filter to query if a single observable is requested
@@ -114,36 +103,17 @@ WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 risk:has_external_pre
   function queryInstances(type, ArrayOfIDs) {
 
     var listQuery = "SELECT * FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
-             ?subject a risk:" + type + "; ?predicate ?object. \n\
+             ?subject a dss:" + type + "; ?predicate ?object. \n\
               OPTIONAL {    \n\
-               ?object a risk:citation. \n\
-               ?object risk:has_citation_pubmed_identifier ?has_citation_pubmed_identifier  \n\
+               ?object a dss:dss_message. \n\
+               ?object dss:has_message_name ?has_message_name  \n\
               } \n\
               OPTIONAL {    \n\
-               ?object a risk:observable. \n\
-               ?object risk:has_observable_name ?has_observable_name  \n\
-              "+langFilter('?has_observable_name')+" \n\
+               ?object a dss:calculated_observable. \n\
+               ?object dss:has_calculated_observable_name ?has_calculated_observable_name  \n\
+              "+langFilter('?has_calculated_observable_name')+" \n\
               } \n\
-              OPTIONAL {    \n\
-               ?object a risk:risk_element. \n\
-               ?object risk:has_risk_element_name ?has_risk_element_name  \n\
-              "+langFilter('?has_risk_element_name')+" \n\
-              } \n\
-              OPTIONAL {    \n\
-               ?object a risk:measurement_type. \n\
-               ?object risk:has_measurement_type_name ?has_measurement_type_name  \n\
-              "+langFilter('?has_measurement_type_name')+" \n\
-              } \n\
-              OPTIONAL {    \n\
-               ?object a risk:risk_factor.  \n\
-               ?object risk:has_risk_factor_association_type ?has_risk_factor_association_type. \n\
-               ?object risk:has_risk_factor_source ?has_risk_factor_source. \n\
-               ?object risk:has_risk_factor_target ?has_risk_factor_target. \n\
-               ?has_risk_factor_source risk:has_risk_element_name ?has_source_risk_element_name.  \n\
-               ?has_risk_factor_target risk:has_risk_element_name ?has_target_risk_element_name.  \n\
-              "+langFilter('?has_source_risk_element_name')+" \n\
-              "+langFilter('?has_target_risk_element_name')+" \n\
-              } \n";
+              ";
 
 
 
@@ -168,25 +138,13 @@ WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 risk:has_external_pre
   /* Dashboard count instances methods */
   function countAllInstances() {
     var query = "SELECT \n\
-    (COUNT(?rf) as ?risk_factors) \n\
-    (COUNT(?rf_r) as ?risk_factors_unreviewed) \n\
-    (COUNT(?rl) as ?risk_elements) \n\
-    (COUNT(?rl_r) as ?risk_elements_unreviewed) \n\
-    (COUNT(?ob) as ?observables) \n\
-    (COUNT(?ob_r) as ?observables_unreviewed) \n\
-    (COUNT(?rv) as ?risk_evidences) \n\
-    (COUNT(?rv_r) as ?risk_evidences_unreviewed) \n\
-    (COUNT(?ci) as ?citations) \n\
-    (COUNT(?me) as ?measurement_types)  \n\
+    (COUNT(?ra) as ?risk_alerts) \n\
+    (COUNT(?dm) as ?dss_messages) \n\
+    (COUNT(?co) as ?calculated_observables) \n\
     FROM " + CONFIG.CARRE_DEFAULT_GRAPH + " WHERE { \n\
-    {?rf a risk:risk_factor} \n\
-    UNION { ?rf_r a risk:risk_factor FILTER NOT EXISTS {?rf_r risk:has_reviewer ?anything} } \n\
-    UNION {?rl a risk:risk_element} \n\
-    UNION { ?rl_r a risk:risk_element FILTER NOT EXISTS {?rl_r risk:has_reviewer ?anything} } \n\
-    UNION {?ob a risk:observable} UNION { ?ob_r a risk:observable FILTER NOT EXISTS {?ob_r risk:has_reviewer ?anything} } \n\
-    UNION {?rv a risk:risk_evidence} UNION { ?rv_r a risk:risk_evidence FILTER NOT EXISTS {?rv_r risk:has_reviewer ?anything} } \n\
-    UNION {?ci a risk:citation} \n\
-    UNION {?me a risk:measurement_type}  }";
+    {?ra a dss:risk_alert} \n\
+    UNION {?dm a dss:dss_message} \n\
+    UNION {?co a dss:calculated_observable}  }";
     if(CONFIG.USECACHE) return cacheQuery(query,null,'count_all');
     else return apiQuery(query);
   }
@@ -198,15 +156,8 @@ WITH <http://carre.kmi.open.ac.uk/public> DELETE { OB:OB_5 risk:has_external_pre
       'subject',
       'predicate',
       'object',
-      'has_observable_name',
-      'has_risk_element_name',
-      'has_measurement_type_name',
-      'has_risk_factor_association_type',
-      'has_risk_factor_source',
-      'has_risk_factor_target',
-      'has_source_risk_element_name',
-      'has_target_risk_element_name',
-      'has_citation_pubmed_identifier'
+      'has_message_name',
+      'has_calculated_observable_name'
       ];
     if( cache_id ) { 
       // USE CACHE

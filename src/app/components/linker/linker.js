@@ -15,7 +15,7 @@ angular.module('CarreEntrySystem')
         $scope.show = 'label';
         $scope.items = [];
         var label_arr = [];
-        var avoidExpressions = ['has_observable_condition'];
+        var avoidExpressions = ['has_risk_alert_condition'];
         var arr = $scope.model[$scope.property];
         $scope.label = $scope.model[$scope.property + '_label'];
         
@@ -38,13 +38,13 @@ angular.module('CarreEntrySystem')
               })
             });
         } else //handle condition
-            if ($scope.property === 'has_observable_condition') {
+            if ($scope.property === 'has_risk_alert_condition') {
           $scope.show='condition';
           
-          $scope.model['has_risk_evidence_observable'].forEach(function(obj,index){
+          $scope.model['has_risk_alert_calculated_observable'].forEach(function(obj,index){
             var id=obj.substr(obj.lastIndexOf('/')+1);
-            var link=(CONFIG.ENV === 'PROD' ? '' : '#/') + 'observables/' + id;
-            var label=$scope.model['has_risk_evidence_observable_label_arr'][index];
+            var link=(CONFIG.ENV === 'PROD' ? '' : '#/') + 'calculated_observables/' + id;
+            var label=$scope.model['has_risk_alert_calculated_observable_label_arr'][index];
             //construct <a> tag
             var atag="<a href="+link+">"+label+"</a>";
             //replace all OB_* in the expression
@@ -68,29 +68,17 @@ angular.module('CarreEntrySystem')
               var cat = id.substr(0, 2);
               var type = false;
               switch (cat) {
-                case 'CI':
+                case 'CO':
                   // make label for observables
-                  type = 'citations/';
+                  type = 'calculated_observables/';
                   break;
-                case 'OB':
-                  // make label for observables
-                  type = 'observables/';
-                  break;
-                case 'ME':
-                  // make label for measurent types
-                  type = 'measurement_types/';
-                  break;
-                case 'RF':
-                  // make label for risk factor                          
-                  type = 'risk_factors/';
-                  break;
-                case 'RL':
+                case 'M.':
                   // make label for risk element
-                  type = 'risk_elements/';
+                  type = 'dss_messages/';
                   break;
-                case 'RV':
+                case 'RA':
                   // make label for risk evidence
-                  type = 'risk_evidences/';
+                  type = 'risk_alerts/';
                   break;
                 default:
               }

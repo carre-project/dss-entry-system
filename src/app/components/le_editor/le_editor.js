@@ -7,7 +7,7 @@ angular.module('CarreEntrySystem')
         restrict: 'E',
         scope: {
             group: '=',
-            observables: '=',
+            calculated_observables: '=',
             metypes: '='
         },
         templateUrl: 'app/components/le_editor/le_editor.html',
@@ -51,10 +51,10 @@ angular.module('CarreEntrySystem')
                         
                         var me_id = '';
                         if (!item) {
-                            for (var i = 0; i < scope.observables.length; i++) {
-                                if (scope.observables[i].value === model) {
-                                    console.log(scope.observables[i])
-                                    me_id = scope.observables[i].metype_id;
+                            for (var i = 0; i < scope.calculated_observables.length; i++) {
+                                if (scope.calculated_observables[i].value === model) {
+                                    console.log(scope.calculated_observables[i])
+                                    me_id = scope.calculated_observables[i].metype_id;
                                     break;
                                 }
                             }

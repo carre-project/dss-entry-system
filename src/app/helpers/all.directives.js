@@ -18,13 +18,13 @@
                     console.log(elem);
                     var color="";
                     switch (elem) {
-                        case 'risk_factors':
+                        case 'dss_messages':
                             color=CONFIG.COLORS[0];
                             break;
-                        case 'risk_evidences':
+                        case 'risk_alerts':
                             color=CONFIG.COLORS[1];
                             break;
-                        case 'risk_elements':
+                        case 'calculated_observables':
                             color=CONFIG.COLORS[2];
                             break;
                         case 'observables':
